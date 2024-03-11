@@ -26,5 +26,6 @@ class EpisodeDto with _$EpisodeDto {
     required String status,
   }) = _EpisodeDto;
 
-  factory EpisodeDto.fromJson(Map<String, dynamic> json) => _$EpisodeDtoFromJson(json);
+  factory EpisodeDto.fromJson(Map<String, dynamic> json) =>
+      _$EpisodeDtoFromJson(json);
 }

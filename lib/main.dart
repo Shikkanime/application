@@ -1,41 +1,24 @@
-import 'dart:convert';
-
+import 'package:application/components/episode_component.dart';
+import 'package:application/controllers/episode_controller.dart';
 import 'package:application/dtos/episode_dto.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final episodes = <EpisodeDto>[];
-
-  try {
-    final response = await http.get(
-      Uri.parse(
-          'https://api.shikkanime.fr/v1/episodes?sort=releaseDateTime&desc=releaseDateTime&limit=30'),
-    );
-
-    if (response.statusCode != 200) {
-      throw Exception('Failed to load episodes');
-    }
-
-    episodes.addAll((jsonDecode(response.body)['data'] as List)
-        .map((e) => EpisodeDto.fromJson(e as Map<String, dynamic>)));
-  } catch (e) {
-    debugPrint(e.toString());
-  }
-
-  runApp(MyApp(episodes: episodes));
+  await EpisodeController.instance.init();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final List<EpisodeDto> episodes;
-
-  const MyApp({super.key, required this.episodes});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,
@@ -51,148 +34,118 @@ class MyApp extends StatelessWidget {
           selectedItemColor: Colors.white,
           unselectedItemColor: Colors.grey,
         ),
-      ),
-      home: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          elevation: 0,
-          title: const Image(
-            image: AssetImage('assets/icon_128x128.png'),
-            width: 36,
-            height: 36,
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(
+            color: Colors.grey,
           ),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.search),
-            ),
-          ],
-        ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: ListView.builder(
-            addAutomaticKeepAlives: false,
-            addRepaintBoundaries: false,
-            itemCount: episodes.length,
-            shrinkWrap: true,
-            itemBuilder: (context, index) => Episode(
-              episode: episodes[index],
-            ),
+          bodyLarge: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
-              activeIcon: Icon(Icons.home),
-              label: 'Accueil',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.video_collection_outlined),
-              activeIcon: Icon(Icons.video_collection),
-              label: 'Simulcast',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline),
-              activeIcon: Icon(Icons.person),
-              label: 'Mon compte',
-            ),
-          ],
-        ),
       ),
+      home: const MyHomePage(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
-class Episode extends StatelessWidget {
-  final EpisodeDto episode;
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
 
-  const Episode({
-    super.key,
-    required this.episode,
-  });
+  @override
+  State<StatefulWidget> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  void initState() {
+    super.initState();
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
+
+  @override
+  dispose() {
+    super.dispose();
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return RepaintBoundary(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: CachedNetworkImage(
-                  imageUrl: episode.image,
-                  filterQuality: FilterQuality.high,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  placeholder: (context, url) => Container(
-                      color: Colors.grey, width: double.infinity, height: 210),
-                ),
-              ),
-              Positioned(
-                bottom: 5,
-                left: 5,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 4,
-                  ),
-                  color: Colors.black,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        Icons.play_arrow,
-                        size: 16,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        'Lecture',
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                    ],
-                  )
-                ),
-              ),
-              Positioned(
-                bottom: 5,
-                right: 5,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 4,
-                  ),
-                  color: Colors.black,
-                  child: Text(
-                    '${Duration(seconds: episode.duration).inMinutes.remainder(60)} min',
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Text(
-              episode.anime.shortName,
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-          ),
-          Text(
-            'Saison ${episode.season} | Épisode ${episode.number}',
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: Text(
-              episode.langType == 'SUBTITLES' ? 'Sous-titrage' : 'Doublage',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        elevation: 0,
+        title: const Image(
+          image: AssetImage('assets/icon_128x128.png'),
+          width: 36,
+          height: 36,
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.search),
           ),
         ],
+      ),
+      body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: StreamBuilder<List<EpisodeDto>>(
+            stream: EpisodeController.instance.streamController.stream,
+            initialData: EpisodeController.instance.episodes,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
+              return ListView.builder(
+                addAutomaticKeepAlives: false,
+                addRepaintBoundaries: false,
+                shrinkWrap: true,
+                controller: EpisodeController.instance.scrollController,
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) => EpisodeComponent(
+                  episode: snapshot.data![index],
+                ),
+              );
+            },
+          )),
+      bottomNavigationBar: BottomNavigationBar(
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.home_outlined),
+            activeIcon: const Icon(Icons.home),
+            label: AppLocalizations.of(context)!.home,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.video_collection_outlined),
+            activeIcon: const Icon(Icons.video_collection),
+            label: AppLocalizations.of(context)!.simulcast,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.person_outline),
+            activeIcon: const Icon(Icons.person),
+            label: AppLocalizations.of(context)!.myAccount,
+          ),
+        ],
+        onTap: (index) {
+          if (index == 0) {
+            EpisodeController.instance.goToTop();
+          }
+        },
       ),
     );
   }

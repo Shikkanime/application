@@ -19,5 +19,6 @@ class AnimeDto with _$AnimeDto {
     required String lastReleaseDateTime,
   }) = _AnimeDto;
 
-  factory AnimeDto.fromJson(Map<String, dynamic> json) => _$AnimeDtoFromJson(json);
+  factory AnimeDto.fromJson(Map<String, dynamic> json) =>
+      _$AnimeDtoFromJson(json);
 }

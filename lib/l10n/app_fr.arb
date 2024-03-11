@@ -1,0 +1,13 @@
+{
+  "home": "Accueil",
+  "simulcast": "Simulcast",
+  "myAccount": "Mon compte",
+  "play": "Lecture",
+  "episode": "Épisode",
+  "special": "Spécial",
+  "film": "Film",
+  "information": "Saison {season} | {episodeType} {number} {uncensored}",
+  "subtitles": "Sous-titrage",
+  "voice": "Doublage",
+  "uncensored": "non censuré"
+}
