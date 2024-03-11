@@ -31,7 +31,6 @@ class EpisodeController {
           !isLoading &&
           canLoadMore) {
         nextPage();
-        debugPrint('Loading more episodes');
       }
     });
   }
