@@ -21,7 +21,7 @@ EpisodeDto _$EpisodeDtoFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$EpisodeDto {
   String get uuid => throw _privateConstructorUsedError;
-  String get platform => throw _privateConstructorUsedError;
+  PlatformDto get platform => throw _privateConstructorUsedError;
   AnimeDto get anime => throw _privateConstructorUsedError;
   String get episodeType => throw _privateConstructorUsedError;
   String get langType => throw _privateConstructorUsedError;
@@ -52,7 +52,7 @@ abstract class $EpisodeDtoCopyWith<$Res> {
   @useResult
   $Res call(
       {String uuid,
-      String platform,
+      PlatformDto platform,
       AnimeDto anime,
       String episodeType,
       String langType,
@@ -69,6 +69,7 @@ abstract class $EpisodeDtoCopyWith<$Res> {
       String lastUpdateDateTime,
       String status});
 
+  $PlatformDtoCopyWith<$Res> get platform;
   $AnimeDtoCopyWith<$Res> get anime;
 }
 
@@ -111,7 +112,7 @@ class _$EpisodeDtoCopyWithImpl<$Res, $Val extends EpisodeDto>
       platform: null == platform
           ? _value.platform
           : platform // ignore: cast_nullable_to_non_nullable
-              as String,
+              as PlatformDto,
       anime: null == anime
           ? _value.anime
           : anime // ignore: cast_nullable_to_non_nullable
@@ -177,6 +178,14 @@ class _$EpisodeDtoCopyWithImpl<$Res, $Val extends EpisodeDto>
 
   @override
   @pragma('vm:prefer-inline')
+  $PlatformDtoCopyWith<$Res> get platform {
+    return $PlatformDtoCopyWith<$Res>(_value.platform, (value) {
+      return _then(_value.copyWith(platform: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
   $AnimeDtoCopyWith<$Res> get anime {
     return $AnimeDtoCopyWith<$Res>(_value.anime, (value) {
       return _then(_value.copyWith(anime: value) as $Val);
@@ -194,7 +203,7 @@ abstract class _$$EpisodeDtoImplCopyWith<$Res>
   @useResult
   $Res call(
       {String uuid,
-      String platform,
+      PlatformDto platform,
       AnimeDto anime,
       String episodeType,
       String langType,
@@ -211,6 +220,8 @@ abstract class _$$EpisodeDtoImplCopyWith<$Res>
       String lastUpdateDateTime,
       String status});
 
+  @override
+  $PlatformDtoCopyWith<$Res> get platform;
   @override
   $AnimeDtoCopyWith<$Res> get anime;
 }
@@ -252,7 +263,7 @@ class __$$EpisodeDtoImplCopyWithImpl<$Res>
       platform: null == platform
           ? _value.platform
           : platform // ignore: cast_nullable_to_non_nullable
-              as String,
+              as PlatformDto,
       anime: null == anime
           ? _value.anime
           : anime // ignore: cast_nullable_to_non_nullable
@@ -345,7 +356,7 @@ class _$EpisodeDtoImpl implements _EpisodeDto {
   @override
   final String uuid;
   @override
-  final String platform;
+  final PlatformDto platform;
   @override
   final AnimeDto anime;
   @override
@@ -453,7 +464,7 @@ class _$EpisodeDtoImpl implements _EpisodeDto {
 abstract class _EpisodeDto implements EpisodeDto {
   const factory _EpisodeDto(
       {required final String uuid,
-      required final String platform,
+      required final PlatformDto platform,
       required final AnimeDto anime,
       required final String episodeType,
       required final String langType,
@@ -476,7 +487,7 @@ abstract class _EpisodeDto implements EpisodeDto {
   @override
   String get uuid;
   @override
-  String get platform;
+  PlatformDto get platform;
   @override
   AnimeDto get anime;
   @override

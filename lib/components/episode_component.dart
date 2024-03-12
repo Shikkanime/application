@@ -11,23 +11,6 @@ class EpisodeComponent extends StatelessWidget {
     required this.episode,
   });
 
-  String _platformImage(BuildContext context) {
-    switch (episode.platform) {
-      case 'ANIM':
-        return 'https://www.shikkanime.fr/assets/img/platforms/animation_digital_network.jpg';
-      case 'CRUN':
-        return 'https://www.shikkanime.fr/assets/img/platforms/crunchyroll.jpg';
-      case 'DISN':
-        return 'https://www.shikkanime.fr/assets/img/platforms/disneyplus.jpg';
-      case 'NETF':
-        return 'https://www.shikkanime.fr/assets/img/platforms/netflix.jpg';
-      case 'PRIM':
-        return 'https://www.shikkanime.fr/assets/img/platforms/prime_video.jpg';
-      default:
-        return '';
-    }
-  }
-
   String _episodeType(BuildContext context) {
     switch (episode.episodeType) {
       case 'EPISODE':
@@ -78,7 +61,8 @@ class EpisodeComponent extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(32),
                   child: CachedNetworkImage(
-                    imageUrl: _platformImage(context),
+                    imageUrl:
+                        'https://www.shikkanime.fr/assets/img/platforms/${episode.platform.image}',
                     filterQuality: FilterQuality.high,
                     fit: BoxFit.cover,
                     width: 24,

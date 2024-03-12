@@ -1,4 +1,5 @@
 import 'package:application/dtos/anime_dto.dart';
+import 'package:application/dtos/platform_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'episode_dto.freezed.dart';
@@ -8,7 +9,7 @@ part 'episode_dto.g.dart';
 class EpisodeDto with _$EpisodeDto {
   const factory EpisodeDto({
     required String uuid,
-    required String platform,
+    required PlatformDto platform,
     required AnimeDto anime,
     required String episodeType,
     required String langType,

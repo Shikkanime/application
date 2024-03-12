@@ -9,7 +9,7 @@ part of 'episode_dto.dart';
 _$EpisodeDtoImpl _$$EpisodeDtoImplFromJson(Map<String, dynamic> json) =>
     _$EpisodeDtoImpl(
       uuid: json['uuid'] as String,
-      platform: json['platform'] as String,
+      platform: PlatformDto.fromJson(json['platform'] as Map<String, dynamic>),
       anime: AnimeDto.fromJson(json['anime'] as Map<String, dynamic>),
       episodeType: json['episodeType'] as String,
       langType: json['langType'] as String,
