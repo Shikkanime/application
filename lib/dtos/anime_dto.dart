@@ -1,3 +1,4 @@
+import 'package:application/dtos/simulcast_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'anime_dto.freezed.dart';
@@ -14,6 +15,7 @@ class AnimeDto with _$AnimeDto {
     required String image,
     required String? banner,
     required String? description,
+    required List<SimulcastDto> simulcasts,
     required String status,
     required String slug,
     required String lastReleaseDateTime,

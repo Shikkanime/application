@@ -9,5 +9,6 @@
   "information": "Saison {season} | {episodeType} {number} {uncensored}",
   "subtitles": "Sous-titrage",
   "voice": "Doublage",
-  "uncensored": "non censuré"
+  "uncensored": "non censuré",
+  "calendar": "Calendrier"
 }

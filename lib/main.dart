@@ -1,13 +1,22 @@
-import 'package:application/components/episode_component.dart';
+import 'package:application/controllers/anime_controller.dart';
+import 'package:application/views/home_view.dart';
 import 'package:application/controllers/episode_controller.dart';
-import 'package:application/dtos/episode_dto.dart';
+import 'package:application/controllers/simulcast_controller.dart';
+import 'package:application/views/simulcast_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await EpisodeController.instance.init();
+
+  await Future.wait([
+    EpisodeController.instance.init(),
+    SimulcastController.instance
+        .init()
+        .then((value) => AnimeController.instance.init()),
+  ]);
+
   runApp(const MyApp());
 }
 
@@ -44,6 +53,12 @@ class MyApp extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+        snackBarTheme: SnackBarThemeData(
+          backgroundColor: Colors.grey[900],
+          contentTextStyle: const TextStyle(
+            color: Colors.white,
+          ),
+        ),
       ),
       home: const MyHomePage(),
       debugShowCheckedModeBanner: false,
@@ -59,6 +74,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final pageController = PageController();
+  int _currentIndex = 0;
+
   @override
   void initState() {
     super.initState();
@@ -99,31 +117,23 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: StreamBuilder<List<EpisodeDto>>(
-            stream: EpisodeController.instance.streamController.stream,
-            initialData: EpisodeController.instance.episodes,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-
-              return ListView.builder(
-                addAutomaticKeepAlives: false,
-                addRepaintBoundaries: false,
-                shrinkWrap: true,
-                controller: EpisodeController.instance.scrollController,
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) => EpisodeComponent(
-                  episode: snapshot.data![index],
-                ),
-              );
-            },
-          )),
+      body: PageView(
+        controller: pageController,
+        onPageChanged: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        children: const [
+          HomeView(),
+          SimulcastView(),
+          Text('Calendar'),
+          Text('My Account'),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
+        showUnselectedLabels: true,
+        currentIndex: _currentIndex,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: const Icon(Icons.home_outlined),
@@ -136,15 +146,32 @@ class _MyHomePageState extends State<MyHomePage> {
             label: AppLocalizations.of(context)!.simulcast,
           ),
           BottomNavigationBarItem(
+            icon: const Icon(Icons.calendar_today_outlined),
+            activeIcon: const Icon(Icons.calendar_today),
+            label: AppLocalizations.of(context)!.calendar,
+          ),
+          BottomNavigationBarItem(
             icon: const Icon(Icons.person_outline),
             activeIcon: const Icon(Icons.person),
             label: AppLocalizations.of(context)!.myAccount,
           ),
         ],
         onTap: (index) {
-          if (index == 0) {
+          if (index == 0 && _currentIndex == 0) {
             EpisodeController.instance.goToTop();
+            return;
           }
+
+          if (index == 1 && _currentIndex == 1) {
+            AnimeController.instance.goToTop();
+            return;
+          }
+
+          pageController.jumpToPage(index);
+
+          setState(() {
+            _currentIndex = index;
+          });
         },
       ),
     );

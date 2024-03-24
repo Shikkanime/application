@@ -1,23 +1,24 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:application/dtos/episode_dto.dart';
+import 'package:application/controllers/simulcast_controller.dart';
+import 'package:application/dtos/anime_dto.dart';
 import 'package:application/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class EpisodeController {
-  static EpisodeController instance = EpisodeController();
-  final episodes = <EpisodeDto>[];
+class AnimeController {
+  static AnimeController instance = AnimeController();
+  final animes = <AnimeDto>[];
   final scrollController = ScrollController();
-  final streamController = StreamController<List<EpisodeDto>>.broadcast();
+  final streamController = StreamController<List<AnimeDto>>.broadcast();
   int page = 1;
   bool isLoading = false;
   bool canLoadMore = true;
 
   Future<void> init() async {
-    episodes.clear();
-    streamController.add(episodes);
+    animes.clear();
+    streamController.add(animes);
 
     page = 1;
     isLoading = false;
@@ -56,24 +57,24 @@ class EpisodeController {
     try {
       final response = await http.get(
         Uri.parse(
-          '${Constant.apiUrl}/v1/episodes?sort=releaseDateTime,season,number,episodeType,langType&desc=releaseDateTime,season,number&page=$page&limit=6',
+          '${Constant.apiUrl}/v1/animes?simulcast=${SimulcastController.instance.current?.uuid}&sort=name&page=$page&limit=12',
         ),
       );
 
       if (response.statusCode != 200) {
-        throw Exception('Failed to load episodes');
+        throw Exception('Failed to load animes');
       }
 
       final json =
           jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
 
-      episodes.addAll(
+      animes.addAll(
         (json['data'] as List)
-            .map((e) => EpisodeDto.fromJson(e as Map<String, dynamic>)),
+            .map((e) => AnimeDto.fromJson(e as Map<String, dynamic>)),
       );
-      streamController.add(episodes);
+      streamController.add(animes);
 
-      canLoadMore = episodes.length < (json['total'] as int);
+      canLoadMore = animes.length < (json['total'] as int);
     } catch (e) {
       debugPrint(e.toString());
     } finally {
