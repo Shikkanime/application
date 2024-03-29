@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "866266787856",
+    "project_id": "shikkanime",
+    "storage_bucket": "shikkanime.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:866266787856:android:96beef4d6dacf55864da95",
+        "android_client_info": {
+          "package_name": "fr.shikkanime.application"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmKzkE1jR_fzal6miJ2ObX9y6udZRRAFQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

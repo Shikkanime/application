@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:application/dtos/episode_dto.dart';
 import 'package:application/utils/constant.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -49,17 +51,33 @@ class EpisodeComponent extends StatelessWidget {
           children: <Widget>[
             Stack(
               children: [
-                CachedNetworkImage(
-                  imageUrl:
-                      '${Constant.apiUrl}/v1/attachments?uuid=${episode.uuid}&type=image',
-                  filterQuality: FilterQuality.high,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
+                SizedBox(
                   height: 200,
-                  placeholder: (context, url) => Container(
-                    color: Colors.grey,
-                    width: double.infinity,
-                    height: 200,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      CachedNetworkImage(
+                        imageUrl:
+                        '${Constant.apiUrl}/v1/attachments?uuid=${episode.uuid}&type=image',
+                        filterQuality: FilterQuality.high,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        placeholder: (context, url) => Container(
+                          color: Colors.grey,
+                          width: double.infinity,
+                        ),
+                      ),
+                      if (episode.uncensored)
+                        ClipRRect(
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                            child: Container(
+                              color: Colors.grey.withOpacity(0.1),
+                              alignment: Alignment.center,
+                            ),
+                          ),
+                        )
+                    ],
                   ),
                 ),
                 Positioned(

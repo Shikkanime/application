@@ -26,11 +26,11 @@ class AnimeComponent extends StatelessWidget {
               filterQuality: FilterQuality.high,
               fit: BoxFit.fill,
               width: double.infinity,
-              height: 300,
+              height: 280,
               placeholder: (context, url) => Container(
                 color: Colors.grey,
                 width: double.infinity,
-                height: 300,
+                height: 280,
               ),
             ),
             const SizedBox(height: 8),
