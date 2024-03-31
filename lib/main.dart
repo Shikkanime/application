@@ -1,4 +1,6 @@
 import 'package:application/controllers/anime_controller.dart';
+import 'package:application/controllers/anime_weekly_controller.dart';
+import 'package:application/views/calendar_view.dart';
 import 'package:application/views/home_view.dart';
 import 'package:application/controllers/episode_controller.dart';
 import 'package:application/controllers/simulcast_controller.dart';
@@ -20,6 +22,7 @@ Future<void> main() async {
     SimulcastController.instance
         .init()
         .then((value) => AnimeController.instance.init()),
+    AnimeWeeklyController.instance.init(),
   ]);
 
   runApp(const MyApp());
@@ -30,7 +33,8 @@ Future<void> _initFirebase() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  final response = await FirebaseMessaging.instance.requestPermission(provisional: true);
+  final response =
+      await FirebaseMessaging.instance.requestPermission(provisional: true);
 
   if (response.authorizationStatus == AuthorizationStatus.authorized) {
     await FirebaseMessaging.instance.subscribeToTopic('global');
@@ -51,6 +55,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
           brightness: Brightness.dark,
           seedColor: Colors.white,
+          primary: Colors.white,
         ),
         scaffoldBackgroundColor: Colors.black,
         appBarTheme: AppBarTheme(
@@ -74,6 +79,14 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.grey[900],
           contentTextStyle: const TextStyle(
             color: Colors.white,
+          ),
+        ),
+        segmentedButtonTheme: SegmentedButtonThemeData(
+          style: SegmentedButton.styleFrom(
+            selectedForegroundColor: Colors.white,
+            selectedBackgroundColor: Colors.grey[700],
+            foregroundColor: Colors.grey,
+            backgroundColor: Colors.black,
           ),
         ),
       ),
@@ -144,7 +157,7 @@ class _MyHomePageState extends State<MyHomePage> {
         children: const [
           HomeView(),
           SimulcastView(),
-          Text('Calendar'),
+          CalendarView(),
           Text('My Account'),
         ],
       ),

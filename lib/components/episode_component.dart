@@ -6,6 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:like_button/like_button.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:vibration/vibration.dart';
 
 class EpisodeComponent extends StatelessWidget {
@@ -58,7 +59,7 @@ class EpisodeComponent extends StatelessWidget {
                     children: [
                       CachedNetworkImage(
                         imageUrl:
-                        '${Constant.apiUrl}/v1/attachments?uuid=${episode.uuid}&type=image',
+                            '${Constant.apiUrl}/v1/attachments?uuid=${episode.uuid}&type=image',
                         filterQuality: FilterQuality.high,
                         fit: BoxFit.cover,
                         width: double.infinity,
@@ -133,10 +134,18 @@ class EpisodeComponent extends StatelessWidget {
                     ],
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Icon(
-                    Icons.live_tv_outlined,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: GestureDetector(
+                    onTap: () {
+                      launchUrl(
+                        Uri.parse(episode.url),
+                        mode: LaunchMode.externalNonBrowserApplication,
+                      );
+                    },
+                    child: const Icon(
+                      Icons.live_tv_outlined,
+                    ),
                   ),
                 ),
                 LikeButton(

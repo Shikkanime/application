@@ -14,14 +14,19 @@ class HomeView extends StatelessWidget {
       stream: EpisodeController.instance.streamController.stream,
       initialData: EpisodeController.instance.episodes,
       builder: (context, snapshot) {
-        return ListView.builder(
-          addAutomaticKeepAlives: false,
-          addRepaintBoundaries: false,
-          shrinkWrap: true,
-          controller: EpisodeController.instance.scrollController,
-          itemCount: snapshot.data!.length,
-          itemBuilder: (context, index) => EpisodeComponent(
-            episode: snapshot.data![index],
+        return RefreshIndicator.adaptive(
+          onRefresh: () async {
+            await EpisodeController.instance.init();
+          },
+          child: ListView.builder(
+            addAutomaticKeepAlives: false,
+            addRepaintBoundaries: false,
+            shrinkWrap: true,
+            controller: EpisodeController.instance.scrollController,
+            itemCount: snapshot.data!.length,
+            itemBuilder: (context, index) => EpisodeComponent(
+              episode: snapshot.data![index],
+            ),
           ),
         );
       },
