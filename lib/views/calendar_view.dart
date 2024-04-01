@@ -1,7 +1,7 @@
 import 'package:application/components/anime_component.dart';
 import 'package:application/controllers/anime_weekly_controller.dart';
-import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/week_day_dto.dart';
+import 'package:application/dtos/week_day_release_dto.dart';
 import 'package:flutter/material.dart';
 
 class CalendarView extends StatefulWidget {
@@ -16,18 +16,30 @@ class CalendarView extends StatefulWidget {
 class _CalendarViewState extends State<CalendarView> {
   String _currentDay = 'Lundi';
 
-  List<Widget> _buildAnimeList(List<AnimeDto> animes) {
+  List<Widget> _buildAnimeList(List<WeekDayReleaseDto> list) {
     final widgets = <Widget>[];
 
-    for (int i = 0; i < animes.length; i += 2) {
+    for (int i = 0; i < list.length; i += 2) {
       widgets.add(
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(child: AnimeComponent(anime: animes[i])),
-            if (i + 1 < animes.length)
-              Expanded(child: AnimeComponent(anime: animes[i + 1]))
+            Expanded(
+              child: AnimeComponent(
+                anime: list[i].anime,
+                hour: _releaseHour(list[i].releaseDateTime),
+                platforms: list[i].platforms,
+              ),
+            ),
+            if (i + 1 < list.length)
+              Expanded(
+                child: AnimeComponent(
+                  anime: list[i + 1].anime,
+                  hour: _releaseHour(list[i + 1].releaseDateTime),
+                  platforms: list[i + 1].platforms,
+                ),
+              )
             else
               const Spacer(),
           ],
@@ -36,6 +48,11 @@ class _CalendarViewState extends State<CalendarView> {
     }
 
     return widgets;
+  }
+
+  String _releaseHour(String releaseDateTime) {
+    final parsed = DateTime.parse(releaseDateTime).toLocal();
+    return '${parsed.hour.toString().padLeft(2, '0')}:${parsed.minute.toString().padLeft(2, '0')}';
   }
 
   List<Widget> _children(AsyncSnapshot<List<WeekDayDto>> snapshot) {
@@ -54,7 +71,7 @@ class _CalendarViewState extends State<CalendarView> {
             for (final weekDay in snapshot.data!)
               ButtonSegment(
                 value: weekDay.dayOfWeek,
-                label: Text(weekDay.dayOfWeek.substring(0, 3)),
+                label: Text(weekDay.dayOfWeek.substring(0, 2)),
               ),
           ],
           selected: {_currentDay},
@@ -62,9 +79,7 @@ class _CalendarViewState extends State<CalendarView> {
       ),
       for (final weekDay in snapshot.data!)
         if (weekDay.dayOfWeek == _currentDay)
-          ..._buildAnimeList(
-            weekDay.releases.map((e) => e.anime).toList(),
-          ),
+          ..._buildAnimeList(weekDay.releases),
     ];
   }
 
