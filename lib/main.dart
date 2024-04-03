@@ -74,6 +74,10 @@ class MyApp extends StatelessWidget {
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
+          bodySmall: TextStyle(
+            color: Colors.grey,
+            fontSize: 12,
+          ),
         ),
         snackBarTheme: SnackBarThemeData(
           backgroundColor: Colors.grey[900],

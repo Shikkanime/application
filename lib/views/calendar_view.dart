@@ -3,6 +3,7 @@ import 'package:application/controllers/anime_weekly_controller.dart';
 import 'package:application/dtos/week_day_dto.dart';
 import 'package:application/dtos/week_day_release_dto.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CalendarView extends StatefulWidget {
   const CalendarView({
@@ -81,6 +82,13 @@ class _CalendarViewState extends State<CalendarView> {
         if (weekDay.dayOfWeek == _currentDay)
           ..._buildAnimeList(weekDay.releases),
     ];
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _currentDay = DateFormat('EEEE', 'fr_FR').format(DateTime.now());
+    _currentDay = _currentDay[0].toUpperCase() + _currentDay.substring(1);
   }
 
   @override

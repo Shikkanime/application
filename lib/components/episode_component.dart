@@ -46,151 +46,169 @@ class EpisodeComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepaintBoundary(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Stack(
-              children: [
-                SizedBox(
-                  height: 200,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      CachedNetworkImage(
-                        imageUrl:
-                            '${Constant.apiUrl}/v1/attachments?uuid=${episode.uuid}&type=image',
-                        filterQuality: FilterQuality.high,
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        placeholder: (context, url) => Container(
-                          color: Colors.grey,
-                          width: double.infinity,
-                        ),
-                      ),
-                      if (episode.uncensored)
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.white.withOpacity(0.08),
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Stack(
+                children: [
+                  SizedBox(
+                    height: 200,
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
                         ClipRRect(
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                            child: Container(
-                              color: Colors.grey.withOpacity(0.1),
-                              alignment: Alignment.center,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(16),
+                            topRight: Radius.circular(16),
+                          ),
+                          child: CachedNetworkImage(
+                            imageUrl:
+                                '${Constant.apiUrl}/v1/attachments?uuid=${episode.uuid}&type=image',
+                            filterQuality: FilterQuality.high,
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            placeholder: (context, url) => Container(
+                              color: Colors.grey,
+                              width: double.infinity,
                             ),
                           ),
-                        )
-                    ],
+                        ),
+                        if (episode.uncensored)
+                          ClipRRect(
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                              child: Container(
+                                color: Colors.grey.withOpacity(0.1),
+                                alignment: Alignment.center,
+                              ),
+                            ),
+                          )
+                      ],
+                    ),
                   ),
-                ),
-                Positioned(
-                  top: 5,
-                  right: 5,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(32),
-                    child: CachedNetworkImage(
-                      imageUrl:
-                          '${Constant.baseUrl}/assets/img/platforms/${episode.platform.image}',
-                      filterQuality: FilterQuality.high,
-                      fit: BoxFit.cover,
-                      width: 24,
-                      height: 24,
-                      placeholder: (context, url) => Container(
-                        color: Colors.grey,
+                  Positioned(
+                    top: 5,
+                    right: 5,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(32),
+                      child: CachedNetworkImage(
+                        imageUrl:
+                            '${Constant.baseUrl}/assets/img/platforms/${episode.platform.image}',
+                        filterQuality: FilterQuality.high,
+                        fit: BoxFit.cover,
                         width: 24,
                         height: 24,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        episode.anime.shortName,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                      Text(
-                        AppLocalizations.of(context)!.information(
-                          _episodeType(context),
-                          episode.number,
-                          episode.season,
-                          episode.uncensored
-                              ? AppLocalizations.of(context)!.uncensored
-                              : '',
+                        placeholder: (context, url) => Container(
+                          color: Colors.grey,
+                          width: 24,
+                          height: 24,
                         ),
-                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
-                      Text(
-                        _langType(context),
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: GestureDetector(
-                    onTap: () {
-                      launchUrl(
-                        Uri.parse(episode.url),
-                        mode: LaunchMode.externalNonBrowserApplication,
-                      );
-                    },
-                    child: const Icon(
-                      Icons.live_tv_outlined,
                     ),
                   ),
-                ),
-                LikeButton(
-                  likeBuilder: (isLiked) {
-                    return Icon(
-                      isLiked ? Icons.bookmark : Icons.bookmark_border,
-                      color: isLiked ? bookmarkColor : null,
-                    );
-                  },
-                  circleColor: const CircleColor(
-                    start: bookmarkColor,
-                    end: bookmarkColor,
-                  ),
-                  bubblesColor: const BubblesColor(
-                    dotPrimaryColor: bookmarkColor,
-                    dotSecondaryColor: bookmarkColor,
-                  ),
-                  onTap: (isLiked) async {
-                    if (!isLiked) {
-                      // Vibration.vibrate(duration: 100);
-                      Vibration.vibrate(pattern: [0, 50, 125, 50, 125, 50]);
-
-                      // Create snackbar
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.bookmark),
-                              SizedBox(width: 8),
-                              Text('Bookmarked'),
-                            ],
+                ],
+              ),
+              const SizedBox(height: 4),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            episode.anime.shortName,
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
-                          duration: Duration(seconds: 2),
+                          Text(
+                            AppLocalizations.of(context)!.information(
+                              _episodeType(context),
+                              episode.number,
+                              episode.season,
+                              episode.uncensored
+                                  ? AppLocalizations.of(context)!.uncensored
+                                  : '',
+                            ),
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          Text(
+                            _langType(context),
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: GestureDetector(
+                        onTap: () {
+                          launchUrl(
+                            Uri.parse(episode.url),
+                            mode: LaunchMode.externalNonBrowserApplication,
+                          );
+                        },
+                        child: const Icon(
+                          Icons.live_tv_outlined,
                         ),
-                      );
-                    }
+                      ),
+                    ),
+                    LikeButton(
+                      likeBuilder: (isLiked) {
+                        return Icon(
+                          isLiked ? Icons.bookmark : Icons.bookmark_border,
+                          color: isLiked ? bookmarkColor : null,
+                        );
+                      },
+                      circleColor: const CircleColor(
+                        start: bookmarkColor,
+                        end: bookmarkColor,
+                      ),
+                      bubblesColor: const BubblesColor(
+                        dotPrimaryColor: bookmarkColor,
+                        dotSecondaryColor: bookmarkColor,
+                      ),
+                      onTap: (isLiked) async {
+                        if (!isLiked) {
+                          // Vibration.vibrate(duration: 100);
+                          Vibration.vibrate(pattern: [0, 50, 125, 50, 125, 50]);
 
-                    return !isLiked;
-                  },
-                )
-              ],
-            ),
-            const SizedBox(height: 16),
-          ],
+                          // Create snackbar
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.bookmark),
+                                  SizedBox(width: 8),
+                                  Text('Bookmarked'),
+                                ],
+                              ),
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                        }
+
+                        return !isLiked;
+                      },
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(height: 8),
+            ],
+          ),
         ),
       ),
     );
