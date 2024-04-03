@@ -182,11 +182,30 @@ class _MyHomePageState extends State<MyHomePage> {
             _currentIndex = index;
           });
         },
-        children: const [
-          HomeView(),
-          SimulcastView(),
-          CalendarView(),
-          Text('My Account'),
+        children: [
+          const HomeView(),
+          const SimulcastView(),
+          const CalendarView(),
+          ListView(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'My Account',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'WORK IN PROGRESS',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ],
+              ),
+            ],
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
