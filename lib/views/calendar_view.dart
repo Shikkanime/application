@@ -1,7 +1,6 @@
-import 'package:application/components/anime_component.dart';
+import 'package:application/components/calendar_anime_component.dart';
 import 'package:application/controllers/anime_weekly_controller.dart';
 import 'package:application/dtos/week_day_dto.dart';
-import 'package:application/dtos/week_day_release_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -17,40 +16,6 @@ class CalendarView extends StatefulWidget {
 class _CalendarViewState extends State<CalendarView> {
   String _currentDay = 'Lundi';
 
-  List<Widget> _buildAnimeList(List<WeekDayReleaseDto> list) {
-    final widgets = <Widget>[];
-
-    for (int i = 0; i < list.length; i += 2) {
-      widgets.add(
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: AnimeComponent(
-                anime: list[i].anime,
-                hour: _releaseHour(list[i].releaseDateTime),
-                platforms: list[i].platforms,
-              ),
-            ),
-            if (i + 1 < list.length)
-              Expanded(
-                child: AnimeComponent(
-                  anime: list[i + 1].anime,
-                  hour: _releaseHour(list[i + 1].releaseDateTime),
-                  platforms: list[i + 1].platforms,
-                ),
-              )
-            else
-              const Spacer(),
-          ],
-        ),
-      );
-    }
-
-    return widgets;
-  }
-
   String _releaseHour(String releaseDateTime) {
     final parsed = DateTime.parse(releaseDateTime).toLocal();
     return '${parsed.hour.toString().padLeft(2, '0')}:${parsed.minute.toString().padLeft(2, '0')}';
@@ -59,7 +24,7 @@ class _CalendarViewState extends State<CalendarView> {
   List<Widget> _children(AsyncSnapshot<List<WeekDayDto>> snapshot) {
     return [
       Padding(
-        padding: const EdgeInsets.only(left: 8, right: 8, bottom: 16),
+        padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
         child: SegmentedButton<String>(
           multiSelectionEnabled: false,
           showSelectedIcon: false,
@@ -80,7 +45,12 @@ class _CalendarViewState extends State<CalendarView> {
       ),
       for (final weekDay in snapshot.data!)
         if (weekDay.dayOfWeek == _currentDay)
-          ..._buildAnimeList(weekDay.releases),
+          for (final release in weekDay.releases)
+            CalendarAnimeComponent(
+              anime: release.anime,
+              hour: _releaseHour(release.releaseDateTime),
+              platforms: release.platforms,
+            ),
     ];
   }
 
@@ -97,15 +67,24 @@ class _CalendarViewState extends State<CalendarView> {
       stream: AnimeWeeklyController.instance.streamController.stream,
       initialData: AnimeWeeklyController.instance.weekDays,
       builder: (context, snapshot) {
+        if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Container();
+        }
+
         final children = _children(snapshot);
 
-        return ListView.builder(
-          addAutomaticKeepAlives: false,
-          addRepaintBoundaries: false,
-          shrinkWrap: true,
-          controller: AnimeWeeklyController.instance.scrollController,
-          itemCount: children.length,
-          itemBuilder: (context, index) => children[index],
+        return RefreshIndicator.adaptive(
+          onRefresh: () async {
+            await AnimeWeeklyController.instance.init();
+          },
+          child: ListView.builder(
+            addAutomaticKeepAlives: false,
+            addRepaintBoundaries: false,
+            shrinkWrap: true,
+            controller: AnimeWeeklyController.instance.scrollController,
+            itemCount: children.length,
+            itemBuilder: (context, index) => children[index],
+          ),
         );
       },
     );

@@ -60,6 +60,7 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.dark,
           seedColor: Colors.white,
           primary: Colors.white,
+          surface: Colors.white.withOpacity(0.15),
         ),
         scaffoldBackgroundColor: Colors.black,
         appBarTheme: AppBarTheme(

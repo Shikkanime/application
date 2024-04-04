@@ -38,39 +38,45 @@ class SimulcastView extends StatelessWidget {
       builder: (context, snapshot) {
         final list = _buildAnimeList(snapshot.data!);
 
-        return ListView.builder(
-          addAutomaticKeepAlives: false,
-          addRepaintBoundaries: false,
-          shrinkWrap: true,
-          controller: AnimeController.instance.scrollController,
-          itemCount: list.length + 1,
-          itemBuilder: (context, index) => index == 0
-              ? Padding(
-                  padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      DropdownButton<SimulcastDto>(
-                        value: SimulcastController.instance.current,
-                        items: [
-                          for (final simulcast
-                              in SimulcastController.instance.simulcasts)
-                            DropdownMenuItem(
-                              value: simulcast,
-                              child: Text(simulcast.label),
-                            ),
-                        ],
-                        onChanged: (value) {
-                          SimulcastController.instance.current = value!;
-                          AnimeController.instance.goToTop();
-                        },
-                      ),
-                    ],
-                  ),
-                )
-              : list[index - 1],
+        return RefreshIndicator.adaptive(
+          onRefresh: () async {
+            await AnimeController.instance.init();
+          },
+          child: ListView.builder(
+            addAutomaticKeepAlives: false,
+            addRepaintBoundaries: false,
+            shrinkWrap: true,
+            controller: AnimeController.instance.scrollController,
+            itemCount: list.length + 1,
+            itemBuilder: (context, index) => index == 0
+                ? Padding(
+                    padding:
+                        const EdgeInsets.only(left: 8, right: 8, bottom: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        DropdownButton<SimulcastDto>(
+                          value: SimulcastController.instance.current,
+                          items: [
+                            for (final simulcast
+                                in SimulcastController.instance.simulcasts)
+                              DropdownMenuItem(
+                                value: simulcast,
+                                child: Text(simulcast.label),
+                              ),
+                          ],
+                          onChanged: (value) {
+                            SimulcastController.instance.current = value!;
+                            AnimeController.instance.goToTop();
+                          },
+                        ),
+                      ],
+                    ),
+                  )
+                : list[index - 1],
+          ),
         );
       },
     );
