@@ -19,9 +19,9 @@ _$AnimeDtoImpl _$$AnimeDtoImplFromJson(Map<String, dynamic> json) =>
       simulcasts: (json['simulcasts'] as List<dynamic>)
           .map((e) => SimulcastDto.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: json['status'] as String,
       slug: json['slug'] as String,
       lastReleaseDateTime: json['lastReleaseDateTime'] as String,
+      status: json['status'] as String?,
     );
 
 Map<String, dynamic> _$$AnimeDtoImplToJson(_$AnimeDtoImpl instance) =>
@@ -35,7 +35,7 @@ Map<String, dynamic> _$$AnimeDtoImplToJson(_$AnimeDtoImpl instance) =>
       'banner': instance.banner,
       'description': instance.description,
       'simulcasts': instance.simulcasts,
-      'status': instance.status,
       'slug': instance.slug,
       'lastReleaseDateTime': instance.lastReleaseDateTime,
+      'status': instance.status,
     };

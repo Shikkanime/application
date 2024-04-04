@@ -29,9 +29,9 @@ mixin _$AnimeDto {
   String? get banner => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   List<SimulcastDto> get simulcasts => throw _privateConstructorUsedError;
-  String get status => throw _privateConstructorUsedError;
   String get slug => throw _privateConstructorUsedError;
   String get lastReleaseDateTime => throw _privateConstructorUsedError;
+  String? get status => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -54,9 +54,9 @@ abstract class $AnimeDtoCopyWith<$Res> {
       String? banner,
       String? description,
       List<SimulcastDto> simulcasts,
-      String status,
       String slug,
-      String lastReleaseDateTime});
+      String lastReleaseDateTime,
+      String? status});
 }
 
 /// @nodoc
@@ -81,9 +81,9 @@ class _$AnimeDtoCopyWithImpl<$Res, $Val extends AnimeDto>
     Object? banner = freezed,
     Object? description = freezed,
     Object? simulcasts = null,
-    Object? status = null,
     Object? slug = null,
     Object? lastReleaseDateTime = null,
+    Object? status = freezed,
   }) {
     return _then(_value.copyWith(
       uuid: null == uuid
@@ -122,10 +122,6 @@ class _$AnimeDtoCopyWithImpl<$Res, $Val extends AnimeDto>
           ? _value.simulcasts
           : simulcasts // ignore: cast_nullable_to_non_nullable
               as List<SimulcastDto>,
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as String,
       slug: null == slug
           ? _value.slug
           : slug // ignore: cast_nullable_to_non_nullable
@@ -134,6 +130,10 @@ class _$AnimeDtoCopyWithImpl<$Res, $Val extends AnimeDto>
           ? _value.lastReleaseDateTime
           : lastReleaseDateTime // ignore: cast_nullable_to_non_nullable
               as String,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -156,9 +156,9 @@ abstract class _$$AnimeDtoImplCopyWith<$Res>
       String? banner,
       String? description,
       List<SimulcastDto> simulcasts,
-      String status,
       String slug,
-      String lastReleaseDateTime});
+      String lastReleaseDateTime,
+      String? status});
 }
 
 /// @nodoc
@@ -181,9 +181,9 @@ class __$$AnimeDtoImplCopyWithImpl<$Res>
     Object? banner = freezed,
     Object? description = freezed,
     Object? simulcasts = null,
-    Object? status = null,
     Object? slug = null,
     Object? lastReleaseDateTime = null,
+    Object? status = freezed,
   }) {
     return _then(_$AnimeDtoImpl(
       uuid: null == uuid
@@ -222,10 +222,6 @@ class __$$AnimeDtoImplCopyWithImpl<$Res>
           ? _value._simulcasts
           : simulcasts // ignore: cast_nullable_to_non_nullable
               as List<SimulcastDto>,
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as String,
       slug: null == slug
           ? _value.slug
           : slug // ignore: cast_nullable_to_non_nullable
@@ -234,6 +230,10 @@ class __$$AnimeDtoImplCopyWithImpl<$Res>
           ? _value.lastReleaseDateTime
           : lastReleaseDateTime // ignore: cast_nullable_to_non_nullable
               as String,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -251,9 +251,9 @@ class _$AnimeDtoImpl implements _AnimeDto {
       required this.banner,
       required this.description,
       required final List<SimulcastDto> simulcasts,
-      required this.status,
       required this.slug,
-      required this.lastReleaseDateTime})
+      required this.lastReleaseDateTime,
+      required this.status})
       : _simulcasts = simulcasts;
 
   factory _$AnimeDtoImpl.fromJson(Map<String, dynamic> json) =>
@@ -284,15 +284,15 @@ class _$AnimeDtoImpl implements _AnimeDto {
   }
 
   @override
-  final String status;
-  @override
   final String slug;
   @override
   final String lastReleaseDateTime;
+  @override
+  final String? status;
 
   @override
   String toString() {
-    return 'AnimeDto(uuid: $uuid, countryCode: $countryCode, name: $name, shortName: $shortName, releaseDateTime: $releaseDateTime, image: $image, banner: $banner, description: $description, simulcasts: $simulcasts, status: $status, slug: $slug, lastReleaseDateTime: $lastReleaseDateTime)';
+    return 'AnimeDto(uuid: $uuid, countryCode: $countryCode, name: $name, shortName: $shortName, releaseDateTime: $releaseDateTime, image: $image, banner: $banner, description: $description, simulcasts: $simulcasts, slug: $slug, lastReleaseDateTime: $lastReleaseDateTime, status: $status)';
   }
 
   @override
@@ -314,10 +314,10 @@ class _$AnimeDtoImpl implements _AnimeDto {
                 other.description == description) &&
             const DeepCollectionEquality()
                 .equals(other._simulcasts, _simulcasts) &&
-            (identical(other.status, status) || other.status == status) &&
             (identical(other.slug, slug) || other.slug == slug) &&
             (identical(other.lastReleaseDateTime, lastReleaseDateTime) ||
-                other.lastReleaseDateTime == lastReleaseDateTime));
+                other.lastReleaseDateTime == lastReleaseDateTime) &&
+            (identical(other.status, status) || other.status == status));
   }
 
   @JsonKey(ignore: true)
@@ -333,9 +333,9 @@ class _$AnimeDtoImpl implements _AnimeDto {
       banner,
       description,
       const DeepCollectionEquality().hash(_simulcasts),
-      status,
       slug,
-      lastReleaseDateTime);
+      lastReleaseDateTime,
+      status);
 
   @JsonKey(ignore: true)
   @override
@@ -362,9 +362,9 @@ abstract class _AnimeDto implements AnimeDto {
       required final String? banner,
       required final String? description,
       required final List<SimulcastDto> simulcasts,
-      required final String status,
       required final String slug,
-      required final String lastReleaseDateTime}) = _$AnimeDtoImpl;
+      required final String lastReleaseDateTime,
+      required final String? status}) = _$AnimeDtoImpl;
 
   factory _AnimeDto.fromJson(Map<String, dynamic> json) =
       _$AnimeDtoImpl.fromJson;
@@ -388,11 +388,11 @@ abstract class _AnimeDto implements AnimeDto {
   @override
   List<SimulcastDto> get simulcasts;
   @override
-  String get status;
-  @override
   String get slug;
   @override
   String get lastReleaseDateTime;
+  @override
+  String? get status;
   @override
   @JsonKey(ignore: true)
   _$$AnimeDtoImplCopyWith<_$AnimeDtoImpl> get copyWith =>
