@@ -22,6 +22,7 @@ WeekDayReleaseDto _$WeekDayReleaseDtoFromJson(Map<String, dynamic> json) {
 mixin _$WeekDayReleaseDto {
   AnimeDto get anime => throw _privateConstructorUsedError;
   String get releaseDateTime => throw _privateConstructorUsedError;
+  String get langType => throw _privateConstructorUsedError;
   List<PlatformDto> get platforms => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -37,7 +38,10 @@ abstract class $WeekDayReleaseDtoCopyWith<$Res> {
       _$WeekDayReleaseDtoCopyWithImpl<$Res, WeekDayReleaseDto>;
   @useResult
   $Res call(
-      {AnimeDto anime, String releaseDateTime, List<PlatformDto> platforms});
+      {AnimeDto anime,
+      String releaseDateTime,
+      String langType,
+      List<PlatformDto> platforms});
 
   $AnimeDtoCopyWith<$Res> get anime;
 }
@@ -57,6 +61,7 @@ class _$WeekDayReleaseDtoCopyWithImpl<$Res, $Val extends WeekDayReleaseDto>
   $Res call({
     Object? anime = null,
     Object? releaseDateTime = null,
+    Object? langType = null,
     Object? platforms = null,
   }) {
     return _then(_value.copyWith(
@@ -67,6 +72,10 @@ class _$WeekDayReleaseDtoCopyWithImpl<$Res, $Val extends WeekDayReleaseDto>
       releaseDateTime: null == releaseDateTime
           ? _value.releaseDateTime
           : releaseDateTime // ignore: cast_nullable_to_non_nullable
+              as String,
+      langType: null == langType
+          ? _value.langType
+          : langType // ignore: cast_nullable_to_non_nullable
               as String,
       platforms: null == platforms
           ? _value.platforms
@@ -93,7 +102,10 @@ abstract class _$$WeekDayReleaseDtoImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {AnimeDto anime, String releaseDateTime, List<PlatformDto> platforms});
+      {AnimeDto anime,
+      String releaseDateTime,
+      String langType,
+      List<PlatformDto> platforms});
 
   @override
   $AnimeDtoCopyWith<$Res> get anime;
@@ -112,6 +124,7 @@ class __$$WeekDayReleaseDtoImplCopyWithImpl<$Res>
   $Res call({
     Object? anime = null,
     Object? releaseDateTime = null,
+    Object? langType = null,
     Object? platforms = null,
   }) {
     return _then(_$WeekDayReleaseDtoImpl(
@@ -122,6 +135,10 @@ class __$$WeekDayReleaseDtoImplCopyWithImpl<$Res>
       releaseDateTime: null == releaseDateTime
           ? _value.releaseDateTime
           : releaseDateTime // ignore: cast_nullable_to_non_nullable
+              as String,
+      langType: null == langType
+          ? _value.langType
+          : langType // ignore: cast_nullable_to_non_nullable
               as String,
       platforms: null == platforms
           ? _value._platforms
@@ -137,6 +154,7 @@ class _$WeekDayReleaseDtoImpl implements _WeekDayReleaseDto {
   const _$WeekDayReleaseDtoImpl(
       {required this.anime,
       required this.releaseDateTime,
+      required this.langType,
       required final List<PlatformDto> platforms})
       : _platforms = platforms;
 
@@ -147,6 +165,8 @@ class _$WeekDayReleaseDtoImpl implements _WeekDayReleaseDto {
   final AnimeDto anime;
   @override
   final String releaseDateTime;
+  @override
+  final String langType;
   final List<PlatformDto> _platforms;
   @override
   List<PlatformDto> get platforms {
@@ -157,7 +177,7 @@ class _$WeekDayReleaseDtoImpl implements _WeekDayReleaseDto {
 
   @override
   String toString() {
-    return 'WeekDayReleaseDto(anime: $anime, releaseDateTime: $releaseDateTime, platforms: $platforms)';
+    return 'WeekDayReleaseDto(anime: $anime, releaseDateTime: $releaseDateTime, langType: $langType, platforms: $platforms)';
   }
 
   @override
@@ -168,13 +188,15 @@ class _$WeekDayReleaseDtoImpl implements _WeekDayReleaseDto {
             (identical(other.anime, anime) || other.anime == anime) &&
             (identical(other.releaseDateTime, releaseDateTime) ||
                 other.releaseDateTime == releaseDateTime) &&
+            (identical(other.langType, langType) ||
+                other.langType == langType) &&
             const DeepCollectionEquality()
                 .equals(other._platforms, _platforms));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, anime, releaseDateTime,
+  int get hashCode => Object.hash(runtimeType, anime, releaseDateTime, langType,
       const DeepCollectionEquality().hash(_platforms));
 
   @JsonKey(ignore: true)
@@ -196,6 +218,7 @@ abstract class _WeekDayReleaseDto implements WeekDayReleaseDto {
   const factory _WeekDayReleaseDto(
       {required final AnimeDto anime,
       required final String releaseDateTime,
+      required final String langType,
       required final List<PlatformDto> platforms}) = _$WeekDayReleaseDtoImpl;
 
   factory _WeekDayReleaseDto.fromJson(Map<String, dynamic> json) =
@@ -205,6 +228,8 @@ abstract class _WeekDayReleaseDto implements WeekDayReleaseDto {
   AnimeDto get anime;
   @override
   String get releaseDateTime;
+  @override
+  String get langType;
   @override
   List<PlatformDto> get platforms;
   @override

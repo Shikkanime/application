@@ -16,11 +16,6 @@ class CalendarView extends StatefulWidget {
 class _CalendarViewState extends State<CalendarView> {
   String _currentDay = 'Lundi';
 
-  String _releaseHour(String releaseDateTime) {
-    final parsed = DateTime.parse(releaseDateTime).toLocal();
-    return '${parsed.hour.toString().padLeft(2, '0')}:${parsed.minute.toString().padLeft(2, '0')}';
-  }
-
   List<Widget> _children(AsyncSnapshot<List<WeekDayDto>> snapshot) {
     return [
       Padding(
@@ -46,11 +41,7 @@ class _CalendarViewState extends State<CalendarView> {
       for (final weekDay in snapshot.data!)
         if (weekDay.dayOfWeek == _currentDay)
           for (final release in weekDay.releases)
-            CalendarAnimeComponent(
-              anime: release.anime,
-              hour: _releaseHour(release.releaseDateTime),
-              platforms: release.platforms,
-            ),
+            CalendarAnimeComponent(release: release),
     ];
   }
 

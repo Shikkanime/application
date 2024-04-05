@@ -10,6 +10,7 @@ class WeekDayReleaseDto with _$WeekDayReleaseDto {
   const factory WeekDayReleaseDto({
     required AnimeDto anime,
     required String releaseDateTime,
+    required String langType,
     required List<PlatformDto> platforms,
   }) = _WeekDayReleaseDto;
 

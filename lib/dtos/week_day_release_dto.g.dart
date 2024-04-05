@@ -11,6 +11,7 @@ _$WeekDayReleaseDtoImpl _$$WeekDayReleaseDtoImplFromJson(
     _$WeekDayReleaseDtoImpl(
       anime: AnimeDto.fromJson(json['anime'] as Map<String, dynamic>),
       releaseDateTime: json['releaseDateTime'] as String,
+      langType: json['langType'] as String,
       platforms: (json['platforms'] as List<dynamic>)
           .map((e) => PlatformDto.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -21,5 +22,6 @@ Map<String, dynamic> _$$WeekDayReleaseDtoImplToJson(
     <String, dynamic>{
       'anime': instance.anime,
       'releaseDateTime': instance.releaseDateTime,
+      'langType': instance.langType,
       'platforms': instance.platforms,
     };
