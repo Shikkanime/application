@@ -56,7 +56,7 @@ class EpisodeController {
     try {
       final response = await http.get(
         Uri.parse(
-          '${Constant.apiUrl}/v1/episodes?sort=releaseDateTime,season,number,episodeType,langType&desc=releaseDateTime,season,number&page=$page&limit=6',
+          '${Constant.apiUrl}/v1/episodes?sort=releaseDateTime,season,episodeType,number,langType&desc=releaseDateTime,season,number&desc=episodeType&page=$page&limit=6',
         ),
       );
 
