@@ -1,10 +1,12 @@
 import 'package:application/components/update_available_component.dart';
 import 'package:application/controllers/anime_controller.dart';
+import 'package:application/controllers/anime_search_controller.dart';
 import 'package:application/controllers/anime_weekly_controller.dart';
 import 'package:application/views/calendar_view.dart';
 import 'package:application/views/home_view.dart';
 import 'package:application/controllers/episode_controller.dart';
 import 'package:application/controllers/simulcast_controller.dart';
+import 'package:application/views/search_view.dart';
 import 'package:application/views/simulcast_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -27,6 +29,7 @@ Future<void> main() async {
         .init()
         .then((value) => AnimeController.instance.init()),
     AnimeWeeklyController.instance.init(),
+    AnimeSearchController.instance.init(),
   ]);
 
   runApp(const MyApp());
@@ -174,7 +177,13 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const SearchView(),
+                ),
+              );
+            },
             icon: const Icon(Icons.search),
           ),
         ],

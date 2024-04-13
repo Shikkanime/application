@@ -2,7 +2,6 @@
   "home": "Accueil",
   "simulcast": "Simulcast",
   "myAccount": "Mon compte",
-  "play": "Lecture",
   "episode": "Épisode",
   "special": "Spécial",
   "film": "Film",
@@ -15,5 +14,5 @@
   "updateAvailableDesc": "Voulez-vous la télécharger maintenant ?\n\nVotre application sera redémarrée automatiquement après le téléchargement.",
   "downloadUpdate": "Télécharger",
   "downloadingUpdate": "Téléchargement de la mise à jour...",
-  "watchNow": "Regarder maintenant"
+  "search": "Rechercher"
 }
