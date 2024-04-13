@@ -22,6 +22,8 @@ _$AnimeDtoImpl _$$AnimeDtoImplFromJson(Map<String, dynamic> json) =>
       slug: json['slug'] as String,
       lastReleaseDateTime: json['lastReleaseDateTime'] as String,
       status: json['status'] as String?,
+      langTypes:
+          (json['langTypes'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$$AnimeDtoImplToJson(_$AnimeDtoImpl instance) =>
@@ -38,4 +40,5 @@ Map<String, dynamic> _$$AnimeDtoImplToJson(_$AnimeDtoImpl instance) =>
       'slug': instance.slug,
       'lastReleaseDateTime': instance.lastReleaseDateTime,
       'status': instance.status,
+      'langTypes': instance.langTypes,
     };

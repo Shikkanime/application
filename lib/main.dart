@@ -56,13 +56,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,
+        fontFamily: 'Satoshi',
+        scaffoldBackgroundColor: Colors.black,
         colorScheme: ColorScheme.fromSeed(
           brightness: Brightness.dark,
           seedColor: Colors.white,
           primary: Colors.white,
-          surface: Colors.white.withOpacity(0.15),
         ),
-        scaffoldBackgroundColor: Colors.black,
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.black.withOpacity(0.8),
         ),
@@ -96,6 +96,9 @@ class MyApp extends StatelessWidget {
             selectedBackgroundColor: Colors.grey[700],
             foregroundColor: Colors.grey,
             backgroundColor: Colors.black,
+            textStyle: const TextStyle(
+              fontSize: 12,
+            ),
           ),
         ),
       ),

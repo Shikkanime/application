@@ -32,7 +32,7 @@ class _CalendarViewState extends State<CalendarView> {
             for (final weekDay in snapshot.data!)
               ButtonSegment(
                 value: weekDay.dayOfWeek,
-                label: Text(weekDay.dayOfWeek.substring(0, 2)),
+                label: Text(weekDay.dayOfWeek.substring(0, 3)),
               ),
           ],
           selected: {_currentDay},

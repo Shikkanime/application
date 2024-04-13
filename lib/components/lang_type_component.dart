@@ -32,7 +32,7 @@ class LangTypeComponent extends StatelessWidget {
           ),
         if (langType == 'VOICE')
           Icon(
-            Icons.record_voice_over,
+            Icons.mic,
             size: 16,
             color: textStyle?.color,
           ),

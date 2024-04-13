@@ -19,6 +19,7 @@ class AnimeDto with _$AnimeDto {
     required String slug,
     required String lastReleaseDateTime,
     required String? status,
+    required List<String> langTypes,
   }) = _AnimeDto;
 
   factory AnimeDto.fromJson(Map<String, dynamic> json) =>
