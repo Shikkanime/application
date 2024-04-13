@@ -5,6 +5,7 @@ import 'package:application/dtos/week_day_release_dto.dart';
 import 'package:application/utils/constant.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CalendarAnimeComponent extends StatelessWidget {
   static const bookmarkColor = Colors.yellow;
@@ -16,7 +17,10 @@ class CalendarAnimeComponent extends StatelessWidget {
   });
 
   String _releaseHour(String releaseDateTime) {
-    final parsed = DateTime.parse(releaseDateTime);
+    final parsed = DateFormat('yyyy-MM-ddTHH:mm:ssZ')
+        .parse(releaseDateTime, true)
+        .toLocal();
+
     return '${parsed.hour.toString().padLeft(2, '0')}:${parsed.minute.toString().padLeft(2, '0')}';
   }
 
