@@ -1,19 +1,37 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/episode_dto.dart';
 import 'package:application/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class EpisodeController {
-  static EpisodeController instance = EpisodeController();
+enum Sort {
+  oldest(value: 'sort=season,episodeType,number,langType&desc=episodeType'),
+  newest(
+      value:
+          'sort=releaseDateTime,season,episodeType,number,langType&desc=releaseDateTime,season,episodeType,number'),
+  ;
+
+  final String value;
+
+  const Sort({
+    required this.value,
+  });
+}
+
+class AnimeDetailsController {
+  static AnimeDetailsController instance = AnimeDetailsController();
   final episodes = <EpisodeDto>[];
   final scrollController = ScrollController();
   final streamController = StreamController<List<EpisodeDto>>.broadcast();
   int page = 1;
   bool isLoading = false;
   bool canLoadMore = true;
+
+  AnimeDto? anime;
+  Sort sort = Sort.oldest;
 
   Future<void> init() async {
     episodes.clear();
@@ -36,14 +54,19 @@ class EpisodeController {
     });
   }
 
-  Future<void> goToTop() async {
-    await scrollController.animateTo(
-      0,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
-    );
+  void dispose() {
+    anime = null;
+    sort = Sort.oldest;
+    episodes.clear();
+    streamController.add(episodes);
+  }
 
-    await init();
+  Future<void> refresh() async {
+    episodes.clear();
+    page = 1;
+    isLoading = false;
+    canLoadMore = true;
+    await nextPage();
   }
 
   Future<void> nextPage() async {
@@ -56,7 +79,7 @@ class EpisodeController {
     try {
       final response = await http.get(
         Uri.parse(
-          '${Constant.apiUrl}/v1/episodes?sort=releaseDateTime,animeName,season,episodeType,number,langType&desc=releaseDateTime,animeName,season,episodeType,number&page=$page&limit=6',
+          '${Constant.apiUrl}/v1/episodes?anime=${anime?.uuid}&${sort.value}&page=$page&limit=6',
         ),
       );
 

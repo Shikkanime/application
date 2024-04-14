@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class Card extends StatelessWidget {
   final Widget child;
+  final Function()? onTap;
 
-  const Card({super.key, required this.child});
+  const Card({super.key, required this.child, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,10 @@ class Card extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             color: Theme.of(context).colorScheme.secondary.withOpacity(0.125),
           ),
-          child: child,
+          child: GestureDetector(
+            onTap: onTap,
+            child: child,
+          ),
         ),
       ),
     );

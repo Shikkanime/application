@@ -14,5 +14,13 @@
   "updateAvailableDesc": "Voulez-vous la télécharger maintenant ?\n\nVotre application sera redémarrée automatiquement après le téléchargement.",
   "downloadUpdate": "Télécharger",
   "downloadingUpdate": "Téléchargement de la mise à jour...",
-  "search": "Rechercher"
+  "search": "Rechercher",
+  "markWatched": "Marqué comme vu",
+  "share": "Partager",
+  "sortBy": "Trier par",
+  "oldest": "Les plus anciens",
+  "newest": "Les plus récents",
+  "sort": "Trier",
+  "showMore": "Voir plus",
+  "showLess": "Voir moins"
 }

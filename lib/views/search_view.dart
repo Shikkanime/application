@@ -66,9 +66,7 @@ class _SearchViewState extends State<SearchView> {
           onChanged: (query) {
             AnimeSearchController.instance.search(query);
 
-            setState(() {
-
-            });
+            setState(() {});
           },
         ),
       ),

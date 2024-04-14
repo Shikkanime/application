@@ -2,6 +2,7 @@ import 'package:application/components/card_component.dart' as card;
 import 'package:application/components/lang_type_component.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/utils/constant.dart';
+import 'package:application/views/anime_details_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +18,13 @@ class AnimeComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return card.Card(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => AnimeDetailsView(anime: anime),
+          ),
+        );
+      },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
