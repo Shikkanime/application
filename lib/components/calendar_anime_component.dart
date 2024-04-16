@@ -1,4 +1,4 @@
-import 'package:application/components/card_component.dart' as card;
+import 'package:application/components/card_component.dart';
 import 'package:application/components/lang_type_component.dart';
 import 'package:application/components/platform_component.dart';
 import 'package:application/dtos/week_day_release_dto.dart';
@@ -27,7 +27,7 @@ class CalendarAnimeComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return card.Card(
+    return CustomCard(
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(

@@ -1,4 +1,4 @@
-import 'package:application/components/card_component.dart' as card;
+import 'package:application/components/card_component.dart';
 import 'package:application/components/episodes/episode_action_bar.dart';
 import 'package:application/components/episodes/episode_image.dart';
 import 'package:application/components/lang_type_component.dart';
@@ -29,7 +29,7 @@ class AnimeEpisodeComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return card.Card(
+    return CustomCard(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

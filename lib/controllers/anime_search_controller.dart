@@ -16,7 +16,7 @@ class AnimeSearchController {
   bool canLoadMore = true;
   String query = '';
 
-  Future<void> init() async {
+  void init() {
     page = 1;
     isLoading = false;
     canLoadMore = true;

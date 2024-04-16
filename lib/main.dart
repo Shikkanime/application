@@ -29,8 +29,9 @@ Future<void> main() async {
         .init()
         .then((value) => AnimeController.instance.init()),
     AnimeWeeklyController.instance.init(),
-    AnimeSearchController.instance.init(),
   ]);
+
+  AnimeSearchController.instance.init();
 
   runApp(const MyApp());
 }

@@ -1,4 +1,4 @@
-import 'package:application/components/card_component.dart' as card;
+import 'package:application/components/card_component.dart';
 import 'package:application/components/lang_type_component.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/utils/constant.dart';
@@ -17,7 +17,7 @@ class AnimeComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return card.Card(
+    return CustomCard(
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(

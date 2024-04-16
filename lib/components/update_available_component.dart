@@ -22,6 +22,8 @@ class _UpdateAvailableComponentState extends State<UpdateAvailableComponent> {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
     return SizedBox(
       height: 250,
       child: Center(
@@ -34,7 +36,7 @@ class _UpdateAvailableComponentState extends State<UpdateAvailableComponent> {
               const SizedBox(height: 16),
               Text(
                 AppLocalizations.of(context)!.downloadingUpdate,
-                style: Theme.of(context).textTheme.bodySmall,
+                style: textTheme.bodySmall,
               ),
             ] else ...[
               Row(
@@ -49,21 +51,21 @@ class _UpdateAvailableComponentState extends State<UpdateAvailableComponent> {
               ),
               Text(
                 AppLocalizations.of(context)!.updateAvailable,
-                style: Theme.of(context).textTheme.bodyLarge,
+                style: textTheme.bodyLarge,
               ),
               const SizedBox(height: 8),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   AppLocalizations.of(context)!.updateAvailableDesc,
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: textTheme.bodyMedium,
                   textAlign: TextAlign.center,
                 ),
               ),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () async {
-                  await _downloadUpdate();
+                onPressed: () {
+                  _downloadUpdate();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,

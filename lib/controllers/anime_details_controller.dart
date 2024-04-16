@@ -10,8 +10,9 @@ import 'package:http/http.dart' as http;
 enum Sort {
   oldest(value: 'sort=season,episodeType,number,langType&desc=episodeType'),
   newest(
-      value:
-          'sort=releaseDateTime,season,episodeType,number,langType&desc=releaseDateTime,season,episodeType,number'),
+    value:
+        'sort=releaseDateTime,season,episodeType,number,langType&desc=releaseDateTime,season,episodeType,number',
+  ),
   ;
 
   final String value;

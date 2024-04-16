@@ -70,7 +70,9 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                 ),
               ];
             },
-            onSelected: (int value) {},
+            onSelected: (int value) {
+              // Not implemented
+            },
           ),
         ],
       ),
@@ -111,7 +113,7 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
             Padding(
@@ -164,7 +166,8 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                                   ),
                                   ListTile(
                                     title: Text(
-                                        AppLocalizations.of(context)!.oldest),
+                                      AppLocalizations.of(context)!.oldest,
+                                    ),
                                     onTap: () {
                                       Navigator.pop(context);
 
@@ -183,7 +186,8 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                                   ),
                                   ListTile(
                                     title: Text(
-                                        AppLocalizations.of(context)!.newest),
+                                      AppLocalizations.of(context)!.newest,
+                                    ),
                                     onTap: () {
                                       Navigator.pop(context);
 
