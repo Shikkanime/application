@@ -9,8 +9,8 @@ environment:
 
 dependencies:
   cached_network_image: ^3.3.1
-  firebase_core: ^2.29.0
-  firebase_messaging: ^14.8.1
+  firebase_core: ^2.30.0
+  firebase_messaging: ^14.8.2
   flutter:
     sdk: flutter
   flutter_localizations:
