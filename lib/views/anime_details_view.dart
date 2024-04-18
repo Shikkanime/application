@@ -3,7 +3,7 @@ import 'package:application/components/episodes/watchlist_button.dart';
 import 'package:application/components/lang_type_component.dart';
 import 'package:application/controllers/anime_details_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
-import 'package:application/dtos/episode_dto.dart';
+import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/utils/constant.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -237,7 +237,7 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                 ],
               ),
             ),
-            StreamBuilder<List<EpisodeDto>>(
+            StreamBuilder<List<EpisodeMappingDto>>(
               stream: AnimeDetailsController.instance.streamController.stream,
               initialData: AnimeDetailsController.instance.episodes,
               builder: (context, snapshot) {

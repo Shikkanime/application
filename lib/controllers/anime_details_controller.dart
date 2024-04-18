@@ -2,16 +2,16 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:application/dtos/anime_dto.dart';
-import 'package:application/dtos/episode_dto.dart';
+import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 enum Sort {
-  oldest(value: 'sort=season,episodeType,number,langType&desc=episodeType'),
+  oldest(value: 'sort=season,episodeType,number&desc=episodeType'),
   newest(
     value:
-        'sort=releaseDateTime,season,episodeType,number,langType&desc=releaseDateTime,season,episodeType,number',
+        'sort=releaseDateTime,season,episodeType,number&desc=releaseDateTime,season,episodeType,number',
   ),
   ;
 
@@ -24,9 +24,9 @@ enum Sort {
 
 class AnimeDetailsController {
   static AnimeDetailsController instance = AnimeDetailsController();
-  final episodes = <EpisodeDto>[];
+  final episodes = <EpisodeMappingDto>[];
   final scrollController = ScrollController();
-  final streamController = StreamController<List<EpisodeDto>>.broadcast();
+  final streamController = StreamController<List<EpisodeMappingDto>>.broadcast();
   int page = 1;
   bool isLoading = false;
   bool canLoadMore = true;
@@ -80,7 +80,7 @@ class AnimeDetailsController {
     try {
       final response = await http.get(
         Uri.parse(
-          '${Constant.apiUrl}/v1/episodes?anime=${anime?.uuid}&${sort.value}&page=$page&limit=6',
+          '${Constant.apiUrl}/v1/episode-mappings?anime=${anime?.uuid}&${sort.value}&page=$page&limit=6',
         ),
       );
 
@@ -93,7 +93,7 @@ class AnimeDetailsController {
 
       episodes.addAll(
         (json['data'] as List)
-            .map((e) => EpisodeDto.fromJson(e as Map<String, dynamic>)),
+            .map((e) => EpisodeMappingDto.fromJson(e as Map<String, dynamic>)),
       );
       streamController.add(episodes);
 

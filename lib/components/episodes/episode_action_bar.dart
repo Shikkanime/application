@@ -1,10 +1,10 @@
 import 'package:application/components/episodes/watchlist_button.dart';
-import 'package:application/dtos/episode_dto.dart';
+import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class EpisodeActionBar extends StatelessWidget {
-  final EpisodeDto episode;
+  final EpisodeMappingDto episode;
 
   const EpisodeActionBar({super.key, required this.episode});
 
@@ -18,7 +18,7 @@ class EpisodeActionBar extends StatelessWidget {
           child: GestureDetector(
             onTap: () {
               launchUrl(
-                Uri.parse(episode.url),
+                Uri.parse(episode.variants.first.url),
                 mode: LaunchMode.externalNonBrowserApplication,
               );
             },

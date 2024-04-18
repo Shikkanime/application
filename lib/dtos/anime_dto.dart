@@ -11,15 +11,16 @@ class AnimeDto with _$AnimeDto {
     required String countryCode,
     required String name,
     required String shortName,
+    required String slug,
     required String releaseDateTime,
+    required String lastReleaseDateTime,
     required String image,
     required String? banner,
     required String? description,
     required List<SimulcastDto> simulcasts,
-    required String slug,
-    required String lastReleaseDateTime,
-    required String? status,
+    required List<String> audioLocales,
     required List<String> langTypes,
+    required String? status,
   }) = _AnimeDto;
 
   factory AnimeDto.fromJson(Map<String, dynamic> json) =>

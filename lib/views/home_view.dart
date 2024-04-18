@@ -1,6 +1,6 @@
 import 'package:application/components/episode_component.dart';
 import 'package:application/controllers/episode_controller.dart';
-import 'package:application/dtos/episode_dto.dart';
+import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:flutter/material.dart';
 
 class HomeView extends StatelessWidget {
@@ -10,7 +10,7 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<EpisodeDto>>(
+    return StreamBuilder<List<EpisodeMappingDto>>(
       stream: EpisodeController.instance.streamController.stream,
       initialData: EpisodeController.instance.episodes,
       builder: (context, snapshot) {

@@ -24,15 +24,16 @@ mixin _$AnimeDto {
   String get countryCode => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get shortName => throw _privateConstructorUsedError;
+  String get slug => throw _privateConstructorUsedError;
   String get releaseDateTime => throw _privateConstructorUsedError;
+  String get lastReleaseDateTime => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
   String? get banner => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   List<SimulcastDto> get simulcasts => throw _privateConstructorUsedError;
-  String get slug => throw _privateConstructorUsedError;
-  String get lastReleaseDateTime => throw _privateConstructorUsedError;
-  String? get status => throw _privateConstructorUsedError;
+  List<String> get audioLocales => throw _privateConstructorUsedError;
   List<String> get langTypes => throw _privateConstructorUsedError;
+  String? get status => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -50,15 +51,16 @@ abstract class $AnimeDtoCopyWith<$Res> {
       String countryCode,
       String name,
       String shortName,
+      String slug,
       String releaseDateTime,
+      String lastReleaseDateTime,
       String image,
       String? banner,
       String? description,
       List<SimulcastDto> simulcasts,
-      String slug,
-      String lastReleaseDateTime,
-      String? status,
-      List<String> langTypes});
+      List<String> audioLocales,
+      List<String> langTypes,
+      String? status});
 }
 
 /// @nodoc
@@ -78,15 +80,16 @@ class _$AnimeDtoCopyWithImpl<$Res, $Val extends AnimeDto>
     Object? countryCode = null,
     Object? name = null,
     Object? shortName = null,
+    Object? slug = null,
     Object? releaseDateTime = null,
+    Object? lastReleaseDateTime = null,
     Object? image = null,
     Object? banner = freezed,
     Object? description = freezed,
     Object? simulcasts = null,
-    Object? slug = null,
-    Object? lastReleaseDateTime = null,
-    Object? status = freezed,
+    Object? audioLocales = null,
     Object? langTypes = null,
+    Object? status = freezed,
   }) {
     return _then(_value.copyWith(
       uuid: null == uuid
@@ -105,9 +108,17 @@ class _$AnimeDtoCopyWithImpl<$Res, $Val extends AnimeDto>
           ? _value.shortName
           : shortName // ignore: cast_nullable_to_non_nullable
               as String,
+      slug: null == slug
+          ? _value.slug
+          : slug // ignore: cast_nullable_to_non_nullable
+              as String,
       releaseDateTime: null == releaseDateTime
           ? _value.releaseDateTime
           : releaseDateTime // ignore: cast_nullable_to_non_nullable
+              as String,
+      lastReleaseDateTime: null == lastReleaseDateTime
+          ? _value.lastReleaseDateTime
+          : lastReleaseDateTime // ignore: cast_nullable_to_non_nullable
               as String,
       image: null == image
           ? _value.image
@@ -125,22 +136,18 @@ class _$AnimeDtoCopyWithImpl<$Res, $Val extends AnimeDto>
           ? _value.simulcasts
           : simulcasts // ignore: cast_nullable_to_non_nullable
               as List<SimulcastDto>,
-      slug: null == slug
-          ? _value.slug
-          : slug // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastReleaseDateTime: null == lastReleaseDateTime
-          ? _value.lastReleaseDateTime
-          : lastReleaseDateTime // ignore: cast_nullable_to_non_nullable
-              as String,
-      status: freezed == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as String?,
+      audioLocales: null == audioLocales
+          ? _value.audioLocales
+          : audioLocales // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       langTypes: null == langTypes
           ? _value.langTypes
           : langTypes // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -158,15 +165,16 @@ abstract class _$$AnimeDtoImplCopyWith<$Res>
       String countryCode,
       String name,
       String shortName,
+      String slug,
       String releaseDateTime,
+      String lastReleaseDateTime,
       String image,
       String? banner,
       String? description,
       List<SimulcastDto> simulcasts,
-      String slug,
-      String lastReleaseDateTime,
-      String? status,
-      List<String> langTypes});
+      List<String> audioLocales,
+      List<String> langTypes,
+      String? status});
 }
 
 /// @nodoc
@@ -184,15 +192,16 @@ class __$$AnimeDtoImplCopyWithImpl<$Res>
     Object? countryCode = null,
     Object? name = null,
     Object? shortName = null,
+    Object? slug = null,
     Object? releaseDateTime = null,
+    Object? lastReleaseDateTime = null,
     Object? image = null,
     Object? banner = freezed,
     Object? description = freezed,
     Object? simulcasts = null,
-    Object? slug = null,
-    Object? lastReleaseDateTime = null,
-    Object? status = freezed,
+    Object? audioLocales = null,
     Object? langTypes = null,
+    Object? status = freezed,
   }) {
     return _then(_$AnimeDtoImpl(
       uuid: null == uuid
@@ -211,9 +220,17 @@ class __$$AnimeDtoImplCopyWithImpl<$Res>
           ? _value.shortName
           : shortName // ignore: cast_nullable_to_non_nullable
               as String,
+      slug: null == slug
+          ? _value.slug
+          : slug // ignore: cast_nullable_to_non_nullable
+              as String,
       releaseDateTime: null == releaseDateTime
           ? _value.releaseDateTime
           : releaseDateTime // ignore: cast_nullable_to_non_nullable
+              as String,
+      lastReleaseDateTime: null == lastReleaseDateTime
+          ? _value.lastReleaseDateTime
+          : lastReleaseDateTime // ignore: cast_nullable_to_non_nullable
               as String,
       image: null == image
           ? _value.image
@@ -231,22 +248,18 @@ class __$$AnimeDtoImplCopyWithImpl<$Res>
           ? _value._simulcasts
           : simulcasts // ignore: cast_nullable_to_non_nullable
               as List<SimulcastDto>,
-      slug: null == slug
-          ? _value.slug
-          : slug // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastReleaseDateTime: null == lastReleaseDateTime
-          ? _value.lastReleaseDateTime
-          : lastReleaseDateTime // ignore: cast_nullable_to_non_nullable
-              as String,
-      status: freezed == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as String?,
+      audioLocales: null == audioLocales
+          ? _value._audioLocales
+          : audioLocales // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       langTypes: null == langTypes
           ? _value._langTypes
           : langTypes // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -259,16 +272,18 @@ class _$AnimeDtoImpl implements _AnimeDto {
       required this.countryCode,
       required this.name,
       required this.shortName,
+      required this.slug,
       required this.releaseDateTime,
+      required this.lastReleaseDateTime,
       required this.image,
       required this.banner,
       required this.description,
       required final List<SimulcastDto> simulcasts,
-      required this.slug,
-      required this.lastReleaseDateTime,
-      required this.status,
-      required final List<String> langTypes})
+      required final List<String> audioLocales,
+      required final List<String> langTypes,
+      required this.status})
       : _simulcasts = simulcasts,
+        _audioLocales = audioLocales,
         _langTypes = langTypes;
 
   factory _$AnimeDtoImpl.fromJson(Map<String, dynamic> json) =>
@@ -283,7 +298,11 @@ class _$AnimeDtoImpl implements _AnimeDto {
   @override
   final String shortName;
   @override
+  final String slug;
+  @override
   final String releaseDateTime;
+  @override
+  final String lastReleaseDateTime;
   @override
   final String image;
   @override
@@ -298,12 +317,14 @@ class _$AnimeDtoImpl implements _AnimeDto {
     return EqualUnmodifiableListView(_simulcasts);
   }
 
+  final List<String> _audioLocales;
   @override
-  final String slug;
-  @override
-  final String lastReleaseDateTime;
-  @override
-  final String? status;
+  List<String> get audioLocales {
+    if (_audioLocales is EqualUnmodifiableListView) return _audioLocales;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_audioLocales);
+  }
+
   final List<String> _langTypes;
   @override
   List<String> get langTypes {
@@ -313,8 +334,11 @@ class _$AnimeDtoImpl implements _AnimeDto {
   }
 
   @override
+  final String? status;
+
+  @override
   String toString() {
-    return 'AnimeDto(uuid: $uuid, countryCode: $countryCode, name: $name, shortName: $shortName, releaseDateTime: $releaseDateTime, image: $image, banner: $banner, description: $description, simulcasts: $simulcasts, slug: $slug, lastReleaseDateTime: $lastReleaseDateTime, status: $status, langTypes: $langTypes)';
+    return 'AnimeDto(uuid: $uuid, countryCode: $countryCode, name: $name, shortName: $shortName, slug: $slug, releaseDateTime: $releaseDateTime, lastReleaseDateTime: $lastReleaseDateTime, image: $image, banner: $banner, description: $description, simulcasts: $simulcasts, audioLocales: $audioLocales, langTypes: $langTypes, status: $status)';
   }
 
   @override
@@ -328,20 +352,22 @@ class _$AnimeDtoImpl implements _AnimeDto {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.shortName, shortName) ||
                 other.shortName == shortName) &&
+            (identical(other.slug, slug) || other.slug == slug) &&
             (identical(other.releaseDateTime, releaseDateTime) ||
                 other.releaseDateTime == releaseDateTime) &&
+            (identical(other.lastReleaseDateTime, lastReleaseDateTime) ||
+                other.lastReleaseDateTime == lastReleaseDateTime) &&
             (identical(other.image, image) || other.image == image) &&
             (identical(other.banner, banner) || other.banner == banner) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             const DeepCollectionEquality()
                 .equals(other._simulcasts, _simulcasts) &&
-            (identical(other.slug, slug) || other.slug == slug) &&
-            (identical(other.lastReleaseDateTime, lastReleaseDateTime) ||
-                other.lastReleaseDateTime == lastReleaseDateTime) &&
-            (identical(other.status, status) || other.status == status) &&
             const DeepCollectionEquality()
-                .equals(other._langTypes, _langTypes));
+                .equals(other._audioLocales, _audioLocales) &&
+            const DeepCollectionEquality()
+                .equals(other._langTypes, _langTypes) &&
+            (identical(other.status, status) || other.status == status));
   }
 
   @JsonKey(ignore: true)
@@ -352,15 +378,16 @@ class _$AnimeDtoImpl implements _AnimeDto {
       countryCode,
       name,
       shortName,
+      slug,
       releaseDateTime,
+      lastReleaseDateTime,
       image,
       banner,
       description,
       const DeepCollectionEquality().hash(_simulcasts),
-      slug,
-      lastReleaseDateTime,
-      status,
-      const DeepCollectionEquality().hash(_langTypes));
+      const DeepCollectionEquality().hash(_audioLocales),
+      const DeepCollectionEquality().hash(_langTypes),
+      status);
 
   @JsonKey(ignore: true)
   @override
@@ -382,15 +409,16 @@ abstract class _AnimeDto implements AnimeDto {
       required final String countryCode,
       required final String name,
       required final String shortName,
+      required final String slug,
       required final String releaseDateTime,
+      required final String lastReleaseDateTime,
       required final String image,
       required final String? banner,
       required final String? description,
       required final List<SimulcastDto> simulcasts,
-      required final String slug,
-      required final String lastReleaseDateTime,
-      required final String? status,
-      required final List<String> langTypes}) = _$AnimeDtoImpl;
+      required final List<String> audioLocales,
+      required final List<String> langTypes,
+      required final String? status}) = _$AnimeDtoImpl;
 
   factory _AnimeDto.fromJson(Map<String, dynamic> json) =
       _$AnimeDtoImpl.fromJson;
@@ -404,7 +432,11 @@ abstract class _AnimeDto implements AnimeDto {
   @override
   String get shortName;
   @override
+  String get slug;
+  @override
   String get releaseDateTime;
+  @override
+  String get lastReleaseDateTime;
   @override
   String get image;
   @override
@@ -414,13 +446,11 @@ abstract class _AnimeDto implements AnimeDto {
   @override
   List<SimulcastDto> get simulcasts;
   @override
-  String get slug;
-  @override
-  String get lastReleaseDateTime;
-  @override
-  String? get status;
+  List<String> get audioLocales;
   @override
   List<String> get langTypes;
+  @override
+  String? get status;
   @override
   @JsonKey(ignore: true)
   _$$AnimeDtoImplCopyWith<_$AnimeDtoImpl> get copyWith =>

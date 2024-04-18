@@ -1,16 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:application/dtos/episode_dto.dart';
+import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class EpisodeController {
   static EpisodeController instance = EpisodeController();
-  final episodes = <EpisodeDto>[];
+  final episodes = <EpisodeMappingDto>[];
   final scrollController = ScrollController();
-  final streamController = StreamController<List<EpisodeDto>>.broadcast();
+  final streamController = StreamController<List<EpisodeMappingDto>>.broadcast();
   int page = 1;
   bool isLoading = false;
   bool canLoadMore = true;
@@ -56,7 +56,7 @@ class EpisodeController {
     try {
       final response = await http.get(
         Uri.parse(
-          '${Constant.apiUrl}/v1/episodes?sort=releaseDateTime,animeName,season,episodeType,number,langType&desc=releaseDateTime,animeName,season,episodeType,number&page=$page&limit=6',
+          '${Constant.apiUrl}/v1/episode-mappings?sort=lastReleaseDateTime,animeName,season,episodeType,number&desc=lastReleaseDateTime,animeName,season,episodeType,number&page=$page&limit=6',
         ),
       );
 
@@ -69,7 +69,7 @@ class EpisodeController {
 
       episodes.addAll(
         (json['data'] as List)
-            .map((e) => EpisodeDto.fromJson(e as Map<String, dynamic>)),
+            .map((e) => EpisodeMappingDto.fromJson(e as Map<String, dynamic>)),
       );
       streamController.add(episodes);
 

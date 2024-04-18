@@ -2,12 +2,12 @@ import 'package:application/components/card_component.dart';
 import 'package:application/components/episodes/episode_action_bar.dart';
 import 'package:application/components/episodes/episode_image.dart';
 import 'package:application/components/lang_type_component.dart';
-import 'package:application/dtos/episode_dto.dart';
+import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AnimeEpisodeComponent extends StatelessWidget {
-  final EpisodeDto episode;
+  final EpisodeMappingDto episode;
 
   const AnimeEpisodeComponent({
     super.key,
@@ -59,13 +59,11 @@ class AnimeEpisodeComponent extends StatelessWidget {
                     _episodeType(context),
                     episode.number,
                     episode.season,
-                    episode.uncensored
-                        ? AppLocalizations.of(context)!.uncensored
-                        : '',
                   ),
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                LangTypeComponent(langType: episode.langType),
+                for (final langType in episode.langTypes)
+                  LangTypeComponent(langType: langType),
                 EpisodeActionBar(episode: episode),
               ],
             ),
