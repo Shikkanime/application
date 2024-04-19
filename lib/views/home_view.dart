@@ -1,4 +1,4 @@
-import 'package:application/components/episode_component.dart';
+import 'package:application/components/episodes/episode_component.dart';
 import 'package:application/controllers/episode_controller.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:flutter/material.dart';

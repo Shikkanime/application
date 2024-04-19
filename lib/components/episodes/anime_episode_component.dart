@@ -1,10 +1,10 @@
 import 'package:application/components/card_component.dart';
 import 'package:application/components/episodes/episode_action_bar.dart';
 import 'package:application/components/episodes/episode_image.dart';
+import 'package:application/components/episodes/episode_type_component.dart';
 import 'package:application/components/lang_type_component.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AnimeEpisodeComponent extends StatelessWidget {
   final EpisodeMappingDto episode;
@@ -13,19 +13,6 @@ class AnimeEpisodeComponent extends StatelessWidget {
     super.key,
     required this.episode,
   });
-
-  String _episodeType(BuildContext context) {
-    switch (episode.episodeType) {
-      case 'EPISODE':
-        return AppLocalizations.of(context)!.episode;
-      case 'SPECIAL':
-        return AppLocalizations.of(context)!.special;
-      case 'FILM':
-        return AppLocalizations.of(context)!.film;
-      default:
-        return '';
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,14 +41,7 @@ class AnimeEpisodeComponent extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),
-                Text(
-                  AppLocalizations.of(context)!.information(
-                    _episodeType(context),
-                    episode.number,
-                    episode.season,
-                  ),
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
+                EpisodeTypeComponent(episode: episode),
                 for (final langType in episode.langTypes)
                   LangTypeComponent(langType: langType),
                 EpisodeActionBar(episode: episode),

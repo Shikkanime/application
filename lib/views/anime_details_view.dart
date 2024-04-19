@@ -1,11 +1,10 @@
-import 'package:application/components/anime_episode_component.dart';
+import 'package:application/components/episodes/anime_episode_component.dart';
 import 'package:application/components/episodes/watchlist_button.dart';
+import 'package:application/components/image_component.dart';
 import 'package:application/components/lang_type_component.dart';
 import 'package:application/controllers/anime_details_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
-import 'package:application/utils/constant.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -82,18 +81,9 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
           children: [
             Stack(
               children: [
-                CachedNetworkImage(
-                  imageUrl:
-                      '${Constant.apiUrl}/v1/attachments?uuid=${widget.anime.uuid}&type=image',
-                  filterQuality: FilterQuality.high,
-                  fit: BoxFit.fill,
-                  width: double.infinity,
+                ImageComponent(
+                  uuid: widget.anime.uuid,
                   height: 550,
-                  placeholder: (context, url) => Container(
-                    color: Colors.grey,
-                    width: double.infinity,
-                    height: 550,
-                  ),
                 ),
                 SizedBox(
                   width: double.infinity,

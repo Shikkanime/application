@@ -1,16 +1,15 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:application/dtos/episode_mapping_dto.dart';
-import 'package:application/utils/constant.dart';
+import 'package:application/utils/http_request.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class EpisodeController {
   static EpisodeController instance = EpisodeController();
   final episodes = <EpisodeMappingDto>[];
   final scrollController = ScrollController();
-  final streamController = StreamController<List<EpisodeMappingDto>>.broadcast();
+  final streamController =
+      StreamController<List<EpisodeMappingDto>>.broadcast();
   int page = 1;
   bool isLoading = false;
   bool canLoadMore = true;
@@ -54,26 +53,17 @@ class EpisodeController {
     isLoading = true;
 
     try {
-      final response = await http.get(
-        Uri.parse(
-          '${Constant.apiUrl}/v1/episode-mappings?sort=lastReleaseDateTime,animeName,season,episodeType,number&desc=lastReleaseDateTime,animeName,season,episodeType,number&page=$page&limit=6',
-        ),
+      final pageableDto = await HttpRequest.instance.getPage(
+        '/v1/episode-mappings?sort=lastReleaseDateTime,animeName,season,episodeType,number&desc=lastReleaseDateTime,animeName,season,episodeType,number&page=$page&limit=6',
       );
-
-      if (response.statusCode != 200) {
-        throw Exception('Failed to load episodes');
-      }
-
-      final json =
-          jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
 
       episodes.addAll(
-        (json['data'] as List)
+        pageableDto.data
             .map((e) => EpisodeMappingDto.fromJson(e as Map<String, dynamic>)),
       );
-      streamController.add(episodes);
 
-      canLoadMore = episodes.length < (json['total'] as int);
+      streamController.add(episodes);
+      canLoadMore = episodes.length < pageableDto.total;
     } catch (e) {
       debugPrint(e.toString());
     } finally {

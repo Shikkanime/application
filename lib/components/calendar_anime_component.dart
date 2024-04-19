@@ -1,10 +1,9 @@
 import 'package:application/components/card_component.dart';
+import 'package:application/components/image_component.dart';
 import 'package:application/components/lang_type_component.dart';
-import 'package:application/components/platform_component.dart';
+import 'package:application/components/platforms/list_platform.dart';
 import 'package:application/dtos/week_day_release_dto.dart';
-import 'package:application/utils/constant.dart';
 import 'package:application/views/anime_details_view.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -37,43 +36,23 @@ class CalendarAnimeComponent extends StatelessWidget {
       },
       child: Column(
         children: <Widget>[
-          SizedBox(
-            width: double.infinity,
-            height: 185,
-            child: Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16),
-                  ),
-                  child: CachedNetworkImage(
-                    imageUrl:
-                        '${Constant.apiUrl}/v1/attachments?uuid=${release.anime.uuid}&type=banner',
-                    filterQuality: FilterQuality.high,
-                    fit: BoxFit.fill,
-                    width: double.infinity,
-                    placeholder: (context, url) => Container(
-                      color: Colors.grey,
-                      width: double.infinity,
-                    ),
-                  ),
+          Stack(
+            children: [
+              ImageComponent(
+                uuid: release.anime.uuid,
+                type: 'banner',
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
                 ),
-                Positioned(
-                  top: 5,
-                  right: 5,
-                  child: Row(
-                    children: [
-                      for (final platform in release.platforms)
-                        Padding(
-                          padding: const EdgeInsets.only(left: 4),
-                          child: PlatformComponent(platform: platform),
-                        ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+                height: 185,
+              ),
+              Positioned(
+                top: 5,
+                right: 5,
+                child: ListPlatform(platforms: release.platforms),
+              ),
+            ],
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),

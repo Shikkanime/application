@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:application/dtos/simulcast_dto.dart';
-import 'package:application/utils/constant.dart';
-import 'package:http/http.dart' as http;
+import 'package:application/utils/http_request.dart';
 
 class SimulcastController {
   static SimulcastController instance = SimulcastController();
@@ -13,17 +11,7 @@ class SimulcastController {
   Future<void> init() async {
     simulcasts.clear();
 
-    final response = await http.get(
-      Uri.parse(
-        '${Constant.apiUrl}/v1/simulcasts',
-      ),
-    );
-
-    if (response.statusCode != 200) {
-      throw Exception('Failed to load simulcasts');
-    }
-
-    final json = jsonDecode(utf8.decode(response.bodyBytes)) as List;
+    final json = await HttpRequest.instance.get<List>('/v1/simulcasts');
 
     simulcasts.addAll(
       json.map((e) => SimulcastDto.fromJson(e as Map<String, dynamic>)),

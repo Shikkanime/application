@@ -234,7 +234,7 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(
             icon: const Icon(Icons.video_collection_outlined),
             activeIcon: const Icon(Icons.video_collection),
-            label: AppLocalizations.of(context)!.simulcast,
+            label: AppLocalizations.of(context)!.catalog,
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.calendar_today_outlined),

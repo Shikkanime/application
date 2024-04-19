@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:application/dtos/anime_dto.dart';
-import 'package:application/utils/constant.dart';
+import 'package:application/utils/http_request.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class AnimeSearchController {
   static AnimeSearchController instance = AnimeSearchController();
@@ -38,8 +36,6 @@ class AnimeSearchController {
     animes.clear();
     streamController.add(animes);
     page = 1;
-    isLoading = false;
-    canLoadMore = true;
     await nextPage();
   }
 
@@ -57,26 +53,16 @@ class AnimeSearchController {
     isLoading = true;
 
     try {
-      final response = await http.get(
-        Uri.parse(
-          '${Constant.apiUrl}/v1/animes?name=$query&page=$page&limit=12',
-        ),
-      );
-
-      if (response.statusCode != 200) {
-        throw Exception('Failed to load animes');
-      }
-
-      final json =
-          jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+      final pageableDto = await HttpRequest.instance
+          .getPage('/v1/animes?name=$query&page=$page&limit=12');
 
       animes.addAll(
-        (json['data'] as List)
+        pageableDto.data
             .map((e) => AnimeDto.fromJson(e as Map<String, dynamic>)),
       );
-      streamController.add(animes);
 
-      canLoadMore = animes.length < (json['total'] as int);
+      streamController.add(animes);
+      canLoadMore = animes.length < pageableDto.total;
     } catch (e) {
       debugPrint(e.toString());
     } finally {
