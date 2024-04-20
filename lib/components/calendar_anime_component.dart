@@ -1,7 +1,9 @@
 import 'package:application/components/card_component.dart';
+import 'package:application/components/episodes/watchlist_button.dart';
 import 'package:application/components/image_component.dart';
 import 'package:application/components/lang_type_component.dart';
 import 'package:application/components/platforms/list_platform.dart';
+import 'package:application/controllers/anime_controller.dart';
 import 'package:application/dtos/week_day_release_dto.dart';
 import 'package:application/views/anime_details_view.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +35,9 @@ class CalendarAnimeComponent extends StatelessWidget {
             builder: (context) => AnimeDetailsView(anime: release.anime),
           ),
         );
+      },
+      onLongPress: (details) {
+        AnimeController.instance.onLongPress(context, release.anime, details);
       },
       child: Column(
         children: <Widget>[
@@ -88,6 +93,7 @@ class CalendarAnimeComponent extends StatelessWidget {
                       ],
                     ),
                   ),
+                  WatchlistButton(anime: release.anime),
                 ],
               ),
             ),

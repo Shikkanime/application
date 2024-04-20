@@ -1,10 +1,23 @@
 import 'package:flutter/material.dart';
 
-class CustomCard extends StatelessWidget {
+class CustomCard extends StatefulWidget {
   final Widget child;
   final Function()? onTap;
+  final Function(TapDownDetails?)? onLongPress;
 
-  const CustomCard({super.key, required this.child, this.onTap});
+  const CustomCard({
+    super.key,
+    required this.child,
+    this.onTap,
+    this.onLongPress,
+  });
+
+  @override
+  State<StatefulWidget> createState() => _CustomCardState();
+}
+
+class _CustomCardState extends State<CustomCard> {
+  TapDownDetails? _tapDownDetails;
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +37,16 @@ class CustomCard extends StatelessWidget {
             ),
           ),
           child: GestureDetector(
-            onTap: onTap,
+            onTap: widget.onTap,
+            onLongPress: () {
+              widget.onLongPress?.call(_tapDownDetails);
+            },
+            onTapDown: (details) {
+              _tapDownDetails = details;
+            },
             child: Padding(
               padding: const EdgeInsets.all(1),
-              child: child,
+              child: widget.child,
             ),
           ),
         ),

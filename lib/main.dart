@@ -2,14 +2,19 @@ import 'package:application/components/update_available_component.dart';
 import 'package:application/controllers/anime_controller.dart';
 import 'package:application/controllers/anime_search_controller.dart';
 import 'package:application/controllers/anime_weekly_controller.dart';
+import 'package:application/controllers/member_controller.dart';
+import 'package:application/utils/constant.dart';
+import 'package:application/views/account_view.dart';
 import 'package:application/views/calendar_view.dart';
 import 'package:application/views/home_view.dart';
 import 'package:application/controllers/episode_controller.dart';
 import 'package:application/controllers/simulcast_controller.dart';
+import 'package:application/views/no_internet.dart';
 import 'package:application/views/search_view.dart';
 import 'package:application/views/simulcast_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -21,19 +26,31 @@ final shorebirdCodePush = ShorebirdCodePush();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await _initFirebase();
+  bool hasInternet = false;
 
-  await Future.wait([
-    EpisodeController.instance.init(),
-    SimulcastController.instance
-        .init()
-        .then((value) => AnimeController.instance.init()),
-    AnimeWeeklyController.instance.init(),
-  ]);
+  if (kDebugMode && Constant.apiUrl == 'https://api.shikkanime.fr') {
+    throw Exception('You must change the API URL in the Constant class');
+  }
 
-  AnimeSearchController.instance.init();
+  try {
+    await Future.wait([
+      EpisodeController.instance.init(),
+      SimulcastController.instance
+          .init()
+          .then((value) => AnimeController.instance.init()),
+      AnimeWeeklyController.instance.init(),
+      MemberController.instance.init(),
+    ]);
 
-  runApp(const MyApp());
+    AnimeSearchController.instance.init();
+
+    await _initFirebase();
+    hasInternet = true;
+  } catch (e) {
+    debugPrint(e.toString());
+  }
+
+  runApp(MyApp(hasInternet: hasInternet));
 }
 
 Future<void> _initFirebase() async {
@@ -50,7 +67,9 @@ Future<void> _initFirebase() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool hasInternet;
+
+  const MyApp({super.key, required this.hasInternet});
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +125,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const MyHomePage(),
+      home: hasInternet ? const MyHomePage() : const NoInternet(),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -177,6 +196,22 @@ class _MyHomePageState extends State<MyHomePage> {
           height: 36,
         ),
         actions: [
+          if (_currentIndex == 2)
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  AnimeWeeklyController.instance.memberMode =
+                      !AnimeWeeklyController.instance.memberMode;
+                });
+
+                AnimeWeeklyController.instance.init();
+              },
+              icon: Icon(
+                AnimeWeeklyController.instance.memberMode
+                    ? Icons.filter_alt
+                    : Icons.filter_alt_off,
+              ),
+            ),
           IconButton(
             onPressed: () {
               Navigator.of(context).push(
@@ -196,30 +231,11 @@ class _MyHomePageState extends State<MyHomePage> {
             _currentIndex = index;
           });
         },
-        children: [
-          const HomeView(),
-          const SimulcastView(),
-          const CalendarView(),
-          ListView(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'My Account',
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'WORK IN PROGRESS',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ],
-              ),
-            ],
-          ),
+        children: const [
+          HomeView(),
+          SimulcastView(),
+          CalendarView(),
+          AccountView(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

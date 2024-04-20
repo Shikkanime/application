@@ -3,6 +3,7 @@ import 'package:application/controllers/anime_weekly_controller.dart';
 import 'package:application/dtos/week_day_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CalendarView extends StatefulWidget {
   const CalendarView({
@@ -51,8 +52,37 @@ class _CalendarViewState extends State<CalendarView> {
       ),
       for (final weekDay in snapshot.data!)
         if (weekDay.dayOfWeek == _currentDay)
-          for (final release in weekDay.releases)
-            CalendarAnimeComponent(release: release),
+          if (weekDay.releases.isNotEmpty)
+            for (final release in weekDay.releases)
+              CalendarAnimeComponent(release: release)
+          else
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: Column(
+                children: [
+                  const Icon(
+                    Icons.sentiment_very_dissatisfied,
+                    size: 48,
+                    color: Colors.grey,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    AppLocalizations.of(context)!.oops,
+                    style: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 24,
+                    ),
+                  ),
+                  Text(
+                    AppLocalizations.of(context)!.noAnimeToday,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(color: Colors.white),
+                  ),
+                ],
+              ),
+            ),
     ];
   }
 
