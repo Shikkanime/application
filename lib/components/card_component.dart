@@ -15,10 +15,17 @@ class CustomCard extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             color: Theme.of(context).colorScheme.secondary.withOpacity(0.125),
+            border: Border.all(
+              color: Theme.of(context).colorScheme.secondary.withOpacity(0.125),
+              width: 1,
+            ),
           ),
           child: GestureDetector(
             onTap: onTap,
-            child: child,
+            child: Padding(
+              padding: const EdgeInsets.all(1),
+              child: child,
+            ),
           ),
         ),
       ),
