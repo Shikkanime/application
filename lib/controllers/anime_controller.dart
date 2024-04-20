@@ -1,9 +1,13 @@
 import 'dart:async';
 
+import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/simulcast_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
+import 'package:application/utils/constant.dart';
 import 'package:application/utils/http_request.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:share_plus/share_plus.dart';
 
 class AnimeController {
   static AnimeController instance = AnimeController();
@@ -70,5 +74,45 @@ class AnimeController {
       isLoading = false;
       page++;
     }
+  }
+
+  void onLongPress(
+    BuildContext context,
+    AnimeDto anime,
+    TapDownDetails? details,
+  ) {
+    if (details == null) {
+      return;
+    }
+
+    final RenderBox renderBox =
+        Overlay.of(context).context.findRenderObject() as RenderBox;
+
+    // Show dropdown menu
+    showMenu<int>(
+      context: context,
+      position: RelativeRect.fromRect(
+        details.globalPosition & const Size(40, 40),
+        Offset.zero & renderBox.size,
+      ),
+      items: [
+        PopupMenuItem(
+          value: 0,
+          child: Text(AppLocalizations.of(context)!.markWatched),
+        ),
+        PopupMenuItem(
+          value: 1,
+          child: Text(AppLocalizations.of(context)!.share),
+        ),
+      ],
+    ).then((value) {
+      if (value == 0) {
+        MemberController.instance.followAllEpisodes(anime);
+      } else if (value == 1) {
+        Share.share(
+          '${Constant.baseUrl}/animes/${anime.slug}',
+        );
+      }
+    });
   }
 }

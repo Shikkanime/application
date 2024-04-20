@@ -36,7 +36,7 @@ class AnimeEpisodeComponent extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  episode.title ?? '',
+                  episode.title ?? '＞︿＜',
                   style: Theme.of(context).textTheme.bodyLarge,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,

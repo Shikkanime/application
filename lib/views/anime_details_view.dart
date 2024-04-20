@@ -3,10 +3,13 @@ import 'package:application/components/episodes/watchlist_button.dart';
 import 'package:application/components/image_component.dart';
 import 'package:application/components/lang_type_component.dart';
 import 'package:application/controllers/anime_details_controller.dart';
+import 'package:application/controllers/member_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
+import 'package:application/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:share_plus/share_plus.dart';
 
 class AnimeDetailsView extends StatefulWidget {
   final AnimeDto anime;
@@ -70,7 +73,13 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
               ];
             },
             onSelected: (int value) {
-              // Not implemented
+              if (value == 0) {
+                MemberController.instance.followAllEpisodes(widget.anime);
+              } else if (value == 1) {
+                Share.share(
+                  '${Constant.baseUrl}/animes/${widget.anime.slug}',
+                );
+              }
             },
           ),
         ],
@@ -122,7 +131,7 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                           maxLines: 2,
                         ),
                       ),
-                      const WatchlistButton(),
+                      WatchlistButton(anime: widget.anime),
                     ],
                   ),
                   for (final langType in widget.anime.langTypes)

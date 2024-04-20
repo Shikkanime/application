@@ -27,7 +27,7 @@ class EpisodeActionBar extends StatelessWidget {
             ),
           ),
         ),
-        const WatchlistButton(),
+        WatchlistButton(episode: episode),
       ],
     );
   }
