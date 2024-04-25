@@ -32,6 +32,26 @@ class EpisodeImage extends StatelessWidget {
           right: 5,
           child: ListPlatform(platforms: episode.platforms),
         ),
+        Positioned(
+          bottom: 5,
+          right: 5,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: ColoredBox(
+              color: Colors.black.withOpacity(0.5),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                child: Text(
+                  '${Duration(seconds: episode.duration).inMinutes.toString()}min',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }

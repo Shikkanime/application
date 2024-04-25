@@ -97,7 +97,7 @@ class MyApp extends StatelessWidget {
         segmentedButtonTheme: SegmentedButtonThemeData(
           style: SegmentedButton.styleFrom(
             selectedForegroundColor: Colors.white,
-            selectedBackgroundColor: Colors.grey[700],
+            selectedBackgroundColor: const Color(0x40b1cbd0),
             foregroundColor: Colors.grey,
             backgroundColor: Colors.black,
             textStyle: const TextStyle(
@@ -248,21 +248,25 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
         onTap: (index) {
-          if (index == 0 && _currentIndex == 0) {
-            EpisodeController.instance.goToTop();
-            return;
+          if (index == _currentIndex) {
+            switch (index) {
+              case 0:
+                EpisodeController.instance.goToTop();
+                break;
+              case 1:
+                AnimeController.instance.goToTop();
+                break;
+              case 2:
+                AnimeWeeklyController.instance.goToTop();
+                break;
+            }
+          } else {
+            pageController.jumpToPage(index);
+
+            setState(() {
+              _currentIndex = index;
+            });
           }
-
-          if (index == 1 && _currentIndex == 1) {
-            AnimeController.instance.goToTop();
-            return;
-          }
-
-          pageController.jumpToPage(index);
-
-          setState(() {
-            _currentIndex = index;
-          });
         },
       ),
     );

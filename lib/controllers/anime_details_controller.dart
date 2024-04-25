@@ -6,7 +6,7 @@ import 'package:application/utils/http_request.dart';
 import 'package:flutter/material.dart';
 
 enum Sort {
-  oldest(value: 'sort=season,episodeType,number&desc=episodeType'),
+  oldest(value: 'sort=releaseDateTime,season,episodeType,number'),
   newest(
     value:
         'sort=releaseDateTime,season,episodeType,number&desc=releaseDateTime,season,episodeType,number',

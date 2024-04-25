@@ -32,7 +32,18 @@ class _CalendarViewState extends State<CalendarView> {
             for (final weekDay in snapshot.data!)
               ButtonSegment(
                 value: weekDay.dayOfWeek,
-                label: Text(weekDay.dayOfWeek.substring(0, 3)),
+                label: Text(
+                  weekDay.dayOfWeek.substring(0, 3),
+                  style: _currentDay == weekDay.dayOfWeek
+                      ? Theme.of(context)
+                          .segmentedButtonTheme
+                          .style
+                          ?.textStyle
+                          ?.resolve({MaterialState.selected})?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        )
+                      : null,
+                ),
               ),
           ],
           selected: {_currentDay},

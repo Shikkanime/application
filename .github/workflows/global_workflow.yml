@@ -16,8 +16,8 @@ jobs:
       - run: flutter pub get
       - run: dart analyze .
       - run: dart format --set-exit-if-changed .
-      - run: flutter pub run dart_code_linter:metrics analyze lib
-      - run: flutter pub run dart_code_linter:metrics check-unnecessary-nullable lib
-      - run: flutter pub run dart_code_linter:metrics check-unused-files lib
-      - run: flutter pub run dart_code_linter:metrics check-unused-l10n lib
-      - run: flutter pub run dart_code_linter:metrics check-unused-code lib
+      - run: dart run dart_code_linter:metrics analyze lib
+      - run: dart run dart_code_linter:metrics check-unnecessary-nullable lib
+      - run: dart run dart_code_linter:metrics check-unused-files lib
+      - run: dart run dart_code_linter:metrics check-unused-l10n lib
+      - run: dart run dart_code_linter:metrics check-unused-code lib

@@ -8,15 +8,18 @@ class CustomCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final withOpacity =
+        Theme.of(context).colorScheme.secondary.withOpacity(0.125);
+
     return RepaintBoundary(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         child: DecoratedBox(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            color: Theme.of(context).colorScheme.secondary.withOpacity(0.125),
+            color: withOpacity,
             border: Border.all(
-              color: Theme.of(context).colorScheme.secondary.withOpacity(0.125),
+              color: withOpacity,
               width: 1,
             ),
           ),
