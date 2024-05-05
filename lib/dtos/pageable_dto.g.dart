@@ -9,9 +9,9 @@ part of 'pageable_dto.dart';
 _$PageableDtoImpl _$$PageableDtoImplFromJson(Map<String, dynamic> json) =>
     _$PageableDtoImpl(
       data: json['data'] as List<dynamic>,
-      page: json['page'] as int,
-      limit: json['limit'] as int,
-      total: json['total'] as int,
+      page: (json['page'] as num).toInt(),
+      limit: (json['limit'] as num).toInt(),
+      total: (json['total'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$PageableDtoImplToJson(_$PageableDtoImpl instance) =>

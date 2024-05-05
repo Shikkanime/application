@@ -24,6 +24,7 @@ mixin _$WeekDayReleaseDto {
   String get releaseDateTime => throw _privateConstructorUsedError;
   String get langType => throw _privateConstructorUsedError;
   List<PlatformDto> get platforms => throw _privateConstructorUsedError;
+  EpisodeVariantDto? get variant => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,9 +42,11 @@ abstract class $WeekDayReleaseDtoCopyWith<$Res> {
       {AnimeDto anime,
       String releaseDateTime,
       String langType,
-      List<PlatformDto> platforms});
+      List<PlatformDto> platforms,
+      EpisodeVariantDto? variant});
 
   $AnimeDtoCopyWith<$Res> get anime;
+  $EpisodeVariantDtoCopyWith<$Res>? get variant;
 }
 
 /// @nodoc
@@ -63,6 +66,7 @@ class _$WeekDayReleaseDtoCopyWithImpl<$Res, $Val extends WeekDayReleaseDto>
     Object? releaseDateTime = null,
     Object? langType = null,
     Object? platforms = null,
+    Object? variant = freezed,
   }) {
     return _then(_value.copyWith(
       anime: null == anime
@@ -81,6 +85,10 @@ class _$WeekDayReleaseDtoCopyWithImpl<$Res, $Val extends WeekDayReleaseDto>
           ? _value.platforms
           : platforms // ignore: cast_nullable_to_non_nullable
               as List<PlatformDto>,
+      variant: freezed == variant
+          ? _value.variant
+          : variant // ignore: cast_nullable_to_non_nullable
+              as EpisodeVariantDto?,
     ) as $Val);
   }
 
@@ -89,6 +97,18 @@ class _$WeekDayReleaseDtoCopyWithImpl<$Res, $Val extends WeekDayReleaseDto>
   $AnimeDtoCopyWith<$Res> get anime {
     return $AnimeDtoCopyWith<$Res>(_value.anime, (value) {
       return _then(_value.copyWith(anime: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $EpisodeVariantDtoCopyWith<$Res>? get variant {
+    if (_value.variant == null) {
+      return null;
+    }
+
+    return $EpisodeVariantDtoCopyWith<$Res>(_value.variant!, (value) {
+      return _then(_value.copyWith(variant: value) as $Val);
     });
   }
 }
@@ -105,10 +125,13 @@ abstract class _$$WeekDayReleaseDtoImplCopyWith<$Res>
       {AnimeDto anime,
       String releaseDateTime,
       String langType,
-      List<PlatformDto> platforms});
+      List<PlatformDto> platforms,
+      EpisodeVariantDto? variant});
 
   @override
   $AnimeDtoCopyWith<$Res> get anime;
+  @override
+  $EpisodeVariantDtoCopyWith<$Res>? get variant;
 }
 
 /// @nodoc
@@ -126,6 +149,7 @@ class __$$WeekDayReleaseDtoImplCopyWithImpl<$Res>
     Object? releaseDateTime = null,
     Object? langType = null,
     Object? platforms = null,
+    Object? variant = freezed,
   }) {
     return _then(_$WeekDayReleaseDtoImpl(
       anime: null == anime
@@ -144,6 +168,10 @@ class __$$WeekDayReleaseDtoImplCopyWithImpl<$Res>
           ? _value._platforms
           : platforms // ignore: cast_nullable_to_non_nullable
               as List<PlatformDto>,
+      variant: freezed == variant
+          ? _value.variant
+          : variant // ignore: cast_nullable_to_non_nullable
+              as EpisodeVariantDto?,
     ));
   }
 }
@@ -155,7 +183,8 @@ class _$WeekDayReleaseDtoImpl implements _WeekDayReleaseDto {
       {required this.anime,
       required this.releaseDateTime,
       required this.langType,
-      required final List<PlatformDto> platforms})
+      required final List<PlatformDto> platforms,
+      required this.variant})
       : _platforms = platforms;
 
   factory _$WeekDayReleaseDtoImpl.fromJson(Map<String, dynamic> json) =>
@@ -176,8 +205,11 @@ class _$WeekDayReleaseDtoImpl implements _WeekDayReleaseDto {
   }
 
   @override
+  final EpisodeVariantDto? variant;
+
+  @override
   String toString() {
-    return 'WeekDayReleaseDto(anime: $anime, releaseDateTime: $releaseDateTime, langType: $langType, platforms: $platforms)';
+    return 'WeekDayReleaseDto(anime: $anime, releaseDateTime: $releaseDateTime, langType: $langType, platforms: $platforms, variant: $variant)';
   }
 
   @override
@@ -191,13 +223,14 @@ class _$WeekDayReleaseDtoImpl implements _WeekDayReleaseDto {
             (identical(other.langType, langType) ||
                 other.langType == langType) &&
             const DeepCollectionEquality()
-                .equals(other._platforms, _platforms));
+                .equals(other._platforms, _platforms) &&
+            (identical(other.variant, variant) || other.variant == variant));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, anime, releaseDateTime, langType,
-      const DeepCollectionEquality().hash(_platforms));
+      const DeepCollectionEquality().hash(_platforms), variant);
 
   @JsonKey(ignore: true)
   @override
@@ -219,7 +252,8 @@ abstract class _WeekDayReleaseDto implements WeekDayReleaseDto {
       {required final AnimeDto anime,
       required final String releaseDateTime,
       required final String langType,
-      required final List<PlatformDto> platforms}) = _$WeekDayReleaseDtoImpl;
+      required final List<PlatformDto> platforms,
+      required final EpisodeVariantDto? variant}) = _$WeekDayReleaseDtoImpl;
 
   factory _WeekDayReleaseDto.fromJson(Map<String, dynamic> json) =
       _$WeekDayReleaseDtoImpl.fromJson;
@@ -232,6 +266,8 @@ abstract class _WeekDayReleaseDto implements WeekDayReleaseDto {
   String get langType;
   @override
   List<PlatformDto> get platforms;
+  @override
+  EpisodeVariantDto? get variant;
   @override
   @JsonKey(ignore: true)
   _$$WeekDayReleaseDtoImplCopyWith<_$WeekDayReleaseDtoImpl> get copyWith =>

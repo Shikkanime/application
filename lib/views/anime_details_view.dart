@@ -10,6 +10,7 @@ import 'package:application/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:vibration/vibration.dart';
 
 class AnimeDetailsView extends StatefulWidget {
   final AnimeDto anime;
@@ -75,6 +76,7 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
             onSelected: (int value) {
               if (value == 0) {
                 MemberController.instance.followAllEpisodes(widget.anime);
+                Vibration.vibrate(pattern: [0, 50, 125, 50, 125, 50]);
               } else if (value == 1) {
                 Share.share(
                   '${Constant.baseUrl}/animes/${widget.anime.slug}',

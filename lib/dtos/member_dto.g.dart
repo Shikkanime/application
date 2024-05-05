@@ -19,7 +19,7 @@ _$MemberDtoImpl _$$MemberDtoImplFromJson(Map<String, dynamic> json) =>
       followedEpisodes: (json['followedEpisodes'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
-      totalDuration: json['totalDuration'] as int,
+      totalDuration: (json['totalDuration'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$MemberDtoImplToJson(_$MemberDtoImpl instance) =>

@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/dtos/member_dto.dart';
 import 'package:application/utils/http_request.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,17 +17,35 @@ class MemberController {
   String? identifier;
   MemberDto? member;
 
-  Future<void> init() async {
-    _sharedPreferences = await SharedPreferences.getInstance();
+  Future<void> init({bool afterDelete = false}) async {
+    if (!afterDelete) {
+      _sharedPreferences = await SharedPreferences.getInstance();
+    }
+
     identifier = _sharedPreferences.getString('identifier') ?? await register();
-    await login();
+
+    try {
+      await login();
+    } on HttpException catch (e) {
+      debugPrint('Failed to login: $e');
+
+      if (!afterDelete) {
+        // Move the current identifier to old identifier
+        final oldIdentifier = identifier;
+        await _sharedPreferences.remove('identifier');
+        await _sharedPreferences.setString('oldIdentifier', oldIdentifier!);
+        await init(afterDelete: true);
+      }
+    } on TimeoutException catch (e) {
+      debugPrint('Failed to login: $e');
+    }
   }
 
   Future<String> register() async {
     final response = await HttpRequest().post('/v1/members/private-register');
 
     if (response.statusCode != 201) {
-      throw Exception('Failed to register');
+      throw const HttpException('Failed to register');
     }
 
     final String identifier =
@@ -39,7 +59,7 @@ class MemberController {
         await HttpRequest().post('/v1/members/private-login', body: identifier);
 
     if (response.statusCode != 200) {
-      throw Exception('Failed to login');
+      throw const HttpException('Failed to login');
     }
 
     return response;
@@ -65,7 +85,7 @@ class MemberController {
     );
 
     if (response.statusCode != 200) {
-      throw Exception('Failed to follow anime');
+      throw const HttpException('Failed to follow anime');
     }
 
     member!.followedAnimes.add(anime.uuid);
@@ -80,7 +100,7 @@ class MemberController {
     );
 
     if (response.statusCode != 200) {
-      throw Exception('Failed to unfollow anime');
+      throw const HttpException('Failed to unfollow anime');
     }
 
     member!.followedAnimes.remove(anime.uuid);
@@ -99,7 +119,7 @@ class MemberController {
     );
 
     if (response.statusCode != 200) {
-      throw Exception('Failed to follow all episodes');
+      throw const HttpException('Failed to follow all episodes');
     }
 
     final json =
@@ -124,7 +144,7 @@ class MemberController {
     );
 
     if (response.statusCode != 200) {
-      throw Exception('Failed to follow episode');
+      throw const HttpException('Failed to follow episode');
     }
 
     member!.followedEpisodes.add(episode.uuid);
@@ -141,7 +161,7 @@ class MemberController {
     );
 
     if (response.statusCode != 200) {
-      throw Exception('Failed to unfollow episode');
+      throw const HttpException('Failed to unfollow episode');
     }
 
     member!.followedEpisodes.remove(episode.uuid);

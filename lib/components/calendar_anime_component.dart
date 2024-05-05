@@ -8,6 +8,7 @@ import 'package:application/dtos/week_day_release_dto.dart';
 import 'package:application/views/anime_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CalendarAnimeComponent extends StatelessWidget {
   static const bookmarkColor = Colors.yellow;
@@ -93,7 +94,28 @@ class CalendarAnimeComponent extends StatelessWidget {
                       ],
                     ),
                   ),
-                  WatchlistButton(anime: release.anime),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (release.variant != null)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: GestureDetector(
+                            onTap: () {
+                              launchUrl(
+                                Uri.parse(release.variant!.url),
+                                mode: LaunchMode.externalNonBrowserApplication,
+                              );
+                            },
+                            child: const Icon(
+                              Icons.live_tv_outlined,
+                            ),
+                          ),
+                        ),
+                      WatchlistButton(anime: release.anime),
+                    ],
+                  ),
                 ],
               ),
             ),

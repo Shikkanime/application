@@ -10,7 +10,7 @@ _$SimulcastDtoImpl _$$SimulcastDtoImplFromJson(Map<String, dynamic> json) =>
     _$SimulcastDtoImpl(
       uuid: json['uuid'] as String,
       season: json['season'] as String,
-      year: json['year'] as int,
+      year: (json['year'] as num).toInt(),
       slug: json['slug'] as String,
       label: json['label'] as String,
     );
