@@ -27,6 +27,7 @@ class AnimeEpisodeComponent extends StatelessWidget {
                 topLeft: Radius.circular(16),
                 bottomLeft: Radius.circular(16),
               ),
+              fit: BoxFit.cover,
               height: 130,
             ),
           ),

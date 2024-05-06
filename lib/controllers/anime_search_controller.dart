@@ -10,6 +10,7 @@ class AnimeSearchController {
   final scrollController = ScrollController();
   final streamController = StreamController<List<AnimeDto>>.broadcast();
   int page = 1;
+  Timer? _timer;
   bool isLoading = false;
   bool canLoadMore = true;
   String query = '';
@@ -31,12 +32,17 @@ class AnimeSearchController {
     });
   }
 
-  Future<void> search(String query) async {
+  void search(String query) {
     this.query = query;
     animes.clear();
     streamController.add(animes);
     page = 1;
-    await nextPage();
+
+    _timer?.cancel();
+    _timer = Timer(
+      const Duration(milliseconds: 250),
+      () => nextPage(),
+    );
   }
 
   void dispose() {
