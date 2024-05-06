@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 class EpisodeImage extends StatelessWidget {
   final EpisodeMappingDto episode;
   final BorderRadius borderRadius;
+  final BoxFit fit;
   final double width;
   final double height;
 
@@ -13,6 +14,7 @@ class EpisodeImage extends StatelessWidget {
     super.key,
     required this.episode,
     required this.borderRadius,
+    this.fit = BoxFit.fill,
     this.width = double.infinity,
     this.height = double.infinity,
   });
@@ -23,6 +25,7 @@ class EpisodeImage extends StatelessWidget {
       children: [
         ImageComponent(
           uuid: episode.uuid,
+          fit: fit,
           borderRadius: borderRadius,
           width: width,
           height: height,

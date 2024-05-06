@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class ImageComponent extends StatelessWidget {
   final String uuid;
+  final BoxFit fit;
   final String type;
   final BorderRadius borderRadius;
   final double width;
@@ -12,6 +13,7 @@ class ImageComponent extends StatelessWidget {
   const ImageComponent({
     super.key,
     required this.uuid,
+    this.fit = BoxFit.fill,
     this.type = 'image',
     this.borderRadius = BorderRadius.zero,
     this.width = double.infinity,
@@ -25,7 +27,7 @@ class ImageComponent extends StatelessWidget {
       child: CachedNetworkImage(
         imageUrl: '${Constant.apiUrl}/v1/attachments?uuid=$uuid&type=$type',
         filterQuality: FilterQuality.high,
-        fit: BoxFit.cover,
+        fit: fit,
         width: width,
         height: height,
         placeholder: (context, url) => Container(
