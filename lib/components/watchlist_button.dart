@@ -1,5 +1,6 @@
 import 'package:application/components/followed_stream_builder.dart';
 import 'package:application/controllers/member_controller.dart';
+import 'package:application/controllers/missed_anime_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:flutter/material.dart';
@@ -41,17 +42,25 @@ class WatchlistButton extends StatelessWidget {
           onTap: (isLiked) async {
             if (!isLiked) {
               if (anime != null) {
-                MemberController.instance.followAnime(anime!);
+                MemberController.instance
+                    .followAnime(anime!)
+                    .then((value) => MissedAnimeController.instance.init());
               } else {
-                MemberController.instance.followEpisode(episode!);
+                MemberController.instance
+                    .followEpisode(episode!)
+                    .then((value) => MissedAnimeController.instance.init());
               }
 
               Vibration.vibrate(pattern: [0, 50, 125, 50, 125, 50]);
             } else {
               if (anime != null) {
-                MemberController.instance.unfollowAnime(anime!);
+                MemberController.instance
+                    .unfollowAnime(anime!)
+                    .then((value) => MissedAnimeController.instance.init());
               } else {
-                MemberController.instance.unfollowEpisode(episode!);
+                MemberController.instance
+                    .unfollowEpisode(episode!)
+                    .then((value) => MissedAnimeController.instance.init());
               }
             }
 

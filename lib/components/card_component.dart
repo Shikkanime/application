@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 class CustomCard extends StatefulWidget {
   final Widget child;
+  final Color? backgroundColor;
   final Function()? onTap;
   final Function(TapDownDetails?)? onLongPress;
 
   const CustomCard({
     super.key,
     required this.child,
+    this.backgroundColor,
     this.onTap,
     this.onLongPress,
   });
@@ -30,9 +32,9 @@ class _CustomCardState extends State<CustomCard> {
         child: DecoratedBox(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            color: withOpacity,
+            color: widget.backgroundColor ?? withOpacity,
             border: Border.all(
-              color: withOpacity,
+              color: widget.backgroundColor ?? withOpacity,
               width: 1,
             ),
           ),

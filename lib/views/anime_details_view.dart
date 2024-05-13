@@ -1,9 +1,10 @@
 import 'package:application/components/episodes/anime_episode_component.dart';
-import 'package:application/components/episodes/watchlist_button.dart';
+import 'package:application/components/watchlist_button.dart';
 import 'package:application/components/image_component.dart';
 import 'package:application/components/lang_type_component.dart';
 import 'package:application/controllers/anime_details_controller.dart';
 import 'package:application/controllers/member_controller.dart';
+import 'package:application/controllers/missed_anime_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/utils/constant.dart';
@@ -75,7 +76,9 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
             },
             onSelected: (int value) {
               if (value == 0) {
-                MemberController.instance.followAllEpisodes(widget.anime);
+                MemberController.instance
+                    .followAllEpisodes(widget.anime)
+                    .then((value) => MissedAnimeController.instance.init());
                 Vibration.vibrate(pattern: [0, 50, 125, 50, 125, 50]);
               } else if (value == 1) {
                 Share.share(
