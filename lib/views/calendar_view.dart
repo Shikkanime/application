@@ -1,4 +1,4 @@
-import 'package:application/components/calendar_anime_component.dart';
+import 'package:application/components/animes/calendar_anime_component.dart';
 import 'package:application/controllers/anime_weekly_controller.dart';
 import 'package:application/dtos/week_day_dto.dart';
 import 'package:flutter/material.dart';

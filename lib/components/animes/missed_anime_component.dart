@@ -41,6 +41,7 @@ class MissedAnimeComponent extends StatelessWidget {
                 children: [
                   ImageComponent(
                     uuid: missedAnime.anime.uuid,
+                    fit: BoxFit.cover,
                     borderRadius: BorderRadius.circular(360),
                   ),
                   Positioned(

@@ -38,6 +38,10 @@ class MemberController {
       }
     } on TimeoutException catch (e) {
       debugPrint('Failed to login: $e');
+      rethrow;
+    } on ClientException catch (e) {
+      debugPrint('Failed to login: $e');
+      rethrow;
     }
   }
 
@@ -58,8 +62,12 @@ class MemberController {
     final response =
         await HttpRequest().post('/v1/members/private-login', body: identifier);
 
+    if (response.statusCode == 404) {
+      throw const HttpException('Failed to login, identifier not found');
+    }
+
     if (response.statusCode != 200) {
-      throw const HttpException('Failed to login');
+      throw ClientException('Server error');
     }
 
     return response;
