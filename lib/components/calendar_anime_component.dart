@@ -1,5 +1,5 @@
 import 'package:application/components/card_component.dart';
-import 'package:application/components/episodes/watchlist_button.dart';
+import 'package:application/components/watchlist_button.dart';
 import 'package:application/components/image_component.dart';
 import 'package:application/components/lang_type_component.dart';
 import 'package:application/components/platforms/list_platform.dart';

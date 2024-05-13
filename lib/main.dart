@@ -3,6 +3,7 @@ import 'package:application/controllers/anime_controller.dart';
 import 'package:application/controllers/anime_search_controller.dart';
 import 'package:application/controllers/anime_weekly_controller.dart';
 import 'package:application/controllers/member_controller.dart';
+import 'package:application/controllers/missed_anime_controller.dart';
 import 'package:application/utils/constant.dart';
 import 'package:application/views/account_view.dart';
 import 'package:application/views/calendar_view.dart';
@@ -33,13 +34,15 @@ Future<void> main() async {
   }
 
   try {
+    await MemberController.instance.init();
+
     await Future.wait([
       EpisodeController.instance.init(),
+      MissedAnimeController.instance.init(),
       SimulcastController.instance
           .init()
           .then((value) => AnimeController.instance.init()),
       AnimeWeeklyController.instance.init(),
-      MemberController.instance.init(),
     ]);
 
     AnimeSearchController.instance.init();

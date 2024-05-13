@@ -1,4 +1,4 @@
-import 'package:application/components/episodes/watchlist_button.dart';
+import 'package:application/components/watchlist_button.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';

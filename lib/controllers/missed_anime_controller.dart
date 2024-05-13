@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:application/controllers/member_controller.dart';
-import 'package:application/controllers/missed_anime_controller.dart';
-import 'package:application/controllers/simulcast_controller.dart';
-import 'package:application/dtos/anime_dto.dart';
+import 'package:application/dtos/missed_anime_dto.dart';
 import 'package:application/utils/constant.dart';
 import 'package:application/utils/http_request.dart';
 import 'package:flutter/material.dart';
@@ -11,18 +9,18 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:vibration/vibration.dart';
 
-class AnimeController {
-  static AnimeController instance = AnimeController();
-  final animes = <AnimeDto>[];
+class MissedAnimeController {
+  static MissedAnimeController instance = MissedAnimeController();
+  final missedAnimes = <MissedAnimeDto>[];
   final scrollController = ScrollController();
-  final streamController = StreamController<List<AnimeDto>>.broadcast();
+  final streamController = StreamController<List<MissedAnimeDto>>.broadcast();
   int page = 1;
   bool isLoading = false;
   bool canLoadMore = true;
 
   Future<void> init() async {
-    animes.clear();
-    streamController.add(animes);
+    missedAnimes.clear();
+    streamController.add(missedAnimes);
 
     page = 1;
     isLoading = false;
@@ -60,16 +58,17 @@ class AnimeController {
 
     try {
       final pageableDto = await HttpRequest.instance.getPage(
-        '/v1/animes?simulcast=${SimulcastController.instance.current?.uuid}&sort=name&page=$page&limit=12',
+        '/v1/animes/missed?page=$page&limit=6',
+        token: MemberController.instance.member!.token,
       );
 
-      animes.addAll(
+      missedAnimes.addAll(
         pageableDto.data
-            .map((e) => AnimeDto.fromJson(e as Map<String, dynamic>)),
+            .map((e) => MissedAnimeDto.fromJson(e as Map<String, dynamic>)),
       );
 
-      streamController.add(animes);
-      canLoadMore = animes.length < pageableDto.total;
+      streamController.add(missedAnimes);
+      canLoadMore = missedAnimes.length < pageableDto.total;
     } catch (e) {
       debugPrint(e.toString());
     } finally {
@@ -80,7 +79,7 @@ class AnimeController {
 
   void onLongPress(
     BuildContext context,
-    AnimeDto anime,
+    MissedAnimeDto missedAnime,
     TapDownDetails? details,
   ) {
     if (details == null) {
@@ -110,12 +109,12 @@ class AnimeController {
     ).then((value) {
       if (value == 0) {
         MemberController.instance
-            .followAllEpisodes(anime)
-            .then((value) => MissedAnimeController.instance.init());
+            .followAllEpisodes(missedAnime.anime)
+            .then((value) => init());
         Vibration.vibrate(pattern: [0, 50, 125, 50, 125, 50]);
       } else if (value == 1) {
         Share.share(
-          '${Constant.baseUrl}/animes/${anime.slug}',
+          '${Constant.baseUrl}/animes/${missedAnime.anime.slug}',
         );
       }
     });

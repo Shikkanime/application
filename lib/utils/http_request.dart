@@ -31,8 +31,13 @@ class HttpRequest {
     return jsonDecode(utf8.decode(response.bodyBytes)) as T;
   }
 
-  Future<PageableDto> getPage(String endpoint) async {
-    return PageableDto.fromJson(await get<Map<String, dynamic>>(endpoint));
+  Future<PageableDto> getPage(
+    String endpoint, {
+    String? token,
+  }) async {
+    return PageableDto.fromJson(
+      await get<Map<String, dynamic>>(endpoint, token: token),
+    );
   }
 
   Future<http.Response> post<Response>(
