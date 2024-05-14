@@ -16,7 +16,7 @@ jobs:
           flutter-version-file: pubspec.yaml
 
       - run: flutter pub get
-      - run: dart analyze .
+      - run: dart analyze . --fatal-infos --fatal-warnings
       - run: dart format --set-exit-if-changed .
       - run: dart run dart_code_linter:metrics analyze lib
       - run: dart run dart_code_linter:metrics check-unnecessary-nullable lib
