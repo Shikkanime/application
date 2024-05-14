@@ -39,15 +39,10 @@ class AnimeWeeklyController {
     isLoading = true;
 
     try {
-      String endpoint = '/v1/animes/weekly';
-      String? token = '';
-
-      if (memberMode) {
-        endpoint = '/v1/animes/member-weekly';
-        token = MemberController.instance.member!.token;
-      }
-
-      final json = await HttpRequest.instance.get<List>(endpoint, token: token);
+      final json = await HttpRequest.instance.get<List>(
+        '/v1/animes/weekly',
+        token: memberMode ? MemberController.instance.member?.token : null,
+      );
 
       weekDays.addAll(
         json.map((e) => WeekDayDto.fromJson(e as Map<String, dynamic>)),
