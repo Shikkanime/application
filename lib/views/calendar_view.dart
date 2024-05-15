@@ -40,7 +40,7 @@ class _CalendarViewState extends State<CalendarView> {
                           .segmentedButtonTheme
                           .style
                           ?.textStyle
-                          ?.resolve({MaterialState.selected})?.copyWith(
+                          ?.resolve({WidgetState.selected})?.copyWith(
                           fontWeight: FontWeight.bold,
                         )
                       : null,
