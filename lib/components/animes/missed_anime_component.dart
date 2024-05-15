@@ -1,5 +1,6 @@
 import 'package:application/components/card_component.dart';
 import 'package:application/components/image_component.dart';
+import 'package:application/components/pill.dart';
 import 'package:application/controllers/missed_anime_controller.dart';
 import 'package:application/dtos/missed_anime_dto.dart';
 import 'package:application/views/anime_details_view.dart';
@@ -47,27 +48,7 @@ class MissedAnimeComponent extends StatelessWidget {
                   Positioned(
                     top: 0,
                     right: 0,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 5,
-                        vertical: 2,
-                      ),
-                      decoration: const BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                      ),
-                      child: Text(
-                        missedAnime.episodeMissed >= 10
-                            ? '9+'
-                            : missedAnime.episodeMissed.toString(),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
+                    child: Pill(count: missedAnime.episodeMissed),
                   ),
                 ],
               ),
