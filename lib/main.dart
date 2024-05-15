@@ -1,9 +1,11 @@
+import 'package:application/components/pill.dart';
 import 'package:application/components/update_available_component.dart';
 import 'package:application/controllers/anime_controller.dart';
 import 'package:application/controllers/anime_search_controller.dart';
 import 'package:application/controllers/anime_weekly_controller.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/missed_anime_controller.dart';
+import 'package:application/dtos/missed_anime_dto.dart';
 import 'package:application/utils/constant.dart';
 import 'package:application/views/account_view.dart';
 import 'package:application/views/calendar_view.dart';
@@ -244,10 +246,40 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: BottomNavigationBar(
         showUnselectedLabels: true,
         currentIndex: _currentIndex,
-        items: <BottomNavigationBarItem>[
+        items: [
           BottomNavigationBarItem(
-            icon: const Icon(Icons.home_outlined),
-            activeIcon: const Icon(Icons.home),
+            icon: StreamBuilder<List<MissedAnimeDto>>(
+              stream: MissedAnimeController.instance.streamController.stream,
+              initialData: MissedAnimeController.instance.missedAnimes,
+              builder: (context, snapshot) {
+                final icon =
+                    Icon(_currentIndex == 0 ? Icons.home : Icons.home_outlined);
+
+                if (snapshot.data!.isEmpty) {
+                  return icon;
+                }
+
+                return Stack(
+                  children: [
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 12, right: 12, top: 8),
+                      child: icon,
+                    ),
+                    if (snapshot.data!.isNotEmpty)
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        child: Pill(
+                          count: snapshot.data!
+                              .map((e) => e.episodeMissed)
+                              .reduce((a, b) => a + b),
+                        ),
+                      ),
+                  ],
+                );
+              },
+            ),
             label: AppLocalizations.of(context)!.home,
           ),
           BottomNavigationBarItem(
