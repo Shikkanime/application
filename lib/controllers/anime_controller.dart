@@ -60,7 +60,7 @@ class AnimeController {
 
     try {
       final pageableDto = await HttpRequest.instance.getPage(
-        '/v1/animes?simulcast=${SimulcastController.instance.current?.uuid}&sort=name&page=$page&limit=12',
+        '/v1/animes?simulcast=${SimulcastController.instance.current?.uuid}&sort=name&page=$page&limit=6',
       );
 
       animes.addAll(

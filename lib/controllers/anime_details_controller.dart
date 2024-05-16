@@ -80,7 +80,7 @@ class AnimeDetailsController {
 
     try {
       final pageableDto = await HttpRequest.instance.getPage(
-        '/v1/episode-mappings?anime=${anime?.uuid}&${sort.value}&page=$page&limit=6',
+        '/v1/episode-mappings?anime=${anime?.uuid}&${sort.value}&page=$page&limit=4',
       );
 
       episodes.addAll(

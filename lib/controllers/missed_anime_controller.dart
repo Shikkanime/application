@@ -20,8 +20,6 @@ class MissedAnimeController {
 
   Future<void> init() async {
     missedAnimes.clear();
-    streamController.add(missedAnimes);
-
     page = 1;
     isLoading = false;
     canLoadMore = true;

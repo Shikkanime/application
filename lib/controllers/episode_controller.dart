@@ -54,7 +54,7 @@ class EpisodeController {
 
     try {
       final pageableDto = await HttpRequest.instance.getPage(
-        '/v1/episode-mappings?sort=lastReleaseDateTime,animeName,season,episodeType,number&desc=lastReleaseDateTime,animeName,season,episodeType,number&page=$page&limit=6',
+        '/v1/episode-mappings?sort=lastReleaseDateTime,animeName,season,episodeType,number&desc=lastReleaseDateTime,animeName,season,episodeType,number&page=$page&limit=4',
       );
 
       episodes.addAll(

@@ -60,7 +60,7 @@ class AnimeSearchController {
 
     try {
       final pageableDto = await HttpRequest.instance
-          .getPage('/v1/animes?name=$query&page=$page&limit=12');
+          .getPage('/v1/animes?name=$query&page=$page&limit=6');
 
       animes.addAll(
         pageableDto.data
