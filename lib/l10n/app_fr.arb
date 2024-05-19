@@ -6,7 +6,6 @@
 
   "whatYouMightHaveMissed1": "Ce que tu aurais pu ",
   "whatYouMightHaveMissed2": "manquer",
-
   "episode": "Épisode",
   "special": "Spécial",
   "film": "Film",
@@ -35,9 +34,12 @@
   "showLess": "Voir moins",
 
   "anonymousAccount": "Compte anonyme",
-  "createAccount": "Créer un compte",
+  "associateEmail": "Associer un email",
+  "code": "Code",
+  "sendCode": "Envoyer le code",
   "member": "Membre",
   "account": "Compte",
+  "email": "Email",
   "identifier": "Identifiant",
   "identifierSubtitle": "Sauvegardez-le pour récupérer vos données",
   "noIdentifier": "Aucun identifiant",
@@ -45,17 +47,24 @@
   "enterNewIdentifier": "Saisissez un nouvel identifiant",
   "cancel": "Annuler",
   "save": "Sauvegarder",
-  "invalidIdentifier": "Identifiant invalide",
+  "settings": "Paramètres",
 
   "anonymousWarningTitle": "Avertissement sur la sauvegarde de données",
   "anonymousWarningContent1": "Nous sauvegardons vos données de manière anonyme sur nos serveurs. Chaque compte est associé à un identifiant unique. Cependant, il est important de noter que si vous perdez cet identifiant, vous risquez de perdre l'accès à toutes vos données.",
-  "anonymousWarningContent2": "Vous trouverez votre identifiant unique dans la section \"Compte\" de l'application.",
-  "anonymousWarningContent3": "Pour éviter toute perte de données, nous vous recommandons vivement de créer un compte sécurisé en enregistrant une adresse e-mail et un mot de passe. Cela vous permettra de récupérer facilement vos données en cas de besoin et de sécuriser votre compte contre toute perte accidentelle.",
-
+  "anonymousWarningContent2": "Vous trouverez votre identifiant unique dans la section \"Compte\" dans les paramètres de l'application.",
+  "anonymousWarningContent3": "Pour éviter toute perte de données, nous vous recommandons vivement d'associer une adresse e-mail. Cela vous permettra de récupérer facilement vos données en cas de besoin et de sécuriser votre compte contre toute perte accidentelle.",
   "oops": "OOPS",
   "noAnimeToday": "Il n'y a pas d'animé aujourd'hui !",
   "noInternet": "Pas de connexion Internet",
+  "noEmail": "Pas d'email associé",
   "tryAgain": "Réessayer",
+  "invalidEmail": "Email invalide",
+  "conflictEmail": "Cet email est déjà associé à un autre compte",
+  "invalidCode": "Code invalide",
+  "invalidIdentifier": "Identifiant invalide",
+
+  "emailContent" : "En associant un email à votre compte, vous pourrez récupérer vos données en cas de perte de votre identifiant. De plus, vous pourrez sécuriser votre compte contre toute perte accidentelle.",
+  "emailSpamWarning": "Veuillez vérifier votre dossier de courrier indésirable si vous ne recevez pas l'email dans votre boîte de réception. Si vous ne recevez toujours pas l'email après quelques minutes, veuillez réessayer.",
 
   "animesAdded": "Animés ajoutés",
   "episodesWatched": "Épisodes vus",

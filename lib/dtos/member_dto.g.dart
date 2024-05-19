@@ -13,6 +13,7 @@ _$MemberDtoImpl _$$MemberDtoImplFromJson(Map<String, dynamic> json) =>
       creationDateTime: json['creationDateTime'] as String,
       lastUpdateDateTime: json['lastUpdateDateTime'] as String,
       isPrivate: json['isPrivate'] as bool,
+      email: json['email'] as String?,
       followedAnimes: (json['followedAnimes'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
@@ -29,6 +30,7 @@ Map<String, dynamic> _$$MemberDtoImplToJson(_$MemberDtoImpl instance) =>
       'creationDateTime': instance.creationDateTime,
       'lastUpdateDateTime': instance.lastUpdateDateTime,
       'isPrivate': instance.isPrivate,
+      'email': instance.email,
       'followedAnimes': instance.followedAnimes,
       'followedEpisodes': instance.followedEpisodes,
       'totalDuration': instance.totalDuration,

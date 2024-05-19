@@ -51,7 +51,7 @@ class HttpRequest {
       headers['Authorization'] = 'Bearer $token';
     }
 
-    final response = await http
+    return await http
         .post(
           Uri.parse(
             Constant.apiUrl + endpoint,
@@ -60,8 +60,6 @@ class HttpRequest {
           body: body,
         )
         .timeout(_timeout);
-
-    return response;
   }
 
   Future<http.Response> put<Response>(
@@ -73,8 +71,7 @@ class HttpRequest {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
     };
-
-    final response = await http
+    return await http
         .put(
           Uri.parse(
             Constant.apiUrl + endpoint,
@@ -83,8 +80,6 @@ class HttpRequest {
           body: body,
         )
         .timeout(_timeout);
-
-    return response;
   }
 
   Future<http.Response> delete<Response>(
@@ -97,7 +92,7 @@ class HttpRequest {
       'Authorization': 'Bearer $token',
     };
 
-    final response = await http
+    return await http
         .delete(
           Uri.parse(
             Constant.apiUrl + endpoint,
@@ -106,7 +101,5 @@ class HttpRequest {
           body: body,
         )
         .timeout(_timeout);
-
-    return response;
   }
 }
