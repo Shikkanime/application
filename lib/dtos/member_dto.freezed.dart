@@ -25,6 +25,7 @@ mixin _$MemberDto {
   String get creationDateTime => throw _privateConstructorUsedError;
   String get lastUpdateDateTime => throw _privateConstructorUsedError;
   bool get isPrivate => throw _privateConstructorUsedError;
+  String? get email => throw _privateConstructorUsedError;
   List<String> get followedAnimes => throw _privateConstructorUsedError;
   List<String> get followedEpisodes => throw _privateConstructorUsedError;
   int get totalDuration => throw _privateConstructorUsedError;
@@ -46,6 +47,7 @@ abstract class $MemberDtoCopyWith<$Res> {
       String creationDateTime,
       String lastUpdateDateTime,
       bool isPrivate,
+      String? email,
       List<String> followedAnimes,
       List<String> followedEpisodes,
       int totalDuration});
@@ -69,6 +71,7 @@ class _$MemberDtoCopyWithImpl<$Res, $Val extends MemberDto>
     Object? creationDateTime = null,
     Object? lastUpdateDateTime = null,
     Object? isPrivate = null,
+    Object? email = freezed,
     Object? followedAnimes = null,
     Object? followedEpisodes = null,
     Object? totalDuration = null,
@@ -94,6 +97,10 @@ class _$MemberDtoCopyWithImpl<$Res, $Val extends MemberDto>
           ? _value.isPrivate
           : isPrivate // ignore: cast_nullable_to_non_nullable
               as bool,
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
       followedAnimes: null == followedAnimes
           ? _value.followedAnimes
           : followedAnimes // ignore: cast_nullable_to_non_nullable
@@ -124,6 +131,7 @@ abstract class _$$MemberDtoImplCopyWith<$Res>
       String creationDateTime,
       String lastUpdateDateTime,
       bool isPrivate,
+      String? email,
       List<String> followedAnimes,
       List<String> followedEpisodes,
       int totalDuration});
@@ -145,6 +153,7 @@ class __$$MemberDtoImplCopyWithImpl<$Res>
     Object? creationDateTime = null,
     Object? lastUpdateDateTime = null,
     Object? isPrivate = null,
+    Object? email = freezed,
     Object? followedAnimes = null,
     Object? followedEpisodes = null,
     Object? totalDuration = null,
@@ -170,6 +179,10 @@ class __$$MemberDtoImplCopyWithImpl<$Res>
           ? _value.isPrivate
           : isPrivate // ignore: cast_nullable_to_non_nullable
               as bool,
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
       followedAnimes: null == followedAnimes
           ? _value.followedAnimes
           : followedAnimes // ignore: cast_nullable_to_non_nullable
@@ -195,6 +208,7 @@ class _$MemberDtoImpl implements _MemberDto {
       required this.creationDateTime,
       required this.lastUpdateDateTime,
       required this.isPrivate,
+      required this.email,
       required this.followedAnimes,
       required this.followedEpisodes,
       required this.totalDuration});
@@ -213,6 +227,8 @@ class _$MemberDtoImpl implements _MemberDto {
   @override
   final bool isPrivate;
   @override
+  final String? email;
+  @override
   final List<String> followedAnimes;
   @override
   final List<String> followedEpisodes;
@@ -221,7 +237,7 @@ class _$MemberDtoImpl implements _MemberDto {
 
   @override
   String toString() {
-    return 'MemberDto(uuid: $uuid, token: $token, creationDateTime: $creationDateTime, lastUpdateDateTime: $lastUpdateDateTime, isPrivate: $isPrivate, followedAnimes: $followedAnimes, followedEpisodes: $followedEpisodes, totalDuration: $totalDuration)';
+    return 'MemberDto(uuid: $uuid, token: $token, creationDateTime: $creationDateTime, lastUpdateDateTime: $lastUpdateDateTime, isPrivate: $isPrivate, email: $email, followedAnimes: $followedAnimes, followedEpisodes: $followedEpisodes, totalDuration: $totalDuration)';
   }
 
   @override
@@ -237,6 +253,7 @@ class _$MemberDtoImpl implements _MemberDto {
                 other.lastUpdateDateTime == lastUpdateDateTime) &&
             (identical(other.isPrivate, isPrivate) ||
                 other.isPrivate == isPrivate) &&
+            (identical(other.email, email) || other.email == email) &&
             const DeepCollectionEquality()
                 .equals(other.followedAnimes, followedAnimes) &&
             const DeepCollectionEquality()
@@ -254,6 +271,7 @@ class _$MemberDtoImpl implements _MemberDto {
       creationDateTime,
       lastUpdateDateTime,
       isPrivate,
+      email,
       const DeepCollectionEquality().hash(followedAnimes),
       const DeepCollectionEquality().hash(followedEpisodes),
       totalDuration);
@@ -279,6 +297,7 @@ abstract class _MemberDto implements MemberDto {
       required final String creationDateTime,
       required final String lastUpdateDateTime,
       required final bool isPrivate,
+      required final String? email,
       required final List<String> followedAnimes,
       required final List<String> followedEpisodes,
       required final int totalDuration}) = _$MemberDtoImpl;
@@ -296,6 +315,8 @@ abstract class _MemberDto implements MemberDto {
   String get lastUpdateDateTime;
   @override
   bool get isPrivate;
+  @override
+  String? get email;
   @override
   List<String> get followedAnimes;
   @override

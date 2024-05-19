@@ -11,6 +11,7 @@ class MemberDto with _$MemberDto {
     required String creationDateTime,
     required String lastUpdateDateTime,
     required bool isPrivate,
+    required String? email,
     required List<String> followedAnimes,
     required List<String> followedEpisodes,
     required int totalDuration,

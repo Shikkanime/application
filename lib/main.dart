@@ -7,6 +7,7 @@ import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/missed_anime_controller.dart';
 import 'package:application/dtos/missed_anime_dto.dart';
 import 'package:application/utils/constant.dart';
+import 'package:application/views/account_settings_view.dart';
 import 'package:application/views/account_view.dart';
 import 'package:application/views/calendar_view.dart';
 import 'package:application/views/home_view.dart';
@@ -216,6 +217,17 @@ class _MyHomePageState extends State<MyHomePage> {
                     ? Icons.filter_alt
                     : Icons.filter_alt_off,
               ),
+            ),
+          if (_currentIndex == 3)
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const AccountSettingsView(),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.settings),
             ),
           IconButton(
             onPressed: () {
