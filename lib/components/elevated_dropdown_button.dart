@@ -9,13 +9,14 @@ class ElevatedDropdownButton<T> extends StatelessWidget {
   final Widget? child;
 
   const ElevatedDropdownButton({
+    super.key,
     required this.globalKey,
     required this.value,
     required this.items,
     required this.onChanged,
     this.showIcon = true,
     this.child,
-  }) : super(key: globalKey);
+  });
 
   @override
   Widget build(BuildContext context) {

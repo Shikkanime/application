@@ -13,7 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class MemberController {
   static MemberController instance = MemberController();
   late final SharedPreferences _sharedPreferences;
-  final streamController = StreamController.broadcast();
+  final streamController = StreamController<MemberDto>.broadcast();
   String? identifier;
   MemberDto? member;
 
@@ -46,7 +46,7 @@ class MemberController {
   }
 
   Future<String> register() async {
-    final response = await HttpRequest().post('/v1/members/private-register');
+    final response = await HttpRequest().post('/v1/members/register');
 
     if (response.statusCode != 201) {
       throw const HttpException('Failed to register');
@@ -60,7 +60,7 @@ class MemberController {
 
   Future<Response> testLogin(String identifier) async {
     final response =
-        await HttpRequest().post('/v1/members/private-login', body: identifier);
+        await HttpRequest().post('/v1/members/login', body: identifier);
 
     if (response.statusCode == 404) {
       throw const HttpException('Failed to login, identifier not found');
@@ -83,6 +83,39 @@ class MemberController {
     }
 
     member = MemberDto.fromJson(json);
+    streamController.add(member!);
+  }
+
+  Future<String> associateEmail(String email) async {
+    final response = await HttpRequest().post(
+      '/v1/members/associate-email',
+      token: member!.token,
+      body: email,
+    );
+
+    if (response.statusCode == 409) {
+      throw const ConflictEmailException();
+    }
+
+    if (response.statusCode != 201) {
+      throw const HttpException('Failed to associate email');
+    }
+
+    return jsonDecode(utf8.decode(response.bodyBytes))['uuid'] as String;
+  }
+
+  Future<void> validateAction(String uuid, String code) async {
+    final response = await HttpRequest().post(
+      '/v1/member-actions/validate?uuid=$uuid',
+      token: member!.token,
+      body: code,
+    );
+
+    if (response.statusCode != 200) {
+      throw const HttpException('Failed to validate action');
+    }
+
+    await login();
   }
 
   Future<void> followAnime(AnimeDto anime) async {
@@ -97,7 +130,7 @@ class MemberController {
     }
 
     member!.followedAnimes.add(anime.uuid);
-    streamController.add(null);
+    streamController.add(member!);
   }
 
   Future<void> unfollowAnime(AnimeDto anime) async {
@@ -112,7 +145,7 @@ class MemberController {
     }
 
     member!.followedAnimes.remove(anime.uuid);
-    streamController.add(null);
+    streamController.add(member!);
   }
 
   Future<void> followAllEpisodes(AnimeDto anime) async {
@@ -137,7 +170,7 @@ class MemberController {
 
     member!.followedEpisodes.addAll(data);
     member = member!.copyWith(totalDuration: member!.totalDuration + duration);
-    streamController.add(null);
+    streamController.add(member!);
   }
 
   Future<void> followEpisode(EpisodeMappingDto episode) async {
@@ -158,7 +191,7 @@ class MemberController {
     member!.followedEpisodes.add(episode.uuid);
     member = member!
         .copyWith(totalDuration: member!.totalDuration + episode.duration);
-    streamController.add(null);
+    streamController.add(member!);
   }
 
   Future<void> unfollowEpisode(EpisodeMappingDto episode) async {
@@ -175,7 +208,7 @@ class MemberController {
     member!.followedEpisodes.remove(episode.uuid);
     member = member!
         .copyWith(totalDuration: member!.totalDuration - episode.duration);
-    streamController.add(null);
+    streamController.add(member!);
   }
 
   String buildTotalDuration() {
@@ -199,4 +232,8 @@ class MemberController {
     parts.add('${duration.inSeconds % 60}s');
     return parts.join(' ');
   }
+}
+
+class ConflictEmailException implements Exception {
+  const ConflictEmailException();
 }
