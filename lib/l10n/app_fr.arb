@@ -10,6 +10,7 @@
   "episode": "Épisode",
   "special": "Spécial",
   "film": "Film",
+  "summary": "Épisode récapitulatif",
 
   "information": "Saison {season} | {episodeType} {number}",
 

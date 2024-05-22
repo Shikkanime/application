@@ -15,6 +15,8 @@ class EpisodeTypeComponent extends StatelessWidget {
         return AppLocalizations.of(context)!.special;
       case 'FILM':
         return AppLocalizations.of(context)!.film;
+      case 'SUMMARY':
+        return AppLocalizations.of(context)!.summary;
       default:
         return '';
     }
@@ -29,6 +31,7 @@ class EpisodeTypeComponent extends StatelessWidget {
         episode.season,
       ),
       style: Theme.of(context).textTheme.bodyMedium,
+      overflow: TextOverflow.ellipsis,
     );
   }
 }
