@@ -1,4 +1,5 @@
 import 'package:application/components/animes/anime_component.dart';
+import 'package:application/components/elevated_dropdown_button.dart';
 import 'package:application/controllers/anime_controller.dart';
 import 'package:application/controllers/simulcast_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
@@ -57,18 +58,19 @@ class SimulcastView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        DropdownButton<SimulcastDto>(
+                        ElevatedDropdownButton<SimulcastDto>(
+                          globalKey: GlobalKey(),
                           value: SimulcastController.instance.current,
                           items: [
                             for (final simulcast
                                 in SimulcastController.instance.simulcasts)
-                              DropdownMenuItem(
+                              ElevatedPopupMenuItem(
                                 value: simulcast,
                                 child: Text(simulcast.label),
                               ),
                           ],
                           onChanged: (value) {
-                            SimulcastController.instance.current = value!;
+                            SimulcastController.instance.current = value;
                             AnimeController.instance.goToTop();
                           },
                         ),

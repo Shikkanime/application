@@ -12,7 +12,8 @@
   "film": "Film",
   "summary": "Épisode récapitulatif",
 
-  "information": "Saison {season} | {episodeType} {number}",
+  "season": "Saison {season}",
+  "information": "{seasonString} | {episodeType} {number}",
 
   "subtitles": "Sous-titrage",
   "voice": "Doublage",

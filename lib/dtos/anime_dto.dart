@@ -1,3 +1,4 @@
+import 'package:application/dtos/season_dto.dart';
 import 'package:application/dtos/simulcast_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -20,6 +21,7 @@ class AnimeDto with _$AnimeDto {
     required List<SimulcastDto> simulcasts,
     required List<String> audioLocales,
     required List<String> langTypes,
+    required List<SeasonDto> seasons,
     required String? status,
   }) = _AnimeDto;
 

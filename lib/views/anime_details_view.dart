@@ -1,3 +1,4 @@
+import 'package:application/components/elevated_dropdown_button.dart';
 import 'package:application/components/episodes/anime_episode_component.dart';
 import 'package:application/components/watchlist_button.dart';
 import 'package:application/components/image_component.dart';
@@ -7,6 +8,7 @@ import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/missed_anime_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
+import 'package:application/dtos/season_dto.dart';
 import 'package:application/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -29,6 +31,7 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
   void initState() {
     super.initState();
     AnimeDetailsController.instance.anime = widget.anime;
+    AnimeDetailsController.instance.season = widget.anime.seasons.first;
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       AnimeDetailsController.instance.init();
@@ -153,66 +156,76 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                   ),
                   Row(
                     children: [
-                      // Sort
-                      ElevatedButton(
-                        onPressed: () {
-                          showModalBottomSheet(
-                            context: context,
-                            builder: (context) {
-                              return Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    AppLocalizations.of(context)!.sortBy,
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
-                                  ),
-                                  ListTile(
-                                    title: Text(
-                                      AppLocalizations.of(context)!.oldest,
-                                    ),
-                                    onTap: () {
-                                      Navigator.pop(context);
-
-                                      setState(() {
-                                        AnimeDetailsController.instance.sort =
-                                            Sort.oldest;
-                                        AnimeDetailsController.instance
-                                            .refresh();
-                                      });
-                                    },
-                                    leading:
-                                        AnimeDetailsController.instance.sort ==
-                                                Sort.oldest
-                                            ? const Icon(Icons.check)
-                                            : null,
-                                  ),
-                                  ListTile(
-                                    title: Text(
-                                      AppLocalizations.of(context)!.newest,
-                                    ),
-                                    onTap: () {
-                                      Navigator.pop(context);
-
-                                      setState(() {
-                                        AnimeDetailsController.instance.sort =
-                                            Sort.newest;
-                                        AnimeDetailsController.instance
-                                            .refresh();
-                                      });
-                                    },
-                                    leading:
-                                        AnimeDetailsController.instance.sort ==
-                                                Sort.newest
-                                            ? const Icon(Icons.check)
-                                            : null,
-                                  ),
-                                ],
-                              );
-                            },
-                          );
+                      const Spacer(),
+                      if (textPainter.didExceedMaxLines)
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _showMore = !_showMore;
+                            });
+                          },
+                          child: Text(
+                            _showMore
+                                ? AppLocalizations.of(context)!.showLess
+                                : AppLocalizations.of(context)!.showMore,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ),
+                      const Spacer(),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      ElevatedDropdownButton<SeasonDto>(
+                        globalKey: GlobalKey(),
+                        value: AnimeDetailsController.instance.season,
+                        items: [
+                          for (final season in widget.anime.seasons)
+                            ElevatedPopupMenuItem(
+                              value: season,
+                              child: Text(
+                                AppLocalizations.of(context)!.season(
+                                  season.number,
+                                ),
+                              ),
+                            ),
+                        ],
+                        onChanged: (value) {
+                          setState(() {
+                            AnimeDetailsController.instance.season = value;
+                            AnimeDetailsController.instance.refresh();
+                          });
                         },
+                      ),
+                      const Spacer(),
+                      ElevatedDropdownButton(
+                        globalKey: GlobalKey(),
+                        value: AnimeDetailsController.instance.sort,
+                        items: [
+                          ElevatedPopupMenuItem(
+                            value: Sort.oldest,
+                            leading: AnimeDetailsController.instance.sort ==
+                                    Sort.oldest
+                                ? const Icon(Icons.check)
+                                : null,
+                            child: Text(AppLocalizations.of(context)!.oldest),
+                          ),
+                          ElevatedPopupMenuItem(
+                            value: Sort.newest,
+                            leading: AnimeDetailsController.instance.sort ==
+                                    Sort.newest
+                                ? const Icon(Icons.check)
+                                : null,
+                            child: Text(AppLocalizations.of(context)!.newest),
+                          ),
+                        ],
+                        onChanged: (value) {
+                          setState(() {
+                            AnimeDetailsController.instance.sort = value;
+                            AnimeDetailsController.instance.refresh();
+                          });
+                        },
+                        showIcon: false,
                         child: Flex(
                           direction: Axis.horizontal,
                           children: [
@@ -222,20 +235,6 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                           ],
                         ),
                       ),
-                      const Spacer(),
-                      if (textPainter.didExceedMaxLines)
-                        ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              _showMore = !_showMore;
-                            });
-                          },
-                          child: Text(
-                            _showMore
-                                ? AppLocalizations.of(context)!.showLess
-                                : AppLocalizations.of(context)!.showMore,
-                          ),
-                        ),
                     ],
                   ),
                 ],

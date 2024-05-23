@@ -28,7 +28,7 @@ class EpisodeTypeComponent extends StatelessWidget {
       AppLocalizations.of(context)!.information(
         _episodeType(context),
         episode.number,
-        episode.season,
+        AppLocalizations.of(context)!.season(episode.season),
       ),
       style: Theme.of(context).textTheme.bodyMedium,
       overflow: TextOverflow.ellipsis,

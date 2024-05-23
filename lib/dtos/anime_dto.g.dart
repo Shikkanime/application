@@ -26,6 +26,9 @@ _$AnimeDtoImpl _$$AnimeDtoImplFromJson(Map<String, dynamic> json) =>
           .toList(),
       langTypes:
           (json['langTypes'] as List<dynamic>).map((e) => e as String).toList(),
+      seasons: (json['seasons'] as List<dynamic>)
+          .map((e) => SeasonDto.fromJson(e as Map<String, dynamic>))
+          .toList(),
       status: json['status'] as String?,
     );
 
@@ -44,5 +47,6 @@ Map<String, dynamic> _$$AnimeDtoImplToJson(_$AnimeDtoImpl instance) =>
       'simulcasts': instance.simulcasts,
       'audioLocales': instance.audioLocales,
       'langTypes': instance.langTypes,
+      'seasons': instance.seasons,
       'status': instance.status,
     };

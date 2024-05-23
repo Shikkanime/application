@@ -33,6 +33,7 @@ mixin _$AnimeDto {
   List<SimulcastDto> get simulcasts => throw _privateConstructorUsedError;
   List<String> get audioLocales => throw _privateConstructorUsedError;
   List<String> get langTypes => throw _privateConstructorUsedError;
+  List<SeasonDto> get seasons => throw _privateConstructorUsedError;
   String? get status => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -60,6 +61,7 @@ abstract class $AnimeDtoCopyWith<$Res> {
       List<SimulcastDto> simulcasts,
       List<String> audioLocales,
       List<String> langTypes,
+      List<SeasonDto> seasons,
       String? status});
 }
 
@@ -89,6 +91,7 @@ class _$AnimeDtoCopyWithImpl<$Res, $Val extends AnimeDto>
     Object? simulcasts = null,
     Object? audioLocales = null,
     Object? langTypes = null,
+    Object? seasons = null,
     Object? status = freezed,
   }) {
     return _then(_value.copyWith(
@@ -144,6 +147,10 @@ class _$AnimeDtoCopyWithImpl<$Res, $Val extends AnimeDto>
           ? _value.langTypes
           : langTypes // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      seasons: null == seasons
+          ? _value.seasons
+          : seasons // ignore: cast_nullable_to_non_nullable
+              as List<SeasonDto>,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -174,6 +181,7 @@ abstract class _$$AnimeDtoImplCopyWith<$Res>
       List<SimulcastDto> simulcasts,
       List<String> audioLocales,
       List<String> langTypes,
+      List<SeasonDto> seasons,
       String? status});
 }
 
@@ -201,6 +209,7 @@ class __$$AnimeDtoImplCopyWithImpl<$Res>
     Object? simulcasts = null,
     Object? audioLocales = null,
     Object? langTypes = null,
+    Object? seasons = null,
     Object? status = freezed,
   }) {
     return _then(_$AnimeDtoImpl(
@@ -256,6 +265,10 @@ class __$$AnimeDtoImplCopyWithImpl<$Res>
           ? _value._langTypes
           : langTypes // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      seasons: null == seasons
+          ? _value._seasons
+          : seasons // ignore: cast_nullable_to_non_nullable
+              as List<SeasonDto>,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -281,10 +294,12 @@ class _$AnimeDtoImpl implements _AnimeDto {
       required final List<SimulcastDto> simulcasts,
       required final List<String> audioLocales,
       required final List<String> langTypes,
+      required final List<SeasonDto> seasons,
       required this.status})
       : _simulcasts = simulcasts,
         _audioLocales = audioLocales,
-        _langTypes = langTypes;
+        _langTypes = langTypes,
+        _seasons = seasons;
 
   factory _$AnimeDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$AnimeDtoImplFromJson(json);
@@ -333,12 +348,20 @@ class _$AnimeDtoImpl implements _AnimeDto {
     return EqualUnmodifiableListView(_langTypes);
   }
 
+  final List<SeasonDto> _seasons;
+  @override
+  List<SeasonDto> get seasons {
+    if (_seasons is EqualUnmodifiableListView) return _seasons;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_seasons);
+  }
+
   @override
   final String? status;
 
   @override
   String toString() {
-    return 'AnimeDto(uuid: $uuid, countryCode: $countryCode, name: $name, shortName: $shortName, slug: $slug, releaseDateTime: $releaseDateTime, lastReleaseDateTime: $lastReleaseDateTime, image: $image, banner: $banner, description: $description, simulcasts: $simulcasts, audioLocales: $audioLocales, langTypes: $langTypes, status: $status)';
+    return 'AnimeDto(uuid: $uuid, countryCode: $countryCode, name: $name, shortName: $shortName, slug: $slug, releaseDateTime: $releaseDateTime, lastReleaseDateTime: $lastReleaseDateTime, image: $image, banner: $banner, description: $description, simulcasts: $simulcasts, audioLocales: $audioLocales, langTypes: $langTypes, seasons: $seasons, status: $status)';
   }
 
   @override
@@ -367,6 +390,7 @@ class _$AnimeDtoImpl implements _AnimeDto {
                 .equals(other._audioLocales, _audioLocales) &&
             const DeepCollectionEquality()
                 .equals(other._langTypes, _langTypes) &&
+            const DeepCollectionEquality().equals(other._seasons, _seasons) &&
             (identical(other.status, status) || other.status == status));
   }
 
@@ -387,6 +411,7 @@ class _$AnimeDtoImpl implements _AnimeDto {
       const DeepCollectionEquality().hash(_simulcasts),
       const DeepCollectionEquality().hash(_audioLocales),
       const DeepCollectionEquality().hash(_langTypes),
+      const DeepCollectionEquality().hash(_seasons),
       status);
 
   @JsonKey(ignore: true)
@@ -418,6 +443,7 @@ abstract class _AnimeDto implements AnimeDto {
       required final List<SimulcastDto> simulcasts,
       required final List<String> audioLocales,
       required final List<String> langTypes,
+      required final List<SeasonDto> seasons,
       required final String? status}) = _$AnimeDtoImpl;
 
   factory _AnimeDto.fromJson(Map<String, dynamic> json) =
@@ -449,6 +475,8 @@ abstract class _AnimeDto implements AnimeDto {
   List<String> get audioLocales;
   @override
   List<String> get langTypes;
+  @override
+  List<SeasonDto> get seasons;
   @override
   String? get status;
   @override

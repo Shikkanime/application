@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
+import 'package:application/dtos/season_dto.dart';
 import 'package:application/utils/http_request.dart';
 import 'package:flutter/material.dart';
 
@@ -33,6 +34,7 @@ class AnimeDetailsController {
   bool canLoadMore = true;
 
   AnimeDto? anime;
+  SeasonDto? season;
   Sort sort = Sort.oldest;
 
   Future<void> init() async {
@@ -58,6 +60,7 @@ class AnimeDetailsController {
 
   void dispose() {
     anime = null;
+    season = null;
     sort = Sort.oldest;
     episodes.clear();
     streamController.add(episodes);
@@ -80,7 +83,7 @@ class AnimeDetailsController {
 
     try {
       final pageableDto = await HttpRequest.instance.getPage(
-        '/v1/episode-mappings?anime=${anime?.uuid}&${sort.value}&page=$page&limit=4',
+        '/v1/episode-mappings?anime=${anime?.uuid}${season != null ? '&season=${season!.number}' : ''}&${sort.value}&page=$page&limit=4',
       );
 
       episodes.addAll(
