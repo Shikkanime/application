@@ -23,7 +23,7 @@ class MissedAnimeController {
     page = 1;
     isLoading = false;
     canLoadMore = true;
-    await nextPage();
+    await loadPage();
 
     scrollController.addListener(() {
       // If the user is going to the end of the list
@@ -32,9 +32,24 @@ class MissedAnimeController {
       if (position.pixels >= position.maxScrollExtent - 300 &&
           !isLoading &&
           canLoadMore) {
-        nextPage();
+        loadPage();
       }
     });
+  }
+
+  Future<void> refresh() async {
+    final currentPage = page;
+    isLoading = false;
+    canLoadMore = true;
+    // Refresh only the page of the missed animes
+    missedAnimes.clear();
+
+    for (var i = 1; i < currentPage; i++) {
+      page = i;
+      await loadPage(emit: false);
+    }
+
+    streamController.add(missedAnimes);
   }
 
   Future<void> goToTop() async {
@@ -47,7 +62,7 @@ class MissedAnimeController {
     await init();
   }
 
-  Future<void> nextPage() async {
+  Future<void> loadPage({bool emit = true}) async {
     if (isLoading) {
       return;
     }
@@ -65,7 +80,10 @@ class MissedAnimeController {
             .map((e) => MissedAnimeDto.fromJson(e as Map<String, dynamic>)),
       );
 
-      streamController.add(missedAnimes);
+      if (emit) {
+        streamController.add(missedAnimes);
+      }
+
       canLoadMore = missedAnimes.length < pageableDto.total;
     } catch (e) {
       debugPrint(e.toString());
@@ -108,7 +126,7 @@ class MissedAnimeController {
       if (value == 0) {
         MemberController.instance
             .followAllEpisodes(missedAnime.anime)
-            .then((value) => init());
+            .then((value) => refresh());
         Vibration.vibrate(pattern: [0, 50, 125, 50, 125, 50]);
       } else if (value == 1) {
         Share.share(

@@ -81,7 +81,7 @@ class MissedAnimesRow extends StatelessWidget {
                 children: [
                   Expanded(
                     child: SizedBox(
-                      height: 110,
+                      height: 115,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         addAutomaticKeepAlives: false,
