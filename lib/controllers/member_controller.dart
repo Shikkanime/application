@@ -6,8 +6,10 @@ import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/dtos/member_dto.dart';
 import 'package:application/utils/http_request.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MemberController {
@@ -16,6 +18,7 @@ class MemberController {
   final streamController = StreamController<MemberDto>.broadcast();
   String? identifier;
   MemberDto? member;
+  int imageVersion = 0;
 
   Future<void> init({bool afterDelete = false}) async {
     if (!afterDelete) {
@@ -23,6 +26,7 @@ class MemberController {
     }
 
     identifier = _sharedPreferences.getString('identifier') ?? await register();
+    imageVersion = _sharedPreferences.getInt('imageVersion') ?? 0;
 
     try {
       await login();
@@ -33,6 +37,8 @@ class MemberController {
         // Move the current identifier to old identifier
         final oldIdentifier = identifier;
         await _sharedPreferences.remove('identifier');
+        await _sharedPreferences.remove('imageVersion');
+
         await _sharedPreferences.setString('oldIdentifier', oldIdentifier!);
         await init(afterDelete: true);
       }
@@ -84,6 +90,42 @@ class MemberController {
 
     member = MemberDto.fromJson(json);
     streamController.add(member!);
+  }
+
+  Future<void> changeImage() async {
+    final result = await FilePicker.platform.pickFiles(
+      allowMultiple: false,
+      type: FileType.image,
+    );
+
+    if (result != null) {
+      final path = result.files.single.path!;
+
+      final croppedFile = await ImageCropper().cropImage(
+        sourcePath: path,
+        aspectRatioPresets: [CropAspectRatioPreset.square],
+        uiSettings: [
+          AndroidUiSettings(),
+          IOSUiSettings(),
+        ],
+      );
+
+      final response = await HttpRequest().postMultipart(
+        '/v1/members/image',
+        member!.token,
+        croppedFile!.path,
+      );
+
+      if (response.statusCode != 200) {
+        throw HttpException('Failed to change image ${response.body}');
+      }
+
+      imageVersion++;
+      await _sharedPreferences.setInt('imageVersion', imageVersion);
+      Future.delayed(const Duration(seconds: 1), () {
+        streamController.add(member!);
+      });
+    }
   }
 
   Future<String> associateEmail(String email) async {
