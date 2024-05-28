@@ -62,6 +62,30 @@ class HttpRequest {
         .timeout(_timeout);
   }
 
+  Future<http.Response> postMultipart<Response>(
+    String endpoint,
+    String token,
+    String path,
+  ) async {
+    final request = http.MultipartRequest(
+      'POST',
+      Uri.parse(
+        Constant.apiUrl + endpoint,
+      ),
+    );
+
+    request.headers.putIfAbsent('Authorization', () => 'Bearer $token');
+    request.files.add(
+      await http.MultipartFile.fromPath(
+        'file',
+        path,
+        filename: path.split('/').last,
+      ),
+    );
+
+    return http.Response.fromStream(await request.send()).timeout(_timeout);
+  }
+
   Future<http.Response> put<Response>(
     String endpoint,
     String token,
