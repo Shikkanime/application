@@ -2,10 +2,15 @@ import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class EpisodeTypeComponent extends StatelessWidget {
+class EpisodeInformation extends StatelessWidget {
   final EpisodeMappingDto episode;
+  final bool showSeason;
 
-  const EpisodeTypeComponent({super.key, required this.episode});
+  const EpisodeInformation({
+    super.key,
+    required this.episode,
+    this.showSeason = true,
+  });
 
   String _episodeType(BuildContext context) {
     switch (episode.episodeType) {
@@ -25,11 +30,16 @@ class EpisodeTypeComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      AppLocalizations.of(context)!.information(
-        _episodeType(context),
-        episode.number,
-        AppLocalizations.of(context)!.season(episode.season),
-      ),
+      showSeason
+          ? AppLocalizations.of(context)!.fullInformation(
+              _episodeType(context),
+              episode.number,
+              AppLocalizations.of(context)!.season(episode.season),
+            )
+          : AppLocalizations.of(context)!.minInformation(
+              _episodeType(context),
+              episode.number,
+            ),
       style: Theme.of(context).textTheme.bodyMedium,
       overflow: TextOverflow.ellipsis,
     );

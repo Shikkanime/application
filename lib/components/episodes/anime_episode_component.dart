@@ -1,7 +1,7 @@
 import 'package:application/components/card_component.dart';
 import 'package:application/components/episodes/episode_action_bar.dart';
 import 'package:application/components/episodes/episode_image.dart';
-import 'package:application/components/episodes/episode_type_component.dart';
+import 'package:application/components/episodes/episode_information_component.dart';
 import 'package:application/components/lang_type_component.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +42,7 @@ class AnimeEpisodeComponent extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),
-                EpisodeTypeComponent(episode: episode),
+                EpisodeInformation(episode: episode, showSeason: false),
                 for (final langType in episode.langTypes)
                   LangTypeComponent(langType: langType),
                 EpisodeActionBar(episode: episode),

@@ -12,7 +12,8 @@
   "summary": "Épisode récapitulatif",
 
   "season": "Saison {season}",
-  "information": "{seasonString} | {episodeType} {number}",
+  "fullInformation": "{seasonString} | {episodeType} {number}",
+  "minInformation": "{episodeType} {number}",
 
   "subtitles": "Sous-titrage",
   "voice": "Doublage",
