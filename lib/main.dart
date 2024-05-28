@@ -197,7 +197,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         elevation: 0,
         title: const Image(
-          image: AssetImage('assets/icon_128x128.png'),
+          image: AssetImage('assets/icon_450x450.png'),
           width: 36,
           height: 36,
         ),
