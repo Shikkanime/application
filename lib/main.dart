@@ -5,6 +5,7 @@ import 'package:application/controllers/anime_search_controller.dart';
 import 'package:application/controllers/anime_weekly_controller.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/missed_anime_controller.dart';
+import 'package:application/controllers/notifications_controller.dart';
 import 'package:application/dtos/missed_anime_dto.dart';
 import 'package:application/utils/constant.dart';
 import 'package:application/views/account_settings_view.dart';
@@ -16,15 +17,11 @@ import 'package:application/controllers/simulcast_controller.dart';
 import 'package:application/views/no_internet.dart';
 import 'package:application/views/search_view.dart';
 import 'package:application/views/simulcast_view.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shorebird_code_push/shorebird_code_push.dart';
-
-import 'firebase_options.dart';
 
 final shorebirdCodePush = ShorebirdCodePush();
 
@@ -49,27 +46,13 @@ Future<void> main() async {
     ]);
 
     AnimeSearchController.instance.init();
-
-    await _initFirebase();
+    await NotificationsController.instance.init();
     hasInternet = true;
   } catch (e) {
     debugPrint(e.toString());
   }
 
   runApp(MyApp(hasInternet: hasInternet));
-}
-
-Future<void> _initFirebase() async {
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-  final response =
-      await FirebaseMessaging.instance.requestPermission(provisional: true);
-
-  if (response.authorizationStatus == AuthorizationStatus.authorized) {
-    await FirebaseMessaging.instance.subscribeToTopic('global');
-  }
 }
 
 class MyApp extends StatelessWidget {

@@ -12,32 +12,20 @@ class EpisodeInformation extends StatelessWidget {
     this.showSeason = true,
   });
 
-  String _episodeType(BuildContext context) {
-    switch (episode.episodeType) {
-      case 'EPISODE':
-        return AppLocalizations.of(context)!.episode;
-      case 'SPECIAL':
-        return AppLocalizations.of(context)!.special;
-      case 'FILM':
-        return AppLocalizations.of(context)!.film;
-      case 'SUMMARY':
-        return AppLocalizations.of(context)!.summary;
-      default:
-        return '';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    final episodeTypeString = AppLocalizations.of(context)!
+        .episodeType(episode.episodeType.toLowerCase());
+
     return Text(
       showSeason
           ? AppLocalizations.of(context)!.fullInformation(
-              _episodeType(context),
+              episodeTypeString,
               episode.number,
-              AppLocalizations.of(context)!.season(episode.season),
+              episode.season,
             )
           : AppLocalizations.of(context)!.minInformation(
-              _episodeType(context),
+              episodeTypeString,
               episode.number,
             ),
       style: Theme.of(context).textTheme.bodyMedium,
