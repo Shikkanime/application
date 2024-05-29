@@ -188,13 +188,23 @@ class AccountView extends StatelessWidget {
             const SizedBox(height: 16),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                'Nos recommandations',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey,
-                ),
+              child: Flex(
+                direction: Axis.horizontal,
+                children: [
+                  Icon(
+                    Icons.star,
+                    color: Colors.grey,
+                  ),
+                  SizedBox(width: 8),
+                  Text(
+                    'Nos recommandations',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
               ),
             ),
             const ListTile(
