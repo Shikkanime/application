@@ -6,13 +6,10 @@
 
   "whatYouMightHaveMissed1": "Ce que tu aurais pu ",
   "whatYouMightHaveMissed2": "manquer",
-  "episode": "Épisode",
-  "special": "Spécial",
-  "film": "Film",
-  "summary": "Épisode récapitulatif",
 
   "season": "Saison {season}",
-  "fullInformation": "{seasonString} | {episodeType} {number}",
+  "episodeType": "{type, select, episode{Épisode} special{Spécial} film{Film} summary{Épisode récapitulatif} other{}}",
+  "fullInformation": "Saison {season} | {episodeType} {number}",
   "minInformation": "{episodeType} {number}",
 
   "subtitles": "Sous-titrage",
@@ -49,6 +46,9 @@
   "cancel": "Annuler",
   "save": "Sauvegarder",
   "settings": "Paramètres",
+  "notifications": "Notifications",
+  "notificationsType": "{type, select, all{Toutes les notifications} watchlist{Watchlist} none{Aucune} other{Autre}}",
+  "notificationsSubtitles": "{type, select, all{Recevez des notifications pour tous les animés} watchlist{Recevez des notifications pour les animés de votre watchlist} none{Désactivez les notifications} other{Recevez des notifications pour les animés que vous suivez}}",
 
   "anonymousWarningTitle": "Avertissement sur la sauvegarde de données",
   "anonymousWarningContent1": "Nous sauvegardons vos données de manière anonyme sur nos serveurs. Chaque compte est associé à un identifiant unique. Cependant, il est important de noter que si vous perdez cet identifiant, vous risquez de perdre l'accès à toutes vos données.",
@@ -64,7 +64,7 @@
   "invalidCode": "Code invalide",
   "invalidIdentifier": "Identifiant invalide",
 
-  "emailContent" : "En associant un email à votre compte, vous pourrez récupérer vos données en cas de perte de votre identifiant. De plus, vous pourrez sécuriser votre compte contre toute perte accidentelle.",
+  "emailContent": "En associant un email à votre compte, vous pourrez récupérer vos données en cas de perte de votre identifiant. De plus, vous pourrez sécuriser votre compte contre toute perte accidentelle.",
   "emailSpamWarning": "Veuillez vérifier votre dossier de courrier indésirable si vous ne recevez pas l'email dans votre boîte de réception. Si vous ne recevez toujours pas l'email après quelques minutes, veuillez réessayer.",
 
   "animesAdded": "Animés ajoutés",
