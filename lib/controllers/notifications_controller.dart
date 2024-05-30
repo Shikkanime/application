@@ -44,10 +44,13 @@ class NotificationsController {
     switch (type) {
       case NotificationsType.all:
         await FirebaseMessaging.instance.subscribeToTopic('global');
+        await FirebaseMessaging.instance
+            .unsubscribeFromTopic(MemberController.instance.member!.uuid);
         break;
       case NotificationsType.watchlist:
         await FirebaseMessaging.instance
             .subscribeToTopic(MemberController.instance.member!.uuid);
+        await FirebaseMessaging.instance.unsubscribeFromTopic('global');
         break;
       case NotificationsType.none:
         await FirebaseMessaging.instance.unsubscribeFromTopic('global');
