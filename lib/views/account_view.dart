@@ -1,9 +1,8 @@
 import 'package:application/components/accounts/account_card.dart';
 import 'package:application/components/accounts/associate_email.dart';
+import 'package:application/components/member_image.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/dtos/member_dto.dart';
-import 'package:application/utils/constant.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -31,24 +30,7 @@ class AccountView extends StatelessWidget {
                       SizedBox(
                         width: 80,
                         height: 80,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: CachedNetworkImage(
-                            imageUrl:
-                                '${Constant.apiUrl}/v1/attachments?uuid=${member?.uuid}&v=${MemberController.instance.imageVersion}',
-                            filterQuality: FilterQuality.high,
-                            placeholder: (context, url) =>
-                                const CircularProgressIndicator(),
-                            errorWidget: (context, url, error) => DecoratedBox(
-                              decoration:
-                                  BoxDecoration(color: Colors.grey[900]),
-                              child: const Icon(
-                                Icons.person,
-                                size: 32,
-                              ),
-                            ),
-                          ),
-                        ),
+                        child: MemberImage(member: member),
                       ),
                       Positioned(
                         bottom: 0,

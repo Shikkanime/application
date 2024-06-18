@@ -103,6 +103,7 @@ class MemberController {
 
       final croppedFile = await ImageCropper().cropImage(
         sourcePath: path,
+        cropStyle: CropStyle.circle,
         aspectRatioPresets: [CropAspectRatioPreset.square],
         uiSettings: [
           AndroidUiSettings(),

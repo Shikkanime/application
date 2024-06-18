@@ -1,3 +1,4 @@
+import 'package:application/components/member_image.dart';
 import 'package:application/components/pill.dart';
 import 'package:application/components/update_available_component.dart';
 import 'package:application/controllers/anime_controller.dart';
@@ -6,6 +7,7 @@ import 'package:application/controllers/anime_weekly_controller.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/missed_anime_controller.dart';
 import 'package:application/controllers/notifications_controller.dart';
+import 'package:application/dtos/member_dto.dart';
 import 'package:application/dtos/missed_anime_dto.dart';
 import 'package:application/utils/constant.dart';
 import 'package:application/views/account_settings_view.dart';
@@ -288,8 +290,28 @@ class _MyHomePageState extends State<MyHomePage> {
             label: AppLocalizations.of(context)!.calendar,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.person_outline),
-            activeIcon: const Icon(Icons.person),
+            icon: StreamBuilder<MemberDto>(
+              stream: MemberController.instance.streamController.stream,
+              initialData: MemberController.instance.member,
+              builder: (context, snapshot) {
+                final member = snapshot.data;
+
+                return Container(
+                  decoration: _currentIndex == 3
+                      ? BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white, width: 2),
+                        )
+                      : null,
+                  padding: const EdgeInsets.all(1),
+                  child: MemberImage(
+                    member: member,
+                    width: 32,
+                    height: 32,
+                  ),
+                );
+              },
+            ),
             label: AppLocalizations.of(context)!.myAccount,
           ),
         ],
