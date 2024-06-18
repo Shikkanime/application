@@ -179,7 +179,7 @@ class AccountSettingsView extends StatelessWidget {
                       ],
                     );
                   },
-                )
+                ),
               ],
             ),
           );
