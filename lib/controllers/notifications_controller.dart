@@ -14,11 +14,12 @@ enum NotificationsType {
 
 class NotificationsController {
   static final instance = NotificationsController();
+  final String key = 'notificationsType';
   late final SharedPreferences _sharedPreferences;
   final streamController = StreamController<NotificationsType>.broadcast();
 
-  NotificationsType get notificationsType => NotificationsType
-      .values[_sharedPreferences.getInt('notificationsType') ?? 0];
+  NotificationsType get notificationsType =>
+      NotificationsType.values[_sharedPreferences.getInt(key) ?? 0];
 
   Future<void> init() async {
     _sharedPreferences = await SharedPreferences.getInstance();
@@ -33,13 +34,13 @@ class NotificationsController {
       return;
     }
 
-    if (!_sharedPreferences.containsKey('notificationsType')) {
+    if (!_sharedPreferences.containsKey(key)) {
       await setNotificationsType(NotificationsType.all);
     }
   }
 
   Future<void> setNotificationsType(NotificationsType type) async {
-    await _sharedPreferences.setInt('notificationsType', type.index);
+    await _sharedPreferences.setInt(key, type.index);
 
     switch (type) {
       case NotificationsType.all:

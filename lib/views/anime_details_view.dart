@@ -6,6 +6,7 @@ import 'package:application/components/lang_type_component.dart';
 import 'package:application/controllers/anime_details_controller.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/missed_anime_controller.dart';
+import 'package:application/controllers/sort_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/dtos/season_dto.dart';
@@ -31,7 +32,12 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
   void initState() {
     super.initState();
     AnimeDetailsController.instance.anime = widget.anime;
-    AnimeDetailsController.instance.season = widget.anime.seasons.first;
+
+    if (SortController.instance.sortType == SortType.oldest) {
+      AnimeDetailsController.instance.season = widget.anime.seasons.first;
+    } else {
+      AnimeDetailsController.instance.season = widget.anime.seasons.last;
+    }
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       AnimeDetailsController.instance.init();
@@ -200,28 +206,24 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                       const Spacer(),
                       ElevatedDropdownButton(
                         globalKey: GlobalKey(),
-                        value: AnimeDetailsController.instance.sort,
+                        value: SortController.instance.sortType,
                         items: [
-                          ElevatedPopupMenuItem(
-                            value: Sort.oldest,
-                            leading: AnimeDetailsController.instance.sort ==
-                                    Sort.oldest
-                                ? const Icon(Icons.check)
-                                : null,
-                            child: Text(AppLocalizations.of(context)!.oldest),
-                          ),
-                          ElevatedPopupMenuItem(
-                            value: Sort.newest,
-                            leading: AnimeDetailsController.instance.sort ==
-                                    Sort.newest
-                                ? const Icon(Icons.check)
-                                : null,
-                            child: Text(AppLocalizations.of(context)!.newest),
-                          ),
+                          for (final sortType in SortType.values)
+                            ElevatedPopupMenuItem(
+                              value: sortType,
+                              child: Text(
+                                AppLocalizations.of(context)!
+                                    .sortType(sortType.name),
+                              ),
+                              leading:
+                                  SortController.instance.sortType == sortType
+                                      ? const Icon(Icons.check)
+                                      : null,
+                            ),
                         ],
                         onChanged: (value) {
                           setState(() {
-                            AnimeDetailsController.instance.sort = value;
+                            SortController.instance.setSortType(value);
                             AnimeDetailsController.instance.refresh();
                           });
                         },

@@ -1,27 +1,11 @@
 import 'dart:async';
 
+import 'package:application/controllers/sort_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/dtos/season_dto.dart';
 import 'package:application/utils/http_request.dart';
 import 'package:flutter/material.dart';
-
-enum Sort {
-  oldest(
-    value: 'sort=releaseDateTime,season,episodeType,number',
-  ),
-  newest(
-    value:
-        'sort=releaseDateTime,season,episodeType,number&desc=releaseDateTime,season,episodeType,number',
-  ),
-  ;
-
-  final String value;
-
-  const Sort({
-    required this.value,
-  });
-}
 
 class AnimeDetailsController {
   static AnimeDetailsController instance = AnimeDetailsController();
@@ -35,7 +19,6 @@ class AnimeDetailsController {
 
   AnimeDto? anime;
   SeasonDto? season;
-  Sort sort = Sort.oldest;
 
   Future<void> init() async {
     episodes.clear();
@@ -61,7 +44,6 @@ class AnimeDetailsController {
   void dispose() {
     anime = null;
     season = null;
-    sort = Sort.oldest;
     episodes.clear();
     streamController.add(episodes);
   }
@@ -83,7 +65,7 @@ class AnimeDetailsController {
 
     try {
       final pageableDto = await HttpRequest.instance.getPage(
-        '/v1/episode-mappings?anime=${anime?.uuid}${season != null ? '&season=${season!.number}' : ''}&${sort.value}&page=$page&limit=4',
+        '/v1/episode-mappings?anime=${anime?.uuid}${season != null ? '&season=${season!.number}' : ''}&${SortController.instance.sortType.value}&page=$page&limit=4',
       );
 
       episodes.addAll(

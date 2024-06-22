@@ -2,6 +2,7 @@ import 'package:application/components/accounts/associate_email.dart';
 import 'package:application/components/accounts/edit_identifier.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/notifications_controller.dart';
+import 'package:application/controllers/sort_controller.dart';
 import 'package:application/dtos/member_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -174,6 +175,52 @@ class AccountSettingsView extends StatelessWidget {
                             onTap: () {
                               NotificationsController.instance
                                   .setNotificationsType(type);
+                            },
+                          ),
+                      ],
+                    );
+                  },
+                ),
+                const SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Flex(
+                    direction: Axis.horizontal,
+                    children: [
+                      const Icon(
+                        Icons.sort,
+                        color: Colors.grey,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        appLocalizations.defaultSort,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                StreamBuilder<SortType>(
+                  stream: SortController.instance.streamController.stream,
+                  initialData: SortController.instance.sortType,
+                  builder: (context, snapshot) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        for (final type in SortType.values)
+                          ListTile(
+                            title: Text(
+                              appLocalizations.sortType(type.name),
+                            ),
+                            trailing: snapshot.data == type
+                                ? const Icon(Icons.check)
+                                : null,
+                            onTap: () {
+                              SortController.instance.setSortType(type);
                             },
                           ),
                       ],
