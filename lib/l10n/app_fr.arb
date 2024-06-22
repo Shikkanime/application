@@ -21,9 +21,6 @@
   "downloadingUpdate": "Téléchargement de la mise à jour...",
 
   "search": "Rechercher",
-  "sortBy": "Trier par",
-  "oldest": "Les plus anciens",
-  "newest": "Les plus récents",
   "sort": "Trier",
 
   "markWatched": "Marqué comme vu",
@@ -49,6 +46,8 @@
   "notifications": "Notifications",
   "notificationsType": "{type, select, all{Toutes les notifications} watchlist{Watchlist} none{Aucune} other{Autre}}",
   "notificationsSubtitles": "{type, select, all{Recevez des notifications pour tous les animés} watchlist{Recevez des notifications pour les animés de votre watchlist} none{Désactivez les notifications} other{Recevez des notifications pour les animés que vous suivez}}",
+  "defaultSort": "Tri par défaut",
+  "sortType": "{type, select, oldest{Les plus anciens} newest{Les plus récents} other{Autre}}",
 
   "anonymousWarningTitle": "Avertissement sur la sauvegarde de données",
   "anonymousWarningContent1": "Nous sauvegardons vos données de manière anonyme sur nos serveurs. Chaque compte est associé à un identifiant unique. Cependant, il est important de noter que si vous perdez cet identifiant, vous risquez de perdre l'accès à toutes vos données.",

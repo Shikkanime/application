@@ -7,6 +7,7 @@ import 'package:application/controllers/anime_weekly_controller.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/missed_anime_controller.dart';
 import 'package:application/controllers/notifications_controller.dart';
+import 'package:application/controllers/sort_controller.dart';
 import 'package:application/dtos/member_dto.dart';
 import 'package:application/dtos/missed_anime_dto.dart';
 import 'package:application/utils/constant.dart';
@@ -49,6 +50,7 @@ Future<void> main() async {
 
     AnimeSearchController.instance.init();
     await NotificationsController.instance.init();
+    await SortController.instance.init();
     hasInternet = true;
   } catch (e) {
     debugPrint(e.toString());
