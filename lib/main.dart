@@ -46,11 +46,11 @@ Future<void> main() async {
           .init()
           .then((value) => AnimeController.instance.init()),
       AnimeWeeklyController.instance.init(),
+      NotificationsController.instance.init(),
+      SortController.instance.init(),
     ]);
 
     AnimeSearchController.instance.init();
-    await NotificationsController.instance.init();
-    await SortController.instance.init();
     hasInternet = true;
   } catch (e) {
     debugPrint(e.toString());
