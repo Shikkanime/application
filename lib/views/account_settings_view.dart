@@ -190,13 +190,13 @@ class AccountSettingsView extends StatelessWidget {
 class SettingsCategory extends StatelessWidget {
   final IconData icon;
   final String title;
-  final List<Widget>? options;
+  final List<Widget> options;
 
   const SettingsCategory({
     super.key,
     required this.icon,
     required this.title,
-    this.options,
+    required this.options,
   });
 
   @override
@@ -233,7 +233,7 @@ class SettingsCategory extends StatelessWidget {
             ],
           ),
         ),
-        ...?options,
+        ...options,
       ],
     );
   }
