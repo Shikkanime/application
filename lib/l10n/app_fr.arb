@@ -1,8 +1,8 @@
 {
   "home": "Accueil",
   "catalog": "Catalogue",
-  "myAccount": "Mon compte",
   "calendar": "Calendrier",
+  "myAccount": "Compte",
 
   "whatYouMightHaveMissed1": "Ce que tu aurais pu ",
   "whatYouMightHaveMissed2": "manquer",

@@ -106,7 +106,7 @@ class MemberController {
         uiSettings: [
           AndroidUiSettings(
             cropStyle: CropStyle.circle,
-            aspectRatioPresets: [CropAspectRatioPreset.square],
+            initAspectRatio: CropAspectRatioPreset.square,
           ),
           IOSUiSettings(
             cropStyle: CropStyle.circle,

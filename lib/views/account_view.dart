@@ -5,6 +5,7 @@ import 'package:application/controllers/member_controller.dart';
 import 'package:application/dtos/member_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 
 class AccountView extends StatelessWidget {
   const AccountView({super.key});
@@ -167,36 +168,24 @@ class AccountView extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 16),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Flex(
-                direction: Axis.horizontal,
-                children: [
-                  Icon(
-                    Icons.star,
-                    color: Colors.grey,
-                  ),
-                  SizedBox(width: 8),
-                  Text(
-                    'Nos recommandations',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ],
+            const SizedBox(height: 32),
+            Text(
+              'Compte créé le ${beautifyDate(context, member?.creationDateTime ?? '')}',
+              style: const TextStyle(
+                fontSize: 14,
               ),
-            ),
-            const ListTile(
-              title: Text('Bah non, toujours pas de recommandations.'),
-              subtitle:
-                  Text("Mais ça va venir, promis ! (Peut-être d'ici 2027)"),
+              textAlign: TextAlign.center,
             ),
           ],
         );
       },
     );
+  }
+
+  String beautifyDate(BuildContext context, String date) {
+    return DateFormat(
+      "EEEE dd MMM yyyy",
+      Localizations.localeOf(context).languageCode,
+    ).format(DateTime.parse(date));
   }
 }

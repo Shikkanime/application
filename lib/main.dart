@@ -298,19 +298,11 @@ class _MyHomePageState extends State<MyHomePage> {
               builder: (context, snapshot) {
                 final member = snapshot.data;
 
-                return Container(
-                  decoration: _currentIndex == 3
-                      ? BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.white, width: 2),
-                        )
-                      : null,
-                  padding: const EdgeInsets.all(1),
-                  child: MemberImage(
-                    member: member,
-                    width: 32,
-                    height: 32,
-                  ),
+                return MemberImage(
+                  member: member,
+                  width: 32,
+                  height: 32,
+                  hasBorder: _currentIndex == 3,
                 );
               },
             ),

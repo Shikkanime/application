@@ -37,6 +37,9 @@ class ElevatedDropdownButton<T> extends StatelessWidget {
             position.dy,
           ),
           items: [...items.map((item) => item.build())],
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.3075,
+          ),
         ).then((value) {
           if (value != null) {
             onChanged(value);
