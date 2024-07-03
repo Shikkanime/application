@@ -38,7 +38,7 @@ class AccountView extends StatelessWidget {
                         right: 0,
                         child: GestureDetector(
                           onTap: () {
-                            MemberController.instance.changeImage();
+                            MemberController.instance.changeImage(context);
                           },
                           child: Container(
                             decoration: const BoxDecoration(
@@ -170,7 +170,9 @@ class AccountView extends StatelessWidget {
             ),
             const SizedBox(height: 32),
             Text(
-              'Compte créé le ${beautifyDate(context, member?.creationDateTime ?? '')}',
+              appLocalizations.accountCreatedAt(
+                beautifyDate(context, member?.creationDateTime ?? ''),
+              ),
               style: const TextStyle(
                 fontSize: 14,
               ),

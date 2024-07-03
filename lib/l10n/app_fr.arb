@@ -68,5 +68,8 @@
 
   "animesAdded": "Animés ajoutés",
   "episodesWatched": "Épisodes vus",
-  "watchTime": "Temps de visionnage"
+  "watchTime": "Temps de visionnage",
+  "accountCreatedAt": "Compte créé le {date}",
+  "crop": "Recadrer",
+  "next": "Suivant"
 }
