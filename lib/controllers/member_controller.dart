@@ -6,10 +6,11 @@ import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/dtos/member_dto.dart';
 import 'package:application/utils/http_request.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:application/views/crop_view.dart';
+import 'package:crop_your_image/crop_your_image.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MemberController {
@@ -92,45 +93,34 @@ class MemberController {
     streamController.add(member!);
   }
 
-  Future<void> changeImage() async {
-    final result = await FilePicker.platform.pickFiles(
-      allowMultiple: false,
-      type: FileType.image,
-    );
+  Future<void> changeImage(BuildContext context) async {
+    final picker = ImagePicker();
+    final result = await picker.pickImage(source: ImageSource.gallery);
+    final bytes = await result?.readAsBytes();
 
-    if (result != null) {
-      final path = result.files.single.path!;
-
-      final croppedFile = await ImageCropper().cropImage(
-        sourcePath: path,
-        uiSettings: [
-          AndroidUiSettings(
-            cropStyle: CropStyle.circle,
-            initAspectRatio: CropAspectRatioPreset.square,
-          ),
-          IOSUiSettings(
-            cropStyle: CropStyle.circle,
-            aspectRatioPresets: [CropAspectRatioPreset.square],
-          ),
-        ],
-      );
-
-      final response = await HttpRequest().postMultipart(
-        '/v1/members/image',
-        member!.token,
-        croppedFile!.path,
-      );
-
-      if (response.statusCode != 200) {
-        throw HttpException('Failed to change image ${response.body}');
-      }
-
-      imageVersion++;
-      await _sharedPreferences.setInt('imageVersion', imageVersion);
-      Future.delayed(const Duration(seconds: 1), () {
-        streamController.add(member!);
-      });
+    if (result == null || bytes == null || !context.mounted) {
+      return;
     }
+
+    final controller = CropController();
+
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => CropView(
+          bytes: bytes,
+          controller: controller,
+        ),
+      ),
+    );
+  }
+
+  Future<void> increaseImageVersion() async {
+    imageVersion++;
+    await _sharedPreferences.setInt('imageVersion', imageVersion);
+
+    Future.delayed(const Duration(seconds: 1), () {
+      streamController.add(member!);
+    });
   }
 
   Future<String> associateEmail(String email) async {

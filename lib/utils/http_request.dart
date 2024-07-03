@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:application/dtos/pageable_dto.dart';
 import 'package:application/utils/constant.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 class HttpRequest {
@@ -65,7 +66,7 @@ class HttpRequest {
   Future<http.Response> postMultipart<Response>(
     String endpoint,
     String token,
-    String path,
+    Uint8List bytes,
   ) async {
     final request = http.MultipartRequest(
       'POST',
@@ -76,10 +77,10 @@ class HttpRequest {
 
     request.headers.putIfAbsent('Authorization', () => 'Bearer $token');
     request.files.add(
-      await http.MultipartFile.fromPath(
+      http.MultipartFile.fromBytes(
         'file',
-        path,
-        filename: path.split('/').last,
+        bytes,
+        filename: 'image.jpg',
       ),
     );
 
