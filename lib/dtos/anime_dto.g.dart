@@ -18,8 +18,8 @@ _$AnimeDtoImpl _$$AnimeDtoImplFromJson(Map<String, dynamic> json) =>
       image: json['image'] as String,
       banner: json['banner'] as String?,
       description: json['description'] as String?,
-      simulcasts: (json['simulcasts'] as List<dynamic>)
-          .map((e) => SimulcastDto.fromJson(e as Map<String, dynamic>))
+      simulcasts: (json['simulcasts'] as List<dynamic>?)
+          ?.map((e) => SimulcastDto.fromJson(e as Map<String, dynamic>))
           .toList(),
       audioLocales: (json['audioLocales'] as List<dynamic>)
           .map((e) => e as String)

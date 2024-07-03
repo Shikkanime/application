@@ -30,7 +30,7 @@ mixin _$AnimeDto {
   String get image => throw _privateConstructorUsedError;
   String? get banner => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
-  List<SimulcastDto> get simulcasts => throw _privateConstructorUsedError;
+  List<SimulcastDto>? get simulcasts => throw _privateConstructorUsedError;
   List<String> get audioLocales => throw _privateConstructorUsedError;
   List<String> get langTypes => throw _privateConstructorUsedError;
   List<SeasonDto> get seasons => throw _privateConstructorUsedError;
@@ -58,7 +58,7 @@ abstract class $AnimeDtoCopyWith<$Res> {
       String image,
       String? banner,
       String? description,
-      List<SimulcastDto> simulcasts,
+      List<SimulcastDto>? simulcasts,
       List<String> audioLocales,
       List<String> langTypes,
       List<SeasonDto> seasons,
@@ -88,7 +88,7 @@ class _$AnimeDtoCopyWithImpl<$Res, $Val extends AnimeDto>
     Object? image = null,
     Object? banner = freezed,
     Object? description = freezed,
-    Object? simulcasts = null,
+    Object? simulcasts = freezed,
     Object? audioLocales = null,
     Object? langTypes = null,
     Object? seasons = null,
@@ -135,10 +135,10 @@ class _$AnimeDtoCopyWithImpl<$Res, $Val extends AnimeDto>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
-      simulcasts: null == simulcasts
+      simulcasts: freezed == simulcasts
           ? _value.simulcasts
           : simulcasts // ignore: cast_nullable_to_non_nullable
-              as List<SimulcastDto>,
+              as List<SimulcastDto>?,
       audioLocales: null == audioLocales
           ? _value.audioLocales
           : audioLocales // ignore: cast_nullable_to_non_nullable
@@ -178,7 +178,7 @@ abstract class _$$AnimeDtoImplCopyWith<$Res>
       String image,
       String? banner,
       String? description,
-      List<SimulcastDto> simulcasts,
+      List<SimulcastDto>? simulcasts,
       List<String> audioLocales,
       List<String> langTypes,
       List<SeasonDto> seasons,
@@ -206,7 +206,7 @@ class __$$AnimeDtoImplCopyWithImpl<$Res>
     Object? image = null,
     Object? banner = freezed,
     Object? description = freezed,
-    Object? simulcasts = null,
+    Object? simulcasts = freezed,
     Object? audioLocales = null,
     Object? langTypes = null,
     Object? seasons = null,
@@ -253,10 +253,10 @@ class __$$AnimeDtoImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
-      simulcasts: null == simulcasts
+      simulcasts: freezed == simulcasts
           ? _value._simulcasts
           : simulcasts // ignore: cast_nullable_to_non_nullable
-              as List<SimulcastDto>,
+              as List<SimulcastDto>?,
       audioLocales: null == audioLocales
           ? _value._audioLocales
           : audioLocales // ignore: cast_nullable_to_non_nullable
@@ -291,7 +291,7 @@ class _$AnimeDtoImpl implements _AnimeDto {
       required this.image,
       required this.banner,
       required this.description,
-      required final List<SimulcastDto> simulcasts,
+      required final List<SimulcastDto>? simulcasts,
       required final List<String> audioLocales,
       required final List<String> langTypes,
       required final List<SeasonDto> seasons,
@@ -324,12 +324,14 @@ class _$AnimeDtoImpl implements _AnimeDto {
   final String? banner;
   @override
   final String? description;
-  final List<SimulcastDto> _simulcasts;
+  final List<SimulcastDto>? _simulcasts;
   @override
-  List<SimulcastDto> get simulcasts {
+  List<SimulcastDto>? get simulcasts {
+    final value = _simulcasts;
+    if (value == null) return null;
     if (_simulcasts is EqualUnmodifiableListView) return _simulcasts;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_simulcasts);
+    return EqualUnmodifiableListView(value);
   }
 
   final List<String> _audioLocales;
@@ -440,7 +442,7 @@ abstract class _AnimeDto implements AnimeDto {
       required final String image,
       required final String? banner,
       required final String? description,
-      required final List<SimulcastDto> simulcasts,
+      required final List<SimulcastDto>? simulcasts,
       required final List<String> audioLocales,
       required final List<String> langTypes,
       required final List<SeasonDto> seasons,
@@ -470,7 +472,7 @@ abstract class _AnimeDto implements AnimeDto {
   @override
   String? get description;
   @override
-  List<SimulcastDto> get simulcasts;
+  List<SimulcastDto>? get simulcasts;
   @override
   List<String> get audioLocales;
   @override
