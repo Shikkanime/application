@@ -186,7 +186,7 @@ class AccountView extends StatelessWidget {
 
   String beautifyDate(BuildContext context, String date) {
     return DateFormat(
-      "EEEE dd MMM yyyy",
+      'EEEE dd MMM yyyy',
       Localizations.localeOf(context).languageCode,
     ).format(DateTime.parse(date));
   }
