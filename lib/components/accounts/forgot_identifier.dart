@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:vibration/vibration.dart';
 
-class AssociateEmail extends StatefulWidget {
-  const AssociateEmail({super.key});
+class ForgotIdentifier extends StatefulWidget {
+  const ForgotIdentifier({super.key});
 
   @override
-  State<StatefulWidget> createState() => _AssociateEmailState();
+  State<StatefulWidget> createState() => _ForgotIdentifierState();
 }
 
-class _AssociateEmailState extends State<AssociateEmail> {
+class _ForgotIdentifierState extends State<ForgotIdentifier> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _codeController = TextEditingController();
   bool _isInvalidEmailError = false;
@@ -24,7 +24,7 @@ class _AssociateEmailState extends State<AssociateEmail> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(AppLocalizations.of(context)!.associateEmail),
+        title: Text(AppLocalizations.of(context)!.forgotIdentifier),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -33,7 +33,7 @@ class _AssociateEmailState extends State<AssociateEmail> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                AppLocalizations.of(context)!.emailContent,
+                AppLocalizations.of(context)!.emailNotAssociated,
                 textAlign: TextAlign.left,
               ),
               const SizedBox(height: 32),
@@ -78,7 +78,7 @@ class _AssociateEmailState extends State<AssociateEmail> {
                     onPressed: _actionUuid != null || _isLoading
                         ? null
                         : () {
-                            saveEmail();
+                            sendAction();
                           },
                     child: Text(AppLocalizations.of(context)!.sendCode),
                   ),
@@ -111,13 +111,14 @@ class _AssociateEmailState extends State<AssociateEmail> {
     }
 
     if (_isConflictEmailError) {
-      return AppLocalizations.of(context)!.conflictEmail;
+      return AppLocalizations.of(context)!
+          .emailAlreadyAssociatedWithYourAccount;
     }
 
     return null;
   }
 
-  Future<void> saveEmail() async {
+  Future<void> sendAction() async {
     if (_emailController.text.isEmpty) {
       vibrate();
       return;
@@ -129,7 +130,8 @@ class _AssociateEmailState extends State<AssociateEmail> {
       return;
     }
 
-    if (_emailController.text == MemberController.instance.member?.email) {
+    if (MemberController.instance.member?.email?.isNotEmpty == true &&
+        _emailController.text == MemberController.instance.member?.email) {
       vibrate();
       updateState(conflictEmail: true);
       return;
@@ -139,7 +141,7 @@ class _AssociateEmailState extends State<AssociateEmail> {
 
     try {
       _actionUuid = await MemberController.instance
-          .associateEmail(_emailController.text);
+          .forgotIdentifier(_emailController.text);
 
       setState(() {});
     } on ConflictEmailException {
@@ -182,21 +184,33 @@ class _AssociateEmailState extends State<AssociateEmail> {
     });
 
     try {
-      await MemberController.instance.validateAction(_actionUuid!, _codeController.text);
-      await MemberController.instance.login();
+      await MemberController.instance
+          .validateAction(_actionUuid!, _codeController.text);
 
       if (context.mounted) {
         Navigator.of(context).pop();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              AppLocalizations.of(context)!.emailAssociated,
-              textAlign: TextAlign.center,
-            ),
-          ),
+
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: Text(
+                AppLocalizations.of(context)!.yourNewIdentifierHasBeenSent,
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(AppLocalizations.of(context)!.ok),
+                ),
+              ],
+            );
+          },
         );
       }
     } catch (e) {
+      debugPrint(e.toString());
       vibrate();
 
       if (context.mounted) {

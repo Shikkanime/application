@@ -65,9 +65,17 @@ class EditIdentifier extends StatelessWidget {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(
-              AppLocalizations.of(context)!.invalidIdentifier,
-              textAlign: TextAlign.center,
+            content: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.close),
+                const SizedBox(width: 8),
+                Text(
+                  AppLocalizations.of(context)!.invalidIdentifier,
+                  textAlign: TextAlign.center,
+                ),
+              ],
             ),
           ),
         );
