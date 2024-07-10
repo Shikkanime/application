@@ -21,43 +21,46 @@ class CropView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: false,
         title: Text(AppLocalizations.of(context)!.crop),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Crop(
-              controller: controller,
-              image: bytes,
-              withCircleUi: true,
-              baseColor: Colors.black,
-              onCropped: (value) {
-                Navigator.of(context).pop();
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: Crop(
+                controller: controller,
+                image: bytes,
+                withCircleUi: true,
+                baseColor: Colors.black,
+                onCropped: (value) {
+                  Navigator.of(context).pop();
 
-                HttpRequest()
-                    .postMultipart(
-                  '/v1/members/image',
-                  MemberController.instance.member!.token,
-                  value,
-                )
-                    .then((response) {
-                  if (response.statusCode != 200) {
-                    throw HttpException(
-                      'Failed to change image ${response.body}',
-                    );
-                  }
+                  HttpRequest()
+                      .postMultipart(
+                    '/v1/members/image',
+                    MemberController.instance.member!.token,
+                    value,
+                  )
+                      .then((response) {
+                    if (response.statusCode != 200) {
+                      throw HttpException(
+                        'Failed to change image ${response.body}',
+                      );
+                    }
 
-                  MemberController.instance.increaseImageVersion();
-                });
-              },
+                    MemberController.instance.increaseImageVersion();
+                  });
+                },
+              ),
             ),
-          ),
-          // Rotate button
-          ElevatedButton(
-            onPressed: controller.crop,
-            child: Text(AppLocalizations.of(context)!.next),
-          ),
-        ],
+            // Rotate button
+            ElevatedButton(
+              onPressed: controller.crop,
+              child: Text(AppLocalizations.of(context)!.next),
+            ),
+          ],
+        ),
       ),
     );
   }

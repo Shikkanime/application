@@ -183,6 +183,7 @@ class _MyHomePageState extends State<MyHomePage> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0,
+        centerTitle: false,
         title: const Image(
           image: AssetImage('assets/icon_450x450.png'),
           width: 36,

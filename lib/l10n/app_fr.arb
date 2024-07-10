@@ -40,8 +40,10 @@
   "noIdentifier": "Aucun identifiant",
   "identifierCopied": "Identifiant copié dans le presse-papiers",
   "enterNewIdentifier": "Saisissez un nouvel identifiant",
+  "forgotIdentifier": "Identifiant oublié ?",
   "cancel": "Annuler",
   "save": "Sauvegarder",
+  "ok": "OK",
   "settings": "Paramètres",
   "notifications": "Notifications",
   "notificationsType": "{type, select, all{Toutes les notifications} watchlist{Watchlist} none{Aucune} other{Autre}}",
@@ -65,6 +67,10 @@
 
   "emailContent": "En associant un email à votre compte, vous pourrez récupérer vos données en cas de perte de votre identifiant. De plus, vous pourrez sécuriser votre compte contre toute perte accidentelle.",
   "emailSpamWarning": "Veuillez vérifier votre dossier de courrier indésirable si vous ne recevez pas l'email dans votre boîte de réception. Si vous ne recevez toujours pas l'email après quelques minutes, veuillez réessayer.",
+  "emailNotAssociated": "Si vous n'avez pas associé d'email à votre compte, vous ne pourrez pas récupérer vos données en cas de perte de votre identifiant.",
+  "emailAlreadyAssociatedWithYourAccount": "Cet email est déjà associé à votre compte.",
+  "emailAssociated": "Votre email a bien été associé à votre compte.",
+  "yourNewIdentifierHasBeenSent": "Votre nouvel identifiant a été envoyé à votre adresse email.",
 
   "animesAdded": "Animés ajoutés",
   "episodesWatched": "Épisodes vus",

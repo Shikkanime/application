@@ -141,6 +141,24 @@ class MemberController {
     return jsonDecode(utf8.decode(response.bodyBytes))['uuid'] as String;
   }
 
+  Future<String> forgotIdentifier(String email) async {
+    final response = await HttpRequest().post(
+      '/v1/members/forgot-identifier',
+      token: member!.token,
+      body: email,
+    );
+
+    if (response.statusCode == 409) {
+      throw const ConflictEmailException();
+    }
+
+    if (response.statusCode != 201) {
+      throw const HttpException('Failed to associate email');
+    }
+
+    return jsonDecode(utf8.decode(response.bodyBytes))['uuid'] as String;
+  }
+
   Future<void> validateAction(String uuid, String code) async {
     final response = await HttpRequest().post(
       '/v1/member-actions/validate?uuid=$uuid',
@@ -151,8 +169,6 @@ class MemberController {
     if (response.statusCode != 200) {
       throw const HttpException('Failed to validate action');
     }
-
-    await login();
   }
 
   Future<void> followAnime(AnimeDto anime) async {

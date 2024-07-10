@@ -1,5 +1,6 @@
 import 'package:application/components/accounts/associate_email.dart';
 import 'package:application/components/accounts/edit_identifier.dart';
+import 'package:application/components/accounts/forgot_identifier.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/notifications_controller.dart';
 import 'package:application/controllers/sort_controller.dart';
@@ -18,6 +19,7 @@ class AccountSettingsView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: false,
         title: Text(appLocalizations.settings),
       ),
       body: StreamBuilder<MemberDto>(
@@ -111,6 +113,16 @@ class AccountSettingsView extends StatelessWidget {
                           ],
                         ],
                       ),
+                    ),
+                    SettingsOption(
+                      title: appLocalizations.forgotIdentifier,
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const ForgotIdentifier(),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
