@@ -1,10 +1,10 @@
-import 'package:application/components/accounts/associate_email.dart';
-import 'package:application/components/accounts/edit_identifier.dart';
-import 'package:application/components/accounts/forgot_identifier.dart';
+import 'package:application/views/associate_email.dart';
+import 'package:application/views/edit_identifier.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/notifications_controller.dart';
 import 'package:application/controllers/sort_controller.dart';
 import 'package:application/dtos/member_dto.dart';
+import 'package:application/views/forgot_identifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -51,9 +51,10 @@ class AccountSettingsView extends StatelessWidget {
                           const SizedBox(width: 16),
                           GestureDetector(
                             onTap: () {
-                              showAdaptiveDialog(
-                                context: context,
-                                builder: (context) => EditIdentifier(),
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const EditIdentifier(),
+                                ),
                               );
                             },
                             child: const Icon(Icons.edit),

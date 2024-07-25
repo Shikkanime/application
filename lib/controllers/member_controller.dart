@@ -9,6 +9,7 @@ import 'package:application/utils/http_request.dart';
 import 'package:application/views/crop_view.dart';
 import 'package:crop_your_image/crop_your_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -99,6 +100,31 @@ class MemberController {
     final bytes = await result?.readAsBytes();
 
     if (result == null || bytes == null || !context.mounted) {
+      return;
+    }
+
+    const allowedFormats = ['jpeg', 'png', 'jpg'];
+
+    // Check if the image format is allowed
+    if (!allowedFormats.contains(result.path.split('.').last)) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(AppLocalizations.of(context)!.invalidImageFormat),
+            content: Text(AppLocalizations.of(context)!.invalidImageExtension),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(AppLocalizations.of(context)!.ok),
+              ),
+            ],
+          );
+        },
+      );
+
       return;
     }
 

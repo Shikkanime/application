@@ -1,5 +1,5 @@
-import 'package:application/components/accounts/account_card.dart';
-import 'package:application/components/accounts/associate_email.dart';
+import 'package:application/components/account_card.dart';
+import 'package:application/views/associate_email.dart';
 import 'package:application/components/member_image.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/dtos/member_dto.dart';
@@ -81,7 +81,7 @@ class AccountView extends StatelessWidget {
                             size: 20,
                           ),
                           onTap: () {
-                            showAdaptiveDialog(
+                            showDialog(
                               context: context,
                               builder: (context) {
                                 return AlertDialog(

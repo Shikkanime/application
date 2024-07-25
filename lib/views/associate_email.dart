@@ -138,8 +138,8 @@ class _AssociateEmailState extends State<AssociateEmail> {
     updateState(invalidEmail: false, conflictEmail: false, isLoading: true);
 
     try {
-      _actionUuid = await MemberController.instance
-          .associateEmail(_emailController.text);
+      _actionUuid =
+          await MemberController.instance.associateEmail(_emailController.text);
 
       setState(() {});
     } on ConflictEmailException {
@@ -182,21 +182,34 @@ class _AssociateEmailState extends State<AssociateEmail> {
     });
 
     try {
-      await MemberController.instance.validateAction(_actionUuid!, _codeController.text);
+      await MemberController.instance
+          .validateAction(_actionUuid!, _codeController.text);
       await MemberController.instance.login();
 
       if (context.mounted) {
         Navigator.of(context).pop();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              AppLocalizations.of(context)!.emailAssociated,
-              textAlign: TextAlign.center,
-            ),
-          ),
+
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: Text(
+                AppLocalizations.of(context)!.yourEmailHasBeenAssociated,
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(AppLocalizations.of(context)!.ok),
+                ),
+              ],
+            );
+          },
         );
       }
     } catch (e) {
+      debugPrint(e.toString());
       vibrate();
 
       if (context.mounted) {
