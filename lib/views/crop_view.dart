@@ -57,7 +57,7 @@ class CropView extends StatelessWidget {
             // Rotate button
             ElevatedButton(
               onPressed: controller.crop,
-              child: Text(AppLocalizations.of(context)!.next),
+              child: Text(AppLocalizations.of(context)!.save),
             ),
           ],
         ),
