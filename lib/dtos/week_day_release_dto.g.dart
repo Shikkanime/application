@@ -10,22 +10,35 @@ _$WeekDayReleaseDtoImpl _$$WeekDayReleaseDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$WeekDayReleaseDtoImpl(
       anime: AnimeDto.fromJson(json['anime'] as Map<String, dynamic>),
-      releaseDateTime: json['releaseDateTime'] as String,
-      langType: json['langType'] as String,
       platforms: (json['platforms'] as List<dynamic>)
           .map((e) => PlatformDto.fromJson(e as Map<String, dynamic>))
           .toList(),
-      variant: json['variant'] == null
-          ? null
-          : EpisodeVariantDto.fromJson(json['variant'] as Map<String, dynamic>),
+      releaseDateTime: json['releaseDateTime'] as String,
+      slug: json['slug'] as String,
+      langType: json['langType'] as String,
+      isReleased: json['isReleased'] as bool,
+      isMultipleReleased: json['isMultipleReleased'] as bool,
+      mappings:
+          (json['mappings'] as List<dynamic>).map((e) => e as String).toList(),
+      episodeType: json['episodeType'] as String?,
+      minNumber: (json['minNumber'] as num?)?.toInt(),
+      maxNumber: (json['maxNumber'] as num?)?.toInt(),
+      number: (json['number'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$WeekDayReleaseDtoImplToJson(
         _$WeekDayReleaseDtoImpl instance) =>
     <String, dynamic>{
       'anime': instance.anime,
-      'releaseDateTime': instance.releaseDateTime,
-      'langType': instance.langType,
       'platforms': instance.platforms,
-      'variant': instance.variant,
+      'releaseDateTime': instance.releaseDateTime,
+      'slug': instance.slug,
+      'langType': instance.langType,
+      'isReleased': instance.isReleased,
+      'isMultipleReleased': instance.isMultipleReleased,
+      'mappings': instance.mappings,
+      'episodeType': instance.episodeType,
+      'minNumber': instance.minNumber,
+      'maxNumber': instance.maxNumber,
+      'number': instance.number,
     };

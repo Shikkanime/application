@@ -31,13 +31,17 @@ mixin _$AnimeDto {
   String? get banner => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   List<SimulcastDto>? get simulcasts => throw _privateConstructorUsedError;
-  List<String> get audioLocales => throw _privateConstructorUsedError;
-  List<String> get langTypes => throw _privateConstructorUsedError;
-  List<SeasonDto> get seasons => throw _privateConstructorUsedError;
+  List<String>? get audioLocales => throw _privateConstructorUsedError;
+  List<String>? get langTypes => throw _privateConstructorUsedError;
+  List<SeasonDto>? get seasons => throw _privateConstructorUsedError;
   String? get status => throw _privateConstructorUsedError;
 
+  /// Serializes this AnimeDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AnimeDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AnimeDtoCopyWith<AnimeDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -59,9 +63,9 @@ abstract class $AnimeDtoCopyWith<$Res> {
       String? banner,
       String? description,
       List<SimulcastDto>? simulcasts,
-      List<String> audioLocales,
-      List<String> langTypes,
-      List<SeasonDto> seasons,
+      List<String>? audioLocales,
+      List<String>? langTypes,
+      List<SeasonDto>? seasons,
       String? status});
 }
 
@@ -75,6 +79,8 @@ class _$AnimeDtoCopyWithImpl<$Res, $Val extends AnimeDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AnimeDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -89,9 +95,9 @@ class _$AnimeDtoCopyWithImpl<$Res, $Val extends AnimeDto>
     Object? banner = freezed,
     Object? description = freezed,
     Object? simulcasts = freezed,
-    Object? audioLocales = null,
-    Object? langTypes = null,
-    Object? seasons = null,
+    Object? audioLocales = freezed,
+    Object? langTypes = freezed,
+    Object? seasons = freezed,
     Object? status = freezed,
   }) {
     return _then(_value.copyWith(
@@ -139,18 +145,18 @@ class _$AnimeDtoCopyWithImpl<$Res, $Val extends AnimeDto>
           ? _value.simulcasts
           : simulcasts // ignore: cast_nullable_to_non_nullable
               as List<SimulcastDto>?,
-      audioLocales: null == audioLocales
+      audioLocales: freezed == audioLocales
           ? _value.audioLocales
           : audioLocales // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      langTypes: null == langTypes
+              as List<String>?,
+      langTypes: freezed == langTypes
           ? _value.langTypes
           : langTypes // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      seasons: null == seasons
+              as List<String>?,
+      seasons: freezed == seasons
           ? _value.seasons
           : seasons // ignore: cast_nullable_to_non_nullable
-              as List<SeasonDto>,
+              as List<SeasonDto>?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -179,9 +185,9 @@ abstract class _$$AnimeDtoImplCopyWith<$Res>
       String? banner,
       String? description,
       List<SimulcastDto>? simulcasts,
-      List<String> audioLocales,
-      List<String> langTypes,
-      List<SeasonDto> seasons,
+      List<String>? audioLocales,
+      List<String>? langTypes,
+      List<SeasonDto>? seasons,
       String? status});
 }
 
@@ -193,6 +199,8 @@ class __$$AnimeDtoImplCopyWithImpl<$Res>
       _$AnimeDtoImpl _value, $Res Function(_$AnimeDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AnimeDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -207,9 +215,9 @@ class __$$AnimeDtoImplCopyWithImpl<$Res>
     Object? banner = freezed,
     Object? description = freezed,
     Object? simulcasts = freezed,
-    Object? audioLocales = null,
-    Object? langTypes = null,
-    Object? seasons = null,
+    Object? audioLocales = freezed,
+    Object? langTypes = freezed,
+    Object? seasons = freezed,
     Object? status = freezed,
   }) {
     return _then(_$AnimeDtoImpl(
@@ -257,18 +265,18 @@ class __$$AnimeDtoImplCopyWithImpl<$Res>
           ? _value._simulcasts
           : simulcasts // ignore: cast_nullable_to_non_nullable
               as List<SimulcastDto>?,
-      audioLocales: null == audioLocales
+      audioLocales: freezed == audioLocales
           ? _value._audioLocales
           : audioLocales // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      langTypes: null == langTypes
+              as List<String>?,
+      langTypes: freezed == langTypes
           ? _value._langTypes
           : langTypes // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      seasons: null == seasons
+              as List<String>?,
+      seasons: freezed == seasons
           ? _value._seasons
           : seasons // ignore: cast_nullable_to_non_nullable
-              as List<SeasonDto>,
+              as List<SeasonDto>?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -292,9 +300,9 @@ class _$AnimeDtoImpl implements _AnimeDto {
       required this.banner,
       required this.description,
       required final List<SimulcastDto>? simulcasts,
-      required final List<String> audioLocales,
-      required final List<String> langTypes,
-      required final List<SeasonDto> seasons,
+      required final List<String>? audioLocales,
+      required final List<String>? langTypes,
+      required final List<SeasonDto>? seasons,
       required this.status})
       : _simulcasts = simulcasts,
         _audioLocales = audioLocales,
@@ -334,28 +342,34 @@ class _$AnimeDtoImpl implements _AnimeDto {
     return EqualUnmodifiableListView(value);
   }
 
-  final List<String> _audioLocales;
+  final List<String>? _audioLocales;
   @override
-  List<String> get audioLocales {
+  List<String>? get audioLocales {
+    final value = _audioLocales;
+    if (value == null) return null;
     if (_audioLocales is EqualUnmodifiableListView) return _audioLocales;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_audioLocales);
+    return EqualUnmodifiableListView(value);
   }
 
-  final List<String> _langTypes;
+  final List<String>? _langTypes;
   @override
-  List<String> get langTypes {
+  List<String>? get langTypes {
+    final value = _langTypes;
+    if (value == null) return null;
     if (_langTypes is EqualUnmodifiableListView) return _langTypes;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_langTypes);
+    return EqualUnmodifiableListView(value);
   }
 
-  final List<SeasonDto> _seasons;
+  final List<SeasonDto>? _seasons;
   @override
-  List<SeasonDto> get seasons {
+  List<SeasonDto>? get seasons {
+    final value = _seasons;
+    if (value == null) return null;
     if (_seasons is EqualUnmodifiableListView) return _seasons;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_seasons);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
@@ -396,7 +410,7 @@ class _$AnimeDtoImpl implements _AnimeDto {
             (identical(other.status, status) || other.status == status));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -416,7 +430,9 @@ class _$AnimeDtoImpl implements _AnimeDto {
       const DeepCollectionEquality().hash(_seasons),
       status);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AnimeDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AnimeDtoImplCopyWith<_$AnimeDtoImpl> get copyWith =>
@@ -443,9 +459,9 @@ abstract class _AnimeDto implements AnimeDto {
       required final String? banner,
       required final String? description,
       required final List<SimulcastDto>? simulcasts,
-      required final List<String> audioLocales,
-      required final List<String> langTypes,
-      required final List<SeasonDto> seasons,
+      required final List<String>? audioLocales,
+      required final List<String>? langTypes,
+      required final List<SeasonDto>? seasons,
       required final String? status}) = _$AnimeDtoImpl;
 
   factory _AnimeDto.fromJson(Map<String, dynamic> json) =
@@ -474,15 +490,18 @@ abstract class _AnimeDto implements AnimeDto {
   @override
   List<SimulcastDto>? get simulcasts;
   @override
-  List<String> get audioLocales;
+  List<String>? get audioLocales;
   @override
-  List<String> get langTypes;
+  List<String>? get langTypes;
   @override
-  List<SeasonDto> get seasons;
+  List<SeasonDto>? get seasons;
   @override
   String? get status;
+
+  /// Create a copy of AnimeDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AnimeDtoImplCopyWith<_$AnimeDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

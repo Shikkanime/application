@@ -5,10 +5,12 @@ import 'package:application/components/lang_type_component.dart';
 import 'package:application/components/platforms/list_platform.dart';
 import 'package:application/controllers/anime_controller.dart';
 import 'package:application/dtos/week_day_release_dto.dart';
+import 'package:application/utils/constant.dart';
 import 'package:application/views/anime_details_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:palette_generator/palette_generator.dart';
 
 class CalendarAnimeComponent extends StatelessWidget {
   static const bookmarkColor = Colors.yellow;
@@ -29,7 +31,25 @@ class CalendarAnimeComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (!release.isMultipleReleased) {
+      return buildCustomCard(context);
+    }
+
+    return FutureBuilder<Color>(
+      future: _getDominantColor(),
+      builder: (context, snapshot) {
+        final layerColor = snapshot.connectionState == ConnectionState.waiting
+            ? null
+            : snapshot.data;
+        return buildCustomCard(context, layerColor: layerColor);
+      },
+    );
+  }
+
+  CustomCard buildCustomCard(BuildContext context, {Color? layerColor}) {
     return CustomCard(
+      activateLayers: layerColor != null,
+      layerColor: layerColor,
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
@@ -45,8 +65,10 @@ class CalendarAnimeComponent extends StatelessWidget {
           Stack(
             children: [
               ImageComponent(
-                uuid: release.anime.uuid,
-                type: 'banner',
+                uuid: release.isReleased
+                    ? release.mappings.first
+                    : release.anime.uuid,
+                type: release.isReleased ? 'image' : 'banner',
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(16),
                   topRight: Radius.circular(16),
@@ -90,32 +112,25 @@ class CalendarAnimeComponent extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                         ),
+                        if (release.isReleased)
+                          Text(
+                            AppLocalizations.of(context)!.minInformation(
+                              AppLocalizations.of(context)!.episodeType(
+                                release.episodeType!.toLowerCase(),
+                              ),
+                              release.isMultipleReleased
+                                  ? '${release.minNumber} - ${release.maxNumber}'
+                                  : release.number!,
+                            ),
+                            style: Theme.of(context).textTheme.bodyMedium,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         LangTypeComponent(langType: release.langType),
                       ],
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (release.variant != null)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: GestureDetector(
-                            onTap: () {
-                              launchUrl(
-                                Uri.parse(release.variant!.url),
-                                mode: LaunchMode.externalNonBrowserApplication,
-                              );
-                            },
-                            child: const Icon(
-                              Icons.live_tv_outlined,
-                            ),
-                          ),
-                        ),
-                      WatchlistButton(anime: release.anime),
-                    ],
-                  ),
+                  const SizedBox(width: 8),
+                  WatchlistButton(anime: release.anime),
                 ],
               ),
             ),
@@ -123,5 +138,15 @@ class CalendarAnimeComponent extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<Color> _getDominantColor() async {
+    return (await PaletteGenerator.fromImageProvider(
+      Image.network(
+        '${Constant.apiUrl}/v1/attachments?uuid=${release.mappings.first}&type=image',
+      ).image,
+    ))
+        .dominantColor!
+        .color;
   }
 }

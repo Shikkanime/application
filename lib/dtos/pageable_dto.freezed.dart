@@ -25,8 +25,12 @@ mixin _$PageableDto {
   int get limit => throw _privateConstructorUsedError;
   int get total => throw _privateConstructorUsedError;
 
+  /// Serializes this PageableDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PageableDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PageableDtoCopyWith<PageableDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50,6 +54,8 @@ class _$PageableDtoCopyWithImpl<$Res, $Val extends PageableDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PageableDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -98,6 +104,8 @@ class __$$PageableDtoImplCopyWithImpl<$Res>
       _$PageableDtoImpl _value, $Res Function(_$PageableDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PageableDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -171,12 +179,14 @@ class _$PageableDtoImpl implements _PageableDto {
             (identical(other.total, total) || other.total == total));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType,
       const DeepCollectionEquality().hash(_data), page, limit, total);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PageableDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PageableDtoImplCopyWith<_$PageableDtoImpl> get copyWith =>
@@ -208,8 +218,11 @@ abstract class _PageableDto implements PageableDto {
   int get limit;
   @override
   int get total;
+
+  /// Create a copy of PageableDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PageableDtoImplCopyWith<_$PageableDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

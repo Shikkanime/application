@@ -34,9 +34,9 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
     AnimeDetailsController.instance.anime = widget.anime;
 
     if (SortController.instance.sortType == SortType.oldest) {
-      AnimeDetailsController.instance.season = widget.anime.seasons.first;
+      AnimeDetailsController.instance.season = widget.anime.seasons?.first;
     } else {
-      AnimeDetailsController.instance.season = widget.anime.seasons.last;
+      AnimeDetailsController.instance.season = widget.anime.seasons?.last;
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -148,8 +148,9 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                       WatchlistButton(anime: widget.anime),
                     ],
                   ),
-                  for (final langType in widget.anime.langTypes)
-                    LangTypeComponent(langType: langType),
+                  if (widget.anime.langTypes != null)
+                    for (final langType in widget.anime.langTypes!)
+                      LangTypeComponent(langType: langType),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: Text.rich(
@@ -182,27 +183,28 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                   ),
                   Row(
                     children: [
-                      ElevatedDropdownButton<SeasonDto>(
-                        globalKey: GlobalKey(),
-                        value: AnimeDetailsController.instance.season,
-                        items: [
-                          for (final season in widget.anime.seasons)
-                            ElevatedPopupMenuItem(
-                              value: season,
-                              child: Text(
-                                AppLocalizations.of(context)!.season(
-                                  season.number,
+                      if (widget.anime.seasons != null)
+                        ElevatedDropdownButton<SeasonDto>(
+                          globalKey: GlobalKey(),
+                          value: AnimeDetailsController.instance.season,
+                          items: [
+                            for (final season in widget.anime.seasons!)
+                              ElevatedPopupMenuItem(
+                                value: season,
+                                child: Text(
+                                  AppLocalizations.of(context)!.season(
+                                    season.number,
+                                  ),
                                 ),
                               ),
-                            ),
-                        ],
-                        onChanged: (value) {
-                          setState(() {
-                            AnimeDetailsController.instance.season = value;
-                            AnimeDetailsController.instance.refresh();
-                          });
-                        },
-                      ),
+                          ],
+                          onChanged: (value) {
+                            setState(() {
+                              AnimeDetailsController.instance.season = value;
+                              AnimeDetailsController.instance.refresh();
+                            });
+                          },
+                        ),
                       const Spacer(),
                       ElevatedDropdownButton(
                         globalKey: GlobalKey(),

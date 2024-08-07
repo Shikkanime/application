@@ -23,8 +23,12 @@ mixin _$WeekDayDto {
   String get dayOfWeek => throw _privateConstructorUsedError;
   List<WeekDayReleaseDto> get releases => throw _privateConstructorUsedError;
 
+  /// Serializes this WeekDayDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WeekDayDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $WeekDayDtoCopyWith<WeekDayDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -48,6 +52,8 @@ class _$WeekDayDtoCopyWithImpl<$Res, $Val extends WeekDayDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of WeekDayDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -86,6 +92,8 @@ class __$$WeekDayDtoImplCopyWithImpl<$Res>
       _$WeekDayDtoImpl _value, $Res Function(_$WeekDayDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WeekDayDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -141,12 +149,14 @@ class _$WeekDayDtoImpl implements _WeekDayDto {
             const DeepCollectionEquality().equals(other._releases, _releases));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, dayOfWeek, const DeepCollectionEquality().hash(_releases));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WeekDayDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$WeekDayDtoImplCopyWith<_$WeekDayDtoImpl> get copyWith =>
@@ -172,8 +182,11 @@ abstract class _WeekDayDto implements WeekDayDto {
   String get dayOfWeek;
   @override
   List<WeekDayReleaseDto> get releases;
+
+  /// Create a copy of WeekDayDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$WeekDayDtoImplCopyWith<_$WeekDayDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

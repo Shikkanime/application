@@ -21,13 +21,14 @@ _$AnimeDtoImpl _$$AnimeDtoImplFromJson(Map<String, dynamic> json) =>
       simulcasts: (json['simulcasts'] as List<dynamic>?)
           ?.map((e) => SimulcastDto.fromJson(e as Map<String, dynamic>))
           .toList(),
-      audioLocales: (json['audioLocales'] as List<dynamic>)
-          .map((e) => e as String)
+      audioLocales: (json['audioLocales'] as List<dynamic>?)
+          ?.map((e) => e as String)
           .toList(),
-      langTypes:
-          (json['langTypes'] as List<dynamic>).map((e) => e as String).toList(),
-      seasons: (json['seasons'] as List<dynamic>)
-          .map((e) => SeasonDto.fromJson(e as Map<String, dynamic>))
+      langTypes: (json['langTypes'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      seasons: (json['seasons'] as List<dynamic>?)
+          ?.map((e) => SeasonDto.fromJson(e as Map<String, dynamic>))
           .toList(),
       status: json['status'] as String?,
     );

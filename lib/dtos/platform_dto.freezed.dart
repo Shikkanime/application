@@ -25,8 +25,12 @@ mixin _$PlatformDto {
   String get url => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
 
+  /// Serializes this PlatformDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PlatformDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PlatformDtoCopyWith<PlatformDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50,6 +54,8 @@ class _$PlatformDtoCopyWithImpl<$Res, $Val extends PlatformDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PlatformDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -98,6 +104,8 @@ class __$$PlatformDtoImplCopyWithImpl<$Res>
       _$PlatformDtoImpl _value, $Res Function(_$PlatformDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PlatformDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -164,11 +172,13 @@ class _$PlatformDtoImpl implements _PlatformDto {
             (identical(other.image, image) || other.image == image));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, name, url, image);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PlatformDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PlatformDtoImplCopyWith<_$PlatformDtoImpl> get copyWith =>
@@ -200,8 +210,11 @@ abstract class _PlatformDto implements PlatformDto {
   String get url;
   @override
   String get image;
+
+  /// Create a copy of PlatformDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PlatformDtoImplCopyWith<_$PlatformDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
