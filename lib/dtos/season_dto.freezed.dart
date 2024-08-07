@@ -23,8 +23,12 @@ mixin _$SeasonDto {
   int get number => throw _privateConstructorUsedError;
   String get lastReleaseDateTime => throw _privateConstructorUsedError;
 
+  /// Serializes this SeasonDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SeasonDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SeasonDtoCopyWith<SeasonDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -47,6 +51,8 @@ class _$SeasonDtoCopyWithImpl<$Res, $Val extends SeasonDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SeasonDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -85,6 +91,8 @@ class __$$SeasonDtoImplCopyWithImpl<$Res>
       _$SeasonDtoImpl _value, $Res Function(_$SeasonDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SeasonDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -133,11 +141,13 @@ class _$SeasonDtoImpl implements _SeasonDto {
                 other.lastReleaseDateTime == lastReleaseDateTime));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, number, lastReleaseDateTime);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SeasonDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SeasonDtoImplCopyWith<_$SeasonDtoImpl> get copyWith =>
@@ -163,8 +173,11 @@ abstract class _SeasonDto implements SeasonDto {
   int get number;
   @override
   String get lastReleaseDateTime;
+
+  /// Create a copy of SeasonDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SeasonDtoImplCopyWith<_$SeasonDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -26,8 +26,12 @@ mixin _$SimulcastDto {
   String get slug => throw _privateConstructorUsedError;
   String get label => throw _privateConstructorUsedError;
 
+  /// Serializes this SimulcastDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SimulcastDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SimulcastDtoCopyWith<SimulcastDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -51,6 +55,8 @@ class _$SimulcastDtoCopyWithImpl<$Res, $Val extends SimulcastDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SimulcastDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -104,6 +110,8 @@ class __$$SimulcastDtoImplCopyWithImpl<$Res>
       _$SimulcastDtoImpl _value, $Res Function(_$SimulcastDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SimulcastDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -179,11 +187,13 @@ class _$SimulcastDtoImpl implements _SimulcastDto {
             (identical(other.label, label) || other.label == label));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, uuid, season, year, slug, label);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SimulcastDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SimulcastDtoImplCopyWith<_$SimulcastDtoImpl> get copyWith =>
@@ -218,8 +228,11 @@ abstract class _SimulcastDto implements SimulcastDto {
   String get slug;
   @override
   String get label;
+
+  /// Create a copy of SimulcastDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SimulcastDtoImplCopyWith<_$SimulcastDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

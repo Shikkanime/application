@@ -86,11 +86,12 @@ class AnimeComponent extends StatelessWidget {
               maxLines: 2,
             ),
           ),
-          for (final langType in anime.langTypes)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: LangTypeComponent(langType: langType),
-            ),
+          if (anime.langTypes != null)
+            for (final langType in anime.langTypes!)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: LangTypeComponent(langType: langType),
+              ),
           const SizedBox(height: 8),
         ],
       ),

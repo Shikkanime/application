@@ -19,9 +19,9 @@ class AnimeDto with _$AnimeDto {
     required String? banner,
     required String? description,
     required List<SimulcastDto>? simulcasts,
-    required List<String> audioLocales,
-    required List<String> langTypes,
-    required List<SeasonDto> seasons,
+    required List<String>? audioLocales,
+    required List<String>? langTypes,
+    required List<SeasonDto>? seasons,
     required String? status,
   }) = _AnimeDto;
 

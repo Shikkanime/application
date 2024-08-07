@@ -30,8 +30,12 @@ mixin _$MemberDto {
   List<String> get followedEpisodes => throw _privateConstructorUsedError;
   int get totalDuration => throw _privateConstructorUsedError;
 
+  /// Serializes this MemberDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MemberDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MemberDtoCopyWith<MemberDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -63,6 +67,8 @@ class _$MemberDtoCopyWithImpl<$Res, $Val extends MemberDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MemberDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -145,6 +151,8 @@ class __$$MemberDtoImplCopyWithImpl<$Res>
       _$MemberDtoImpl _value, $Res Function(_$MemberDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MemberDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -262,7 +270,7 @@ class _$MemberDtoImpl implements _MemberDto {
                 other.totalDuration == totalDuration));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -276,7 +284,9 @@ class _$MemberDtoImpl implements _MemberDto {
       const DeepCollectionEquality().hash(followedEpisodes),
       totalDuration);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MemberDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MemberDtoImplCopyWith<_$MemberDtoImpl> get copyWith =>
@@ -323,8 +333,11 @@ abstract class _MemberDto implements MemberDto {
   List<String> get followedEpisodes;
   @override
   int get totalDuration;
+
+  /// Create a copy of MemberDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MemberDtoImplCopyWith<_$MemberDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

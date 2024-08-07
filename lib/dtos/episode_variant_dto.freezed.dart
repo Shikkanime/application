@@ -28,8 +28,12 @@ mixin _$EpisodeVariantDto {
   String get url => throw _privateConstructorUsedError;
   bool get uncensored => throw _privateConstructorUsedError;
 
+  /// Serializes this EpisodeVariantDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EpisodeVariantDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $EpisodeVariantDtoCopyWith<EpisodeVariantDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -62,6 +66,8 @@ class _$EpisodeVariantDtoCopyWithImpl<$Res, $Val extends EpisodeVariantDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of EpisodeVariantDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -105,6 +111,8 @@ class _$EpisodeVariantDtoCopyWithImpl<$Res, $Val extends EpisodeVariantDto>
     ) as $Val);
   }
 
+  /// Create a copy of EpisodeVariantDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $PlatformDtoCopyWith<$Res> get platform {
@@ -143,6 +151,8 @@ class __$$EpisodeVariantDtoImplCopyWithImpl<$Res>
       $Res Function(_$EpisodeVariantDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of EpisodeVariantDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -241,12 +251,14 @@ class _$EpisodeVariantDtoImpl implements _EpisodeVariantDto {
                 other.uncensored == uncensored));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, uuid, releaseDateTime, platform,
       audioLocale, identifier, url, uncensored);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EpisodeVariantDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EpisodeVariantDtoImplCopyWith<_$EpisodeVariantDtoImpl> get copyWith =>
@@ -288,8 +300,11 @@ abstract class _EpisodeVariantDto implements EpisodeVariantDto {
   String get url;
   @override
   bool get uncensored;
+
+  /// Create a copy of EpisodeVariantDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EpisodeVariantDtoImplCopyWith<_$EpisodeVariantDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

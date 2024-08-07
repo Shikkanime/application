@@ -23,8 +23,12 @@ mixin _$MissedAnimeDto {
   AnimeDto get anime => throw _privateConstructorUsedError;
   int get episodeMissed => throw _privateConstructorUsedError;
 
+  /// Serializes this MissedAnimeDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MissedAnimeDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MissedAnimeDtoCopyWith<MissedAnimeDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50,6 +54,8 @@ class _$MissedAnimeDtoCopyWithImpl<$Res, $Val extends MissedAnimeDto>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MissedAnimeDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -68,6 +74,8 @@ class _$MissedAnimeDtoCopyWithImpl<$Res, $Val extends MissedAnimeDto>
     ) as $Val);
   }
 
+  /// Create a copy of MissedAnimeDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AnimeDtoCopyWith<$Res> get anime {
@@ -99,6 +107,8 @@ class __$$MissedAnimeDtoImplCopyWithImpl<$Res>
       _$MissedAnimeDtoImpl _value, $Res Function(_$MissedAnimeDtoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MissedAnimeDto
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -147,11 +157,13 @@ class _$MissedAnimeDtoImpl implements _MissedAnimeDto {
                 other.episodeMissed == episodeMissed));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, anime, episodeMissed);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MissedAnimeDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MissedAnimeDtoImplCopyWith<_$MissedAnimeDtoImpl> get copyWith =>
@@ -178,8 +190,11 @@ abstract class _MissedAnimeDto implements MissedAnimeDto {
   AnimeDto get anime;
   @override
   int get episodeMissed;
+
+  /// Create a copy of MissedAnimeDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MissedAnimeDtoImplCopyWith<_$MissedAnimeDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

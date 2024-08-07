@@ -49,8 +49,9 @@ class AnimeWeeklyController {
       );
 
       streamController.add(weekDays);
-    } catch (e) {
-      debugPrint(e.toString());
+    } catch (exception, stackTrace) {
+      debugPrint(exception.toString());
+      debugPrint(stackTrace.toString());
     } finally {
       isLoading = false;
     }
