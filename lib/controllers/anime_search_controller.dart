@@ -4,6 +4,8 @@ import 'package:application/dtos/anime_dto.dart';
 import 'package:application/utils/http_request.dart';
 import 'package:flutter/material.dart';
 
+enum SearchType { subtitles, voice }
+
 class AnimeSearchController {
   static AnimeSearchController instance = AnimeSearchController();
   final animes = <AnimeDto>[];
@@ -14,6 +16,7 @@ class AnimeSearchController {
   bool isLoading = false;
   bool canLoadMore = true;
   String query = '';
+  final searchTypes = SearchType.values.toSet();
 
   void init() {
     page = 1;
@@ -59,8 +62,8 @@ class AnimeSearchController {
     isLoading = true;
 
     try {
-      final pageableDto = await HttpRequest.instance
-          .getPage('/v1/animes?name=$query&page=$page&limit=6');
+      final pageableDto = await HttpRequest.instance.getPage(
+          '/v1/animes?country=FR&name=${Uri.encodeComponent(query)}&page=$page&limit=6&searchTypes=${searchTypes.map((e) => e.name.toUpperCase()).join(',')}');
 
       animes.addAll(
         pageableDto.data
