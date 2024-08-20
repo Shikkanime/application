@@ -6,7 +6,7 @@ class LangTypeComponent extends StatelessWidget {
 
   const LangTypeComponent({super.key, required this.langType});
 
-  String _langType(BuildContext context) {
+  static String getLangTypeTranslation(BuildContext context, String langType) {
     switch (langType) {
       case 'SUBTITLES':
         return AppLocalizations.of(context)!.subtitles;
@@ -38,7 +38,7 @@ class LangTypeComponent extends StatelessWidget {
           ),
         const SizedBox(width: 4),
         Text(
-          _langType(context),
+          getLangTypeTranslation(context, langType),
           style: textStyle,
         ),
       ],
