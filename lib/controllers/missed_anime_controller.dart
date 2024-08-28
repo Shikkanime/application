@@ -62,7 +62,7 @@ class MissedAnimeController {
     await init();
   }
 
-  Future<void> loadPage({bool emit = true}) async {
+  Future<void> loadPage({bool emit = true, bool isRetry = false}) async {
     if (isLoading) {
       return;
     }
@@ -87,6 +87,11 @@ class MissedAnimeController {
       canLoadMore = missedAnimes.length < pageableDto.total;
     } catch (e) {
       debugPrint(e.toString());
+
+      if (!isRetry) {
+        await MemberController.instance.login();
+        await loadPage(emit: emit, isRetry: true);
+      }
     } finally {
       isLoading = false;
       page++;

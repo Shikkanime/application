@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:application/dtos/pageable_dto.dart';
 import 'package:application/utils/constant.dart';
@@ -25,7 +26,7 @@ class HttpRequest {
         )
         .timeout(_timeout);
 
-    if (response.statusCode != 200) {
+    if (response.statusCode != HttpStatus.ok) {
       throw Exception('Failed to load data');
     }
 

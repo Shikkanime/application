@@ -31,7 +31,7 @@ class AnimeWeeklyController {
     await init();
   }
 
-  Future<void> nextPage() async {
+  Future<void> nextPage({bool isRetry = false}) async {
     if (isLoading) {
       return;
     }
@@ -52,6 +52,11 @@ class AnimeWeeklyController {
     } catch (exception, stackTrace) {
       debugPrint(exception.toString());
       debugPrint(stackTrace.toString());
+
+      if (!isRetry) {
+        await MemberController.instance.login();
+        await nextPage(isRetry: true);
+      }
     } finally {
       isLoading = false;
     }
