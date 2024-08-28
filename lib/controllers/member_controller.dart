@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
@@ -56,7 +57,7 @@ class MemberController {
   Future<String> register() async {
     final response = await HttpRequest().post('/v1/members/register');
 
-    if (response.statusCode != 201) {
+    if (response.statusCode != HttpStatus.created) {
       throw const HttpException('Failed to register');
     }
 
@@ -70,11 +71,11 @@ class MemberController {
     final response =
         await HttpRequest().post('/v1/members/login', body: identifier);
 
-    if (response.statusCode == 404) {
+    if (response.statusCode == HttpStatus.notFound) {
       throw const HttpException('Failed to login, identifier not found');
     }
 
-    if (response.statusCode != 200) {
+    if (response.statusCode != HttpStatus.ok) {
       throw ClientException('Server error');
     }
 
@@ -140,6 +141,27 @@ class MemberController {
     );
   }
 
+  Future<void> updateImage(Uint8List image) async {
+    final response = await HttpRequest().postMultipart(
+      '/v1/members/image',
+      member!.token,
+      image,
+    );
+
+    if (response.statusCode == HttpStatus.unauthorized) {
+      await login();
+      return updateImage(image);
+    }
+
+    if (response.statusCode != HttpStatus.ok) {
+      throw HttpException(
+        'Failed to change image ${response.body}',
+      );
+    }
+
+    await increaseImageVersion();
+  }
+
   Future<void> increaseImageVersion() async {
     imageVersion++;
     await _sharedPreferences.setInt('imageVersion', imageVersion);
@@ -156,11 +178,16 @@ class MemberController {
       body: email,
     );
 
-    if (response.statusCode == 409) {
+    if (response.statusCode == HttpStatus.unauthorized) {
+      await login();
+      return associateEmail(email);
+    }
+
+    if (response.statusCode == HttpStatus.conflict) {
       throw const ConflictEmailException();
     }
 
-    if (response.statusCode != 201) {
+    if (response.statusCode != HttpStatus.created) {
       throw const HttpException('Failed to associate email');
     }
 
@@ -174,11 +201,16 @@ class MemberController {
       body: email,
     );
 
-    if (response.statusCode == 409) {
+    if (response.statusCode == HttpStatus.unauthorized) {
+      await login();
+      return forgotIdentifier(email);
+    }
+
+    if (response.statusCode == HttpStatus.conflict) {
       throw const ConflictEmailException();
     }
 
-    if (response.statusCode != 201) {
+    if (response.statusCode != HttpStatus.created) {
       throw const HttpException('Failed to associate email');
     }
 
@@ -192,7 +224,12 @@ class MemberController {
       body: code,
     );
 
-    if (response.statusCode != 200) {
+    if (response.statusCode == HttpStatus.unauthorized) {
+      await login();
+      return validateAction(uuid, code);
+    }
+
+    if (response.statusCode != HttpStatus.ok) {
       throw const HttpException('Failed to validate action');
     }
   }
@@ -204,7 +241,12 @@ class MemberController {
       jsonEncode({'uuid': anime.uuid}),
     );
 
-    if (response.statusCode != 200) {
+    if (response.statusCode == HttpStatus.unauthorized) {
+      await login();
+      return followAnime(anime);
+    }
+
+    if (response.statusCode != HttpStatus.ok) {
       throw const HttpException('Failed to follow anime');
     }
 
@@ -219,7 +261,12 @@ class MemberController {
       jsonEncode({'uuid': anime.uuid}),
     );
 
-    if (response.statusCode != 200) {
+    if (response.statusCode == HttpStatus.unauthorized) {
+      await login();
+      return unfollowAnime(anime);
+    }
+
+    if (response.statusCode != HttpStatus.ok) {
       throw const HttpException('Failed to unfollow anime');
     }
 
@@ -238,7 +285,12 @@ class MemberController {
       jsonEncode({'uuid': anime.uuid}),
     );
 
-    if (response.statusCode != 200) {
+    if (response.statusCode == HttpStatus.unauthorized) {
+      await login();
+      return followAllEpisodes(anime);
+    }
+
+    if (response.statusCode != HttpStatus.ok) {
       throw const HttpException('Failed to follow all episodes');
     }
 
@@ -263,7 +315,12 @@ class MemberController {
       jsonEncode({'uuid': episode.uuid}),
     );
 
-    if (response.statusCode != 200) {
+    if (response.statusCode == HttpStatus.unauthorized) {
+      await login();
+      return followEpisode(episode);
+    }
+
+    if (response.statusCode != HttpStatus.ok) {
       throw const HttpException('Failed to follow episode');
     }
 
@@ -280,7 +337,12 @@ class MemberController {
       jsonEncode({'uuid': episode.uuid}),
     );
 
-    if (response.statusCode != 200) {
+    if (response.statusCode == HttpStatus.unauthorized) {
+      await login();
+      return unfollowEpisode(episode);
+    }
+
+    if (response.statusCode != HttpStatus.ok) {
       throw const HttpException('Failed to unfollow episode');
     }
 
