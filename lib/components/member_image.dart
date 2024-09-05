@@ -38,7 +38,7 @@ class MemberImage extends StatelessWidget {
           : null,
       padding: const EdgeInsets.all(1),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(50),
+        borderRadius: BorderRadius.circular(360),
         child: showDefaultImage
             ? defaultImage
             : CachedNetworkImage(

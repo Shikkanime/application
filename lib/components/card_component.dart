@@ -1,3 +1,4 @@
+import 'package:application/utils/constant.dart';
 import 'package:flutter/material.dart';
 
 class CustomCard extends StatefulWidget {
@@ -7,6 +8,7 @@ class CustomCard extends StatefulWidget {
   final Function(TapDownDetails?)? onLongPress;
   final bool activateLayers;
   final Color? layerColor;
+  final bool horizontalPadding;
 
   const CustomCard({
     super.key,
@@ -16,6 +18,7 @@ class CustomCard extends StatefulWidget {
     this.onLongPress,
     this.activateLayers = false,
     this.layerColor,
+    this.horizontalPadding = true,
   });
 
   @override
@@ -33,8 +36,8 @@ class _CustomCardState extends State<CustomCard> {
     return RepaintBoundary(
       child: Padding(
         padding: EdgeInsets.only(
-          left: 8,
-          right: 8,
+          left: widget.horizontalPadding ? 8 : 0,
+          right: widget.horizontalPadding ? 8 : 0,
           top: widget.activateLayers ? 8 : 4,
           bottom: 4,
         ),
@@ -50,7 +53,7 @@ class _CustomCardState extends State<CustomCard> {
                 height: 100,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(Constant.borderRadius),
                     color: widget.layerColor!.withOpacity(0.5),
                   ),
                 ),
@@ -62,7 +65,7 @@ class _CustomCardState extends State<CustomCard> {
                 height: 100,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(Constant.borderRadius),
                     color: widget.layerColor!,
                   ),
                 ),
@@ -70,12 +73,8 @@ class _CustomCardState extends State<CustomCard> {
             ],
             DecoratedBox(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(Constant.borderRadius),
                 color: widget.backgroundColor ?? withOpacity,
-                border: Border.all(
-                  color: widget.backgroundColor ?? withOpacity,
-                  width: 1,
-                ),
               ),
               child: GestureDetector(
                 onTap: widget.onTap,

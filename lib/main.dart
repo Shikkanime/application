@@ -2,6 +2,8 @@ import 'package:application/components/member_image.dart';
 import 'package:application/components/pill.dart';
 import 'package:application/controllers/anime_controller.dart';
 import 'package:application/controllers/anime_weekly_controller.dart';
+import 'package:application/controllers/followed_anime_controller.dart';
+import 'package:application/controllers/followed_episode_controller.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/missed_anime_controller.dart';
 import 'package:application/controllers/notifications_controller.dart';
@@ -49,6 +51,8 @@ Future<void> main() async {
           .then((value) => AnimeController.instance.init()),
       AnimeWeeklyController.instance.init(),
       SortController.instance.init(),
+      FollowedAnimeController.instance.init(),
+      FollowedEpisodeController.instance.init(),
     ]);
 
     hasInternet = true;

@@ -1,3 +1,4 @@
+import 'package:application/utils/constant.dart';
 import 'package:flutter/material.dart';
 
 class AccountCard extends StatelessWidget {
@@ -14,8 +15,8 @@ class AccountCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
-        borderRadius: BorderRadius.circular(8),
+        color: Theme.of(context).colorScheme.secondary.withOpacity(0.125),
+        borderRadius: BorderRadius.circular(Constant.borderRadius),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),

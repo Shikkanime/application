@@ -6,6 +6,7 @@ import 'package:application/components/platforms/list_platform.dart';
 import 'package:application/controllers/anime_controller.dart';
 import 'package:application/dtos/week_day_release_dto.dart';
 import 'package:application/utils/analytics.dart';
+import 'package:application/utils/constant.dart';
 import 'package:application/views/anime_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -63,8 +64,8 @@ class _CalendarAnimeComponentState extends State<CalendarAnimeComponent> {
                     : widget.release.anime.uuid,
                 type: widget.release.isReleased ? 'image' : 'banner',
                 borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(16),
-                  topRight: Radius.circular(16),
+                  topLeft: Radius.circular(Constant.borderRadius),
+                  topRight: Radius.circular(Constant.borderRadius),
                 ),
                 height: 185,
                 builder: (imageProvider) {

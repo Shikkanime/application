@@ -1,3 +1,4 @@
+import 'package:application/utils/constant.dart';
 import 'package:flutter/material.dart';
 
 class Pill extends StatelessWidget {
@@ -17,7 +18,7 @@ class Pill extends StatelessWidget {
       ),
       decoration: const BoxDecoration(
         color: Colors.red,
-        borderRadius: BorderRadius.all(Radius.circular(8)),
+        borderRadius: BorderRadius.all(Radius.circular(Constant.borderRadius)),
       ),
       child: Text(
         count >= 10 ? '9+' : count.toString(),

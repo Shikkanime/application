@@ -18,6 +18,7 @@ class MissedAnimeComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomCard(
+      horizontalPadding: false,
       backgroundColor: Colors.transparent,
       onTap: () {
         Analytics.instance.logSelectContent('anime', missedAnime.anime.uuid);
@@ -56,18 +57,15 @@ class MissedAnimeComponent extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 4),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Text(
-                missedAnime.anime.shortName,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall
-                    ?.copyWith(fontWeight: FontWeight.bold),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-                textAlign: TextAlign.center,
-              ),
+            Text(
+              missedAnime.anime.shortName,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall
+                  ?.copyWith(fontWeight: FontWeight.bold),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              textAlign: TextAlign.center,
             ),
           ],
         ),
