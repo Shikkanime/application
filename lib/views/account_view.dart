@@ -1,8 +1,17 @@
 import 'package:application/components/account_card.dart';
+import 'package:application/components/animes/followed_anime_component.dart';
+import 'package:application/components/card_component.dart';
+import 'package:application/components/episodes/followed_episode_component.dart';
+import 'package:application/controllers/followed_anime_controller.dart';
+import 'package:application/controllers/followed_episode_controller.dart';
+import 'package:application/dtos/anime_dto.dart';
+import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/views/associate_email.dart';
 import 'package:application/components/member_image.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/dtos/member_dto.dart';
+import 'package:application/views/followed_animes_view.dart';
+import 'package:application/views/followed_episodes_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
@@ -176,7 +185,9 @@ class AccountView extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 32),
+            const FollowedAnimesRow(),
+            const FollowedEpisodesRow(),
+            const SizedBox(height: 16),
             Text(
               appLocalizations.accountCreatedAt(
                 beautifyDate(context, member?.creationDateTime ?? ''),
@@ -197,5 +208,234 @@ class AccountView extends StatelessWidget {
       'EEEE dd MMM yyyy',
       Localizations.localeOf(context).languageCode,
     ).format(DateTime.parse(date));
+  }
+}
+
+class FollowedAnimesRow extends StatelessWidget {
+  const FollowedAnimesRow({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+      child: CustomCard(
+        horizontalPadding: false,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 8,
+            vertical: 4,
+          ),
+          child: StreamBuilder<List<AnimeDto>>(
+            stream: FollowedAnimeController.instance.streamController.stream,
+            initialData: FollowedAnimeController.instance.animes,
+            builder: (context, snapshot) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(AppLocalizations.of(context)!
+                          .yourRecentlyAddedAnime1),
+                      Text(
+                        AppLocalizations.of(context)!.yourRecentlyAddedAnime2,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      if (snapshot.data!.isNotEmpty) ...[
+                        const Spacer(),
+                        const Icon(
+                          Icons.add,
+                          color: Colors.white,
+                          size: 16,
+                        ),
+                        const SizedBox(width: 4),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const FollowedAnimesView(),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            AppLocalizations.of(context)!.showMore,
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  snapshot.data!.isEmpty
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            const Icon(
+                              Icons.sentiment_very_dissatisfied,
+                              color: Colors.grey,
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                AppLocalizations.of(context)!.noFollowedAnime,
+                                style: Theme.of(context).textTheme.titleSmall,
+                              ),
+                            ),
+                          ],
+                        )
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Expanded(
+                              child: SizedBox(
+                                height: 180,
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  addAutomaticKeepAlives: false,
+                                  addRepaintBoundaries: false,
+                                  shrinkWrap: true,
+                                  itemCount: snapshot.data!.length,
+                                  itemBuilder: (context, index) =>
+                                      FollowedAnimeComponent(
+                                    anime: snapshot.data![index],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                ],
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class FollowedEpisodesRow extends StatelessWidget {
+  const FollowedEpisodesRow({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 4, left: 16, right: 16),
+      child: CustomCard(
+        horizontalPadding: false,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 8,
+            vertical: 4,
+          ),
+          child: StreamBuilder<List<EpisodeMappingDto>>(
+            stream: FollowedEpisodeController.instance.streamController.stream,
+            initialData: FollowedEpisodeController.instance.episodes,
+            builder: (context, snapshot) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Flex(
+                        direction: Axis.horizontal,
+                        children: [
+                          Text(AppLocalizations.of(context)!
+                              .yourRecentlyViewedEpisodes1),
+                          Text(
+                            AppLocalizations.of(context)!
+                                .yourRecentlyViewedEpisodes2,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      if (snapshot.data!.isNotEmpty) ...[
+                        const Spacer(),
+                        Flex(
+                          direction: Axis.horizontal,
+                          children: [
+                            const Icon(
+                              Icons.add,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                            const SizedBox(width: 4),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const FollowedEpisodesView(),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                AppLocalizations.of(context)!.showMore,
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  snapshot.data!.isEmpty
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            const Icon(
+                              Icons.sentiment_very_dissatisfied,
+                              color: Colors.grey,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              AppLocalizations.of(context)!.noWatchedEpisode,
+                              style: Theme.of(context).textTheme.titleSmall,
+                            ),
+                          ],
+                        )
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Expanded(
+                              child: SizedBox(
+                                height: 135,
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  addAutomaticKeepAlives: false,
+                                  addRepaintBoundaries: false,
+                                  shrinkWrap: true,
+                                  itemCount: snapshot.data!.length,
+                                  itemBuilder: (context, index) =>
+                                      FollowedEpisodeComponent(
+                                    episode: snapshot.data![index],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                ],
+              );
+            },
+          ),
+        ),
+      ),
+    );
   }
 }

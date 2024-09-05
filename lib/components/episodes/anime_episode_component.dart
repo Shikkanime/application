@@ -4,6 +4,7 @@ import 'package:application/components/episodes/episode_image.dart';
 import 'package:application/components/episodes/episode_information_component.dart';
 import 'package:application/components/lang_type_component.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
+import 'package:application/utils/constant.dart';
 import 'package:flutter/material.dart';
 
 class AnimeEpisodeComponent extends StatelessWidget {
@@ -24,8 +25,8 @@ class AnimeEpisodeComponent extends StatelessWidget {
             child: EpisodeImage(
               episode: episode,
               borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(16),
-                bottomLeft: Radius.circular(16),
+                topLeft: Radius.circular(Constant.borderRadius),
+                bottomLeft: Radius.circular(Constant.borderRadius),
               ),
               fit: BoxFit.cover,
               height: 130,

@@ -5,4 +5,5 @@ class Constant {
   static const baseUrl = 'https://www.shikkanime.fr';
 
   static const watchlistBookmarkColor = Colors.yellow;
+  static const borderRadius = 16.0;
 }

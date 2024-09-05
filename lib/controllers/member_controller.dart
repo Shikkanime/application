@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:application/controllers/followed_anime_controller.dart';
+import 'package:application/controllers/followed_episode_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/dtos/member_dto.dart';
@@ -255,6 +257,7 @@ class MemberController {
 
     member!.followedAnimes.add(anime.uuid);
     streamController.add(member!);
+    await FollowedAnimeController.instance.init();
   }
 
   Future<void> unfollowAnime(AnimeDto anime) async {
@@ -275,6 +278,7 @@ class MemberController {
 
     member!.followedAnimes.remove(anime.uuid);
     streamController.add(member!);
+    await FollowedAnimeController.instance.init();
   }
 
   Future<void> followAllEpisodes(AnimeDto anime) async {
@@ -305,6 +309,7 @@ class MemberController {
     member!.followedEpisodes.addAll(data);
     member = member!.copyWith(totalDuration: member!.totalDuration + duration);
     streamController.add(member!);
+    await FollowedEpisodeController.instance.init();
   }
 
   Future<void> followEpisode(EpisodeMappingDto episode) async {
@@ -331,6 +336,7 @@ class MemberController {
     member = member!
         .copyWith(totalDuration: member!.totalDuration + episode.duration);
     streamController.add(member!);
+    await FollowedEpisodeController.instance.init();
   }
 
   Future<void> unfollowEpisode(EpisodeMappingDto episode) async {
@@ -353,6 +359,7 @@ class MemberController {
     member = member!
         .copyWith(totalDuration: member!.totalDuration - episode.duration);
     streamController.add(member!);
+    await FollowedEpisodeController.instance.init();
   }
 
   String buildTotalDuration() {

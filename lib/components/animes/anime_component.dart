@@ -42,8 +42,8 @@ class AnimeComponent extends StatelessWidget {
                 ImageComponent(
                   uuid: anime.uuid,
                   borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16),
+                    topLeft: Radius.circular(Constant.borderRadius),
+                    topRight: Radius.circular(Constant.borderRadius),
                   ),
                 ),
                 FollowedStreamBuilder(
@@ -60,8 +60,8 @@ class AnimeComponent extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: Theme.of(context).scaffoldBackgroundColor,
                           borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(16),
-                            bottomLeft: Radius.circular(16),
+                            topRight: Radius.circular(Constant.borderRadius),
+                            bottomLeft: Radius.circular(Constant.borderRadius),
                           ),
                         ),
                         child: Padding(

@@ -11,7 +11,7 @@ class PlatformComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(32),
+      borderRadius: BorderRadius.circular(360),
       child: CachedNetworkImage(
         imageUrl: '${Constant.baseUrl}/assets/img/platforms/${platform.image}',
         filterQuality: FilterQuality.high,
