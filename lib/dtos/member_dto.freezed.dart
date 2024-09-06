@@ -29,6 +29,7 @@ mixin _$MemberDto {
   List<String> get followedAnimes => throw _privateConstructorUsedError;
   List<String> get followedEpisodes => throw _privateConstructorUsedError;
   int get totalDuration => throw _privateConstructorUsedError;
+  bool get hasProfilePicture => throw _privateConstructorUsedError;
 
   /// Serializes this MemberDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -54,7 +55,8 @@ abstract class $MemberDtoCopyWith<$Res> {
       String? email,
       List<String> followedAnimes,
       List<String> followedEpisodes,
-      int totalDuration});
+      int totalDuration,
+      bool hasProfilePicture});
 }
 
 /// @nodoc
@@ -81,6 +83,7 @@ class _$MemberDtoCopyWithImpl<$Res, $Val extends MemberDto>
     Object? followedAnimes = null,
     Object? followedEpisodes = null,
     Object? totalDuration = null,
+    Object? hasProfilePicture = null,
   }) {
     return _then(_value.copyWith(
       uuid: null == uuid
@@ -119,6 +122,10 @@ class _$MemberDtoCopyWithImpl<$Res, $Val extends MemberDto>
           ? _value.totalDuration
           : totalDuration // ignore: cast_nullable_to_non_nullable
               as int,
+      hasProfilePicture: null == hasProfilePicture
+          ? _value.hasProfilePicture
+          : hasProfilePicture // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -140,7 +147,8 @@ abstract class _$$MemberDtoImplCopyWith<$Res>
       String? email,
       List<String> followedAnimes,
       List<String> followedEpisodes,
-      int totalDuration});
+      int totalDuration,
+      bool hasProfilePicture});
 }
 
 /// @nodoc
@@ -165,6 +173,7 @@ class __$$MemberDtoImplCopyWithImpl<$Res>
     Object? followedAnimes = null,
     Object? followedEpisodes = null,
     Object? totalDuration = null,
+    Object? hasProfilePicture = null,
   }) {
     return _then(_$MemberDtoImpl(
       uuid: null == uuid
@@ -203,6 +212,10 @@ class __$$MemberDtoImplCopyWithImpl<$Res>
           ? _value.totalDuration
           : totalDuration // ignore: cast_nullable_to_non_nullable
               as int,
+      hasProfilePicture: null == hasProfilePicture
+          ? _value.hasProfilePicture
+          : hasProfilePicture // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -219,7 +232,8 @@ class _$MemberDtoImpl implements _MemberDto {
       required this.email,
       required this.followedAnimes,
       required this.followedEpisodes,
-      required this.totalDuration});
+      required this.totalDuration,
+      required this.hasProfilePicture});
 
   factory _$MemberDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$MemberDtoImplFromJson(json);
@@ -242,10 +256,12 @@ class _$MemberDtoImpl implements _MemberDto {
   final List<String> followedEpisodes;
   @override
   final int totalDuration;
+  @override
+  final bool hasProfilePicture;
 
   @override
   String toString() {
-    return 'MemberDto(uuid: $uuid, token: $token, creationDateTime: $creationDateTime, lastUpdateDateTime: $lastUpdateDateTime, isPrivate: $isPrivate, email: $email, followedAnimes: $followedAnimes, followedEpisodes: $followedEpisodes, totalDuration: $totalDuration)';
+    return 'MemberDto(uuid: $uuid, token: $token, creationDateTime: $creationDateTime, lastUpdateDateTime: $lastUpdateDateTime, isPrivate: $isPrivate, email: $email, followedAnimes: $followedAnimes, followedEpisodes: $followedEpisodes, totalDuration: $totalDuration, hasProfilePicture: $hasProfilePicture)';
   }
 
   @override
@@ -267,7 +283,9 @@ class _$MemberDtoImpl implements _MemberDto {
             const DeepCollectionEquality()
                 .equals(other.followedEpisodes, followedEpisodes) &&
             (identical(other.totalDuration, totalDuration) ||
-                other.totalDuration == totalDuration));
+                other.totalDuration == totalDuration) &&
+            (identical(other.hasProfilePicture, hasProfilePicture) ||
+                other.hasProfilePicture == hasProfilePicture));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -282,7 +300,8 @@ class _$MemberDtoImpl implements _MemberDto {
       email,
       const DeepCollectionEquality().hash(followedAnimes),
       const DeepCollectionEquality().hash(followedEpisodes),
-      totalDuration);
+      totalDuration,
+      hasProfilePicture);
 
   /// Create a copy of MemberDto
   /// with the given fields replaced by the non-null parameter values.
@@ -310,7 +329,8 @@ abstract class _MemberDto implements MemberDto {
       required final String? email,
       required final List<String> followedAnimes,
       required final List<String> followedEpisodes,
-      required final int totalDuration}) = _$MemberDtoImpl;
+      required final int totalDuration,
+      required final bool hasProfilePicture}) = _$MemberDtoImpl;
 
   factory _MemberDto.fromJson(Map<String, dynamic> json) =
       _$MemberDtoImpl.fromJson;
@@ -333,6 +353,8 @@ abstract class _MemberDto implements MemberDto {
   List<String> get followedEpisodes;
   @override
   int get totalDuration;
+  @override
+  bool get hasProfilePicture;
 
   /// Create a copy of MemberDto
   /// with the given fields replaced by the non-null parameter values.

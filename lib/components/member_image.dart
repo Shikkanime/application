@@ -20,6 +20,15 @@ class MemberImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final showDefaultImage = member?.hasProfilePicture == false;
+    final defaultImage = DecoratedBox(
+      decoration: BoxDecoration(color: Colors.grey[900]),
+      child: const Icon(
+        Icons.person,
+        size: 32,
+      ),
+    );
+
     return Container(
       decoration: hasBorder
           ? BoxDecoration(
@@ -30,21 +39,18 @@ class MemberImage extends StatelessWidget {
       padding: const EdgeInsets.all(1),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(50),
-        child: CachedNetworkImage(
-          width: width,
-          height: height,
-          imageUrl:
-              '${Constant.apiUrl}/v1/attachments?uuid=${member?.uuid}&v=${MemberController.instance.imageVersion}',
-          filterQuality: FilterQuality.high,
-          placeholder: (context, url) => const CircularProgressIndicator(),
-          errorWidget: (context, url, error) => DecoratedBox(
-            decoration: BoxDecoration(color: Colors.grey[900]),
-            child: const Icon(
-              Icons.person,
-              size: 32,
-            ),
-          ),
-        ),
+        child: showDefaultImage
+            ? defaultImage
+            : CachedNetworkImage(
+                width: width,
+                height: height,
+                imageUrl:
+                    '${Constant.apiUrl}/v1/attachments?uuid=${member?.uuid}&v=${MemberController.instance.imageVersion}',
+                filterQuality: FilterQuality.high,
+                placeholder: (context, url) =>
+                    const CircularProgressIndicator(),
+                errorWidget: (context, url, error) => defaultImage,
+              ),
       ),
     );
   }
