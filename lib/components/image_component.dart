@@ -9,6 +9,8 @@ class ImageComponent extends StatelessWidget {
   final BorderRadius borderRadius;
   final double width;
   final double height;
+  final Function(ImageProvider<Object> imageProvider)? builder;
+  final bool animate;
 
   const ImageComponent({
     super.key,
@@ -18,6 +20,8 @@ class ImageComponent extends StatelessWidget {
     this.borderRadius = BorderRadius.zero,
     this.width = double.infinity,
     this.height = double.infinity,
+    this.builder,
+    this.animate = true,
   });
 
   @override
@@ -25,6 +29,10 @@ class ImageComponent extends StatelessWidget {
     return ClipRRect(
       borderRadius: borderRadius,
       child: CachedNetworkImage(
+        fadeInDuration:
+            animate ? const Duration(milliseconds: 500) : Duration.zero,
+        fadeOutDuration:
+            animate ? const Duration(milliseconds: 1000) : Duration.zero,
         imageUrl: '${Constant.apiUrl}/v1/attachments?uuid=$uuid&type=$type',
         filterQuality: FilterQuality.high,
         fit: fit,
@@ -35,6 +43,18 @@ class ImageComponent extends StatelessWidget {
           width: width,
           height: height,
         ),
+        imageBuilder: (context, imageProvider) {
+          if (builder != null) {
+            builder!(imageProvider);
+          }
+
+          return Image(
+            image: imageProvider,
+            fit: fit,
+            width: width,
+            height: height,
+          );
+        },
       ),
     );
   }
