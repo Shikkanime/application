@@ -6,6 +6,7 @@ import 'dart:typed_data';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/dtos/member_dto.dart';
+import 'package:application/utils/analytics.dart';
 import 'package:application/utils/http_request.dart';
 import 'package:application/views/crop_view.dart';
 import 'package:crop_your_image/crop_your_image.dart';
@@ -64,6 +65,7 @@ class MemberController {
     final String identifier =
         jsonDecode(utf8.decode(response.bodyBytes))['identifier'];
     await _sharedPreferences.setString('identifier', identifier);
+    Analytics.instance.logSignUp();
     return identifier;
   }
 
@@ -93,6 +95,7 @@ class MemberController {
 
     member = MemberDto.fromJson(json);
     streamController.add(member!);
+    Analytics.instance.logLogin();
   }
 
   Future<void> changeImage(BuildContext context) async {

@@ -5,6 +5,7 @@ import 'package:application/components/lang_type_component.dart';
 import 'package:application/components/platforms/list_platform.dart';
 import 'package:application/controllers/anime_controller.dart';
 import 'package:application/dtos/week_day_release_dto.dart';
+import 'package:application/utils/analytics.dart';
 import 'package:application/views/anime_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -40,6 +41,8 @@ class _CalendarAnimeComponentState extends State<CalendarAnimeComponent> {
       activateLayers: widget.release.isMultipleReleased && _layerColor != null,
       layerColor: _layerColor,
       onTap: () {
+        Analytics.instance.logSelectContent('anime', widget.release.anime.uuid);
+
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => AnimeDetailsView(anime: widget.release.anime),

@@ -4,6 +4,7 @@ import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/missed_anime_controller.dart';
 import 'package:application/controllers/simulcast_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
+import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
 import 'package:application/utils/http_request.dart';
 import 'package:flutter/material.dart';
@@ -114,6 +115,8 @@ class AnimeController {
             .then((value) => MissedAnimeController.instance.init());
         Vibration.vibrate(pattern: [0, 50, 125, 50, 125, 50]);
       } else if (value == 1) {
+        Analytics.instance.logShare('anime', anime.uuid, 'onLongPress');
+
         Share.share(
           '${Constant.baseUrl}/animes/${anime.slug}',
         );

@@ -9,6 +9,8 @@ import 'package:application/controllers/notifications_controller.dart';
 import 'package:application/controllers/sort_controller.dart';
 import 'package:application/dtos/member_dto.dart';
 import 'package:application/dtos/missed_anime_dto.dart';
+import 'package:application/firebase_options.dart';
+import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
 import 'package:application/views/account_settings_view.dart';
 import 'package:application/views/account_view.dart';
@@ -19,6 +21,7 @@ import 'package:application/controllers/simulcast_controller.dart';
 import 'package:application/views/no_internet.dart';
 import 'package:application/views/search_view.dart';
 import 'package:application/views/simulcast_view.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,6 +36,10 @@ Future<void> main() async {
   }
 
   try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
     await MemberController.instance.init();
 
     await Future.wait([
@@ -42,7 +49,6 @@ Future<void> main() async {
           .init()
           .then((value) => AnimeController.instance.init()),
       AnimeWeeklyController.instance.init(),
-      NotificationsController.instance.init(),
       SortController.instance.init(),
     ]);
 
@@ -139,6 +145,11 @@ class _MyHomePageState extends State<MyHomePage> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      NotificationsController.instance.init();
+      Analytics.instance.logScreenView('home');
+    });
   }
 
   @override
@@ -208,9 +219,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: PageView(
         controller: pageController,
         onPageChanged: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
+          _changePage(index);
         },
         children: const [
           HomeView(),
@@ -301,13 +310,35 @@ class _MyHomePageState extends State<MyHomePage> {
             }
           } else {
             pageController.jumpToPage(index);
-
-            setState(() {
-              _currentIndex = index;
-            });
+            _changePage(index);
           }
         },
       ),
     );
+  }
+
+  void _changePage(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+
+    String screenName = '';
+
+    switch (index) {
+      case 0:
+        screenName = 'home';
+        break;
+      case 1:
+        screenName = 'catalog';
+        break;
+      case 2:
+        screenName = 'calendar';
+        break;
+      case 3:
+        screenName = 'account';
+        break;
+    }
+
+    Analytics.instance.logScreenView(screenName);
   }
 }

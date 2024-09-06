@@ -1,8 +1,9 @@
 import 'package:application/components/card_component.dart';
 import 'package:application/components/image_component.dart';
 import 'package:application/components/pill.dart';
-import 'package:application/controllers/missed_anime_controller.dart';
+import 'package:application/controllers/anime_controller.dart';
 import 'package:application/dtos/missed_anime_dto.dart';
+import 'package:application/utils/analytics.dart';
 import 'package:application/views/anime_details_view.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +20,8 @@ class MissedAnimeComponent extends StatelessWidget {
     return CustomCard(
       backgroundColor: Colors.transparent,
       onTap: () {
+        Analytics.instance.logSelectContent('anime', missedAnime.anime.uuid);
+
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => AnimeDetailsView(anime: missedAnime.anime),
@@ -26,8 +29,8 @@ class MissedAnimeComponent extends StatelessWidget {
         );
       },
       onLongPress: (details) {
-        MissedAnimeController.instance
-            .onLongPress(context, missedAnime, details);
+        AnimeController.instance
+            .onLongPress(context, missedAnime.anime, details);
       },
       child: SizedBox(
         width: 100,

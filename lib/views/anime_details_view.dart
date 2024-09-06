@@ -10,6 +10,7 @@ import 'package:application/controllers/sort_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/dtos/season_dto.dart';
+import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -90,6 +91,9 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                     .then((value) => MissedAnimeController.instance.init());
                 Vibration.vibrate(pattern: [0, 50, 125, 50, 125, 50]);
               } else if (value == 1) {
+                Analytics.instance
+                    .logShare('anime', widget.anime.uuid, 'appBar');
+
                 Share.share(
                   '${Constant.baseUrl}/animes/${widget.anime.slug}',
                 );

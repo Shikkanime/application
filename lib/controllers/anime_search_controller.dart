@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:application/dtos/anime_dto.dart';
+import 'package:application/utils/analytics.dart';
 import 'package:application/utils/http_request.dart';
 import 'package:flutter/material.dart';
 
@@ -62,8 +63,10 @@ class AnimeSearchController {
     isLoading = true;
 
     try {
+      final searchTypesString =
+          searchTypes.map((e) => e.name.toUpperCase()).join(',');
       final pageableDto = await HttpRequest.instance.getPage(
-          '/v1/animes?country=FR&name=${Uri.encodeComponent(query)}&page=$page&limit=6&searchTypes=${searchTypes.map((e) => e.name.toUpperCase()).join(',')}');
+          '/v1/animes?country=FR&name=${Uri.encodeComponent(query)}&page=$page&limit=6&searchTypes=$searchTypesString');
 
       animes.addAll(
         pageableDto.data
@@ -72,6 +75,11 @@ class AnimeSearchController {
 
       streamController.add(animes);
       canLoadMore = animes.length < pageableDto.total;
+
+      Analytics.instance.logSearch(query, {
+        'page': page,
+        'searchTypes': searchTypesString,
+      });
     } catch (e) {
       debugPrint(e.toString());
     } finally {
