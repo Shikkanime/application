@@ -15,6 +15,7 @@ class MemberDto with _$MemberDto {
     required List<String> followedAnimes,
     required List<String> followedEpisodes,
     required int totalDuration,
+    required bool hasProfilePicture,
   }) = _MemberDto;
 
   factory MemberDto.fromJson(Map<String, dynamic> json) =>

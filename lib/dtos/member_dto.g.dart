@@ -21,6 +21,7 @@ _$MemberDtoImpl _$$MemberDtoImplFromJson(Map<String, dynamic> json) =>
           .map((e) => e as String)
           .toList(),
       totalDuration: (json['totalDuration'] as num).toInt(),
+      hasProfilePicture: json['hasProfilePicture'] as bool,
     );
 
 Map<String, dynamic> _$$MemberDtoImplToJson(_$MemberDtoImpl instance) =>
@@ -34,4 +35,5 @@ Map<String, dynamic> _$$MemberDtoImplToJson(_$MemberDtoImpl instance) =>
       'followedAnimes': instance.followedAnimes,
       'followedEpisodes': instance.followedEpisodes,
       'totalDuration': instance.totalDuration,
+      'hasProfilePicture': instance.hasProfilePicture,
     };
