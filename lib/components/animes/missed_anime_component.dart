@@ -7,7 +7,6 @@ import 'package:application/views/anime_details_view.dart';
 import 'package:flutter/material.dart';
 
 class MissedAnimeComponent extends StatelessWidget {
-  static const bookmarkColor = Colors.yellow;
   final MissedAnimeDto missedAnime;
 
   const MissedAnimeComponent({

@@ -3,11 +3,10 @@ import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/missed_anime_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
+import 'package:application/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 import 'package:vibration/vibration.dart';
-
-const _bookmarkColor = Colors.yellow;
 
 class WatchlistButton extends StatelessWidget {
   final EpisodeMappingDto? episode;
@@ -28,16 +27,16 @@ class WatchlistButton extends StatelessWidget {
           likeBuilder: (isLiked) {
             return Icon(
               isLiked ? Icons.bookmark : Icons.bookmark_border,
-              color: isLiked ? _bookmarkColor : null,
+              color: isLiked ? Constant.watchlistBookmarkColor : null,
             );
           },
           circleColor: const CircleColor(
-            start: _bookmarkColor,
-            end: _bookmarkColor,
+            start: Constant.watchlistBookmarkColor,
+            end: Constant.watchlistBookmarkColor,
           ),
           bubblesColor: const BubblesColor(
-            dotPrimaryColor: _bookmarkColor,
-            dotSecondaryColor: _bookmarkColor,
+            dotPrimaryColor: Constant.watchlistBookmarkColor,
+            dotSecondaryColor: Constant.watchlistBookmarkColor,
           ),
           onTap: (isLiked) async {
             if (!isLiked) {

@@ -13,7 +13,6 @@ import 'package:intl/intl.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 class CalendarAnimeComponent extends StatelessWidget {
-  static const bookmarkColor = Colors.yellow;
   final WeekDayReleaseDto release;
 
   const CalendarAnimeComponent({
