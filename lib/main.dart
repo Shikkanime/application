@@ -1,6 +1,5 @@
 import 'package:application/components/member_image.dart';
 import 'package:application/components/pill.dart';
-import 'package:application/components/update_available_component.dart';
 import 'package:application/controllers/anime_controller.dart';
 import 'package:application/controllers/anime_search_controller.dart';
 import 'package:application/controllers/anime_weekly_controller.dart';
@@ -24,9 +23,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:shorebird_code_push/shorebird_code_push.dart';
-
-final shorebirdCodePush = ShorebirdCodePush();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -134,7 +130,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final pageController = PageController();
   int _currentIndex = 0;
-  final _isShorebirdAvailable = shorebirdCodePush.isShorebirdAvailable();
 
   @override
   void initState() {
@@ -144,25 +139,6 @@ class _MyHomePageState extends State<MyHomePage> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_isShorebirdAvailable) {
-        shorebirdCodePush
-            .currentPatchNumber()
-            .then((currentPatchVersion) async {
-          // Ask the Shorebird servers if there is a new patch available.
-          final isUpdateAvailable =
-              await shorebirdCodePush.isNewPatchAvailableForDownload();
-
-          if (mounted && isUpdateAvailable) {
-            showModalBottomSheet(
-              context: context,
-              builder: (context) => const UpdateAvailableComponent(),
-            );
-          }
-        });
-      }
-    });
   }
 
   @override

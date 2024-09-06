@@ -15,11 +15,6 @@
   "subtitles": "Sous-titrage",
   "voice": "Doublage",
 
-  "updateAvailable": "Une mise à jour est disponible",
-  "updateAvailableDesc": "Voulez-vous la télécharger maintenant ?\n\nVotre application sera redémarrée automatiquement après le téléchargement.",
-  "downloadUpdate": "Télécharger",
-  "downloadingUpdate": "Téléchargement de la mise à jour...",
-
   "search": "Rechercher",
   "advancedSearch": "Recherche avancée",
   "sort": "Trier",
