@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:application/controllers/member_controller.dart';
-import 'package:application/firebase_options.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,18 +15,14 @@ class NotificationsController {
   final String key = 'notificationsType';
   late final SharedPreferences _sharedPreferences;
   final streamController = StreamController<NotificationsType>.broadcast();
+  final _messaging = FirebaseMessaging.instance;
 
   NotificationsType get notificationsType =>
       NotificationsType.values[_sharedPreferences.getInt(key) ?? 0];
 
   Future<void> init() async {
     _sharedPreferences = await SharedPreferences.getInstance();
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-
-    final response =
-        await FirebaseMessaging.instance.requestPermission(provisional: true);
+    final response = await _messaging.requestPermission(provisional: true);
 
     if (response.authorizationStatus != AuthorizationStatus.authorized) {
       return;
@@ -44,18 +38,18 @@ class NotificationsController {
 
     switch (type) {
       case NotificationsType.all:
-        await FirebaseMessaging.instance.subscribeToTopic('global');
-        await FirebaseMessaging.instance
+        await _messaging.subscribeToTopic('global');
+        await _messaging
             .unsubscribeFromTopic(MemberController.instance.member!.uuid);
         break;
       case NotificationsType.watchlist:
-        await FirebaseMessaging.instance
+        await _messaging
             .subscribeToTopic(MemberController.instance.member!.uuid);
-        await FirebaseMessaging.instance.unsubscribeFromTopic('global');
+        await _messaging.unsubscribeFromTopic('global');
         break;
       case NotificationsType.none:
-        await FirebaseMessaging.instance.unsubscribeFromTopic('global');
-        await FirebaseMessaging.instance
+        await _messaging.unsubscribeFromTopic('global');
+        await _messaging
             .unsubscribeFromTopic(MemberController.instance.member!.uuid);
         break;
     }

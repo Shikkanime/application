@@ -11,8 +11,9 @@ environment:
 dependencies:
   cached_network_image: ^3.4.0
   crop_your_image: ^1.1.0
-  firebase_core: ^3.3.0
-  firebase_messaging: ^15.0.4
+  firebase_analytics: ^11.3.0
+  firebase_core: ^3.4.0
+  firebase_messaging: ^15.1.0
   flutter:
     sdk: flutter
   flutter_localizations:

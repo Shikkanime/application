@@ -2,12 +2,8 @@ import 'dart:async';
 
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/dtos/missed_anime_dto.dart';
-import 'package:application/utils/constant.dart';
 import 'package:application/utils/http_request.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:vibration/vibration.dart';
 
 class MissedAnimeController {
   static MissedAnimeController instance = MissedAnimeController();
@@ -96,48 +92,5 @@ class MissedAnimeController {
       isLoading = false;
       page++;
     }
-  }
-
-  void onLongPress(
-    BuildContext context,
-    MissedAnimeDto missedAnime,
-    TapDownDetails? details,
-  ) {
-    if (details == null) {
-      return;
-    }
-
-    final RenderBox renderBox =
-        Overlay.of(context).context.findRenderObject() as RenderBox;
-
-    // Show dropdown menu
-    showMenu<int>(
-      context: context,
-      position: RelativeRect.fromRect(
-        details.globalPosition & const Size(40, 40),
-        Offset.zero & renderBox.size,
-      ),
-      items: [
-        PopupMenuItem(
-          value: 0,
-          child: Text(AppLocalizations.of(context)!.markWatched),
-        ),
-        PopupMenuItem(
-          value: 1,
-          child: Text(AppLocalizations.of(context)!.share),
-        ),
-      ],
-    ).then((value) {
-      if (value == 0) {
-        MemberController.instance
-            .followAllEpisodes(missedAnime.anime)
-            .then((value) => refresh());
-        Vibration.vibrate(pattern: [0, 50, 125, 50, 125, 50]);
-      } else if (value == 1) {
-        Share.share(
-          '${Constant.baseUrl}/animes/${missedAnime.anime.slug}',
-        );
-      }
-    });
   }
 }

@@ -4,6 +4,7 @@ import 'package:application/controllers/anime_controller.dart';
 import 'package:application/controllers/simulcast_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/simulcast_dto.dart';
+import 'package:application/utils/analytics.dart';
 import 'package:flutter/material.dart';
 
 class SimulcastView extends StatelessWidget {
@@ -70,6 +71,8 @@ class SimulcastView extends StatelessWidget {
                               ),
                           ],
                           onChanged: (value) {
+                            Analytics.instance
+                                .logSelectContent('simulcast', value.uuid);
                             SimulcastController.instance.current = value;
                             AnimeController.instance.goToTop();
                           },
