@@ -5,20 +5,26 @@ import 'package:application/components/lang_type_component.dart';
 import 'package:application/components/platforms/list_platform.dart';
 import 'package:application/controllers/anime_controller.dart';
 import 'package:application/dtos/week_day_release_dto.dart';
-import 'package:application/utils/constant.dart';
 import 'package:application/views/anime_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:palette_generator/palette_generator.dart';
 
-class CalendarAnimeComponent extends StatelessWidget {
+class CalendarAnimeComponent extends StatefulWidget {
   final WeekDayReleaseDto release;
 
   const CalendarAnimeComponent({
     super.key,
     required this.release,
   });
+
+  @override
+  State<CalendarAnimeComponent> createState() => _CalendarAnimeComponentState();
+}
+
+class _CalendarAnimeComponentState extends State<CalendarAnimeComponent> {
+  Color? _layerColor;
 
   String _releaseHour(String releaseDateTime) {
     final parsed = DateFormat('yyyy-MM-ddTHH:mm:ssZ')
@@ -30,54 +36,50 @@ class CalendarAnimeComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!release.isMultipleReleased) {
-      return buildCustomCard(context);
-    }
-
-    return FutureBuilder<Color>(
-      future: _getDominantColor(),
-      builder: (context, snapshot) {
-        final layerColor = snapshot.connectionState == ConnectionState.waiting
-            ? null
-            : snapshot.data;
-        return buildCustomCard(context, layerColor: layerColor);
-      },
-    );
-  }
-
-  CustomCard buildCustomCard(BuildContext context, {Color? layerColor}) {
     return CustomCard(
-      activateLayers: layerColor != null,
-      layerColor: layerColor,
+      activateLayers: widget.release.isMultipleReleased && _layerColor != null,
+      layerColor: _layerColor,
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => AnimeDetailsView(anime: release.anime),
+            builder: (context) => AnimeDetailsView(anime: widget.release.anime),
           ),
         );
       },
       onLongPress: (details) {
-        AnimeController.instance.onLongPress(context, release.anime, details);
+        AnimeController.instance
+            .onLongPress(context, widget.release.anime, details);
       },
       child: Column(
         children: <Widget>[
           Stack(
             children: [
               ImageComponent(
-                uuid: release.isReleased
-                    ? release.mappings.first
-                    : release.anime.uuid,
-                type: release.isReleased ? 'image' : 'banner',
+                uuid: widget.release.isReleased
+                    ? widget.release.mappings.first
+                    : widget.release.anime.uuid,
+                type: widget.release.isReleased ? 'image' : 'banner',
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(16),
                   topRight: Radius.circular(16),
                 ),
                 height: 185,
+                builder: (imageProvider) {
+                  if (_layerColor == null) {
+                    _getDominantColor(imageProvider).then((color) {
+                      if (mounted && _layerColor == null) {
+                        setState(() {
+                          _layerColor = color;
+                        });
+                      }
+                    });
+                  }
+                },
               ),
               Positioned(
                 top: 5,
                 right: 5,
-                child: ListPlatform(platforms: release.platforms),
+                child: ListPlatform(platforms: widget.release.platforms),
               ),
             ],
           ),
@@ -89,7 +91,7 @@ class CalendarAnimeComponent extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Text(
-                    _releaseHour(release.releaseDateTime),
+                    _releaseHour(widget.release.releaseDateTime),
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   const Padding(
@@ -106,30 +108,30 @@ class CalendarAnimeComponent extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          release.anime.shortName,
+                          widget.release.anime.shortName,
                           style: Theme.of(context).textTheme.bodyLarge,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                         ),
-                        if (release.isReleased)
+                        if (widget.release.isReleased)
                           Text(
                             AppLocalizations.of(context)!.minInformation(
                               AppLocalizations.of(context)!.episodeType(
-                                release.episodeType!.toLowerCase(),
+                                widget.release.episodeType!.toLowerCase(),
                               ),
-                              release.isMultipleReleased
-                                  ? '${release.minNumber} - ${release.maxNumber}'
-                                  : release.number!,
+                              widget.release.isMultipleReleased
+                                  ? '${widget.release.minNumber} - ${widget.release.maxNumber}'
+                                  : widget.release.number!,
                             ),
                             style: Theme.of(context).textTheme.bodyMedium,
                             overflow: TextOverflow.ellipsis,
                           ),
-                        LangTypeComponent(langType: release.langType),
+                        LangTypeComponent(langType: widget.release.langType),
                       ],
                     ),
                   ),
                   const SizedBox(width: 8),
-                  WatchlistButton(anime: release.anime),
+                  WatchlistButton(anime: widget.release.anime),
                 ],
               ),
             ),
@@ -139,12 +141,9 @@ class CalendarAnimeComponent extends StatelessWidget {
     );
   }
 
-  Future<Color> _getDominantColor() async {
-    return (await PaletteGenerator.fromImageProvider(
-      Image.network(
-        '${Constant.apiUrl}/v1/attachments?uuid=${release.mappings.first}&type=image',
-      ).image,
-    ))
+  Future<Color> _getDominantColor(
+      final ImageProvider<Object> imageProvider) async {
+    return (await PaletteGenerator.fromImageProvider(imageProvider))
         .dominantColor!
         .color;
   }
