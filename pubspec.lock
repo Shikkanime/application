@@ -30,14 +30,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.7.0"
-  analyzer_plugin:
-    dependency: transitive
-    description:
-      name: analyzer_plugin
-      sha256: "9661b30b13a685efaee9f02e5d01ed9f2b423bd889d28a304d02d704aee69161"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.11.3"
   ansicolor:
     dependency: transitive
     description:
@@ -254,15 +246,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
-  dart_code_linter:
-    dependency: "direct dev"
-    description:
-      path: "."
-      ref: trunk
-      resolved-ref: bde02c8e5b7db812e83c687482dc65c242d085bc
-      url: "https://github.com/Shikkanime/dart-code-linter.git"
-    source: git
-    version: "1.1.2"
   dart_style:
     dependency: transitive
     description:
@@ -843,14 +826,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.1"
-  process:
-    dependency: transitive
-    description:
-      name: process
-      sha256: "21e54fd2faf1b5bdd5102afd25012184a6793927648ea81eea80552ac9405b32"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.0.2"
   pub_semver:
     dependency: transitive
     description:
@@ -859,14 +834,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
-  pub_updater:
-    dependency: transitive
-    description:
-      name: pub_updater
-      sha256: "54e8dc865349059ebe7f163d6acce7c89eb958b8047e6d6e80ce93b13d7c9e60"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.4.0"
   pubspec_parse:
     dependency: transitive
     description:
@@ -1221,10 +1188,10 @@ packages:
     dependency: transitive
     description:
       name: vm_service
-      sha256: f652077d0bdf60abe4c1f6377448e8655008eef28f128bc023f7b5e8dfeb48fc
+      sha256: "5c5f338a667b4c644744b661f309fb8080bb94b18a7e91ef1dbd343bed00ed6d"
       url: "https://pub.dev"
     source: hosted
-    version: "14.2.4"
+    version: "14.2.5"
   watcher:
     dependency: transitive
     description:
