@@ -1,7 +1,6 @@
 import 'package:application/components/member_image.dart';
 import 'package:application/components/pill.dart';
 import 'package:application/controllers/anime_controller.dart';
-import 'package:application/controllers/anime_search_controller.dart';
 import 'package:application/controllers/anime_weekly_controller.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/missed_anime_controller.dart';
@@ -52,7 +51,6 @@ Future<void> main() async {
       SortController.instance.init(),
     ]);
 
-    AnimeSearchController.instance.init();
     hasInternet = true;
   } catch (e) {
     debugPrint(e.toString());

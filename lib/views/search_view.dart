@@ -17,6 +17,15 @@ class _SearchViewState extends State<SearchView> {
   bool _isOpen = false;
 
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      AnimeSearchController.instance.init();
+    });
+  }
+
+  @override
   void dispose() {
     AnimeSearchController.instance.dispose();
     super.dispose();
