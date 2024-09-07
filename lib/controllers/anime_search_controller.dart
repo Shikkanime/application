@@ -19,10 +19,14 @@ class AnimeSearchController {
   String query = '';
   final searchTypes = SearchType.values.toSet();
 
-  void init() {
+  Future<void> init() async {
+    animes.clear();
+    streamController.add(animes);
+
     page = 1;
     isLoading = false;
     canLoadMore = true;
+    await nextPage();
 
     scrollController.addListener(() {
       // If the user is going to the end of the list
@@ -56,7 +60,7 @@ class AnimeSearchController {
   }
 
   Future<void> nextPage() async {
-    if (isLoading || query.isEmpty) {
+    if (isLoading) {
       return;
     }
 
@@ -65,8 +69,16 @@ class AnimeSearchController {
     try {
       final searchTypesString =
           searchTypes.map((e) => e.name.toUpperCase()).join(',');
+
+      String nameParam = '';
+
+      if (query.isNotEmpty) {
+        nameParam = '&name=${Uri.encodeComponent(query)}';
+      }
+
       final pageableDto = await HttpRequest.instance.getPage(
-          '/v1/animes?country=FR&name=${Uri.encodeComponent(query)}&page=$page&limit=6&searchTypes=$searchTypesString');
+        '/v1/animes?country=FR$nameParam&page=$page&limit=6&searchTypes=$searchTypesString${query.isEmpty ? '&sort=name' : ''}',
+      );
 
       animes.addAll(
         pageableDto.data
