@@ -19,7 +19,7 @@ class _FollowedEpisodesViewState extends State<FollowedEpisodesView> {
 
   @override
   void dispose() {
-    FollowedEpisodeController.instance.init();
+    FollowedEpisodeController.instance.dispose();
     super.dispose();
   }
 
@@ -40,7 +40,6 @@ class _FollowedEpisodesViewState extends State<FollowedEpisodesView> {
             return ListView.builder(
               addAutomaticKeepAlives: false,
               addRepaintBoundaries: false,
-              shrinkWrap: true,
               controller: FollowedEpisodeController.instance.scrollController,
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) =>

@@ -114,7 +114,6 @@ class _SearchViewState extends State<SearchView> {
             return ListView.builder(
               addAutomaticKeepAlives: false,
               addRepaintBoundaries: false,
-              shrinkWrap: true,
               controller: AnimeSearchController.instance.scrollController,
               itemCount: list.length,
               itemBuilder: (context, index) => list[index],

@@ -53,7 +53,8 @@ class _CustomCardState extends State<CustomCard> {
                 height: 100,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(Constant.borderRadius),
+                    borderRadius: const BorderRadius.all(
+                        Radius.circular(Constant.borderRadius)),
                     color: widget.layerColor!.withOpacity(0.5),
                   ),
                 ),
@@ -65,7 +66,8 @@ class _CustomCardState extends State<CustomCard> {
                 height: 100,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(Constant.borderRadius),
+                    borderRadius: const BorderRadius.all(
+                        Radius.circular(Constant.borderRadius)),
                     color: widget.layerColor!,
                   ),
                 ),
@@ -73,7 +75,8 @@ class _CustomCardState extends State<CustomCard> {
             ],
             DecoratedBox(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Constant.borderRadius),
+                borderRadius: const BorderRadius.all(
+                    Radius.circular(Constant.borderRadius)),
                 color: widget.backgroundColor ?? withOpacity,
               ),
               child: GestureDetector(

@@ -27,7 +27,6 @@ class HomeView extends StatelessWidget {
           child: ListView.builder(
             addAutomaticKeepAlives: false,
             addRepaintBoundaries: false,
-            shrinkWrap: true,
             controller: EpisodeController.instance.scrollController,
             itemCount: snapshot.data!.length + 1,
             itemBuilder: (context, index) => index == 0
@@ -86,7 +85,6 @@ class MissedAnimesRow extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         addAutomaticKeepAlives: false,
                         addRepaintBoundaries: false,
-                        shrinkWrap: true,
                         controller:
                             MissedAnimeController.instance.scrollController,
                         itemCount: snapshot.data!.length,

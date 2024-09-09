@@ -31,14 +31,19 @@ class MemberImage extends StatelessWidget {
 
     return Container(
       decoration: hasBorder
-          ? BoxDecoration(
+          ? const BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: Colors.white, width: 2),
+              border: Border.fromBorderSide(
+                BorderSide(
+                  color: Colors.white,
+                  width: 2,
+                ),
+              ),
             )
           : null,
       padding: const EdgeInsets.all(1),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(360),
+        borderRadius: const BorderRadius.all(Radius.circular(360)),
         child: showDefaultImage
             ? defaultImage
             : CachedNetworkImage(

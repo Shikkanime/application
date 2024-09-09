@@ -16,7 +16,8 @@ class AccountCard extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.secondary.withOpacity(0.125),
-        borderRadius: BorderRadius.circular(Constant.borderRadius),
+        borderRadius:
+            const BorderRadius.all(Radius.circular(Constant.borderRadius)),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),

@@ -47,7 +47,6 @@ class SimulcastView extends StatelessWidget {
           child: ListView.builder(
             addAutomaticKeepAlives: false,
             addRepaintBoundaries: false,
-            shrinkWrap: true,
             controller: AnimeController.instance.scrollController,
             itemCount: list.length + 1,
             itemBuilder: (context, index) => index == 0

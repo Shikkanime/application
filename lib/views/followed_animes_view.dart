@@ -19,7 +19,7 @@ class _FollowedAnimesViewState extends State<FollowedAnimesView> {
 
   @override
   void dispose() {
-    FollowedAnimeController.instance.init();
+    FollowedAnimeController.instance.dispose();
     super.dispose();
   }
 
@@ -62,7 +62,6 @@ class _FollowedAnimesViewState extends State<FollowedAnimesView> {
             return ListView.builder(
               addAutomaticKeepAlives: false,
               addRepaintBoundaries: false,
-              shrinkWrap: true,
               controller: FollowedAnimeController.instance.scrollController,
               itemCount: list.length,
               itemBuilder: (context, index) => list[index],

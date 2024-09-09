@@ -43,7 +43,8 @@ class EpisodeImage extends StatelessWidget {
                 bottom: 5,
                 right: 5,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(Constant.borderRadius),
+                  borderRadius: const BorderRadius.all(
+                      Radius.circular(Constant.borderRadius)),
                   child: ColoredBox(
                     color: Colors.black.withOpacity(0.5),
                     child: Padding(

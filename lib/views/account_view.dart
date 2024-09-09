@@ -300,7 +300,6 @@ class FollowedAnimesRow extends StatelessWidget {
                                   scrollDirection: Axis.horizontal,
                                   addAutomaticKeepAlives: false,
                                   addRepaintBoundaries: false,
-                                  shrinkWrap: true,
                                   itemCount: snapshot.data!.length,
                                   itemBuilder: (context, index) =>
                                       FollowedAnimeComponent(
@@ -419,7 +418,6 @@ class FollowedEpisodesRow extends StatelessWidget {
                                   scrollDirection: Axis.horizontal,
                                   addAutomaticKeepAlives: false,
                                   addRepaintBoundaries: false,
-                                  shrinkWrap: true,
                                   itemCount: snapshot.data!.length,
                                   itemBuilder: (context, index) =>
                                       FollowedEpisodeComponent(
