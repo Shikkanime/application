@@ -112,7 +112,6 @@ class _CalendarViewState extends State<CalendarView> {
           child: ListView.builder(
             addAutomaticKeepAlives: false,
             addRepaintBoundaries: false,
-            shrinkWrap: true,
             controller: AnimeWeeklyController.instance.scrollController,
             itemCount: children.length,
             itemBuilder: (context, index) => children[index],

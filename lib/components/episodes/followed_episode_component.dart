@@ -41,7 +41,8 @@ class FollowedEpisodeComponent extends StatelessWidget {
               child: EpisodeImage(
                 episode: episode,
                 fit: BoxFit.fill,
-                borderRadius: BorderRadius.circular(Constant.borderRadius),
+                borderRadius: const BorderRadius.all(
+                    Radius.circular(Constant.borderRadius)),
                 showDuration: false,
               ),
             ),

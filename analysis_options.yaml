@@ -26,3 +26,8 @@ linter:
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
+dart_code_metrics:
+  extends:
+    - package:dart_code_metrics_presets/flutter_all.yaml
+    - package:dart_code_metrics_presets/firebase_analytics.yaml
+    - package:dart_code_metrics_presets/intl.yaml

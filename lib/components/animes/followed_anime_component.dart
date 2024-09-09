@@ -38,7 +38,8 @@ class FollowedAnimeComponent extends StatelessWidget {
               height: 640 / _ratio,
               child: ImageComponent(
                 uuid: anime.uuid,
-                borderRadius: BorderRadius.circular(Constant.borderRadius),
+                borderRadius: const BorderRadius.all(
+                    Radius.circular(Constant.borderRadius)),
               ),
             ),
             const SizedBox(height: 4),

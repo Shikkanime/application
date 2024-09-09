@@ -35,6 +35,15 @@ class FollowedAnimeController {
     });
   }
 
+  void dispose() {
+    animes.clear();
+
+    page = 1;
+    isLoading = false;
+    canLoadMore = true;
+    nextPage();
+  }
+
   Future<void> nextPage() async {
     if (isLoading) {
       return;
