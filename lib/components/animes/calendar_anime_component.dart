@@ -68,17 +68,19 @@ class _CalendarAnimeComponentState extends State<CalendarAnimeComponent> {
                   topRight: Radius.circular(Constant.borderRadius),
                 ),
                 height: 185,
-                builder: (imageProvider) {
-                  if (_layerColor == null) {
-                    _getDominantColor(imageProvider).then((color) {
-                      if (mounted && _layerColor == null) {
-                        setState(() {
-                          _layerColor = color;
-                        });
+                builder: widget.release.isMultipleReleased
+                    ? (imageProvider) {
+                        if (_layerColor == null) {
+                          _getDominantColor(imageProvider).then((color) {
+                            if (mounted && _layerColor == null) {
+                              setState(() {
+                                _layerColor = color;
+                              });
+                            }
+                          });
+                        }
                       }
-                    });
-                  }
-                },
+                    : null,
               ),
               Positioned(
                 top: 5,
