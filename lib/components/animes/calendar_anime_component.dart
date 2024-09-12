@@ -34,7 +34,8 @@ class _CalendarAnimeComponentState extends State<CalendarAnimeComponent> {
         .parse(releaseDateTime, true)
         .toLocal();
 
-    return '${parsed.hour.toString().padLeft(2, '0')}:${parsed.minute.toString().padLeft(2, '0')}';
+    return DateFormat(AppLocalizations.of(context)!.calendarTimeFormat)
+        .format(parsed);
   }
 
   @override

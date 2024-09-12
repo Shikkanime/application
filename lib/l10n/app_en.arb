@@ -1,0 +1,368 @@
+{
+  "home": "Home",
+  "@home": {
+    "description": "Text for the button or tab leading to the home page."
+  },
+  "catalog": "Catalog",
+  "@catalog": {
+    "description": "Text for the button or tab leading to the catalog page."
+  },
+  "calendarTimeFormat": "jm",
+  "calendar": "Calendar",
+  "@calendar": {
+    "description": "Text for the button or tab leading to the calendar page."
+  },
+  "myAccount": "Account",
+  "@myAccount": {
+    "description": "Text for the button or tab leading to the user account page."
+  },
+  "search": "Search",
+  "@search": {
+    "description": "Text for the field or button to perform a search."
+  },
+  "advancedSearch": "Advanced Search",
+  "@advancedSearch": {
+    "description": "Text for the button or field to access advanced search."
+  },
+  "sort": "Sort",
+  "@sort": {
+    "description": "Text for the button or field to sort results or the list."
+  },
+
+  "whatYouMightHaveMissed1": "What you might have ",
+  "@whatYouMightHaveMissed1": {
+    "description": "First part of the phrase 'What you might have missed'."
+  },
+  "whatYouMightHaveMissed2": "missed",
+  "@whatYouMightHaveMissed2": {
+    "description": "Second part of the phrase 'What you might have missed'."
+  },
+  "season": "Season {season}",
+  "@season": {
+    "description": "Text to display the season number.",
+    "placeholders": {
+      "season": {
+        "type": "num",
+        "example": "1"
+      }
+    }
+  },
+  "simulcastSeason": "{type, select, SPRING{Spring} SUMMER{Summer} AUTUMN{Autumn} WINTER{Winter} other{}} {year}",
+  "@simulcastSeason": {
+    "description": "Text to display the simulcast season and year.",
+    "placeholders": {
+      "type": {
+        "type": "String",
+        "example": "Spring"
+      },
+      "year": {
+        "type": "num",
+        "example": "2021"
+      }
+    }
+  },
+  "episodeType": "{type, select, episode{Episode} special{Special} film{Movie} summary{Recap Episode} other{}}",
+  "@episodeType": {
+    "description": "Text to display the episode type (episode, special, movie, recap)."
+  },
+  "fullInformation": "Season {season} | {episodeType} {number}",
+  "@fullInformation": {
+    "description": "Combined text to display the season, episode type, and its number.",
+    "placeholders": {
+      "season": {
+        "type": "num",
+        "example": "1"
+      },
+      "episodeType": {
+        "type": "String",
+        "example": "Episode"
+      },
+      "number": {
+        "type": "num",
+        "example": "12"
+      }
+    }
+  },
+  "minInformation": "{episodeType} {number}",
+  "@minInformation": {
+    "description": "Reduced version of episode information with only the episode type and number.",
+    "placeholders": {
+      "episodeType": {
+        "type": "String",
+        "example": "Episode"
+      },
+      "number": {
+        "type": "dynamic",
+        "example": "12"
+      }
+    }
+  },
+  "subtitles": "Subtitles",
+  "@subtitles": {
+    "description": "Text to indicate the availability of subtitles."
+  },
+  "voice": "Dubbing",
+  "@voice": {
+    "description": "Text to indicate the availability of dubbing."
+  },
+
+  "markWatched": "Mark as watched",
+  "@markWatched": {
+    "description": "Text for the button to mark an episode as watched."
+  },
+  "share": "Share",
+  "@share": {
+    "description": "Text for the button to share content."
+  },
+  "showMore": "Show more",
+  "@showMore": {
+    "description": "Text for the button to display more information."
+  },
+  "showLess": "Show less",
+  "@showLess": {
+    "description": "Text for the button to display less information."
+  },
+
+  "anonymousAccount": "Anonymous account",
+  "@anonymousAccount": {
+    "description": "Text indicating that the user is using an anonymous account."
+  },
+  "associateEmail": "Associate an email address",
+  "@associateEmail": {
+    "description": "Text for the button to associate an email address with an account."
+  },
+  "code": "Code",
+  "@code": {
+    "description": "Text for the field where the user must enter a verification code."
+  },
+  "sendCode": "Send code",
+  "@sendCode": {
+    "description": "Text for the button to send a verification code."
+  },
+  "member": "Member",
+  "@member": {
+    "description": "Text to designate a member of the service."
+  },
+  "account": "Account",
+  "@account": {
+    "description": "Text to designate the user account section."
+  },
+  "email": "Email address",
+  "@email": {
+    "description": "Text to designate an email address."
+  },
+  "identifier": "Identifier",
+  "@identifier": {
+    "description": "Text to designate the unique identifier of an account."
+  },
+  "identifierSubtitle": "Please save it to recover your data",
+  "@identifierSubtitle": {
+    "description": "Subtitle explaining that it's important to save the identifier to recover one's data."
+  },
+  "noIdentifier": "No identifier",
+  "@noIdentifier": {
+    "description": "Text indicating that there is no identifier."
+  },
+  "identifierCopied": "Identifier copied to clipboard",
+  "@identifierCopied": {
+    "description": "Message displayed when the identifier is copied to the clipboard."
+  },
+  "enterNewIdentifier": "Please enter a new identifier",
+  "@enterNewIdentifier": {
+    "description": "Text inviting the user to enter a new identifier."
+  },
+  "forgotIdentifier": "Forgot identifier?",
+  "@forgotIdentifier": {
+    "description": "Text for a button to recover a forgotten identifier."
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Text for a button to cancel an action."
+  },
+  "save": "Save",
+  "@save": {
+    "description": "Text for a button to save information."
+  },
+  "ok": "OK",
+  "@ok": {
+    "description": "Text for a confirmation or acceptance button."
+  },
+
+  "settings": "Settings",
+  "@settings": {
+    "description": "Text for the button or tab leading to the application settings."
+  },
+  "notifications": "Notifications",
+  "@notifications": {
+    "description": "Text for the button or tab leading to notification settings."
+  },
+  "notificationsType": "{type, select, all{All notifications} watchlist{Watchlist} none{None} other{Other}}",
+  "@notificationsType": {
+    "description": "Text describing the different types of notifications available."
+  },
+  "notificationsSubtitles": "{type, select, all{Receive notifications for all anime} watchlist{Receive notifications for anime in your watchlist} none{Disable notifications} other{Receive notifications for anime you follow}}",
+  "@notificationsSubtitles": {
+    "description": "Subtitles to describe notification types in more detail."
+  },
+  "defaultSort": "Default sort",
+  "@defaultSort": {
+    "description": "Text for the button or field to choose a default sort."
+  },
+  "sortType": "{type, select, oldest{Oldest} newest{Newest} other{Other}}",
+  "@sortType": {
+    "description": "Text to describe different sorting options (by oldest or newest)."
+  },
+
+  "anonymousWarningTitle": "Data Backup Warning",
+  "@anonymousWarningTitle": {
+    "description": "Title for a dialog box warning the user about data backup."
+  },
+  "anonymousWarningContent1": "We save your data anonymously on our servers. Each account is associated with a unique identifier. Please note that if you lose this identifier, you risk losing access to all your data.",
+  "@anonymousWarningContent1": {
+    "description": "First paragraph of the warning message explaining the importance of the identifier for data backup."
+  },
+  "anonymousWarningContent2": "You can find your unique identifier in the \"Account\" section of the application settings.",
+  "@anonymousWarningContent2": {
+    "description": "Second paragraph of the warning message explaining where to find the unique identifier."
+  },
+  "anonymousWarningContent3": "To avoid any data loss, we strongly recommend associating an email address. This will allow you to easily recover your data if needed and secure your account against accidental loss.",
+  "@anonymousWarningContent3": {
+    "description": "Third paragraph of the warning message advising to associate an email address for data security."
+  },
+  "oops": "Oops",
+  "@oops": {
+    "description": "Text displayed when something doesn't go as planned."
+  },
+  "noAnimeToday": "There are no anime available today.",
+  "@noAnimeToday": {
+    "description": "Message informing the user that no anime is available today."
+  },
+  "noInternet": "No Internet connection",
+  "@noInternet": {
+    "description": "Message informing the user that there is no Internet connection."
+  },
+  "noEmail": "No email address associated",
+  "@noEmail": {
+    "description": "Message indicating that no email address is associated with the account."
+  },
+  "tryAgain": "Please try again",
+  "@tryAgain": {
+    "description": "Text for a button to retry a failed action."
+  },
+  "invalidEmail": "Invalid email address",
+  "@invalidEmail": {
+    "description": "Message indicating that the entered email address is invalid."
+  },
+  "conflictEmail": "This email address is already associated with another account",
+  "@conflictEmail": {
+    "description": "Message indicating that an email address is already used by another account."
+  },
+  "invalidCode": "Invalid code",
+  "@invalidCode": {
+    "description": "Message indicating that the verification code is invalid."
+  },
+  "invalidIdentifier": "Invalid identifier",
+  "@invalidIdentifier": {
+    "description": "Message indicating that the entered identifier is invalid."
+  },
+
+  "emailContent": "By associating an email address with your account, you'll be able to recover your data if you lose your identifier. Additionally, you can secure your account against accidental loss.",
+  "@emailContent": {
+    "description": "Text explaining the benefits of associating an email address with the account."
+  },
+  "emailSpamWarning": "Please check your spam folder if you don't receive the email in your inbox. If you still don't receive it after a few minutes, please try again.",
+  "@emailSpamWarning": {
+    "description": "Warning inviting the user to check their spam folder if the email is not received."
+  },
+  "emailNotAssociated": "If you haven't associated an email address with your account, you won't be able to recover your data if you lose your identifier.",
+  "@emailNotAssociated": {
+    "description": "Message indicating the consequences of not associating an email address with the account."
+  },
+  "emailAlreadyAssociatedWithYourAccount": "This email address is already associated with your account.",
+  "@emailAlreadyAssociatedWithYourAccount": {
+    "description": "Message indicating that the entered email address is already associated with this account."
+  },
+  "yourEmailHasBeenAssociated": "Your email address has been successfully associated with your account.",
+  "@yourEmailHasBeenAssociated": {
+    "description": "Message confirming that the email address has been associated with the account."
+  },
+  "yourNewIdentifierHasBeenSent": "Your new identifier has been sent to your email address.",
+  "@yourNewIdentifierHasBeenSent": {
+    "description": "Message confirming that the new identifier has been sent by email."
+  },
+
+  "animesAdded": "Animes added",
+  "@animesAdded": {
+    "description": "Text indicating the number of animes added by the user."
+  },
+  "episodesWatched": "Episodes watched",
+  "@episodesWatched": {
+    "description": "Text indicating the number of episodes watched by the user."
+  },
+  "watchTime": "Watch time",
+  "@watchTime": {
+    "description": "Text indicating the total viewing duration of animes by the user."
+  },
+  "accountDateFormat": "EEEE, MMMM dd, yyyy",
+  "accountCreatedAt": "Account created on {date}",
+  "@accountCreatedAt": {
+    "description": "Text indicating the creation date of the user account.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+
+  "crop": "Crop",
+  "@crop": {
+    "description": "Text for the button or option to crop an image."
+  },
+  "invalidImageFormat": "Invalid image format",
+  "@invalidImageFormat": {
+    "description": "Message indicating that the provided image format is invalid."
+  },
+  "invalidImageExtension": "Only .jpg, .jpeg, and .png files are allowed",
+  "@invalidImageExtension": {
+    "description": "Message indicating that only jpg, jpeg, and png image formats are accepted."
+  },
+
+  "yourRecentlyAddedAnime1": "Your recently ",
+  "@yourRecentlyAddedAnime1": {
+    "description": "First part of the phrase 'Your recently added anime'."
+  },
+  "yourRecentlyAddedAnime2": "added anime",
+  "@yourRecentlyAddedAnime2": {
+    "description": "Second part of the phrase 'Your recently added anime'."
+  },
+  "noFollowedAnime": "You haven't added any anime to your watchlist yet",
+  "@noFollowedAnime": {
+    "description": "Message informing the user that they haven't added any anime to their watchlist yet."
+  },
+  "yourRecentlyViewedEpisodes1": "Your recently ",
+  "@yourRecentlyViewedEpisodes1": {
+    "description": "First part of the phrase 'Your recently viewed episodes'."
+  },
+  "yourRecentlyViewedEpisodes2": "viewed episodes",
+  "@yourRecentlyViewedEpisodes2": {
+    "description": "Second part of the phrase 'Your recently viewed episodes'."
+  },
+  "noWatchedEpisode": "You haven't watched any episodes yet",
+  "@noWatchedEpisode": {
+    "description": "Message informing the user that they haven't watched any episodes yet."
+  },
+  "watchlist": "Watchlist",
+  "@watchlist": {
+    "description": "Text for the user's watchlist, which includes the anime they want to follow."
+  },
+  "weekDays": "{day, select, 0{Monday} 1{Tuesday} 2{Wednesday} 3{Thursday} 4{Friday} 5{Saturday} 6{Sunday} other{}}",
+  "@weekDays": {
+    "description": "Text to display the day of the week.",
+    "placeholders": {
+      "day": {
+        "type": "String",
+        "example": "0"
+      }
+    }
+  }
+}

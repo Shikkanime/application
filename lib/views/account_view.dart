@@ -190,7 +190,10 @@ class AccountView extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               appLocalizations.accountCreatedAt(
-                beautifyDate(context, member?.creationDateTime ?? ''),
+                DateFormat(
+                  AppLocalizations.of(context)!.accountDateFormat,
+                  WidgetsBinding.instance.platformDispatcher.locale.toString(),
+                ).format(DateTime.parse(member?.creationDateTime ?? '')),
               ),
               style: const TextStyle(
                 fontSize: 14,
@@ -201,13 +204,6 @@ class AccountView extends StatelessWidget {
         );
       },
     );
-  }
-
-  String beautifyDate(BuildContext context, String date) {
-    return DateFormat(
-      'EEEE dd MMM yyyy',
-      Localizations.localeOf(context).languageCode,
-    ).format(DateTime.parse(date));
   }
 }
 
@@ -275,15 +271,11 @@ class FollowedAnimesRow extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            const Icon(
-                              Icons.sentiment_very_dissatisfied,
-                              color: Colors.grey,
-                            ),
-                            const SizedBox(width: 8),
                             Expanded(
                               child: Text(
                                 AppLocalizations.of(context)!.noFollowedAnime,
                                 style: Theme.of(context).textTheme.titleSmall,
+                                textAlign: TextAlign.center,
                               ),
                             ),
                           ],
@@ -395,14 +387,12 @@ class FollowedEpisodesRow extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            const Icon(
-                              Icons.sentiment_very_dissatisfied,
-                              color: Colors.grey,
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                              AppLocalizations.of(context)!.noWatchedEpisode,
-                              style: Theme.of(context).textTheme.titleSmall,
+                            Expanded(
+                              child: Text(
+                                AppLocalizations.of(context)!.noWatchedEpisode,
+                                style: Theme.of(context).textTheme.titleSmall,
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           ],
                         )

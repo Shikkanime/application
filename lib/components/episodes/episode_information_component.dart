@@ -20,9 +20,9 @@ class EpisodeInformation extends StatelessWidget {
     return Text(
       showSeason
           ? AppLocalizations.of(context)!.fullInformation(
+              episode.season,
               episodeTypeString,
               episode.number,
-              episode.season,
             )
           : AppLocalizations.of(context)!.minInformation(
               episodeTypeString,
