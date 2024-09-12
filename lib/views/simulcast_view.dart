@@ -6,6 +6,7 @@ import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/simulcast_dto.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SimulcastView extends StatelessWidget {
   const SimulcastView({super.key});
@@ -66,7 +67,10 @@ class SimulcastView extends StatelessWidget {
                                 in SimulcastController.instance.simulcasts)
                               ElevatedPopupMenuItem(
                                 value: simulcast,
-                                child: Text(simulcast.label),
+                                child: Text(
+                                  AppLocalizations.of(context)!.simulcastSeason(
+                                      simulcast.season, simulcast.year),
+                                ),
                               ),
                           ],
                           onChanged: (value) {

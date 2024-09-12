@@ -1,6 +1,7 @@
 {
   "home": "Accueil",
   "catalog": "Catalogue",
+  "calendarTimeFormat": "Hm",
   "calendar": "Calendrier",
   "myAccount": "Compte",
   "search": "Rechercher",
@@ -10,6 +11,7 @@
   "whatYouMightHaveMissed1": "Ce que vous auriez pu ",
   "whatYouMightHaveMissed2": "manquer",
   "season": "Saison {season}",
+  "simulcastSeason": "{type, select, SPRING{Printemps} SUMMER{Été} AUTUMN{Automne} WINTER{Hiver} other{}} {year}",
   "episodeType": "{type, select, episode{Épisode} special{Spécial} film{Film} summary{Épisode récapitulatif} other{}}",
   "fullInformation": "Saison {season} | {episodeType} {number}",
   "minInformation": "{episodeType} {number}",
@@ -69,7 +71,15 @@
   "animesAdded": "Animés ajoutés",
   "episodesWatched": "Épisodes vus",
   "watchTime": "Temps de visionnage",
+  "accountDateFormat": "EEEE dd MMM yyyy",
   "accountCreatedAt": "Compte créé le {date}",
+  "@accountCreatedAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
 
   "crop": "Recadrer",
   "invalidImageFormat": "Format d'image invalide",
@@ -81,5 +91,6 @@
   "yourRecentlyViewedEpisodes1": "Vos épisodes récemment ",
   "yourRecentlyViewedEpisodes2": "vus",
   "noWatchedEpisode": "Vous n'avez pas encore vus d'épisode",
-  "watchlist": "Watchlist"
+  "watchlist": "Watchlist",
+  "weekDay": "{day, select, 0{Lundi} 1{Mardi} 2{Mercredi} 3{Jeudi} 4{Vendredi} 5{Samedi} 6{Dimanche} other{}}"
 }

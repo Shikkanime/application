@@ -2,7 +2,6 @@ import 'package:application/components/animes/calendar_anime_component.dart';
 import 'package:application/controllers/anime_weekly_controller.dart';
 import 'package:application/dtos/week_day_dto.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CalendarView extends StatefulWidget {
@@ -15,13 +14,13 @@ class CalendarView extends StatefulWidget {
 }
 
 class _CalendarViewState extends State<CalendarView> {
-  String _currentDay = 'Lundi';
+  int _currentDay = 0;
 
   List<Widget> _children(AsyncSnapshot<List<WeekDayDto>> snapshot) {
     return [
       Padding(
         padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
-        child: SegmentedButton<String>(
+        child: SegmentedButton<int>(
           multiSelectionEnabled: false,
           showSelectedIcon: false,
           onSelectionChanged: (values) {
@@ -29,13 +28,15 @@ class _CalendarViewState extends State<CalendarView> {
               _currentDay = values.first;
             });
           },
-          segments: <ButtonSegment<String>>[
+          segments: <ButtonSegment<int>>[
             for (final weekDay in snapshot.data!)
               ButtonSegment(
-                value: weekDay.dayOfWeek,
+                value: snapshot.data!.indexOf(weekDay),
                 label: Text(
-                  weekDay.dayOfWeek.substring(0, 3),
-                  style: _currentDay == weekDay.dayOfWeek
+                  AppLocalizations.of(context)!
+                      .weekDays(snapshot.data!.indexOf(weekDay).toString())
+                      .substring(0, 3),
+                  style: _currentDay == snapshot.data!.indexOf(weekDay)
                       ? Theme.of(context)
                           .segmentedButtonTheme
                           .style
@@ -51,7 +52,7 @@ class _CalendarViewState extends State<CalendarView> {
         ),
       ),
       for (final weekDay in snapshot.data!)
-        if (weekDay.dayOfWeek == _currentDay)
+        if (snapshot.data!.indexOf(weekDay) == _currentDay)
           if (weekDay.releases.isNotEmpty)
             for (final release in weekDay.releases)
               CalendarAnimeComponent(release: release)
@@ -89,8 +90,7 @@ class _CalendarViewState extends State<CalendarView> {
   @override
   void initState() {
     super.initState();
-    _currentDay = DateFormat('EEEE', 'fr_FR').format(DateTime.now());
-    _currentDay = _currentDay[0].toUpperCase() + _currentDay.substring(1);
+    _currentDay = DateTime.now().weekday - 1;
   }
 
   @override
