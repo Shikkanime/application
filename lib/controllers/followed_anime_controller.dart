@@ -4,10 +4,15 @@ import 'package:application/controllers/generic_controller.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/utils/http_request.dart';
+import 'package:application/utils/widget_builder.dart' as wb;
 
 class FollowedAnimeController extends GenericController<AnimeDto> {
   static final instance = FollowedAnimeController();
-  final _limit = 8;
+
+  int get _limit =>
+      wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
+          ? 6
+          : 24;
 
   @override
   Future<Iterable<AnimeDto>> fetchItems() async {
@@ -27,5 +32,6 @@ class FollowedAnimeController extends GenericController<AnimeDto> {
     }
 
     page = 1;
+    streamController.add(items);
   }
 }

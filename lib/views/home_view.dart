@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:application/components/card_component.dart';
 import 'package:application/components/episodes/episode_component.dart';
 import 'package:application/components/animes/missed_anime_component.dart';
@@ -5,6 +7,7 @@ import 'package:application/controllers/episode_controller.dart';
 import 'package:application/controllers/missed_anime_controller.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/dtos/missed_anime_dto.dart';
+import 'package:application/utils/widget_builder.dart' as wb;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -13,16 +16,28 @@ class HomeView extends StatelessWidget {
     super.key,
   });
 
+  List<Widget> _buildEpisodeList(
+    BuildContext context,
+    List<EpisodeMappingDto> episodes,
+  ) {
+    final smallestDimension = MediaQuery.of(context).size.width;
+
+    return [
+      const MissedAnimesRow(),
+      ...wb.WidgetBuilder.instance.buildRowWidgets(
+        episodes.map((episode) => EpisodeComponent(episode: episode)),
+        maxElementsPerRow: max(1, (smallestDimension * 2 / 600).floor()),
+      ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<EpisodeMappingDto>>(
       stream: EpisodeController.instance.streamController.stream,
       initialData: EpisodeController.instance.items,
       builder: (context, snapshot) {
-        final list = [
-          const MissedAnimesRow(),
-          ...snapshot.data!.map((e) => EpisodeComponent(episode: e)),
-        ];
+        final list = _buildEpisodeList(context, snapshot.data!);
 
         return RefreshIndicator.adaptive(
           onRefresh: () async {

@@ -66,6 +66,7 @@ class _CalendarAnimeComponentState extends State<CalendarAnimeComponent> {
           Stack(
             children: [
               ImageComponent(
+                fit: BoxFit.cover,
                 uuid: isReleased
                     ? widget.release.mappings!.first.uuid
                     : widget.release.anime.uuid,

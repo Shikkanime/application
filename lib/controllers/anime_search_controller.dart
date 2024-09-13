@@ -4,6 +4,7 @@ import 'package:application/controllers/generic_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/http_request.dart';
+import 'package:application/utils/widget_builder.dart' as wb;
 import 'package:flutter/widgets.dart';
 
 enum SearchType { subtitles, voice }
@@ -13,6 +14,11 @@ class AnimeSearchController extends GenericController<AnimeDto> {
   Timer? _timer;
   String query = '';
   final searchTypes = SearchType.values.toSet();
+
+  int get _limit =>
+      wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
+          ? 6
+          : 24;
 
   void search(String query) {
     this.query = query;
@@ -38,7 +44,7 @@ class AnimeSearchController extends GenericController<AnimeDto> {
       'searchTypes': searchTypesString,
       if (query.isNotEmpty) 'name': Uri.encodeComponent(query),
       'page': page,
-      'limit': 6,
+      'limit': _limit,
       if (query.isEmpty) 'sort': 'name',
     };
 

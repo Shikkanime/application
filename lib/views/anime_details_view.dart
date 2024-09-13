@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:application/components/elevated_dropdown_button.dart';
 import 'package:application/components/episodes/anime_episode_component.dart';
 import 'package:application/components/watchlist_button.dart';
@@ -11,6 +13,7 @@ import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/dtos/season_dto.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
+import 'package:application/utils/widget_builder.dart' as wb;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:share_plus/share_plus.dart';
@@ -107,6 +110,7 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
               children: [
                 ImageComponent(
                   uuid: widget.anime.uuid,
+                  fit: BoxFit.cover,
                   height: 550,
                 ),
                 SizedBox(
@@ -248,16 +252,26 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
             StreamBuilder<List<EpisodeMappingDto>>(
               stream: AnimeDetailsController.instance.streamController.stream,
               initialData: AnimeDetailsController.instance.items,
-              builder: (context, snapshot) => Column(
-                children: [
-                  for (final episode in snapshot.data!)
-                    AnimeEpisodeComponent(episode: episode),
-                ],
-              ),
+              builder: (context, snapshot) {
+                final list = _buildEpisodeList(context, snapshot.data!);
+                return Column(children: list);
+              },
             ),
           ],
         ),
       ),
+    );
+  }
+
+  List<Widget> _buildEpisodeList(
+    BuildContext context,
+    List<EpisodeMappingDto> episodes,
+  ) {
+    final smallestDimension = MediaQuery.of(context).size.width;
+
+    return wb.WidgetBuilder.instance.buildRowWidgets(
+      episodes.map((episode) => AnimeEpisodeComponent(episode: episode)),
+      maxElementsPerRow: max(1, (smallestDimension * 2 / 600).floor()),
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:application/components/animes/anime_component.dart';
 import 'package:application/components/elevated_dropdown_button.dart';
 import 'package:application/controllers/anime_controller.dart';
@@ -5,6 +7,7 @@ import 'package:application/controllers/simulcast_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/simulcast_dto.dart';
 import 'package:application/utils/analytics.dart';
+import 'package:application/utils/widget_builder.dart' as wb;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -12,9 +15,9 @@ class SimulcastView extends StatelessWidget {
   const SimulcastView({super.key});
 
   List<Widget> _buildAnimeList(BuildContext context, List<AnimeDto> animes) {
-    final widgets = <Widget>[];
+    final smallestDimension = MediaQuery.of(context).size.width;
 
-    widgets.add(
+    return [
       Padding(
         padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
         child: Row(
@@ -44,25 +47,11 @@ class SimulcastView extends StatelessWidget {
           ],
         ),
       ),
-    );
-
-    for (int i = 0; i < animes.length; i += 2) {
-      widgets.add(
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(child: AnimeComponent(anime: animes[i])),
-            if (i + 1 < animes.length)
-              Expanded(child: AnimeComponent(anime: animes[i + 1]))
-            else
-              const Spacer(),
-          ],
-        ),
-      );
-    }
-
-    return widgets;
+      ...wb.WidgetBuilder.instance.buildRowWidgets(
+        animes.map((anime) => AnimeComponent(anime: anime)),
+        maxElementsPerRow: max(2, (smallestDimension * 3 / 600).floor()),
+      ),
+    ];
   }
 
   @override
