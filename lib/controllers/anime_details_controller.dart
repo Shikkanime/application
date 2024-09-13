@@ -6,12 +6,18 @@ import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/dtos/season_dto.dart';
 import 'package:application/utils/http_request.dart';
+import 'package:application/utils/widget_builder.dart' as wb;
 
 class AnimeDetailsController extends GenericController<EpisodeMappingDto> {
   static final instance = AnimeDetailsController();
 
   AnimeDto? anime;
   SeasonDto? season;
+
+  int get _limit =>
+      wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
+          ? 4
+          : 24;
 
   @override
   Future<Iterable<EpisodeMappingDto>> fetchItems() async {
@@ -20,7 +26,7 @@ class AnimeDetailsController extends GenericController<EpisodeMappingDto> {
       if (season != null) 'season': season!.number,
       ...SortController.instance.sortType.value,
       'page': page,
-      'limit': 4,
+      'limit': _limit,
     };
 
     final queryString =

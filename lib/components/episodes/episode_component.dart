@@ -22,6 +22,7 @@ class EpisodeComponent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           EpisodeImage(
+            fit: BoxFit.cover,
             episode: episode,
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(Constant.borderRadius),

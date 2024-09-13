@@ -7,6 +7,7 @@ import 'package:application/dtos/simulcast_dto.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
 import 'package:application/utils/http_request.dart';
+import 'package:application/utils/widget_builder.dart' as wb;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:share_plus/share_plus.dart';
@@ -17,10 +18,15 @@ class AnimeController extends GenericController<AnimeDto> {
 
   SimulcastDto? selectedSimulcast;
 
+  int get _limit =>
+      wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
+          ? 6
+          : 24;
+
   @override
   Future<Iterable<AnimeDto>> fetchItems() async {
     final pageableDto = await HttpRequest.instance.getPage(
-      '/v1/animes?simulcast=${selectedSimulcast?.uuid}&sort=name&page=$page&limit=6',
+      '/v1/animes?simulcast=${selectedSimulcast?.uuid}&sort=name&page=$page&limit=$_limit',
     );
 
     return pageableDto.data

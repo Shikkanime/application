@@ -51,20 +51,22 @@ class AdvancedSearchCard extends StatelessWidget {
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 8),
-            Wrap(
-              alignment: WrapAlignment.center,
-              spacing: 4,
-              runSpacing: 4,
-              children: [
-                for (final letter in _letters)
-                  ActionChip(
-                    label: Text(letter),
-                    onPressed: () {
-                      AnimeSearchController.instance.search(letter);
-                      controller.text = letter;
-                    },
-                  ),
-              ],
+            Center(
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 4,
+                runSpacing: 4,
+                children: [
+                  for (final letter in _letters)
+                    ActionChip(
+                      label: Text(letter),
+                      onPressed: () {
+                        AnimeSearchController.instance.search(letter);
+                        controller.text = letter;
+                      },
+                    ),
+                ],
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

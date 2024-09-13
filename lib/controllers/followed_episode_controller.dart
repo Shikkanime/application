@@ -4,10 +4,15 @@ import 'package:application/controllers/generic_controller.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/utils/http_request.dart';
+import 'package:application/utils/widget_builder.dart' as wb;
 
 class FollowedEpisodeController extends GenericController<EpisodeMappingDto> {
   static final instance = FollowedEpisodeController();
-  final _limit = 8;
+
+  int get _limit =>
+      wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
+          ? 4
+          : 16;
 
   @override
   Future<Iterable<EpisodeMappingDto>> fetchItems() async {
@@ -27,5 +32,6 @@ class FollowedEpisodeController extends GenericController<EpisodeMappingDto> {
     }
 
     page = 1;
+    streamController.add(items);
   }
 }

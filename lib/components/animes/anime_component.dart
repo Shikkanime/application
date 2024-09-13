@@ -40,6 +40,7 @@ class AnimeComponent extends StatelessWidget {
             child: Stack(
               children: [
                 ImageComponent(
+                  fit: BoxFit.cover,
                   uuid: anime.uuid,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(Constant.borderRadius),
