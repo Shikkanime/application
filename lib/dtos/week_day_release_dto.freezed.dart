@@ -25,13 +25,11 @@ mixin _$WeekDayReleaseDto {
   String get releaseDateTime => throw _privateConstructorUsedError;
   String get slug => throw _privateConstructorUsedError;
   String get langType => throw _privateConstructorUsedError;
-  bool get isReleased => throw _privateConstructorUsedError;
-  bool get isMultipleReleased => throw _privateConstructorUsedError;
-  List<String> get mappings => throw _privateConstructorUsedError;
   String? get episodeType => throw _privateConstructorUsedError;
   int? get minNumber => throw _privateConstructorUsedError;
   int? get maxNumber => throw _privateConstructorUsedError;
   int? get number => throw _privateConstructorUsedError;
+  List<EpisodeMappingDto>? get mappings => throw _privateConstructorUsedError;
 
   /// Serializes this WeekDayReleaseDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -55,13 +53,11 @@ abstract class $WeekDayReleaseDtoCopyWith<$Res> {
       String releaseDateTime,
       String slug,
       String langType,
-      bool isReleased,
-      bool isMultipleReleased,
-      List<String> mappings,
       String? episodeType,
       int? minNumber,
       int? maxNumber,
-      int? number});
+      int? number,
+      List<EpisodeMappingDto>? mappings});
 
   $AnimeDtoCopyWith<$Res> get anime;
 }
@@ -86,13 +82,11 @@ class _$WeekDayReleaseDtoCopyWithImpl<$Res, $Val extends WeekDayReleaseDto>
     Object? releaseDateTime = null,
     Object? slug = null,
     Object? langType = null,
-    Object? isReleased = null,
-    Object? isMultipleReleased = null,
-    Object? mappings = null,
     Object? episodeType = freezed,
     Object? minNumber = freezed,
     Object? maxNumber = freezed,
     Object? number = freezed,
+    Object? mappings = freezed,
   }) {
     return _then(_value.copyWith(
       anime: null == anime
@@ -115,18 +109,6 @@ class _$WeekDayReleaseDtoCopyWithImpl<$Res, $Val extends WeekDayReleaseDto>
           ? _value.langType
           : langType // ignore: cast_nullable_to_non_nullable
               as String,
-      isReleased: null == isReleased
-          ? _value.isReleased
-          : isReleased // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isMultipleReleased: null == isMultipleReleased
-          ? _value.isMultipleReleased
-          : isMultipleReleased // ignore: cast_nullable_to_non_nullable
-              as bool,
-      mappings: null == mappings
-          ? _value.mappings
-          : mappings // ignore: cast_nullable_to_non_nullable
-              as List<String>,
       episodeType: freezed == episodeType
           ? _value.episodeType
           : episodeType // ignore: cast_nullable_to_non_nullable
@@ -143,6 +125,10 @@ class _$WeekDayReleaseDtoCopyWithImpl<$Res, $Val extends WeekDayReleaseDto>
           ? _value.number
           : number // ignore: cast_nullable_to_non_nullable
               as int?,
+      mappings: freezed == mappings
+          ? _value.mappings
+          : mappings // ignore: cast_nullable_to_non_nullable
+              as List<EpisodeMappingDto>?,
     ) as $Val);
   }
 
@@ -171,13 +157,11 @@ abstract class _$$WeekDayReleaseDtoImplCopyWith<$Res>
       String releaseDateTime,
       String slug,
       String langType,
-      bool isReleased,
-      bool isMultipleReleased,
-      List<String> mappings,
       String? episodeType,
       int? minNumber,
       int? maxNumber,
-      int? number});
+      int? number,
+      List<EpisodeMappingDto>? mappings});
 
   @override
   $AnimeDtoCopyWith<$Res> get anime;
@@ -201,13 +185,11 @@ class __$$WeekDayReleaseDtoImplCopyWithImpl<$Res>
     Object? releaseDateTime = null,
     Object? slug = null,
     Object? langType = null,
-    Object? isReleased = null,
-    Object? isMultipleReleased = null,
-    Object? mappings = null,
     Object? episodeType = freezed,
     Object? minNumber = freezed,
     Object? maxNumber = freezed,
     Object? number = freezed,
+    Object? mappings = freezed,
   }) {
     return _then(_$WeekDayReleaseDtoImpl(
       anime: null == anime
@@ -230,18 +212,6 @@ class __$$WeekDayReleaseDtoImplCopyWithImpl<$Res>
           ? _value.langType
           : langType // ignore: cast_nullable_to_non_nullable
               as String,
-      isReleased: null == isReleased
-          ? _value.isReleased
-          : isReleased // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isMultipleReleased: null == isMultipleReleased
-          ? _value.isMultipleReleased
-          : isMultipleReleased // ignore: cast_nullable_to_non_nullable
-              as bool,
-      mappings: null == mappings
-          ? _value._mappings
-          : mappings // ignore: cast_nullable_to_non_nullable
-              as List<String>,
       episodeType: freezed == episodeType
           ? _value.episodeType
           : episodeType // ignore: cast_nullable_to_non_nullable
@@ -258,6 +228,10 @@ class __$$WeekDayReleaseDtoImplCopyWithImpl<$Res>
           ? _value.number
           : number // ignore: cast_nullable_to_non_nullable
               as int?,
+      mappings: freezed == mappings
+          ? _value._mappings
+          : mappings // ignore: cast_nullable_to_non_nullable
+              as List<EpisodeMappingDto>?,
     ));
   }
 }
@@ -271,13 +245,11 @@ class _$WeekDayReleaseDtoImpl implements _WeekDayReleaseDto {
       required this.releaseDateTime,
       required this.slug,
       required this.langType,
-      required this.isReleased,
-      required this.isMultipleReleased,
-      required final List<String> mappings,
       required this.episodeType,
       required this.minNumber,
       required this.maxNumber,
-      required this.number})
+      required this.number,
+      required final List<EpisodeMappingDto>? mappings})
       : _platforms = platforms,
         _mappings = mappings;
 
@@ -301,18 +273,6 @@ class _$WeekDayReleaseDtoImpl implements _WeekDayReleaseDto {
   @override
   final String langType;
   @override
-  final bool isReleased;
-  @override
-  final bool isMultipleReleased;
-  final List<String> _mappings;
-  @override
-  List<String> get mappings {
-    if (_mappings is EqualUnmodifiableListView) return _mappings;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_mappings);
-  }
-
-  @override
   final String? episodeType;
   @override
   final int? minNumber;
@@ -320,10 +280,19 @@ class _$WeekDayReleaseDtoImpl implements _WeekDayReleaseDto {
   final int? maxNumber;
   @override
   final int? number;
+  final List<EpisodeMappingDto>? _mappings;
+  @override
+  List<EpisodeMappingDto>? get mappings {
+    final value = _mappings;
+    if (value == null) return null;
+    if (_mappings is EqualUnmodifiableListView) return _mappings;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'WeekDayReleaseDto(anime: $anime, platforms: $platforms, releaseDateTime: $releaseDateTime, slug: $slug, langType: $langType, isReleased: $isReleased, isMultipleReleased: $isMultipleReleased, mappings: $mappings, episodeType: $episodeType, minNumber: $minNumber, maxNumber: $maxNumber, number: $number)';
+    return 'WeekDayReleaseDto(anime: $anime, platforms: $platforms, releaseDateTime: $releaseDateTime, slug: $slug, langType: $langType, episodeType: $episodeType, minNumber: $minNumber, maxNumber: $maxNumber, number: $number, mappings: $mappings)';
   }
 
   @override
@@ -339,18 +308,14 @@ class _$WeekDayReleaseDtoImpl implements _WeekDayReleaseDto {
             (identical(other.slug, slug) || other.slug == slug) &&
             (identical(other.langType, langType) ||
                 other.langType == langType) &&
-            (identical(other.isReleased, isReleased) ||
-                other.isReleased == isReleased) &&
-            (identical(other.isMultipleReleased, isMultipleReleased) ||
-                other.isMultipleReleased == isMultipleReleased) &&
-            const DeepCollectionEquality().equals(other._mappings, _mappings) &&
             (identical(other.episodeType, episodeType) ||
                 other.episodeType == episodeType) &&
             (identical(other.minNumber, minNumber) ||
                 other.minNumber == minNumber) &&
             (identical(other.maxNumber, maxNumber) ||
                 other.maxNumber == maxNumber) &&
-            (identical(other.number, number) || other.number == number));
+            (identical(other.number, number) || other.number == number) &&
+            const DeepCollectionEquality().equals(other._mappings, _mappings));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -362,13 +327,11 @@ class _$WeekDayReleaseDtoImpl implements _WeekDayReleaseDto {
       releaseDateTime,
       slug,
       langType,
-      isReleased,
-      isMultipleReleased,
-      const DeepCollectionEquality().hash(_mappings),
       episodeType,
       minNumber,
       maxNumber,
-      number);
+      number,
+      const DeepCollectionEquality().hash(_mappings));
 
   /// Create a copy of WeekDayReleaseDto
   /// with the given fields replaced by the non-null parameter values.
@@ -389,18 +352,17 @@ class _$WeekDayReleaseDtoImpl implements _WeekDayReleaseDto {
 
 abstract class _WeekDayReleaseDto implements WeekDayReleaseDto {
   const factory _WeekDayReleaseDto(
-      {required final AnimeDto anime,
-      required final List<PlatformDto> platforms,
-      required final String releaseDateTime,
-      required final String slug,
-      required final String langType,
-      required final bool isReleased,
-      required final bool isMultipleReleased,
-      required final List<String> mappings,
-      required final String? episodeType,
-      required final int? minNumber,
-      required final int? maxNumber,
-      required final int? number}) = _$WeekDayReleaseDtoImpl;
+          {required final AnimeDto anime,
+          required final List<PlatformDto> platforms,
+          required final String releaseDateTime,
+          required final String slug,
+          required final String langType,
+          required final String? episodeType,
+          required final int? minNumber,
+          required final int? maxNumber,
+          required final int? number,
+          required final List<EpisodeMappingDto>? mappings}) =
+      _$WeekDayReleaseDtoImpl;
 
   factory _WeekDayReleaseDto.fromJson(Map<String, dynamic> json) =
       _$WeekDayReleaseDtoImpl.fromJson;
@@ -416,12 +378,6 @@ abstract class _WeekDayReleaseDto implements WeekDayReleaseDto {
   @override
   String get langType;
   @override
-  bool get isReleased;
-  @override
-  bool get isMultipleReleased;
-  @override
-  List<String> get mappings;
-  @override
   String? get episodeType;
   @override
   int? get minNumber;
@@ -429,6 +385,8 @@ abstract class _WeekDayReleaseDto implements WeekDayReleaseDto {
   int? get maxNumber;
   @override
   int? get number;
+  @override
+  List<EpisodeMappingDto>? get mappings;
 
   /// Create a copy of WeekDayReleaseDto
   /// with the given fields replaced by the non-null parameter values.

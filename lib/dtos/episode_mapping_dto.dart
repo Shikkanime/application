@@ -10,7 +10,7 @@ part 'episode_mapping_dto.g.dart';
 class EpisodeMappingDto with _$EpisodeMappingDto {
   const factory EpisodeMappingDto({
     required String uuid,
-    required AnimeDto anime,
+    required AnimeDto? anime,
     required String releaseDateTime,
     required String lastReleaseDateTime,
     required String lastUpdateDateTime,
@@ -21,9 +21,9 @@ class EpisodeMappingDto with _$EpisodeMappingDto {
     required String? title,
     required String? description,
     required String image,
-    required List<EpisodeVariantDto> variants,
-    required List<PlatformDto> platforms,
-    required List<String> langTypes,
+    required List<EpisodeVariantDto>? variants,
+    required List<PlatformDto>? platforms,
+    required List<String>? langTypes,
     required String status,
   }) = _EpisodeMappingDto;
 

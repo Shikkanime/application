@@ -5,6 +5,7 @@ import 'dart:typed_data';
 
 import 'package:application/controllers/followed_anime_controller.dart';
 import 'package:application/controllers/followed_episode_controller.dart';
+import 'package:application/controllers/missed_anime_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/dtos/member_dto.dart';
@@ -257,7 +258,11 @@ class MemberController {
 
     member!.followedAnimes.add(anime.uuid);
     streamController.add(member!);
-    await FollowedAnimeController.instance.init();
+
+    await Future.wait([
+      MissedAnimeController.instance.init(),
+      FollowedAnimeController.instance.init(),
+    ]);
   }
 
   Future<void> unfollowAnime(AnimeDto anime) async {
@@ -278,7 +283,11 @@ class MemberController {
 
     member!.followedAnimes.remove(anime.uuid);
     streamController.add(member!);
-    await FollowedAnimeController.instance.init();
+
+    await Future.wait([
+      MissedAnimeController.instance.init(),
+      FollowedAnimeController.instance.init(),
+    ]);
   }
 
   Future<void> followAllEpisodes(AnimeDto anime) async {
@@ -312,9 +321,16 @@ class MemberController {
     await FollowedEpisodeController.instance.init();
   }
 
-  Future<void> followEpisode(EpisodeMappingDto episode) async {
-    if (!member!.followedAnimes.contains(episode.anime.uuid)) {
-      await followAnime(episode.anime);
+  Future<void> followEpisode(
+      AnimeDto? animeDto, EpisodeMappingDto episode) async {
+    final anime = animeDto ?? episode.anime;
+
+    if (anime == null) {
+      return;
+    }
+
+    if (!member!.followedAnimes.contains(anime.uuid)) {
+      await followAnime(anime);
     }
 
     final response = await HttpRequest().put(
@@ -325,7 +341,7 @@ class MemberController {
 
     if (response.statusCode == HttpStatus.unauthorized) {
       await login();
-      return followEpisode(episode);
+      return followEpisode(animeDto, episode);
     }
 
     if (response.statusCode != HttpStatus.ok) {
@@ -336,7 +352,11 @@ class MemberController {
     member = member!
         .copyWith(totalDuration: member!.totalDuration + episode.duration);
     streamController.add(member!);
-    await FollowedEpisodeController.instance.init();
+
+    await Future.wait([
+      MissedAnimeController.instance.init(),
+      FollowedEpisodeController.instance.init(),
+    ]);
   }
 
   Future<void> unfollowEpisode(EpisodeMappingDto episode) async {
@@ -359,7 +379,11 @@ class MemberController {
     member = member!
         .copyWith(totalDuration: member!.totalDuration - episode.duration);
     streamController.add(member!);
-    await FollowedEpisodeController.instance.init();
+
+    await Future.wait([
+      MissedAnimeController.instance.init(),
+      FollowedEpisodeController.instance.init(),
+    ]);
   }
 
   String buildTotalDuration() {

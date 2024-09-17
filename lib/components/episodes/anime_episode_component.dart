@@ -38,14 +38,15 @@ class AnimeEpisodeComponent extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  episode.title ?? '＞︿＜',
+                  episode.title ?? Constant.defaultText,
                   style: Theme.of(context).textTheme.bodyLarge,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),
                 EpisodeInformation(episode: episode, showSeason: false),
-                for (final langType in episode.langTypes)
-                  LangTypeComponent(langType: langType),
+                if (episode.langTypes != null)
+                  for (final langType in episode.langTypes!)
+                    LangTypeComponent(langType: langType),
                 EpisodeActionBar(episode: episode),
               ],
             ),

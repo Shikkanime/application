@@ -10,7 +10,9 @@ _$EpisodeMappingDtoImpl _$$EpisodeMappingDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$EpisodeMappingDtoImpl(
       uuid: json['uuid'] as String,
-      anime: AnimeDto.fromJson(json['anime'] as Map<String, dynamic>),
+      anime: json['anime'] == null
+          ? null
+          : AnimeDto.fromJson(json['anime'] as Map<String, dynamic>),
       releaseDateTime: json['releaseDateTime'] as String,
       lastReleaseDateTime: json['lastReleaseDateTime'] as String,
       lastUpdateDateTime: json['lastUpdateDateTime'] as String,
@@ -21,14 +23,15 @@ _$EpisodeMappingDtoImpl _$$EpisodeMappingDtoImplFromJson(
       title: json['title'] as String?,
       description: json['description'] as String?,
       image: json['image'] as String,
-      variants: (json['variants'] as List<dynamic>)
-          .map((e) => EpisodeVariantDto.fromJson(e as Map<String, dynamic>))
+      variants: (json['variants'] as List<dynamic>?)
+          ?.map((e) => EpisodeVariantDto.fromJson(e as Map<String, dynamic>))
           .toList(),
-      platforms: (json['platforms'] as List<dynamic>)
-          .map((e) => PlatformDto.fromJson(e as Map<String, dynamic>))
+      platforms: (json['platforms'] as List<dynamic>?)
+          ?.map((e) => PlatformDto.fromJson(e as Map<String, dynamic>))
           .toList(),
-      langTypes:
-          (json['langTypes'] as List<dynamic>).map((e) => e as String).toList(),
+      langTypes: (json['langTypes'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       status: json['status'] as String,
     );
 

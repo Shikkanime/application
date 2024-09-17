@@ -16,14 +16,13 @@ _$WeekDayReleaseDtoImpl _$$WeekDayReleaseDtoImplFromJson(
       releaseDateTime: json['releaseDateTime'] as String,
       slug: json['slug'] as String,
       langType: json['langType'] as String,
-      isReleased: json['isReleased'] as bool,
-      isMultipleReleased: json['isMultipleReleased'] as bool,
-      mappings:
-          (json['mappings'] as List<dynamic>).map((e) => e as String).toList(),
       episodeType: json['episodeType'] as String?,
       minNumber: (json['minNumber'] as num?)?.toInt(),
       maxNumber: (json['maxNumber'] as num?)?.toInt(),
       number: (json['number'] as num?)?.toInt(),
+      mappings: (json['mappings'] as List<dynamic>?)
+          ?.map((e) => EpisodeMappingDto.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$WeekDayReleaseDtoImplToJson(
@@ -34,11 +33,9 @@ Map<String, dynamic> _$$WeekDayReleaseDtoImplToJson(
       'releaseDateTime': instance.releaseDateTime,
       'slug': instance.slug,
       'langType': instance.langType,
-      'isReleased': instance.isReleased,
-      'isMultipleReleased': instance.isMultipleReleased,
-      'mappings': instance.mappings,
       'episodeType': instance.episodeType,
       'minNumber': instance.minNumber,
       'maxNumber': instance.maxNumber,
       'number': instance.number,
+      'mappings': instance.mappings,
     };

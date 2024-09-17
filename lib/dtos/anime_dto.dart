@@ -16,7 +16,7 @@ class AnimeDto with _$AnimeDto {
     required String releaseDateTime,
     required String lastReleaseDateTime,
     required String image,
-    required String? banner,
+    required String banner,
     required String? description,
     required List<SimulcastDto>? simulcasts,
     required List<String>? audioLocales,

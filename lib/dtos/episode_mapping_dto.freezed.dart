@@ -21,7 +21,7 @@ EpisodeMappingDto _$EpisodeMappingDtoFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$EpisodeMappingDto {
   String get uuid => throw _privateConstructorUsedError;
-  AnimeDto get anime => throw _privateConstructorUsedError;
+  AnimeDto? get anime => throw _privateConstructorUsedError;
   String get releaseDateTime => throw _privateConstructorUsedError;
   String get lastReleaseDateTime => throw _privateConstructorUsedError;
   String get lastUpdateDateTime => throw _privateConstructorUsedError;
@@ -32,9 +32,9 @@ mixin _$EpisodeMappingDto {
   String? get title => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
-  List<EpisodeVariantDto> get variants => throw _privateConstructorUsedError;
-  List<PlatformDto> get platforms => throw _privateConstructorUsedError;
-  List<String> get langTypes => throw _privateConstructorUsedError;
+  List<EpisodeVariantDto>? get variants => throw _privateConstructorUsedError;
+  List<PlatformDto>? get platforms => throw _privateConstructorUsedError;
+  List<String>? get langTypes => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
 
   /// Serializes this EpisodeMappingDto to a JSON map.
@@ -55,7 +55,7 @@ abstract class $EpisodeMappingDtoCopyWith<$Res> {
   @useResult
   $Res call(
       {String uuid,
-      AnimeDto anime,
+      AnimeDto? anime,
       String releaseDateTime,
       String lastReleaseDateTime,
       String lastUpdateDateTime,
@@ -66,12 +66,12 @@ abstract class $EpisodeMappingDtoCopyWith<$Res> {
       String? title,
       String? description,
       String image,
-      List<EpisodeVariantDto> variants,
-      List<PlatformDto> platforms,
-      List<String> langTypes,
+      List<EpisodeVariantDto>? variants,
+      List<PlatformDto>? platforms,
+      List<String>? langTypes,
       String status});
 
-  $AnimeDtoCopyWith<$Res> get anime;
+  $AnimeDtoCopyWith<$Res>? get anime;
 }
 
 /// @nodoc
@@ -90,7 +90,7 @@ class _$EpisodeMappingDtoCopyWithImpl<$Res, $Val extends EpisodeMappingDto>
   @override
   $Res call({
     Object? uuid = null,
-    Object? anime = null,
+    Object? anime = freezed,
     Object? releaseDateTime = null,
     Object? lastReleaseDateTime = null,
     Object? lastUpdateDateTime = null,
@@ -101,9 +101,9 @@ class _$EpisodeMappingDtoCopyWithImpl<$Res, $Val extends EpisodeMappingDto>
     Object? title = freezed,
     Object? description = freezed,
     Object? image = null,
-    Object? variants = null,
-    Object? platforms = null,
-    Object? langTypes = null,
+    Object? variants = freezed,
+    Object? platforms = freezed,
+    Object? langTypes = freezed,
     Object? status = null,
   }) {
     return _then(_value.copyWith(
@@ -111,10 +111,10 @@ class _$EpisodeMappingDtoCopyWithImpl<$Res, $Val extends EpisodeMappingDto>
           ? _value.uuid
           : uuid // ignore: cast_nullable_to_non_nullable
               as String,
-      anime: null == anime
+      anime: freezed == anime
           ? _value.anime
           : anime // ignore: cast_nullable_to_non_nullable
-              as AnimeDto,
+              as AnimeDto?,
       releaseDateTime: null == releaseDateTime
           ? _value.releaseDateTime
           : releaseDateTime // ignore: cast_nullable_to_non_nullable
@@ -155,18 +155,18 @@ class _$EpisodeMappingDtoCopyWithImpl<$Res, $Val extends EpisodeMappingDto>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
-      variants: null == variants
+      variants: freezed == variants
           ? _value.variants
           : variants // ignore: cast_nullable_to_non_nullable
-              as List<EpisodeVariantDto>,
-      platforms: null == platforms
+              as List<EpisodeVariantDto>?,
+      platforms: freezed == platforms
           ? _value.platforms
           : platforms // ignore: cast_nullable_to_non_nullable
-              as List<PlatformDto>,
-      langTypes: null == langTypes
+              as List<PlatformDto>?,
+      langTypes: freezed == langTypes
           ? _value.langTypes
           : langTypes // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<String>?,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -178,8 +178,12 @@ class _$EpisodeMappingDtoCopyWithImpl<$Res, $Val extends EpisodeMappingDto>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $AnimeDtoCopyWith<$Res> get anime {
-    return $AnimeDtoCopyWith<$Res>(_value.anime, (value) {
+  $AnimeDtoCopyWith<$Res>? get anime {
+    if (_value.anime == null) {
+      return null;
+    }
+
+    return $AnimeDtoCopyWith<$Res>(_value.anime!, (value) {
       return _then(_value.copyWith(anime: value) as $Val);
     });
   }
@@ -195,7 +199,7 @@ abstract class _$$EpisodeMappingDtoImplCopyWith<$Res>
   @useResult
   $Res call(
       {String uuid,
-      AnimeDto anime,
+      AnimeDto? anime,
       String releaseDateTime,
       String lastReleaseDateTime,
       String lastUpdateDateTime,
@@ -206,13 +210,13 @@ abstract class _$$EpisodeMappingDtoImplCopyWith<$Res>
       String? title,
       String? description,
       String image,
-      List<EpisodeVariantDto> variants,
-      List<PlatformDto> platforms,
-      List<String> langTypes,
+      List<EpisodeVariantDto>? variants,
+      List<PlatformDto>? platforms,
+      List<String>? langTypes,
       String status});
 
   @override
-  $AnimeDtoCopyWith<$Res> get anime;
+  $AnimeDtoCopyWith<$Res>? get anime;
 }
 
 /// @nodoc
@@ -229,7 +233,7 @@ class __$$EpisodeMappingDtoImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? uuid = null,
-    Object? anime = null,
+    Object? anime = freezed,
     Object? releaseDateTime = null,
     Object? lastReleaseDateTime = null,
     Object? lastUpdateDateTime = null,
@@ -240,9 +244,9 @@ class __$$EpisodeMappingDtoImplCopyWithImpl<$Res>
     Object? title = freezed,
     Object? description = freezed,
     Object? image = null,
-    Object? variants = null,
-    Object? platforms = null,
-    Object? langTypes = null,
+    Object? variants = freezed,
+    Object? platforms = freezed,
+    Object? langTypes = freezed,
     Object? status = null,
   }) {
     return _then(_$EpisodeMappingDtoImpl(
@@ -250,10 +254,10 @@ class __$$EpisodeMappingDtoImplCopyWithImpl<$Res>
           ? _value.uuid
           : uuid // ignore: cast_nullable_to_non_nullable
               as String,
-      anime: null == anime
+      anime: freezed == anime
           ? _value.anime
           : anime // ignore: cast_nullable_to_non_nullable
-              as AnimeDto,
+              as AnimeDto?,
       releaseDateTime: null == releaseDateTime
           ? _value.releaseDateTime
           : releaseDateTime // ignore: cast_nullable_to_non_nullable
@@ -294,18 +298,18 @@ class __$$EpisodeMappingDtoImplCopyWithImpl<$Res>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
-      variants: null == variants
+      variants: freezed == variants
           ? _value._variants
           : variants // ignore: cast_nullable_to_non_nullable
-              as List<EpisodeVariantDto>,
-      platforms: null == platforms
+              as List<EpisodeVariantDto>?,
+      platforms: freezed == platforms
           ? _value._platforms
           : platforms // ignore: cast_nullable_to_non_nullable
-              as List<PlatformDto>,
-      langTypes: null == langTypes
+              as List<PlatformDto>?,
+      langTypes: freezed == langTypes
           ? _value._langTypes
           : langTypes // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<String>?,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -330,9 +334,9 @@ class _$EpisodeMappingDtoImpl implements _EpisodeMappingDto {
       required this.title,
       required this.description,
       required this.image,
-      required final List<EpisodeVariantDto> variants,
-      required final List<PlatformDto> platforms,
-      required final List<String> langTypes,
+      required final List<EpisodeVariantDto>? variants,
+      required final List<PlatformDto>? platforms,
+      required final List<String>? langTypes,
       required this.status})
       : _variants = variants,
         _platforms = platforms,
@@ -344,7 +348,7 @@ class _$EpisodeMappingDtoImpl implements _EpisodeMappingDto {
   @override
   final String uuid;
   @override
-  final AnimeDto anime;
+  final AnimeDto? anime;
   @override
   final String releaseDateTime;
   @override
@@ -365,28 +369,34 @@ class _$EpisodeMappingDtoImpl implements _EpisodeMappingDto {
   final String? description;
   @override
   final String image;
-  final List<EpisodeVariantDto> _variants;
+  final List<EpisodeVariantDto>? _variants;
   @override
-  List<EpisodeVariantDto> get variants {
+  List<EpisodeVariantDto>? get variants {
+    final value = _variants;
+    if (value == null) return null;
     if (_variants is EqualUnmodifiableListView) return _variants;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_variants);
+    return EqualUnmodifiableListView(value);
   }
 
-  final List<PlatformDto> _platforms;
+  final List<PlatformDto>? _platforms;
   @override
-  List<PlatformDto> get platforms {
+  List<PlatformDto>? get platforms {
+    final value = _platforms;
+    if (value == null) return null;
     if (_platforms is EqualUnmodifiableListView) return _platforms;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_platforms);
+    return EqualUnmodifiableListView(value);
   }
 
-  final List<String> _langTypes;
+  final List<String>? _langTypes;
   @override
-  List<String> get langTypes {
+  List<String>? get langTypes {
+    final value = _langTypes;
+    if (value == null) return null;
     if (_langTypes is EqualUnmodifiableListView) return _langTypes;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_langTypes);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
@@ -469,7 +479,7 @@ class _$EpisodeMappingDtoImpl implements _EpisodeMappingDto {
 abstract class _EpisodeMappingDto implements EpisodeMappingDto {
   const factory _EpisodeMappingDto(
       {required final String uuid,
-      required final AnimeDto anime,
+      required final AnimeDto? anime,
       required final String releaseDateTime,
       required final String lastReleaseDateTime,
       required final String lastUpdateDateTime,
@@ -480,9 +490,9 @@ abstract class _EpisodeMappingDto implements EpisodeMappingDto {
       required final String? title,
       required final String? description,
       required final String image,
-      required final List<EpisodeVariantDto> variants,
-      required final List<PlatformDto> platforms,
-      required final List<String> langTypes,
+      required final List<EpisodeVariantDto>? variants,
+      required final List<PlatformDto>? platforms,
+      required final List<String>? langTypes,
       required final String status}) = _$EpisodeMappingDtoImpl;
 
   factory _EpisodeMappingDto.fromJson(Map<String, dynamic> json) =
@@ -491,7 +501,7 @@ abstract class _EpisodeMappingDto implements EpisodeMappingDto {
   @override
   String get uuid;
   @override
-  AnimeDto get anime;
+  AnimeDto? get anime;
   @override
   String get releaseDateTime;
   @override
@@ -513,11 +523,11 @@ abstract class _EpisodeMappingDto implements EpisodeMappingDto {
   @override
   String get image;
   @override
-  List<EpisodeVariantDto> get variants;
+  List<EpisodeVariantDto>? get variants;
   @override
-  List<PlatformDto> get platforms;
+  List<PlatformDto>? get platforms;
   @override
-  List<String> get langTypes;
+  List<String>? get langTypes;
   @override
   String get status;
 

@@ -22,11 +22,15 @@ class FollowedEpisodeComponent extends StatelessWidget {
       width: 640 / _ratio + 10,
       child: GestureDetector(
         onTap: () {
-          Analytics.instance.logSelectContent('anime', episode.anime.uuid);
+          if (episode.anime == null) {
+            return;
+          }
+
+          Analytics.instance.logSelectContent('anime', episode.anime!.uuid);
 
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => AnimeDetailsView(anime: episode.anime),
+              builder: (context) => AnimeDetailsView(anime: episode.anime!),
             ),
           );
         },
@@ -55,7 +59,7 @@ class FollowedEpisodeComponent extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    episode.anime.shortName,
+                    episode.anime?.shortName ?? Constant.defaultText,
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall

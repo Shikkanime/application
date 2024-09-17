@@ -16,7 +16,7 @@ _$AnimeDtoImpl _$$AnimeDtoImplFromJson(Map<String, dynamic> json) =>
       releaseDateTime: json['releaseDateTime'] as String,
       lastReleaseDateTime: json['lastReleaseDateTime'] as String,
       image: json['image'] as String,
-      banner: json['banner'] as String?,
+      banner: json['banner'] as String,
       description: json['description'] as String?,
       simulcasts: (json['simulcasts'] as List<dynamic>?)
           ?.map((e) => SimulcastDto.fromJson(e as Map<String, dynamic>))
