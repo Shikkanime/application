@@ -41,12 +41,13 @@ class EpisodeComponent extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        episode.anime.shortName,
+                        episode.anime?.shortName ?? Constant.defaultText,
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                       EpisodeInformation(episode: episode),
-                      for (final langType in episode.langTypes)
-                        LangTypeComponent(langType: langType),
+                      if (episode.langTypes != null)
+                        for (final langType in episode.langTypes!)
+                          LangTypeComponent(langType: langType),
                     ],
                   ),
                 ),

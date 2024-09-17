@@ -17,8 +17,12 @@ class EpisodeActionBar extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: GestureDetector(
             onTap: () {
+              if (episode.variants == null || episode.variants!.isEmpty) {
+                return;
+              }
+
               launchUrl(
-                Uri.parse(episode.variants.first.url),
+                Uri.parse(episode.variants!.first.url),
                 mode: LaunchMode.externalNonBrowserApplication,
               );
             },

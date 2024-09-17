@@ -1,4 +1,5 @@
 import 'package:application/dtos/anime_dto.dart';
+import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/dtos/platform_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -13,13 +14,11 @@ class WeekDayReleaseDto with _$WeekDayReleaseDto {
     required String releaseDateTime,
     required String slug,
     required String langType,
-    required bool isReleased,
-    required bool isMultipleReleased,
-    required List<String> mappings,
     required String? episodeType,
     required int? minNumber,
     required int? maxNumber,
     required int? number,
+    required List<EpisodeMappingDto>? mappings,
   }) = _WeekDayReleaseDto;
 
   factory WeekDayReleaseDto.fromJson(Map<String, dynamic> json) =>

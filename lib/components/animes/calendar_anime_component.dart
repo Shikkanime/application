@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:palette_generator/palette_generator.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CalendarAnimeComponent extends StatefulWidget {
   final WeekDayReleaseDto release;
@@ -38,8 +39,13 @@ class _CalendarAnimeComponentState extends State<CalendarAnimeComponent> {
 
   @override
   Widget build(BuildContext context) {
+    final isReleased =
+        widget.release.mappings != null && widget.release.mappings!.isNotEmpty;
+    final isMultipleReleased =
+        isReleased && widget.release.mappings!.length > 1;
+
     return CustomCard(
-      activateLayers: widget.release.isMultipleReleased && _layerColor != null,
+      activateLayers: isMultipleReleased && _layerColor != null,
       layerColor: _layerColor,
       onTap: () {
         Analytics.instance.logSelectContent('anime', widget.release.anime.uuid);
@@ -59,26 +65,24 @@ class _CalendarAnimeComponentState extends State<CalendarAnimeComponent> {
           Stack(
             children: [
               ImageComponent(
-                uuid: widget.release.isReleased
-                    ? widget.release.mappings.first
+                uuid: isReleased
+                    ? widget.release.mappings!.first.uuid
                     : widget.release.anime.uuid,
-                type: widget.release.isReleased ? 'image' : 'banner',
+                type: isReleased ? 'image' : 'banner',
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(Constant.borderRadius),
                   topRight: Radius.circular(Constant.borderRadius),
                 ),
                 height: 185,
-                builder: widget.release.isMultipleReleased
+                builder: isMultipleReleased && _layerColor == null
                     ? (imageProvider) {
-                        if (_layerColor == null) {
-                          _getDominantColor(imageProvider).then((color) {
-                            if (mounted && _layerColor == null) {
-                              setState(() {
-                                _layerColor = color;
-                              });
-                            }
-                          });
-                        }
+                        _getDominantColor(imageProvider).then((color) {
+                          if (mounted) {
+                            setState(() {
+                              _layerColor = color;
+                            });
+                          }
+                        });
                       }
                     : null,
               ),
@@ -119,13 +123,13 @@ class _CalendarAnimeComponentState extends State<CalendarAnimeComponent> {
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                         ),
-                        if (widget.release.isReleased)
+                        if (isReleased)
                           Text(
                             AppLocalizations.of(context)!.minInformation(
                               AppLocalizations.of(context)!.episodeType(
                                 widget.release.episodeType!.toLowerCase(),
                               ),
-                              widget.release.isMultipleReleased
+                              isMultipleReleased
                                   ? '${widget.release.minNumber} - ${widget.release.maxNumber}'
                                   : widget.release.number!,
                             ),
@@ -137,7 +141,30 @@ class _CalendarAnimeComponentState extends State<CalendarAnimeComponent> {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  WatchlistButton(anime: widget.release.anime),
+                  if (isReleased && !isMultipleReleased)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: GestureDetector(
+                        onTap: () {
+                          launchUrl(
+                            Uri.parse(widget
+                                .release.mappings!.first.variants!.first.url),
+                            mode: LaunchMode.externalNonBrowserApplication,
+                          );
+                        },
+                        child: const Icon(
+                          Icons.live_tv_outlined,
+                        ),
+                      ),
+                    ),
+                  if (!isReleased || isMultipleReleased)
+                    WatchlistButton(anime: widget.release.anime),
+                  if (isReleased && !isMultipleReleased)
+                    WatchlistButton(
+                      anime: widget.release.anime,
+                      episode: widget.release.mappings!.first,
+                      isCalendar: true,
+                    ),
                 ],
               ),
             ),

@@ -33,11 +33,12 @@ class EpisodeImage extends StatelessWidget {
           width: width,
           height: height,
         ),
-        Positioned(
-          top: 5,
-          right: 5,
-          child: ListPlatform(platforms: episode.platforms),
-        ),
+        if (episode.platforms != null && episode.platforms!.isNotEmpty)
+          Positioned(
+            top: 5,
+            right: 5,
+            child: ListPlatform(platforms: episode.platforms!),
+          ),
         showDuration
             ? Positioned(
                 bottom: 5,

@@ -28,7 +28,7 @@ mixin _$AnimeDto {
   String get releaseDateTime => throw _privateConstructorUsedError;
   String get lastReleaseDateTime => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
-  String? get banner => throw _privateConstructorUsedError;
+  String get banner => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   List<SimulcastDto>? get simulcasts => throw _privateConstructorUsedError;
   List<String>? get audioLocales => throw _privateConstructorUsedError;
@@ -60,7 +60,7 @@ abstract class $AnimeDtoCopyWith<$Res> {
       String releaseDateTime,
       String lastReleaseDateTime,
       String image,
-      String? banner,
+      String banner,
       String? description,
       List<SimulcastDto>? simulcasts,
       List<String>? audioLocales,
@@ -92,7 +92,7 @@ class _$AnimeDtoCopyWithImpl<$Res, $Val extends AnimeDto>
     Object? releaseDateTime = null,
     Object? lastReleaseDateTime = null,
     Object? image = null,
-    Object? banner = freezed,
+    Object? banner = null,
     Object? description = freezed,
     Object? simulcasts = freezed,
     Object? audioLocales = freezed,
@@ -133,10 +133,10 @@ class _$AnimeDtoCopyWithImpl<$Res, $Val extends AnimeDto>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
-      banner: freezed == banner
+      banner: null == banner
           ? _value.banner
           : banner // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -182,7 +182,7 @@ abstract class _$$AnimeDtoImplCopyWith<$Res>
       String releaseDateTime,
       String lastReleaseDateTime,
       String image,
-      String? banner,
+      String banner,
       String? description,
       List<SimulcastDto>? simulcasts,
       List<String>? audioLocales,
@@ -212,7 +212,7 @@ class __$$AnimeDtoImplCopyWithImpl<$Res>
     Object? releaseDateTime = null,
     Object? lastReleaseDateTime = null,
     Object? image = null,
-    Object? banner = freezed,
+    Object? banner = null,
     Object? description = freezed,
     Object? simulcasts = freezed,
     Object? audioLocales = freezed,
@@ -253,10 +253,10 @@ class __$$AnimeDtoImplCopyWithImpl<$Res>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
-      banner: freezed == banner
+      banner: null == banner
           ? _value.banner
           : banner // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -329,7 +329,7 @@ class _$AnimeDtoImpl implements _AnimeDto {
   @override
   final String image;
   @override
-  final String? banner;
+  final String banner;
   @override
   final String? description;
   final List<SimulcastDto>? _simulcasts;
@@ -456,7 +456,7 @@ abstract class _AnimeDto implements AnimeDto {
       required final String releaseDateTime,
       required final String lastReleaseDateTime,
       required final String image,
-      required final String? banner,
+      required final String banner,
       required final String? description,
       required final List<SimulcastDto>? simulcasts,
       required final List<String>? audioLocales,
@@ -484,7 +484,7 @@ abstract class _AnimeDto implements AnimeDto {
   @override
   String get image;
   @override
-  String? get banner;
+  String get banner;
   @override
   String? get description;
   @override

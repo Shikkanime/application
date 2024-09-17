@@ -6,4 +6,5 @@ class Constant {
 
   static const watchlistBookmarkColor = Colors.yellow;
   static const borderRadius = 16.0;
+  static const defaultText = '＞︿＜';
 }
