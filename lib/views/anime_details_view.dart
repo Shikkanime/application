@@ -5,7 +5,6 @@ import 'package:application/components/image_component.dart';
 import 'package:application/components/lang_type_component.dart';
 import 'package:application/controllers/anime_details_controller.dart';
 import 'package:application/controllers/member_controller.dart';
-import 'package:application/controllers/missed_anime_controller.dart';
 import 'package:application/controllers/sort_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
@@ -86,10 +85,8 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
             },
             onSelected: (int value) {
               if (value == 0) {
-                MemberController.instance
-                    .followAllEpisodes(widget.anime)
-                    .then((value) => MissedAnimeController.instance.init());
                 Vibration.vibrate(pattern: [0, 50, 125, 50, 125, 50]);
+                MemberController.instance.followAllEpisodes(widget.anime);
               } else if (value == 1) {
                 Analytics.instance
                     .logShare('anime', widget.anime.uuid, 'appBar');
@@ -205,7 +202,7 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                           onChanged: (value) {
                             setState(() {
                               AnimeDetailsController.instance.season = value;
-                              AnimeDetailsController.instance.refresh();
+                              AnimeDetailsController.instance.init();
                             });
                           },
                         ),
@@ -230,7 +227,7 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                         onChanged: (value) {
                           setState(() {
                             SortController.instance.setSortType(value);
-                            AnimeDetailsController.instance.refresh();
+                            AnimeDetailsController.instance.init();
                           });
                         },
                         showIcon: false,
@@ -250,15 +247,13 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
             ),
             StreamBuilder<List<EpisodeMappingDto>>(
               stream: AnimeDetailsController.instance.streamController.stream,
-              initialData: AnimeDetailsController.instance.episodes,
-              builder: (context, snapshot) {
-                return Column(
-                  children: [
-                    for (final episode in snapshot.data!)
-                      AnimeEpisodeComponent(episode: episode),
-                  ],
-                );
-              },
+              initialData: AnimeDetailsController.instance.items,
+              builder: (context, snapshot) => Column(
+                children: [
+                  for (final episode in snapshot.data!)
+                    AnimeEpisodeComponent(episode: episode),
+                ],
+              ),
             ),
           ],
         ),

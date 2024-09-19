@@ -50,9 +50,10 @@ Future<void> main() async {
           .init()
           .then((value) => AnimeController.instance.init()),
       AnimeWeeklyController.instance.init(),
-      SortController.instance.init(),
       FollowedAnimeController.instance.init(),
       FollowedEpisodeController.instance.init(),
+      // Without call to the API
+      SortController.instance.init(),
     ]);
 
     hasInternet = true;
@@ -237,7 +238,7 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(
             icon: StreamBuilder<List<MissedAnimeDto>>(
               stream: MissedAnimeController.instance.streamController.stream,
-              initialData: MissedAnimeController.instance.missedAnimes,
+              initialData: MissedAnimeController.instance.items,
               builder: (context, snapshot) {
                 final icon =
                     Icon(_currentIndex == 0 ? Icons.home : Icons.home_outlined);

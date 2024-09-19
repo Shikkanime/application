@@ -11,8 +11,40 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SimulcastView extends StatelessWidget {
   const SimulcastView({super.key});
 
-  List<Widget> _buildAnimeList(List<AnimeDto> animes) {
+  List<Widget> _buildAnimeList(BuildContext context, List<AnimeDto> animes) {
     final widgets = <Widget>[];
+
+    widgets.add(
+      Padding(
+        padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedDropdownButton<SimulcastDto>(
+              globalKey: GlobalKey(),
+              value: AnimeController.instance.selectedSimulcast,
+              items: [
+                for (final simulcast in SimulcastController.instance.items)
+                  ElevatedPopupMenuItem(
+                    value: simulcast,
+                    child: Text(
+                      AppLocalizations.of(context)!
+                          .simulcastSeason(simulcast.season, simulcast.year),
+                    ),
+                  ),
+              ],
+              onChanged: (value) {
+                Analytics.instance.logSelectContent('simulcast', value.uuid);
+                AnimeController.instance.selectedSimulcast = value;
+                AnimeController.instance.goToTop();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
 
     for (int i = 0; i < animes.length; i += 2) {
       widgets.add(
@@ -37,9 +69,9 @@ class SimulcastView extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<List<AnimeDto>>(
       stream: AnimeController.instance.streamController.stream,
-      initialData: AnimeController.instance.animes,
+      initialData: AnimeController.instance.items,
       builder: (context, snapshot) {
-        final list = _buildAnimeList(snapshot.data!);
+        final list = _buildAnimeList(context, snapshot.data!);
 
         return RefreshIndicator.adaptive(
           onRefresh: () async {
@@ -49,41 +81,8 @@ class SimulcastView extends StatelessWidget {
             addAutomaticKeepAlives: false,
             addRepaintBoundaries: false,
             controller: AnimeController.instance.scrollController,
-            itemCount: list.length + 1,
-            itemBuilder: (context, index) => index == 0
-                ? Padding(
-                    padding:
-                        const EdgeInsets.only(left: 8, right: 8, bottom: 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ElevatedDropdownButton<SimulcastDto>(
-                          globalKey: GlobalKey(),
-                          value: SimulcastController.instance.current,
-                          items: [
-                            for (final simulcast
-                                in SimulcastController.instance.simulcasts)
-                              ElevatedPopupMenuItem(
-                                value: simulcast,
-                                child: Text(
-                                  AppLocalizations.of(context)!.simulcastSeason(
-                                      simulcast.season, simulcast.year),
-                                ),
-                              ),
-                          ],
-                          onChanged: (value) {
-                            Analytics.instance
-                                .logSelectContent('simulcast', value.uuid);
-                            SimulcastController.instance.current = value;
-                            AnimeController.instance.goToTop();
-                          },
-                        ),
-                      ],
-                    ),
-                  )
-                : list[index - 1],
+            itemCount: list.length,
+            itemBuilder: (context, index) => list[index],
           ),
         );
       },

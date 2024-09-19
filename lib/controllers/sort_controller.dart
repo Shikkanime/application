@@ -3,16 +3,14 @@ import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum SortType {
-  oldest(
-    value: 'sort=releaseDateTime,season,episodeType,number',
-  ),
-  newest(
-    value:
-        'sort=releaseDateTime,season,episodeType,number&desc=releaseDateTime,season,episodeType,number',
-  ),
+  oldest(value: {'sort': 'releaseDateTime,season,episodeType,number'}),
+  newest(value: {
+    'sort': 'releaseDateTime,season,episodeType,number',
+    'desc': 'releaseDateTime,season,episodeType,number'
+  }),
   ;
 
-  final String value;
+  final Map<String, String> value;
 
   const SortType({
     required this.value,

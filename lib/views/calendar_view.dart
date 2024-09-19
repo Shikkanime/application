@@ -16,7 +16,7 @@ class CalendarView extends StatefulWidget {
 class _CalendarViewState extends State<CalendarView> {
   int _currentDay = 0;
 
-  List<Widget> _children(AsyncSnapshot<List<WeekDayDto>> snapshot) {
+  List<Widget> _buildList(AsyncSnapshot<List<WeekDayDto>> snapshot) {
     return [
       Padding(
         padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
@@ -97,13 +97,9 @@ class _CalendarViewState extends State<CalendarView> {
   Widget build(BuildContext context) {
     return StreamBuilder<List<WeekDayDto>>(
       stream: AnimeWeeklyController.instance.streamController.stream,
-      initialData: AnimeWeeklyController.instance.weekDays,
+      initialData: AnimeWeeklyController.instance.items,
       builder: (context, snapshot) {
-        if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Container();
-        }
-
-        final children = _children(snapshot);
+        final list = _buildList(snapshot);
 
         return RefreshIndicator.adaptive(
           onRefresh: () async {
@@ -113,8 +109,8 @@ class _CalendarViewState extends State<CalendarView> {
             addAutomaticKeepAlives: false,
             addRepaintBoundaries: false,
             controller: AnimeWeeklyController.instance.scrollController,
-            itemCount: children.length,
-            itemBuilder: (context, index) => children[index],
+            itemCount: list.length,
+            itemBuilder: (context, index) => list[index],
           ),
         );
       },

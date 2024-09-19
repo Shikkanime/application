@@ -17,8 +17,13 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<List<EpisodeMappingDto>>(
       stream: EpisodeController.instance.streamController.stream,
-      initialData: EpisodeController.instance.episodes,
+      initialData: EpisodeController.instance.items,
       builder: (context, snapshot) {
+        final list = [
+          const MissedAnimesRow(),
+          ...snapshot.data!.map((e) => EpisodeComponent(episode: e)),
+        ];
+
         return RefreshIndicator.adaptive(
           onRefresh: () async {
             await EpisodeController.instance.init();
@@ -28,10 +33,8 @@ class HomeView extends StatelessWidget {
             addAutomaticKeepAlives: false,
             addRepaintBoundaries: false,
             controller: EpisodeController.instance.scrollController,
-            itemCount: snapshot.data!.length + 1,
-            itemBuilder: (context, index) => index == 0
-                ? const MissedAnimesRow()
-                : EpisodeComponent(episode: snapshot.data![index - 1]),
+            itemCount: list.length,
+            itemBuilder: (context, index) => list[index],
           ),
         );
       },
@@ -48,7 +51,7 @@ class MissedAnimesRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<List<MissedAnimeDto>>(
       stream: MissedAnimeController.instance.streamController.stream,
-      initialData: MissedAnimeController.instance.missedAnimes,
+      initialData: MissedAnimeController.instance.items,
       builder: (context, snapshot) {
         if (snapshot.data!.isEmpty) {
           return const SizedBox();

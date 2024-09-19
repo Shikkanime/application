@@ -1,64 +1,23 @@
 import 'dart:async';
 
+import 'package:application/controllers/generic_controller.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/dtos/week_day_dto.dart';
 import 'package:application/utils/http_request.dart';
-import 'package:flutter/material.dart';
 
-class AnimeWeeklyController {
-  static AnimeWeeklyController instance = AnimeWeeklyController();
-  final weekDays = <WeekDayDto>[];
-  final scrollController = ScrollController();
-  final streamController = StreamController<List<WeekDayDto>>.broadcast();
-  bool isLoading = false;
+class AnimeWeeklyController extends GenericController<WeekDayDto> {
+  static final instance = AnimeWeeklyController();
   bool memberMode = false;
 
-  Future<void> init() async {
-    weekDays.clear();
-    streamController.add(weekDays);
+  AnimeWeeklyController() : super(addScrollListener: false);
 
-    isLoading = false;
-    await nextPage();
-  }
-
-  Future<void> goToTop() async {
-    await scrollController.animateTo(
-      0,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
+  @override
+  Future<Iterable<WeekDayDto>> fetchItems() async {
+    final json = await HttpRequest.instance.get<List>(
+      '/v1/animes/weekly',
+      token: memberMode ? MemberController.instance.member?.token : null,
     );
 
-    await init();
-  }
-
-  Future<void> nextPage({bool isRetry = false}) async {
-    if (isLoading) {
-      return;
-    }
-
-    isLoading = true;
-
-    try {
-      final json = await HttpRequest.instance.get<List>(
-        '/v1/animes/weekly',
-        token: memberMode ? MemberController.instance.member?.token : null,
-      );
-
-      weekDays.addAll(
-        json.map((e) => WeekDayDto.fromJson(e as Map<String, dynamic>)),
-      );
-
-      streamController.add(weekDays);
-    } catch (exception, stackTrace) {
-      debugPrint(exception.toString());
-      debugPrint(stackTrace.toString());
-
-      if (!isRetry) {
-        await MemberController.instance.login();
-        await nextPage(isRetry: true);
-      }
-    } finally {
-      isLoading = false;
-    }
+    return json.map((e) => WeekDayDto.fromJson(e as Map<String, dynamic>));
   }
 }

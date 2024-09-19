@@ -13,11 +13,6 @@ class FollowedAnimesView extends StatefulWidget {
 
 class _FollowedAnimesViewState extends State<FollowedAnimesView> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   void dispose() {
     FollowedAnimeController.instance.dispose();
     super.dispose();
@@ -55,7 +50,7 @@ class _FollowedAnimesViewState extends State<FollowedAnimesView> {
         padding: const EdgeInsets.only(top: 8),
         child: StreamBuilder<List<AnimeDto>>(
           stream: FollowedAnimeController.instance.streamController.stream,
-          initialData: FollowedAnimeController.instance.animes,
+          initialData: FollowedAnimeController.instance.items,
           builder: (context, snapshot) {
             final list = _buildAnimeList(snapshot.data!);
 
