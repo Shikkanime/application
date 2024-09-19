@@ -240,7 +240,7 @@ class MemberController {
     }
   }
 
-  Future<void> followAnime(AnimeDto anime) async {
+  Future<void> followAnime(AnimeDto anime, {bool loadMemberData = true}) async {
     final response = await HttpRequest().put(
       '/v1/members/animes',
       member!.token,
@@ -249,7 +249,7 @@ class MemberController {
 
     if (response.statusCode == HttpStatus.unauthorized) {
       await login();
-      return followAnime(anime);
+      return followAnime(anime, loadMemberData: loadMemberData);
     }
 
     if (response.statusCode != HttpStatus.ok) {
@@ -259,10 +259,12 @@ class MemberController {
     member!.followedAnimes.add(anime.uuid);
     streamController.add(member!);
 
-    await Future.wait([
-      MissedAnimeController.instance.init(),
-      FollowedAnimeController.instance.init(),
-    ]);
+    if (loadMemberData) {
+      await Future.wait([
+        MissedAnimeController.instance.init(),
+        FollowedAnimeController.instance.init(),
+      ]);
+    }
   }
 
   Future<void> unfollowAnime(AnimeDto anime) async {
@@ -292,7 +294,7 @@ class MemberController {
 
   Future<void> followAllEpisodes(AnimeDto anime) async {
     if (!member!.followedAnimes.contains(anime.uuid)) {
-      await followAnime(anime);
+      await followAnime(anime, loadMemberData: false);
     }
 
     final response = await HttpRequest().put(
@@ -318,11 +320,18 @@ class MemberController {
     member!.followedEpisodes.addAll(data);
     member = member!.copyWith(totalDuration: member!.totalDuration + duration);
     streamController.add(member!);
-    await FollowedEpisodeController.instance.init();
+
+    await Future.wait([
+      MissedAnimeController.instance.init(),
+      FollowedAnimeController.instance.init(),
+      FollowedEpisodeController.instance.init(),
+    ]);
   }
 
   Future<void> followEpisode(
-      AnimeDto? animeDto, EpisodeMappingDto episode) async {
+    AnimeDto? animeDto,
+    EpisodeMappingDto episode,
+  ) async {
     final anime = animeDto ?? episode.anime;
 
     if (anime == null) {
@@ -330,7 +339,7 @@ class MemberController {
     }
 
     if (!member!.followedAnimes.contains(anime.uuid)) {
-      await followAnime(anime);
+      await followAnime(anime, loadMemberData: false);
     }
 
     final response = await HttpRequest().put(
@@ -355,6 +364,7 @@ class MemberController {
 
     await Future.wait([
       MissedAnimeController.instance.init(),
+      FollowedAnimeController.instance.init(),
       FollowedEpisodeController.instance.init(),
     ]);
   }
@@ -384,28 +394,6 @@ class MemberController {
       MissedAnimeController.instance.init(),
       FollowedEpisodeController.instance.init(),
     ]);
-  }
-
-  String buildTotalDuration() {
-    final duration = Duration(seconds: member!.totalDuration);
-    // Build string like '1d 2h 3m 4s'
-    // If a value is 0, it is not included
-    final parts = <String>[];
-
-    if (duration.inDays > 0) {
-      parts.add('${duration.inDays}j');
-    }
-
-    if (duration.inHours > 0) {
-      parts.add('${duration.inHours % 24}h');
-    }
-
-    if (duration.inMinutes > 0) {
-      parts.add('${duration.inMinutes % 60}m');
-    }
-
-    parts.add('${duration.inSeconds % 60}s');
-    return parts.join(' ');
   }
 }
 

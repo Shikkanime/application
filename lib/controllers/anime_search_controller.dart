@@ -1,49 +1,24 @@
 import 'dart:async';
 
+import 'package:application/controllers/generic_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/http_request.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 enum SearchType { subtitles, voice }
 
-class AnimeSearchController {
-  static AnimeSearchController instance = AnimeSearchController();
-  final animes = <AnimeDto>[];
-  final scrollController = ScrollController();
-  final streamController = StreamController<List<AnimeDto>>.broadcast();
-  int page = 1;
+class AnimeSearchController extends GenericController<AnimeDto> {
+  static final instance = AnimeSearchController();
   Timer? _timer;
-  bool isLoading = false;
-  bool canLoadMore = true;
   String query = '';
   final searchTypes = SearchType.values.toSet();
 
-  Future<void> init() async {
-    animes.clear();
-    streamController.add(animes);
-
-    page = 1;
-    isLoading = false;
-    canLoadMore = true;
-    await nextPage();
-
-    scrollController.addListener(() {
-      // If the user is going to the end of the list
-      final position = scrollController.position;
-
-      if (position.pixels >= position.maxScrollExtent - 300 &&
-          !isLoading &&
-          canLoadMore) {
-        nextPage();
-      }
-    });
-  }
-
   void search(String query) {
     this.query = query;
-    animes.clear();
-    streamController.add(animes);
+
+    items.clear();
+    streamController.add(items);
     page = 1;
 
     _timer?.cancel();
@@ -53,50 +28,31 @@ class AnimeSearchController {
     );
   }
 
-  void dispose() {
-    query = '';
-    animes.clear();
-    streamController.add(animes);
-  }
+  @override
+  Future<Iterable<AnimeDto>> fetchItems() async {
+    final searchTypesString =
+        searchTypes.map((e) => e.name.toUpperCase()).join(',');
 
-  Future<void> nextPage() async {
-    if (isLoading) {
-      return;
-    }
+    final Map<String, Object> queryMap = {
+      'country': 'FR',
+      'searchTypes': searchTypesString,
+      if (query.isNotEmpty) 'name': Uri.encodeComponent(query),
+      'page': page,
+      'limit': 6,
+      if (query.isEmpty) 'sort': 'name',
+    };
 
-    isLoading = true;
+    final queryString =
+        queryMap.entries.map((e) => '${e.key}=${e.value}').join('&');
 
-    try {
-      final searchTypesString =
-          searchTypes.map((e) => e.name.toUpperCase()).join(',');
+    debugPrint('$runtimeType - Query: $queryString');
 
-      String nameParam = '';
+    final pageableDto =
+        await HttpRequest.instance.getPage('/v1/animes?$queryString');
 
-      if (query.isNotEmpty) {
-        nameParam = '&name=${Uri.encodeComponent(query)}';
-      }
+    Analytics.instance.logSearch(query, queryMap);
 
-      final pageableDto = await HttpRequest.instance.getPage(
-        '/v1/animes?country=FR$nameParam&page=$page&limit=6&searchTypes=$searchTypesString${query.isEmpty ? '&sort=name' : ''}',
-      );
-
-      animes.addAll(
-        pageableDto.data
-            .map((e) => AnimeDto.fromJson(e as Map<String, dynamic>)),
-      );
-
-      streamController.add(animes);
-      canLoadMore = animes.length < pageableDto.total;
-
-      Analytics.instance.logSearch(query, {
-        'page': page,
-        'searchTypes': searchTypesString,
-      });
-    } catch (e) {
-      debugPrint(e.toString());
-    } finally {
-      isLoading = false;
-      page++;
-    }
+    return pageableDto.data
+        .map((e) => AnimeDto.fromJson(e as Map<String, dynamic>));
   }
 }

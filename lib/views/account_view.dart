@@ -19,6 +19,28 @@ import 'package:intl/intl.dart';
 class AccountView extends StatelessWidget {
   const AccountView({super.key});
 
+  String buildTotalDuration(int totalDuration) {
+    final duration = Duration(seconds: totalDuration);
+    // Build string like '1d 2h 3m 4s'
+    // If a value is 0, it is not included
+    final parts = <String>[];
+
+    if (duration.inDays > 0) {
+      parts.add('${duration.inDays}j');
+    }
+
+    if (duration.inHours > 0) {
+      parts.add('${duration.inHours % 24}h');
+    }
+
+    if (duration.inMinutes > 0) {
+      parts.add('${duration.inMinutes % 60}m');
+    }
+
+    parts.add('${duration.inSeconds % 60}s');
+    return parts.join(' ');
+  }
+
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context);
@@ -179,7 +201,7 @@ class AccountView extends StatelessWidget {
                   Expanded(
                     child: AccountCard(
                       label: appLocalizations.watchTime,
-                      value: MemberController.instance.buildTotalDuration(),
+                      value: buildTotalDuration(member?.totalDuration ?? 0),
                     ),
                   ),
                 ],
@@ -225,86 +247,82 @@ class FollowedAnimesRow extends StatelessWidget {
           ),
           child: StreamBuilder<List<AnimeDto>>(
             stream: FollowedAnimeController.instance.streamController.stream,
-            initialData: FollowedAnimeController.instance.animes,
-            builder: (context, snapshot) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(AppLocalizations.of(context)!
-                          .yourRecentlyAddedAnime1),
-                      Text(
-                        AppLocalizations.of(context)!.yourRecentlyAddedAnime2,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+            initialData: FollowedAnimeController.instance.items,
+            builder: (context, snapshot) => Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(AppLocalizations.of(context)!.yourRecentlyAddedAnime1),
+                    Text(
+                      AppLocalizations.of(context)!.yourRecentlyAddedAnime2,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    if (snapshot.data!.isNotEmpty) ...[
+                      const Spacer(),
+                      const Icon(
+                        Icons.add,
+                        color: Colors.white,
+                        size: 16,
                       ),
-                      if (snapshot.data!.isNotEmpty) ...[
-                        const Spacer(),
-                        const Icon(
-                          Icons.add,
-                          color: Colors.white,
-                          size: 16,
-                        ),
-                        const SizedBox(width: 4),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const FollowedAnimesView(),
-                              ),
-                            );
-                          },
-                          child: Text(
-                            AppLocalizations.of(context)!.showMore,
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  snapshot.data!.isEmpty
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                AppLocalizations.of(context)!.noFollowedAnime,
-                                style: Theme.of(context).textTheme.titleSmall,
-                                textAlign: TextAlign.center,
-                              ),
+                      const SizedBox(width: 4),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const FollowedAnimesView(),
                             ),
-                          ],
-                        )
-                      : Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Expanded(
-                              child: SizedBox(
-                                height: 180,
-                                child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  addAutomaticKeepAlives: false,
-                                  addRepaintBoundaries: false,
-                                  itemCount: snapshot.data!.length,
-                                  itemBuilder: (context, index) =>
-                                      FollowedAnimeComponent(
-                                    anime: snapshot.data![index],
-                                  ),
+                          );
+                        },
+                        child: Text(
+                          AppLocalizations.of(context)!.showMore,
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+                const SizedBox(height: 8),
+                snapshot.data!.isEmpty
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              AppLocalizations.of(context)!.noFollowedAnime,
+                              style: Theme.of(context).textTheme.titleSmall,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Expanded(
+                            child: SizedBox(
+                              height: 180,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                addAutomaticKeepAlives: false,
+                                addRepaintBoundaries: false,
+                                itemCount: snapshot.data!.length,
+                                itemBuilder: (context, index) =>
+                                    FollowedAnimeComponent(
+                                  anime: snapshot.data![index],
                                 ),
                               ),
                             ),
-                          ],
-                        ),
-                ],
-              );
-            },
+                          ),
+                        ],
+                      ),
+              ],
+            ),
           ),
         ),
       ),
@@ -330,97 +348,95 @@ class FollowedEpisodesRow extends StatelessWidget {
           ),
           child: StreamBuilder<List<EpisodeMappingDto>>(
             stream: FollowedEpisodeController.instance.streamController.stream,
-            initialData: FollowedEpisodeController.instance.episodes,
-            builder: (context, snapshot) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
+            initialData: FollowedEpisodeController.instance.items,
+            builder: (context, snapshot) => Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Flex(
+                      direction: Axis.horizontal,
+                      children: [
+                        Text(AppLocalizations.of(context)!
+                            .yourRecentlyViewedEpisodes1),
+                        Text(
+                          AppLocalizations.of(context)!
+                              .yourRecentlyViewedEpisodes2,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    if (snapshot.data!.isNotEmpty) ...[
+                      const Spacer(),
                       Flex(
                         direction: Axis.horizontal,
                         children: [
-                          Text(AppLocalizations.of(context)!
-                              .yourRecentlyViewedEpisodes1),
-                          Text(
-                            AppLocalizations.of(context)!
-                                .yourRecentlyViewedEpisodes2,
-                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          const Icon(
+                            Icons.add,
+                            color: Colors.white,
+                            size: 16,
                           ),
+                          const SizedBox(width: 4),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const FollowedEpisodesView(),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              AppLocalizations.of(context)!.showMore,
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                          )
                         ],
                       ),
-                      if (snapshot.data!.isNotEmpty) ...[
-                        const Spacer(),
-                        Flex(
-                          direction: Axis.horizontal,
-                          children: [
-                            const Icon(
-                              Icons.add,
-                              color: Colors.white,
-                              size: 16,
-                            ),
-                            const SizedBox(width: 4),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const FollowedEpisodesView(),
-                                  ),
-                                );
-                              },
-                              child: Text(
-                                AppLocalizations.of(context)!.showMore,
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                            )
-                          ],
-                        ),
-                      ],
                     ],
-                  ),
-                  const SizedBox(height: 8),
-                  snapshot.data!.isEmpty
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                AppLocalizations.of(context)!.noWatchedEpisode,
-                                style: Theme.of(context).textTheme.titleSmall,
-                                textAlign: TextAlign.center,
-                              ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                snapshot.data!.isEmpty
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              AppLocalizations.of(context)!.noWatchedEpisode,
+                              style: Theme.of(context).textTheme.titleSmall,
+                              textAlign: TextAlign.center,
                             ),
-                          ],
-                        )
-                      : Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Expanded(
-                              child: SizedBox(
-                                height: 135,
-                                child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  addAutomaticKeepAlives: false,
-                                  addRepaintBoundaries: false,
-                                  itemCount: snapshot.data!.length,
-                                  itemBuilder: (context, index) =>
-                                      FollowedEpisodeComponent(
-                                    episode: snapshot.data![index],
-                                  ),
+                          ),
+                        ],
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Expanded(
+                            child: SizedBox(
+                              height: 135,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                addAutomaticKeepAlives: false,
+                                addRepaintBoundaries: false,
+                                itemCount: snapshot.data!.length,
+                                itemBuilder: (context, index) =>
+                                    FollowedEpisodeComponent(
+                                  episode: snapshot.data![index],
                                 ),
                               ),
                             ),
-                          ],
-                        ),
-                ],
-              );
-            },
+                          ),
+                        ],
+                      ),
+              ],
+            ),
           ),
         ),
       ),

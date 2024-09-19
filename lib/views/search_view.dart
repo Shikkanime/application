@@ -107,7 +107,7 @@ class _SearchViewState extends State<SearchView> {
         padding: const EdgeInsets.only(top: 8),
         child: StreamBuilder<List<AnimeDto>>(
           stream: AnimeSearchController.instance.streamController.stream,
-          initialData: AnimeSearchController.instance.animes,
+          initialData: AnimeSearchController.instance.items,
           builder: (context, snapshot) {
             final list = _buildAnimeList(snapshot.data!);
 

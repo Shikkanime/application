@@ -13,11 +13,6 @@ class FollowedEpisodesView extends StatefulWidget {
 
 class _FollowedEpisodesViewState extends State<FollowedEpisodesView> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   void dispose() {
     FollowedEpisodeController.instance.dispose();
     super.dispose();
@@ -35,17 +30,15 @@ class _FollowedEpisodesViewState extends State<FollowedEpisodesView> {
         padding: const EdgeInsets.only(top: 8),
         child: StreamBuilder<List<EpisodeMappingDto>>(
           stream: FollowedEpisodeController.instance.streamController.stream,
-          initialData: FollowedEpisodeController.instance.episodes,
-          builder: (context, snapshot) {
-            return ListView.builder(
-              addAutomaticKeepAlives: false,
-              addRepaintBoundaries: false,
-              controller: FollowedEpisodeController.instance.scrollController,
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) =>
-                  EpisodeComponent(episode: snapshot.data![index]),
-            );
-          },
+          initialData: FollowedEpisodeController.instance.items,
+          builder: (context, snapshot) => ListView.builder(
+            addAutomaticKeepAlives: false,
+            addRepaintBoundaries: false,
+            controller: FollowedEpisodeController.instance.scrollController,
+            itemCount: snapshot.data!.length,
+            itemBuilder: (context, index) =>
+                EpisodeComponent(episode: snapshot.data![index]),
+          ),
         ),
       ),
     );
