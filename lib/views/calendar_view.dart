@@ -87,10 +87,7 @@ class _CalendarViewState extends State<CalendarView> {
               ),
               Text(
                 AppLocalizations.of(context)!.noAnimeToday,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall
-                    ?.copyWith(color: Colors.white),
+                style: Theme.of(context).textTheme.bodySmall,
               ),
             ],
           ),

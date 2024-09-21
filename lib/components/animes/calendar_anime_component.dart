@@ -106,10 +106,10 @@ class _CalendarAnimeComponentState extends State<CalendarAnimeComponent> {
                     _releaseHour(widget.release.releaseDateTime),
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 4),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
                     child: VerticalDivider(
-                      color: Colors.white,
+                      color: Theme.of(context).dividerColor,
                       thickness: 0.5,
                     ),
                   ),

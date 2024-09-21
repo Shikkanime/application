@@ -75,7 +75,54 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
-        useMaterial3: true,
+        brightness: Brightness.light,
+        fontFamily: 'Satoshi',
+        scaffoldBackgroundColor: const Color(0xfff0f0f0),
+        colorScheme: ColorScheme.fromSeed(
+          brightness: Brightness.light,
+          seedColor: Colors.black,
+          primary: Colors.black,
+        ),
+        appBarTheme: AppBarTheme(
+          backgroundColor: const Color(0xfff0f0f0).withOpacity(0.8),
+        ),
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          selectedItemColor: Colors.black,
+          unselectedItemColor: Colors.grey,
+        ),
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(
+            color: Colors.grey,
+          ),
+          bodyLarge: TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+          bodySmall: TextStyle(
+            color: Colors.grey,
+            fontSize: 12,
+          ),
+        ),
+        snackBarTheme: const SnackBarThemeData(
+          backgroundColor: Colors.white,
+          contentTextStyle: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+        segmentedButtonTheme: SegmentedButtonThemeData(
+          style: SegmentedButton.styleFrom(
+            selectedForegroundColor: Colors.black,
+            selectedBackgroundColor: const Color(0x40b1cbd0),
+            foregroundColor: Colors.grey,
+            backgroundColor: Colors.white,
+            textStyle: const TextStyle(
+              fontSize: 12,
+            ),
+          ),
+        ),
+      ),
+      darkTheme: ThemeData(
         brightness: Brightness.dark,
         fontFamily: 'Satoshi',
         scaffoldBackgroundColor: Colors.black,

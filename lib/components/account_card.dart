@@ -15,7 +15,7 @@ class AccountCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.secondary.withOpacity(0.125),
+        color: Theme.of(context).canvasColor,
         borderRadius:
             const BorderRadius.all(Radius.circular(Constant.borderRadius)),
       ),
@@ -25,15 +25,17 @@ class AccountCard extends StatelessWidget {
           children: [
             Text(
               value,
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: Theme.of(context).textTheme.titleLarge!.color!,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
             Text(
               label,
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(
+                color: Theme.of(context).textTheme.titleLarge!.color!,
+              ),
             ),
           ],
         ),

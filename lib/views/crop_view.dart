@@ -30,7 +30,7 @@ class CropView extends StatelessWidget {
                 controller: controller,
                 image: bytes,
                 withCircleUi: true,
-                baseColor: Colors.black,
+                baseColor: Theme.of(context).scaffoldBackgroundColor,
                 onCropped: (value) {
                   Navigator.of(context).pop();
                   MemberController.instance.updateImage(value);

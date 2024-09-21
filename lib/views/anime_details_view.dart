@@ -57,8 +57,10 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
   Widget build(BuildContext context) {
     final span = TextSpan(
       text: widget.anime.description ?? '',
-      style:
-          Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),
+      style: Theme.of(context)
+          .textTheme
+          .bodyMedium
+          ?.copyWith(color: Theme.of(context).textTheme.titleLarge!.color!),
     );
 
     final textPainter = TextPainter(
@@ -118,15 +120,19 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                   height: 551,
                   child: DecoratedBox(
                     decoration: BoxDecoration(
-                      color: Colors.black,
+                      color: Theme.of(context).scaffoldBackgroundColor,
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Colors.black,
-                          Colors.black.withOpacity(0),
-                          Colors.black.withOpacity(0),
-                          Colors.black,
+                          Theme.of(context).scaffoldBackgroundColor,
+                          Theme.of(context)
+                              .scaffoldBackgroundColor
+                              .withOpacity(0),
+                          Theme.of(context)
+                              .scaffoldBackgroundColor
+                              .withOpacity(0),
+                          Theme.of(context).scaffoldBackgroundColor,
                         ],
                       ),
                     ),

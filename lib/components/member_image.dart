@@ -22,7 +22,7 @@ class MemberImage extends StatelessWidget {
   Widget build(BuildContext context) {
     final showDefaultImage = member?.hasProfilePicture == false;
     final defaultImage = DecoratedBox(
-      decoration: BoxDecoration(color: Colors.grey[900]),
+      decoration: BoxDecoration(color: Theme.of(context).canvasColor),
       child: const Icon(
         Icons.person,
         size: 32,
@@ -31,11 +31,11 @@ class MemberImage extends StatelessWidget {
 
     return Container(
       decoration: hasBorder
-          ? const BoxDecoration(
+          ? BoxDecoration(
               shape: BoxShape.circle,
               border: Border.fromBorderSide(
                 BorderSide(
-                  color: Colors.white,
+                  color: Theme.of(context).textTheme.titleLarge!.color!,
                   width: 2,
                 ),
               ),

@@ -54,43 +54,38 @@ class _SearchViewState extends State<SearchView> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0,
-        title: Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Expanded(
-              child: SearchBar(
-                controller: _controller,
-                autoFocus: true,
-                hintText: AppLocalizations.of(context)!.search,
-                trailing: [
-                  if (_controller.text.isNotEmpty)
-                    IconButton(
-                      icon: const Icon(Icons.clear),
-                      onPressed: () {
-                        AnimeSearchController.instance.search('');
+        title: SearchBar(
+          controller: _controller,
+          autoFocus: true,
+          hintText: AppLocalizations.of(context)!.search,
+          trailing: [
+            if (_controller.text.isNotEmpty)
+              IconButton(
+                icon: const Icon(Icons.clear),
+                onPressed: () {
+                  AnimeSearchController.instance.search('');
 
-                        setState(() {
-                          _controller.clear();
-                        });
-                      },
-                    ),
-                ],
-                onChanged: (query) {
-                  AnimeSearchController.instance.search(query);
-                  setState(() {});
+                  setState(() {
+                    _controller.clear();
+                  });
                 },
               ),
-            ),
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  _isOpen = !_isOpen;
-                });
-              },
-              icon: const Icon(Icons.tune),
-            ),
           ],
+          onChanged: (query) {
+            AnimeSearchController.instance.search(query);
+            setState(() {});
+          },
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                _isOpen = !_isOpen;
+              });
+            },
+            icon: const Icon(Icons.tune),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 8),
