@@ -45,7 +45,10 @@ class _FollowedAnimesViewState extends State<FollowedAnimesView> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          elevation: 0, title: Text(AppLocalizations.of(context)!.watchlist)),
+        centerTitle: false,
+        elevation: 0,
+        title: Text(AppLocalizations.of(context)!.watchlist),
+      ),
       body: Padding(
         padding: const EdgeInsets.only(top: 8),
         child: StreamBuilder<List<AnimeDto>>(

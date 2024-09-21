@@ -24,6 +24,7 @@ class _FollowedEpisodesViewState extends State<FollowedEpisodesView> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0,
+        centerTitle: false,
         title: Text(AppLocalizations.of(context)!.watchlist),
       ),
       body: Padding(

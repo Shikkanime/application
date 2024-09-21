@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:application/controllers/member_controller.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum NotificationsType {
@@ -22,9 +23,10 @@ class NotificationsController {
 
   Future<void> init() async {
     _sharedPreferences = await SharedPreferences.getInstance();
-    final response = await _messaging.requestPermission(provisional: true);
+    final response = await _messaging.requestPermission();
 
     if (response.authorizationStatus != AuthorizationStatus.authorized) {
+      debugPrint('Notifications are not authorized');
       return;
     }
 

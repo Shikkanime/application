@@ -173,6 +173,7 @@ class MemberController {
     await _sharedPreferences.setInt('imageVersion', imageVersion);
 
     Future.delayed(const Duration(seconds: 1), () {
+      member = member!.copyWith(hasProfilePicture: true);
       streamController.add(member!);
     });
   }
