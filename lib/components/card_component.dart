@@ -30,8 +30,7 @@ class _CustomCardState extends State<CustomCard> {
 
   @override
   Widget build(BuildContext context) {
-    final withOpacity =
-        Theme.of(context).colorScheme.secondary.withOpacity(0.125);
+    final withOpacity = Theme.of(context).canvasColor;
 
     return RepaintBoundary(
       child: Padding(
@@ -76,7 +75,8 @@ class _CustomCardState extends State<CustomCard> {
             DecoratedBox(
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(
-                    Radius.circular(Constant.borderRadius)),
+                  Radius.circular(Constant.borderRadius),
+                ),
                 color: widget.backgroundColor ?? withOpacity,
               ),
               child: GestureDetector(

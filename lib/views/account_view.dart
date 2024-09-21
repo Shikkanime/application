@@ -72,16 +72,19 @@ class AccountView extends StatelessWidget {
                             MemberController.instance.changeImage(context);
                           },
                           child: Container(
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge!
+                                  .color!,
                               shape: BoxShape.circle,
                             ),
-                            child: const Padding(
-                              padding: EdgeInsets.all(4),
+                            child: Padding(
+                              padding: const EdgeInsets.all(4),
                               child: Icon(
                                 Icons.edit,
                                 size: 15,
-                                color: Colors.grey,
+                                color: Theme.of(context).canvasColor,
                               ),
                             ),
                           ),
@@ -98,10 +101,11 @@ class AccountView extends StatelessWidget {
                       children: [
                         Text(
                           appLocalizations!.anonymousAccount,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color:
+                                Theme.of(context).textTheme.titleLarge!.color!,
                           ),
                         ),
                         const SizedBox(width: 8),
