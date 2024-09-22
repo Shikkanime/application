@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:application/components/account_card.dart';
 import 'package:application/components/animes/followed_anime_component.dart';
 import 'package:application/components/card_component.dart';
@@ -19,14 +21,14 @@ import 'package:intl/intl.dart';
 class AccountView extends StatelessWidget {
   const AccountView({super.key});
 
-  String buildTotalDuration(int totalDuration) {
+  String buildTotalDuration(BuildContext context, int totalDuration) {
     final duration = Duration(seconds: totalDuration);
     // Build string like '1d 2h 3m 4s'
     // If a value is 0, it is not included
     final parts = <String>[];
 
     if (duration.inDays > 0) {
-      parts.add('${duration.inDays}j');
+      parts.add('${duration.inDays}${AppLocalizations.of(context)!.days}');
     }
 
     if (duration.inHours > 0) {
@@ -205,7 +207,22 @@ class AccountView extends StatelessWidget {
                   Expanded(
                     child: AccountCard(
                       label: appLocalizations.watchTime,
-                      value: buildTotalDuration(member?.totalDuration ?? 0),
+                      value: buildTotalDuration(
+                          context, member?.totalDuration ?? 0),
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: LinearProgressIndicator(
+                            value: (member?.totalDuration ?? 0) /
+                                max(
+                                  1,
+                                  ((member?.totalDuration ?? 0) +
+                                          (member?.totalUnseenDuration ?? 0))
+                                      .toDouble(),
+                                ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -266,9 +283,9 @@ class FollowedAnimesRow extends StatelessWidget {
                     ),
                     if (snapshot.data!.isNotEmpty) ...[
                       const Spacer(),
-                      const Icon(
+                      Icon(
                         Icons.add,
-                        color: Colors.white,
+                        color: Theme.of(context).textTheme.titleLarge!.color!,
                         size: 16,
                       ),
                       const SizedBox(width: 4),
@@ -282,7 +299,10 @@ class FollowedAnimesRow extends StatelessWidget {
                         },
                         child: Text(
                           AppLocalizations.of(context)!.showMore,
-                          style: const TextStyle(color: Colors.white),
+                          style: TextStyle(
+                            color:
+                                Theme.of(context).textTheme.titleLarge!.color!,
+                          ),
                         ),
                       ),
                     ],
@@ -377,9 +397,10 @@ class FollowedEpisodesRow extends StatelessWidget {
                       Flex(
                         direction: Axis.horizontal,
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.add,
-                            color: Colors.white,
+                            color:
+                                Theme.of(context).textTheme.titleLarge!.color!,
                             size: 16,
                           ),
                           const SizedBox(width: 4),
@@ -394,7 +415,12 @@ class FollowedEpisodesRow extends StatelessWidget {
                             },
                             child: Text(
                               AppLocalizations.of(context)!.showMore,
-                              style: const TextStyle(color: Colors.white),
+                              style: TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge!
+                                    .color!,
+                              ),
                             ),
                           )
                         ],

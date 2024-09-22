@@ -364,5 +364,9 @@
         "example": "0"
       }
     }
-  }
+  },
+  "days": "d",
+    "@days": {
+        "description": "Abbreviation for days."
+    }
 }

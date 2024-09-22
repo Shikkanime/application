@@ -55,6 +55,7 @@ class _SearchViewState extends State<SearchView> {
       appBar: AppBar(
         elevation: 0,
         title: SearchBar(
+          shadowColor: WidgetStateProperty.all(Colors.transparent),
           controller: _controller,
           autoFocus: true,
           hintText: AppLocalizations.of(context)!.search,

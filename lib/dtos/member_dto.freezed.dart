@@ -29,6 +29,7 @@ mixin _$MemberDto {
   List<String> get followedAnimes => throw _privateConstructorUsedError;
   List<String> get followedEpisodes => throw _privateConstructorUsedError;
   int get totalDuration => throw _privateConstructorUsedError;
+  int get totalUnseenDuration => throw _privateConstructorUsedError;
   bool get hasProfilePicture => throw _privateConstructorUsedError;
 
   /// Serializes this MemberDto to a JSON map.
@@ -56,6 +57,7 @@ abstract class $MemberDtoCopyWith<$Res> {
       List<String> followedAnimes,
       List<String> followedEpisodes,
       int totalDuration,
+      int totalUnseenDuration,
       bool hasProfilePicture});
 }
 
@@ -83,6 +85,7 @@ class _$MemberDtoCopyWithImpl<$Res, $Val extends MemberDto>
     Object? followedAnimes = null,
     Object? followedEpisodes = null,
     Object? totalDuration = null,
+    Object? totalUnseenDuration = null,
     Object? hasProfilePicture = null,
   }) {
     return _then(_value.copyWith(
@@ -122,6 +125,10 @@ class _$MemberDtoCopyWithImpl<$Res, $Val extends MemberDto>
           ? _value.totalDuration
           : totalDuration // ignore: cast_nullable_to_non_nullable
               as int,
+      totalUnseenDuration: null == totalUnseenDuration
+          ? _value.totalUnseenDuration
+          : totalUnseenDuration // ignore: cast_nullable_to_non_nullable
+              as int,
       hasProfilePicture: null == hasProfilePicture
           ? _value.hasProfilePicture
           : hasProfilePicture // ignore: cast_nullable_to_non_nullable
@@ -148,6 +155,7 @@ abstract class _$$MemberDtoImplCopyWith<$Res>
       List<String> followedAnimes,
       List<String> followedEpisodes,
       int totalDuration,
+      int totalUnseenDuration,
       bool hasProfilePicture});
 }
 
@@ -173,6 +181,7 @@ class __$$MemberDtoImplCopyWithImpl<$Res>
     Object? followedAnimes = null,
     Object? followedEpisodes = null,
     Object? totalDuration = null,
+    Object? totalUnseenDuration = null,
     Object? hasProfilePicture = null,
   }) {
     return _then(_$MemberDtoImpl(
@@ -212,6 +221,10 @@ class __$$MemberDtoImplCopyWithImpl<$Res>
           ? _value.totalDuration
           : totalDuration // ignore: cast_nullable_to_non_nullable
               as int,
+      totalUnseenDuration: null == totalUnseenDuration
+          ? _value.totalUnseenDuration
+          : totalUnseenDuration // ignore: cast_nullable_to_non_nullable
+              as int,
       hasProfilePicture: null == hasProfilePicture
           ? _value.hasProfilePicture
           : hasProfilePicture // ignore: cast_nullable_to_non_nullable
@@ -233,6 +246,7 @@ class _$MemberDtoImpl implements _MemberDto {
       required this.followedAnimes,
       required this.followedEpisodes,
       required this.totalDuration,
+      required this.totalUnseenDuration,
       required this.hasProfilePicture});
 
   factory _$MemberDtoImpl.fromJson(Map<String, dynamic> json) =>
@@ -257,11 +271,13 @@ class _$MemberDtoImpl implements _MemberDto {
   @override
   final int totalDuration;
   @override
+  final int totalUnseenDuration;
+  @override
   final bool hasProfilePicture;
 
   @override
   String toString() {
-    return 'MemberDto(uuid: $uuid, token: $token, creationDateTime: $creationDateTime, lastUpdateDateTime: $lastUpdateDateTime, isPrivate: $isPrivate, email: $email, followedAnimes: $followedAnimes, followedEpisodes: $followedEpisodes, totalDuration: $totalDuration, hasProfilePicture: $hasProfilePicture)';
+    return 'MemberDto(uuid: $uuid, token: $token, creationDateTime: $creationDateTime, lastUpdateDateTime: $lastUpdateDateTime, isPrivate: $isPrivate, email: $email, followedAnimes: $followedAnimes, followedEpisodes: $followedEpisodes, totalDuration: $totalDuration, totalUnseenDuration: $totalUnseenDuration, hasProfilePicture: $hasProfilePicture)';
   }
 
   @override
@@ -284,6 +300,8 @@ class _$MemberDtoImpl implements _MemberDto {
                 .equals(other.followedEpisodes, followedEpisodes) &&
             (identical(other.totalDuration, totalDuration) ||
                 other.totalDuration == totalDuration) &&
+            (identical(other.totalUnseenDuration, totalUnseenDuration) ||
+                other.totalUnseenDuration == totalUnseenDuration) &&
             (identical(other.hasProfilePicture, hasProfilePicture) ||
                 other.hasProfilePicture == hasProfilePicture));
   }
@@ -301,6 +319,7 @@ class _$MemberDtoImpl implements _MemberDto {
       const DeepCollectionEquality().hash(followedAnimes),
       const DeepCollectionEquality().hash(followedEpisodes),
       totalDuration,
+      totalUnseenDuration,
       hasProfilePicture);
 
   /// Create a copy of MemberDto
@@ -330,6 +349,7 @@ abstract class _MemberDto implements MemberDto {
       required final List<String> followedAnimes,
       required final List<String> followedEpisodes,
       required final int totalDuration,
+      required final int totalUnseenDuration,
       required final bool hasProfilePicture}) = _$MemberDtoImpl;
 
   factory _MemberDto.fromJson(Map<String, dynamic> json) =
@@ -353,6 +373,8 @@ abstract class _MemberDto implements MemberDto {
   List<String> get followedEpisodes;
   @override
   int get totalDuration;
+  @override
+  int get totalUnseenDuration;
   @override
   bool get hasProfilePicture;
 

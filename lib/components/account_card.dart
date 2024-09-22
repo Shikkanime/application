@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 class AccountCard extends StatelessWidget {
   final String label;
   final String value;
+  final List<Widget>? children;
 
   const AccountCard({
     super.key,
     required this.label,
     required this.value,
+    this.children,
   });
 
   @override
@@ -37,6 +39,7 @@ class AccountCard extends StatelessWidget {
                 color: Theme.of(context).textTheme.titleLarge!.color!,
               ),
             ),
+            if (children != null) ...children!,
           ],
         ),
       ),
