@@ -1,5 +1,5 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 class Analytics {
   static final instance = Analytics();
@@ -8,6 +8,7 @@ class Analytics {
   Analytics() {
     try {
       _analytics = FirebaseAnalytics.instance;
+      _analytics?.setAnalyticsCollectionEnabled(kReleaseMode);
     } catch (e) {
       debugPrint('Error initializing Firebase Analytics: $e');
     }
