@@ -11,8 +11,16 @@ class FollowedEpisodeController extends GenericController<EpisodeMappingDto> {
 
   int get _limit =>
       wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
-          ? 4
+          ? 9
           : 16;
+
+  void setItems(List<EpisodeMappingDto> items) {
+    this.items.clear();
+    this.items.addAll(items);
+    streamController.add(this.items);
+    page = 2;
+    canLoadMore = true;
+  }
 
   @override
   Future<Iterable<EpisodeMappingDto>> fetchItems() async {

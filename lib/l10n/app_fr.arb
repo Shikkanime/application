@@ -92,5 +92,6 @@
   "yourRecentlyViewedEpisodes2": "vus",
   "noWatchedEpisode": "Vous n'avez pas encore vus d'épisode",
   "watchlist": "Watchlist",
-  "weekDays": "{day, select, 0{Lundi} 1{Mardi} 2{Mercredi} 3{Jeudi} 4{Vendredi} 5{Samedi} 6{Dimanche} other{}}"
+  "weekDays": "{day, select, 0{Lundi} 1{Mardi} 2{Mercredi} 3{Jeudi} 4{Vendredi} 5{Samedi} 6{Dimanche} other{}}",
+  "days": "j"
 }

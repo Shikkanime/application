@@ -9,6 +9,8 @@ import 'package:application/controllers/missed_anime_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/dtos/member_dto.dart';
+import 'package:application/dtos/missed_anime_dto.dart';
+import 'package:application/dtos/refresh_member_dto.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/http_request.dart';
 import 'package:application/views/crop_view.dart';
@@ -99,6 +101,39 @@ class MemberController {
     member = MemberDto.fromJson(json);
     streamController.add(member!);
     Analytics.instance.logLogin();
+
+    if (identifier != null) {
+      await refresh();
+    }
+  }
+
+  Future<void> refresh() async {
+    final json = await HttpRequest().get<Map<String, dynamic>>(
+      '/v1/members/refresh',
+      token: member!.token,
+    );
+
+    final refreshedMember = RefreshMemberDto.fromJson(json);
+
+    member = member!.copyWith(
+      totalDuration: refreshedMember.totalDuration,
+      totalUnseenDuration: refreshedMember.totalUnseenDuration,
+    );
+
+    final missedAnimes = refreshedMember.missedAnimes.data
+        .map((e) => MissedAnimeDto.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final followedAnimes = refreshedMember.followedAnimes.data
+        .map((e) => AnimeDto.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final followedEpisodes = refreshedMember.followedEpisodes.data
+        .map((e) => EpisodeMappingDto.fromJson(e as Map<String, dynamic>))
+        .toList();
+
+    streamController.add(member!);
+    MissedAnimeController.instance.setItems(missedAnimes);
+    FollowedAnimeController.instance.setItems(followedAnimes);
+    FollowedEpisodeController.instance.setItems(followedEpisodes);
   }
 
   Future<void> changeImage(BuildContext context) async {
@@ -258,13 +293,11 @@ class MemberController {
     }
 
     member!.followedAnimes.add(anime.uuid);
-    streamController.add(member!);
 
     if (loadMemberData) {
-      await Future.wait([
-        MissedAnimeController.instance.init(),
-        FollowedAnimeController.instance.init(),
-      ]);
+      await refresh();
+    } else {
+      streamController.add(member!);
     }
   }
 
@@ -285,12 +318,7 @@ class MemberController {
     }
 
     member!.followedAnimes.remove(anime.uuid);
-    streamController.add(member!);
-
-    await Future.wait([
-      MissedAnimeController.instance.init(),
-      FollowedAnimeController.instance.init(),
-    ]);
+    await refresh();
   }
 
   Future<void> followAllEpisodes(AnimeDto anime) async {
@@ -316,17 +344,9 @@ class MemberController {
     final json =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
     final data = List<String>.from(json['data'] as List);
-    final duration = json['duration'] as int;
 
     member!.followedEpisodes.addAll(data);
-    member = member!.copyWith(totalDuration: member!.totalDuration + duration);
-    streamController.add(member!);
-
-    await Future.wait([
-      MissedAnimeController.instance.init(),
-      FollowedAnimeController.instance.init(),
-      FollowedEpisodeController.instance.init(),
-    ]);
+    await refresh();
   }
 
   Future<void> followEpisode(
@@ -359,15 +379,7 @@ class MemberController {
     }
 
     member!.followedEpisodes.add(episode.uuid);
-    member = member!
-        .copyWith(totalDuration: member!.totalDuration + episode.duration);
-    streamController.add(member!);
-
-    await Future.wait([
-      MissedAnimeController.instance.init(),
-      FollowedAnimeController.instance.init(),
-      FollowedEpisodeController.instance.init(),
-    ]);
+    await refresh();
   }
 
   Future<void> unfollowEpisode(EpisodeMappingDto episode) async {
@@ -387,14 +399,7 @@ class MemberController {
     }
 
     member!.followedEpisodes.remove(episode.uuid);
-    member = member!
-        .copyWith(totalDuration: member!.totalDuration - episode.duration);
-    streamController.add(member!);
-
-    await Future.wait([
-      MissedAnimeController.instance.init(),
-      FollowedEpisodeController.instance.init(),
-    ]);
+    await refresh();
   }
 }
 

@@ -11,8 +11,16 @@ class FollowedAnimeController extends GenericController<AnimeDto> {
 
   int get _limit =>
       wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
-          ? 6
+          ? 9
           : 24;
+
+  void setItems(List<AnimeDto> items) {
+    this.items.clear();
+    this.items.addAll(items);
+    streamController.add(this.items);
+    page = 2;
+    canLoadMore = true;
+  }
 
   @override
   Future<Iterable<AnimeDto>> fetchItems() async {
