@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 
 class HttpRequest {
   static final instance = HttpRequest();
-  static const _timeout = Duration(seconds: 5);
+  static const _timeout = Duration(seconds: 10);
 
   Future<T> get<T>(String endpoint, {String? token}) async {
     final headers = <String, String>{};
