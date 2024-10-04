@@ -9,10 +9,12 @@ import 'package:flutter/material.dart';
 
 class EpisodeComponent extends StatelessWidget {
   final EpisodeMappingDto episode;
+  final bool showWatchlist;
 
   const EpisodeComponent({
     super.key,
     required this.episode,
+    this.showWatchlist = true,
   });
 
   @override
@@ -33,28 +35,20 @@ class EpisodeComponent extends StatelessWidget {
           const SizedBox(height: 4),
           Padding(
             padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
-            child: Row(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        episode.anime?.shortName ?? Constant.defaultText,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                      EpisodeInformation(episode: episode),
-                      if (episode.langTypes != null)
-                        for (final langType in episode.langTypes!)
-                          LangTypeComponent(langType: langType),
-                    ],
-                  ),
+                Text(
+                  episode.anime?.shortName ?? Constant.defaultText,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 4),
-                  child: EpisodeActionBar(episode: episode),
+                EpisodeInformation(episode: episode),
+                if (episode.langTypes != null)
+                  for (final langType in episode.langTypes!)
+                    LangTypeComponent(langType: langType),
+                EpisodeActionBar(
+                  episode: episode,
+                  showWatchlist: showWatchlist,
                 ),
               ],
             ),

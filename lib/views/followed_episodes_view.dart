@@ -25,10 +25,15 @@ class _FollowedEpisodesViewState extends State<FollowedEpisodesView> {
     BuildContext context,
     List<EpisodeMappingDto> episodes,
   ) {
-    final smallestDimension = MediaQuery.of(context).size.width;
+    final smallestDimension = MediaQuery.sizeOf(context).width;
 
     return wb.WidgetBuilder.instance.buildRowWidgets(
-      episodes.map((episode) => EpisodeComponent(episode: episode)),
+      episodes.map(
+        (episode) => EpisodeComponent(
+          episode: episode,
+          showWatchlist: false,
+        ),
+      ),
       maxElementsPerRow: max(1, (smallestDimension * 2 / 600).floor()),
     );
   }

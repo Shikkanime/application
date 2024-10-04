@@ -547,7 +547,7 @@ packages:
     source: hosted
     version: "4.0.2"
   image:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: image
       sha256: "2237616a36c0d69aef7549ab439b833fb7f9fb9fc861af2cc9ac3eedddd69ca8"
@@ -682,14 +682,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
-  like_button:
-    dependency: "direct main"
-    description:
-      name: like_button
-      sha256: "08e6a45b78888412df5d351786c550205ad3a677e72a0820d5bbc0b063c8a463"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.5"
   lints:
     dependency: transitive
     description:
@@ -762,14 +754,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
-  palette_generator:
-    dependency: "direct main"
-    description:
-      name: palette_generator
-      sha256: d50fbcd69abb80c5baec66d700033b1a320108b1aa17a5961866a12c0abb7c0c
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.3.3+4"
   path:
     dependency: transitive
     description:

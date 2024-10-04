@@ -22,10 +22,15 @@ class _FollowedAnimesViewState extends State<FollowedAnimesView> {
   }
 
   List<Widget> _buildAnimeList(BuildContext context, List<AnimeDto> animes) {
-    final smallestDimension = MediaQuery.of(context).size.width;
+    final smallestDimension = MediaQuery.sizeOf(context).width;
 
     return wb.WidgetBuilder.instance.buildRowWidgets(
-      animes.map((anime) => AnimeComponent(anime: anime)),
+      animes.map(
+        (anime) => AnimeComponent(
+          anime: anime,
+          showWatchlist: false,
+        ),
+      ),
       maxElementsPerRow: max(2, (smallestDimension * 3 / 600).floor()),
     );
   }

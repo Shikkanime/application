@@ -20,7 +20,7 @@ class _CalendarViewState extends State<CalendarView> {
   int _currentDay = 0;
 
   List<Widget> _buildList(List<WeekDayDto> releases) {
-    final smallestDimension = MediaQuery.of(context).size.width;
+    final smallestDimension = MediaQuery.sizeOf(context).width;
 
     final currentWeekDay = releases.firstWhere(
       (weekDay) => _currentDay == releases.indexOf(weekDay),
@@ -100,7 +100,7 @@ class _CalendarViewState extends State<CalendarView> {
       ...wb.WidgetBuilder.instance.buildRowWidgets(
         currentWeekDay.releases
             .map((release) => CalendarAnimeComponent(release: release)),
-        maxElementsPerRow: max(1, (smallestDimension * 2 / 600).floor()),
+        maxElementsPerRow: max(1, (smallestDimension * 2 / 900).floor()),
       ),
     ];
   }
