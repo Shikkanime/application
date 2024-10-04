@@ -6,6 +6,10 @@ class Analytics {
   FirebaseAnalytics? _analytics;
 
   Analytics() {
+    if (!kReleaseMode) {
+      return;
+    }
+
     try {
       _analytics = FirebaseAnalytics.instance;
       _analytics?.setAnalyticsCollectionEnabled(kReleaseMode);

@@ -59,7 +59,7 @@ class AnimeComponent extends StatelessWidget {
                       right: 0,
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Theme.of(context).scaffoldBackgroundColor,
+                          color: Theme.of(context).canvasColor,
                           borderRadius: const BorderRadius.only(
                             topRight: Radius.circular(Constant.borderRadius),
                             bottomLeft: Radius.circular(Constant.borderRadius),

@@ -1,4 +1,5 @@
 import 'package:application/components/card_component.dart';
+import 'package:application/components/watch_button.dart';
 import 'package:application/components/watchlist_button.dart';
 import 'package:application/components/image_component.dart';
 import 'package:application/components/lang_type_component.dart';
@@ -7,12 +8,13 @@ import 'package:application/controllers/anime_controller.dart';
 import 'package:application/dtos/week_day_release_dto.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
+import 'package:application/utils/memory_cache.dart';
 import 'package:application/views/anime_details_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
-import 'package:palette_generator/palette_generator.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:image/image.dart' as img;
 
 class CalendarAnimeComponent extends StatefulWidget {
   final WeekDayReleaseDto release;
@@ -27,8 +29,6 @@ class CalendarAnimeComponent extends StatefulWidget {
 }
 
 class _CalendarAnimeComponentState extends State<CalendarAnimeComponent> {
-  Color? _layerColor;
-
   String _releaseHour(String releaseDateTime) {
     final parsed = DateFormat('yyyy-MM-ddTHH:mm:ssZ')
         .parse(releaseDateTime, true)
@@ -36,6 +36,54 @@ class _CalendarAnimeComponentState extends State<CalendarAnimeComponent> {
 
     return DateFormat(AppLocalizations.of(context)!.calendarTimeFormat)
         .format(parsed);
+  }
+
+  Future<Color?> _getDominantColor(String src) async {
+    try {
+      if (MemoryCache.instance.get(src) != null) {
+        return MemoryCache.instance.get(src);
+      }
+
+      final ByteData data = await NetworkAssetBundle(Uri.parse(src)).load(src);
+      final Uint8List list = data.buffer.asUint8List();
+      final img.Image? image = img.decodeImage(list);
+
+      if (image == null) return null;
+
+      final colorCounts = <int, int>{};
+      final totalPixels = image.width * image.height;
+
+      for (int y = 0; y < image.height; y++) {
+        for (int x = 0; x < image.width; x++) {
+          final pixel = image.getPixel(x, y);
+          final rgb = (pixel.r.toInt() << 16) |
+              (pixel.g.toInt() << 8) |
+              pixel.b.toInt();
+          colorCounts[rgb] = (colorCounts[rgb] ?? 0) + 1;
+        }
+      }
+
+      int redSum = 0, greenSum = 0, blueSum = 0;
+
+      colorCounts.forEach((rgb, count) {
+        redSum += ((rgb >> 16) & 0xFF) * count;
+        greenSum += ((rgb >> 8) & 0xFF) * count;
+        blueSum += (rgb & 0xFF) * count;
+      });
+
+      final color = Color.fromRGBO(
+        (redSum / totalPixels).round(),
+        (greenSum / totalPixels).round(),
+        (blueSum / totalPixels).round(),
+        1,
+      );
+
+      MemoryCache.instance.set(src, color);
+      return color;
+    } catch (e) {
+      debugPrint('Error getting dominant color: $e');
+      return null;
+    }
   }
 
   @override
@@ -46,8 +94,11 @@ class _CalendarAnimeComponentState extends State<CalendarAnimeComponent> {
         isReleased && widget.release.mappings!.length > 1;
 
     return CustomCard(
-      activateLayers: isMultipleReleased && _layerColor != null,
-      layerColor: _layerColor,
+      activateLayers: isMultipleReleased,
+      layerColor: isMultipleReleased
+          ? _getDominantColor(
+              '${Constant.apiUrl}/v1/attachments?uuid=${widget.release.mappings!.first.uuid}&type=image')
+          : null,
       onTap: () {
         Analytics.instance.logSelectContent('anime', widget.release.anime.uuid);
 
@@ -76,17 +127,6 @@ class _CalendarAnimeComponentState extends State<CalendarAnimeComponent> {
                   topRight: Radius.circular(Constant.borderRadius),
                 ),
                 height: 185,
-                builder: isMultipleReleased && _layerColor == null
-                    ? (imageProvider) {
-                        _getDominantColor(imageProvider).then((color) {
-                          if (mounted) {
-                            setState(() {
-                              _layerColor = color;
-                            });
-                          }
-                        });
-                      }
-                    : null,
               ),
               Positioned(
                 top: 5,
@@ -122,51 +162,52 @@ class _CalendarAnimeComponentState extends State<CalendarAnimeComponent> {
                         Text(
                           widget.release.anime.shortName,
                           style: Theme.of(context).textTheme.bodyLarge,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
                         ),
-                        if (isReleased)
-                          Text(
-                            AppLocalizations.of(context)!.minInformation(
-                              AppLocalizations.of(context)!.episodeType(
-                                widget.release.episodeType!.toLowerCase(),
-                              ),
-                              isMultipleReleased
-                                  ? '${widget.release.minNumber} - ${widget.release.maxNumber}'
-                                  : widget.release.number!,
+                        Row(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (isReleased)
+                                  Text(
+                                    AppLocalizations.of(context)!
+                                        .minInformation(
+                                      AppLocalizations.of(context)!.episodeType(
+                                        widget.release.episodeType!
+                                            .toLowerCase(),
+                                      ),
+                                      isMultipleReleased
+                                          ? '${widget.release.minNumber} - ${widget.release.maxNumber}'
+                                          : widget.release.number!,
+                                    ),
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                LangTypeComponent(
+                                    langType: widget.release.langType),
+                              ],
                             ),
-                            style: Theme.of(context).textTheme.bodyMedium,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        LangTypeComponent(langType: widget.release.langType),
+                            const Spacer(),
+                            if (!isReleased || isMultipleReleased)
+                              WatchlistButton(anime: widget.release.anime),
+                            if (isReleased && !isMultipleReleased)
+                              WatchlistButton(
+                                anime: widget.release.anime,
+                                episode: widget.release.mappings!.first,
+                                isCalendar: true,
+                              ),
+                            const SizedBox(width: 8),
+                            if (isReleased && !isMultipleReleased)
+                              WatchButton(
+                                url: widget.release.mappings?.first.variants
+                                    ?.first.url,
+                              ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
-                  const SizedBox(width: 8),
-                  if (isReleased && !isMultipleReleased)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: GestureDetector(
-                        onTap: () {
-                          launchUrl(
-                            Uri.parse(widget
-                                .release.mappings!.first.variants!.first.url),
-                            mode: LaunchMode.externalNonBrowserApplication,
-                          );
-                        },
-                        child: const Icon(
-                          Icons.live_tv_outlined,
-                        ),
-                      ),
-                    ),
-                  if (!isReleased || isMultipleReleased)
-                    WatchlistButton(anime: widget.release.anime),
-                  if (isReleased && !isMultipleReleased)
-                    WatchlistButton(
-                      anime: widget.release.anime,
-                      episode: widget.release.mappings!.first,
-                      isCalendar: true,
-                    ),
                 ],
               ),
             ),
@@ -175,11 +216,12 @@ class _CalendarAnimeComponentState extends State<CalendarAnimeComponent> {
       ),
     );
   }
-
-  Future<Color> _getDominantColor(
-      final ImageProvider<Object> imageProvider) async {
-    return (await PaletteGenerator.fromImageProvider(imageProvider))
-        .dominantColor!
-        .color;
-  }
+  //
+  // Future<Color> _getDominantColor(final String src) async {
+  //   final networkImage = ;
+  //
+  //   return (await PaletteGenerator.fromImageProvider(networkImage.image))
+  //       .dominantColor!
+  //       .color;
+  // }
 }

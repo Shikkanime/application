@@ -228,10 +228,6 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                                 AppLocalizations.of(context)!
                                     .sortType(sortType.name),
                               ),
-                              leading:
-                                  SortController.instance.sortType == sortType
-                                      ? const Icon(Icons.check)
-                                      : null,
                             ),
                         ],
                         onChanged: (value) {

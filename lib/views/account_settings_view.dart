@@ -1,3 +1,4 @@
+import 'package:application/components/card_component.dart';
 import 'package:application/views/associate_email.dart';
 import 'package:application/views/edit_identifier.dart';
 import 'package:application/controllers/member_controller.dart';
@@ -39,7 +40,7 @@ class AccountSettingsView extends StatelessWidget {
                   options: [
                     SettingsOption(
                       title: appLocalizations.identifier,
-                      subtitle: appLocalizations.identifierSubtitle,
+                      tooltip: appLocalizations.identifierSubtitle,
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -127,7 +128,7 @@ class AccountSettingsView extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: 16),
                 SettingsCategory(
                   icon: Icons.notifications,
                   title: appLocalizations.notifications,
@@ -146,7 +147,7 @@ class AccountSettingsView extends StatelessWidget {
                               SettingsOption(
                                 title: appLocalizations
                                     .notificationsType(type.name),
-                                subtitle: appLocalizations
+                                tooltip: appLocalizations
                                     .notificationsSubtitles(type.name),
                                 trailing: snapshot.data == type
                                     ? const Icon(Icons.check)
@@ -162,7 +163,7 @@ class AccountSettingsView extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: 16),
                 SettingsCategory(
                   icon: Icons.sort,
                   title: appLocalizations.sort,
@@ -235,18 +236,15 @@ class SettingsCategory extends StatelessWidget {
                   color: Colors.grey,
                 ),
               ),
-              const SizedBox(width: 16),
-              const Expanded(
-                child: Divider(
-                  height: 1,
-                  thickness: 1,
-                  color: Colors.grey,
-                ),
-              ),
             ],
           ),
         ),
-        ...options,
+        const SizedBox(height: 8),
+        CustomCard(
+          child: Column(
+            children: options,
+          ),
+        ),
       ],
     );
   }
@@ -254,14 +252,14 @@ class SettingsCategory extends StatelessWidget {
 
 class SettingsOption extends StatelessWidget {
   final String title;
-  final String? subtitle;
+  final String? tooltip;
   final Widget? trailing;
   final VoidCallback? onTap;
 
   const SettingsOption({
     super.key,
     required this.title,
-    this.subtitle,
+    this.tooltip,
     this.trailing,
     this.onTap,
   });
@@ -269,8 +267,16 @@ class SettingsOption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(title),
-      subtitle: subtitle != null ? Text(subtitle!) : null,
+      title: Flex(direction: Axis.horizontal, children: [
+        Text(title),
+        if (tooltip != null) ...[
+          const SizedBox(width: 8),
+          Tooltip(
+            message: tooltip!,
+            child: const Icon(Icons.info_outline, size: 20, color: Colors.grey),
+          ),
+        ],
+      ]),
       trailing: trailing,
       onTap: onTap,
     );
