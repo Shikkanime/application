@@ -29,29 +29,33 @@ class AnimeEpisodeComponent extends StatelessWidget {
                 bottomLeft: Radius.circular(Constant.borderRadius),
               ),
               fit: BoxFit.cover,
-              height: 130,
+              height: 170,
             ),
           ),
-          const SizedBox(width: 10),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  episode.title ?? Constant.defaultText,
-                  style: Theme.of(context).textTheme.bodyLarge,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                ),
-                EpisodeInformation(episode: episode, showSeason: false),
-                if (episode.langTypes != null)
-                  for (final langType in episode.langTypes!)
-                    LangTypeComponent(langType: langType),
-                EpisodeActionBar(episode: episode),
-              ],
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    episode.title ?? Constant.defaultText,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                  ),
+                  EpisodeInformation(episode: episode, showSeason: false),
+                  if (episode.langTypes != null)
+                    for (final langType in episode.langTypes!)
+                      LangTypeComponent(langType: langType),
+                  EpisodeActionBar(
+                    episode: episode,
+                    simple: true,
+                  ),
+                ],
+              ),
             ),
           ),
-          const SizedBox(width: 10),
         ],
       ),
     );

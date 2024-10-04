@@ -20,13 +20,13 @@ class HomeView extends StatelessWidget {
     BuildContext context,
     List<EpisodeMappingDto> episodes,
   ) {
-    final smallestDimension = MediaQuery.of(context).size.width;
+    final smallestDimension = MediaQuery.sizeOf(context).width;
 
     return [
       const MissedAnimesRow(),
       ...wb.WidgetBuilder.instance.buildRowWidgets(
         episodes.map((episode) => EpisodeComponent(episode: episode)),
-        maxElementsPerRow: max(1, (smallestDimension * 2 / 600).floor()),
+        maxElementsPerRow: max(1, (smallestDimension * 2 / 900).floor()),
       ),
     ];
   }

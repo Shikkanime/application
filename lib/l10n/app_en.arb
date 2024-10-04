@@ -366,7 +366,11 @@
     }
   },
   "days": "d",
-    "@days": {
-        "description": "Abbreviation for days."
-    }
+  "@days": {
+      "description": "Abbreviation for days."
+  },
+  "watch": "Watch",
+  "@watch": {
+    "description": "Text for the button to watch an episode."
+  }
 }

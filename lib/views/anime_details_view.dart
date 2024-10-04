@@ -67,7 +67,7 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
       text: span,
       textDirection: TextDirection.ltr,
       maxLines: 4,
-    )..layout(maxWidth: MediaQuery.of(context).size.width - 16);
+    )..layout(maxWidth: MediaQuery.sizeOf(context).width - 16);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -76,6 +76,7 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
         elevation: 0,
         actions: [
           PopupMenuButton(
+            icon: const Icon(Icons.more_vert),
             itemBuilder: (context) {
               return [
                 PopupMenuItem(
@@ -113,11 +114,11 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                 ImageComponent(
                   uuid: widget.anime.uuid,
                   fit: BoxFit.cover,
-                  height: 550,
+                  height: MediaQuery.sizeOf(context).height * 0.7,
                 ),
                 SizedBox(
                   width: double.infinity,
-                  height: 551,
+                  height: (MediaQuery.sizeOf(context).height * 0.7) + 1,
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                       color: Theme.of(context).scaffoldBackgroundColor,
@@ -146,22 +147,21 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          widget.anime.shortName,
-                          style: Theme.of(context).textTheme.bodyLarge,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                        ),
-                      ),
-                      WatchlistButton(anime: widget.anime),
-                    ],
+                  Text(
+                    widget.anime.shortName,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
                   ),
                   if (widget.anime.langTypes != null)
                     for (final langType in widget.anime.langTypes!)
                       LangTypeComponent(langType: langType),
+                  Flex(
+                    direction: Axis.horizontal,
+                    children: [
+                      WatchlistButton(anime: widget.anime),
+                    ],
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: Text.rich(
@@ -228,10 +228,6 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                                 AppLocalizations.of(context)!
                                     .sortType(sortType.name),
                               ),
-                              leading:
-                                  SortController.instance.sortType == sortType
-                                      ? const Icon(Icons.check)
-                                      : null,
                             ),
                         ],
                         onChanged: (value) {
@@ -273,11 +269,11 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
     BuildContext context,
     List<EpisodeMappingDto> episodes,
   ) {
-    final smallestDimension = MediaQuery.of(context).size.width;
+    final smallestDimension = MediaQuery.sizeOf(context).width;
 
     return wb.WidgetBuilder.instance.buildRowWidgets(
       episodes.map((episode) => AnimeEpisodeComponent(episode: episode)),
-      maxElementsPerRow: max(1, (smallestDimension * 2 / 600).floor()),
+      maxElementsPerRow: max(1, (smallestDimension * 2 / 900).floor()),
     );
   }
 }

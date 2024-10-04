@@ -74,104 +74,105 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      theme: ThemeData(
+      theme: _buildTheme(
         brightness: Brightness.light,
-        fontFamily: 'Satoshi',
-        scaffoldBackgroundColor: const Color(0xfff0f0f0),
-        colorScheme: ColorScheme.fromSeed(
-          brightness: Brightness.light,
-          seedColor: Colors.black,
-          primary: Colors.black,
-        ),
-        appBarTheme: AppBarTheme(
-          backgroundColor: const Color(0xfff0f0f0).withOpacity(0.8),
-        ),
-        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          selectedItemColor: Colors.black,
-          unselectedItemColor: Colors.grey,
-        ),
-        textTheme: const TextTheme(
-          bodyMedium: TextStyle(
-            color: Colors.grey,
-          ),
-          bodyLarge: TextStyle(
-            color: Colors.black,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-          bodySmall: TextStyle(
-            color: Colors.grey,
-            fontSize: 12,
-          ),
-        ),
-        snackBarTheme: const SnackBarThemeData(
-          backgroundColor: Colors.white,
-          contentTextStyle: TextStyle(
-            color: Colors.black,
-          ),
-        ),
-        segmentedButtonTheme: SegmentedButtonThemeData(
-          style: SegmentedButton.styleFrom(
-            selectedForegroundColor: Colors.black,
-            selectedBackgroundColor: const Color(0x40b1cbd0),
-            foregroundColor: Colors.grey,
-            backgroundColor: Colors.white,
-            textStyle: const TextStyle(
-              fontSize: 12,
-            ),
-          ),
-        ),
+        scaffoldBackground: const Color(0xfff0f0f0),
+        primary: Colors.black,
+        canvasColor: Colors.white,
+        textColor: Colors.black,
+        snackBarBackground: Colors.white,
+        selectedSegmentedButtonBackground: const Color(0xfff6f6f6),
+        unselectedSegmentedButtonBackground: Colors.white,
+        elevatedButtonBackground: const Color(0xfff6f6f6),
+        elevatedButtonShadowColor: Colors.grey[300]!,
       ),
-      darkTheme: ThemeData(
+      darkTheme: _buildTheme(
         brightness: Brightness.dark,
-        fontFamily: 'Satoshi',
-        scaffoldBackgroundColor: Colors.black,
-        colorScheme: ColorScheme.fromSeed(
-          brightness: Brightness.dark,
-          seedColor: Colors.white,
-          primary: Colors.white,
-        ),
-        appBarTheme: AppBarTheme(
-          backgroundColor: Colors.black.withOpacity(0.8),
-        ),
-        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.grey,
-        ),
-        textTheme: const TextTheme(
-          bodyMedium: TextStyle(
-            color: Colors.grey,
-          ),
-          bodyLarge: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-          bodySmall: TextStyle(
-            color: Colors.grey,
-            fontSize: 12,
-          ),
-        ),
-        snackBarTheme: SnackBarThemeData(
-          backgroundColor: Colors.grey[900],
-          contentTextStyle: const TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        segmentedButtonTheme: SegmentedButtonThemeData(
-          style: SegmentedButton.styleFrom(
-            selectedForegroundColor: Colors.white,
-            selectedBackgroundColor: const Color(0x40b1cbd0),
-            foregroundColor: Colors.grey,
-            backgroundColor: Colors.black,
-            textStyle: const TextStyle(
-              fontSize: 12,
-            ),
-          ),
-        ),
+        scaffoldBackground: Colors.black,
+        primary: Colors.white,
+        canvasColor: const Color(0xff121212),
+        textColor: Colors.white,
+        snackBarBackground: Colors.grey[900]!,
+        selectedSegmentedButtonBackground: const Color(0xff1f1f1f),
+        unselectedSegmentedButtonBackground: Colors.black,
+        elevatedButtonBackground: const Color(0xff1f1f1f),
+        elevatedButtonShadowColor: Colors.grey[900]!,
       ),
       home: hasInternet ? const MyHomePage() : const NoInternet(),
       debugShowCheckedModeBanner: false,
+    );
+  }
+
+  ThemeData _buildTheme({
+    required Brightness brightness,
+    required Color scaffoldBackground,
+    required Color primary,
+    required Color canvasColor,
+    required Color textColor,
+    required Color snackBarBackground,
+    required Color selectedSegmentedButtonBackground,
+    required Color unselectedSegmentedButtonBackground,
+    required Color elevatedButtonBackground,
+    required Color elevatedButtonShadowColor,
+  }) {
+    return ThemeData(
+      brightness: brightness,
+      fontFamily: 'Satoshi',
+      scaffoldBackgroundColor: scaffoldBackground,
+      colorScheme: ColorScheme.fromSeed(
+        brightness: brightness,
+        seedColor: primary,
+        primary: primary,
+      ),
+      appBarTheme: AppBarTheme(
+        backgroundColor: scaffoldBackground.withOpacity(0.8),
+      ),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        selectedItemColor: primary,
+        unselectedItemColor: Colors.grey,
+      ),
+      canvasColor: canvasColor,
+      textTheme: TextTheme(
+        bodyMedium: const TextStyle(color: Colors.grey),
+        bodyLarge: TextStyle(
+          color: textColor,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+        bodySmall: const TextStyle(
+          color: Colors.grey,
+          fontSize: 12,
+        ),
+      ),
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: snackBarBackground,
+        contentTextStyle: TextStyle(color: textColor),
+      ),
+      segmentedButtonTheme: SegmentedButtonThemeData(
+        style: SegmentedButton.styleFrom(
+          selectedForegroundColor: primary,
+          selectedBackgroundColor: selectedSegmentedButtonBackground,
+          foregroundColor: primary,
+          backgroundColor: unselectedSegmentedButtonBackground,
+          textStyle: const TextStyle(fontSize: 12),
+        ),
+      ),
+      progressIndicatorTheme: ProgressIndicatorThemeData(
+        color: primary,
+        linearTrackColor: scaffoldBackground,
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: elevatedButtonBackground,
+          shadowColor: elevatedButtonShadowColor,
+        ),
+      ),
+      popupMenuTheme: PopupMenuThemeData(
+        color: canvasColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(Constant.borderRadius),
+        ),
+      ),
     );
   }
 }
@@ -228,7 +229,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         actions: [
           if (_currentIndex == 2)
-            IconButton(
+            ElevatedButton(
               onPressed: () {
                 setState(() {
                   AnimeWeeklyController.instance.memberMode =
@@ -237,10 +238,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 AnimeWeeklyController.instance.init();
               },
-              icon: Icon(
-                AnimeWeeklyController.instance.memberMode
-                    ? Icons.filter_alt
-                    : Icons.filter_alt_off,
+              child: Flex(
+                direction: Axis.horizontal,
+                children: [
+                  Icon(
+                    AnimeWeeklyController.instance.memberMode
+                        ? Icons.filter_alt
+                        : Icons.filter_alt_off,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(AppLocalizations.of(context)!.watchlist),
+                ],
               ),
             ),
           if (_currentIndex == 3)

@@ -1,37 +1,36 @@
+import 'package:application/components/watch_button.dart';
 import 'package:application/components/watchlist_button.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class EpisodeActionBar extends StatelessWidget {
   final EpisodeMappingDto episode;
+  final bool simple;
+  final bool showWatchlist;
 
-  const EpisodeActionBar({super.key, required this.episode});
+  const EpisodeActionBar({
+    super.key,
+    required this.episode,
+    this.simple = false,
+    this.showWatchlist = true,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
+    return Flex(
+      direction: Axis.horizontal,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: GestureDetector(
-            onTap: () {
-              if (episode.variants == null || episode.variants!.isEmpty) {
-                return;
-              }
-
-              launchUrl(
-                Uri.parse(episode.variants!.first.url),
-                mode: LaunchMode.externalNonBrowserApplication,
-              );
-            },
-            child: const Icon(
-              Icons.live_tv_outlined,
-            ),
+        if (showWatchlist) ...[
+          WatchlistButton(
+            episode: episode,
+            simple: simple,
           ),
+          const SizedBox(width: 8),
+        ],
+        WatchButton(
+          url: episode.variants?.first.url,
+          simple: simple,
         ),
-        WatchlistButton(episode: episode),
       ],
     );
   }

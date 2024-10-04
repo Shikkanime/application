@@ -36,9 +36,11 @@ class ElevatedDropdownButton<T> extends StatelessWidget {
             position.dx,
             position.dy,
           ),
-          items: [...items.map((item) => item.build())],
+          items: [
+            ...items.map((item) => item.build(selected: item.value == value)),
+          ],
           constraints: BoxConstraints(
-            maxHeight: MediaQuery.of(context).size.height * 0.3075,
+            maxHeight: MediaQuery.sizeOf(context).height * 0.3075,
           ),
         ).then((value) {
           if (value != null) {
@@ -70,23 +72,24 @@ class ElevatedDropdownButton<T> extends StatelessWidget {
 
 class ElevatedPopupMenuItem<T> {
   final T value;
-  final Widget? leading;
   final Widget child;
 
   const ElevatedPopupMenuItem({
     required this.value,
-    this.leading,
     required this.child,
   });
 
-  PopupMenuItem<T> build() {
+  PopupMenuItem<T> build({bool selected = false}) {
     return PopupMenuItem<T>(
       value: value,
-      child: Row(
+      child: Flex(
+        direction: Axis.horizontal,
         children: [
-          if (leading != null) leading!,
-          const SizedBox(width: 8),
           child,
+          if (selected) ...[
+            const SizedBox(width: 8),
+            const Icon(Icons.check),
+          ],
         ],
       ),
     );

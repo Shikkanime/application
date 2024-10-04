@@ -113,7 +113,7 @@ class AccountView extends StatelessWidget {
                         const SizedBox(width: 8),
                         GestureDetector(
                           child: const Icon(
-                            Icons.info,
+                            Icons.info_outline,
                             color: Colors.grey,
                             size: 20,
                           ),
@@ -186,14 +186,17 @@ class AccountView extends StatelessWidget {
                   Expanded(
                     child: AccountCard(
                       label: appLocalizations.animesAdded,
-                      value: member?.followedAnimes.length.toString() ?? '0',
+                      value: NumberFormat.decimalPattern()
+                          .format(member?.followedAnimes.length ?? 0),
                     ),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
                     child: AccountCard(
                       label: appLocalizations.episodesWatched,
-                      value: member?.followedEpisodes.length.toString() ?? '0',
+                      // 2376 -> 2 376
+                      value: NumberFormat.decimalPattern()
+                          .format(member?.followedEpisodes.length ?? 0),
                     ),
                   ),
                 ],
@@ -330,7 +333,7 @@ class FollowedAnimesRow extends StatelessWidget {
                         children: [
                           Expanded(
                             child: SizedBox(
-                              height: 180,
+                              height: 182,
                               child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 addAutomaticKeepAlives: false,

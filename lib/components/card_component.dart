@@ -7,7 +7,7 @@ class CustomCard extends StatefulWidget {
   final Function()? onTap;
   final Function(TapDownDetails?)? onLongPress;
   final bool activateLayers;
-  final Color? layerColor;
+  final Future<Color?>? layerColor;
   final bool horizontalPadding;
 
   const CustomCard({
@@ -27,10 +27,31 @@ class CustomCard extends StatefulWidget {
 
 class _CustomCardState extends State<CustomCard> {
   TapDownDetails? _tapDownDetails;
+  late final Future<Color?>? _futureBuilder = widget.layerColor;
 
   @override
   Widget build(BuildContext context) {
-    final withOpacity = Theme.of(context).canvasColor;
+    final mainWidget = DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(Constant.borderRadius),
+        ),
+        color: widget.backgroundColor ?? Theme.of(context).canvasColor,
+      ),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        onLongPress: () {
+          widget.onLongPress?.call(_tapDownDetails);
+        },
+        onTapDown: (details) {
+          _tapDownDetails = details;
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(1),
+          child: widget.child,
+        ),
+      ),
+    );
 
     return RepaintBoundary(
       child: Padding(
@@ -40,60 +61,51 @@ class _CustomCardState extends State<CustomCard> {
           top: widget.activateLayers ? 8 : 4,
           bottom: 4,
         ),
-        child: Stack(
-          fit: StackFit.passthrough,
-          clipBehavior: Clip.none,
-          children: [
-            if (widget.activateLayers && widget.layerColor != null) ...[
-              Positioned(
-                top: -8,
-                left: 12,
-                right: 12,
-                height: 100,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(
-                        Radius.circular(Constant.borderRadius)),
-                    color: widget.layerColor!.withOpacity(0.5),
+        child: FutureBuilder(
+          future: _futureBuilder,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState != ConnectionState.done) {
+              return mainWidget;
+            }
+
+            return Stack(
+              fit: StackFit.passthrough,
+              clipBehavior: Clip.none,
+              children: [
+                if (widget.activateLayers && snapshot.hasData) ...[
+                  Positioned(
+                    top: -8,
+                    left: 12,
+                    right: 12,
+                    height: 100,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(Constant.borderRadius),
+                        ),
+                        color: snapshot.data!.withOpacity(0.5),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              Positioned(
-                top: -4,
-                left: 6,
-                right: 6,
-                height: 100,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(
-                        Radius.circular(Constant.borderRadius)),
-                    color: widget.layerColor!,
+                  Positioned(
+                    top: -4,
+                    left: 6,
+                    right: 6,
+                    height: 100,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(Constant.borderRadius),
+                        ),
+                        color: snapshot.data!,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ],
-            DecoratedBox(
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(Constant.borderRadius),
-                ),
-                color: widget.backgroundColor ?? withOpacity,
-              ),
-              child: GestureDetector(
-                onTap: widget.onTap,
-                onLongPress: () {
-                  widget.onLongPress?.call(_tapDownDetails);
-                },
-                onTapDown: (details) {
-                  _tapDownDetails = details;
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(1),
-                  child: widget.child,
-                ),
-              ),
-            ),
-          ],
+                ],
+                mainWidget,
+              ],
+            );
+          },
         ),
       ),
     );

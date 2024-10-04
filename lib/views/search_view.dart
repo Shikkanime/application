@@ -35,7 +35,7 @@ class _SearchViewState extends State<SearchView> {
   }
 
   List<Widget> _buildAnimeList(BuildContext context, List<AnimeDto> animes) {
-    final smallestDimension = MediaQuery.of(context).size.width;
+    final smallestDimension = MediaQuery.sizeOf(context).width;
 
     return [
       _isOpen

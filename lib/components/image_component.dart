@@ -9,7 +9,6 @@ class ImageComponent extends StatelessWidget {
   final BorderRadius borderRadius;
   final double width;
   final double height;
-  final Function(ImageProvider<Object> imageProvider)? builder;
   final bool animate;
 
   const ImageComponent({
@@ -20,7 +19,6 @@ class ImageComponent extends StatelessWidget {
     this.borderRadius = BorderRadius.zero,
     this.width = double.infinity,
     this.height = double.infinity,
-    this.builder,
     this.animate = true,
   });
 
@@ -43,18 +41,6 @@ class ImageComponent extends StatelessWidget {
           width: width,
           height: height,
         ),
-        imageBuilder: (context, imageProvider) {
-          if (builder != null) {
-            builder!(imageProvider);
-          }
-
-          return Image(
-            image: imageProvider,
-            fit: fit,
-            width: width,
-            height: height,
-          );
-        },
       ),
     );
   }
