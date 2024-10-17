@@ -23,10 +23,17 @@ class NotificationsController {
 
   Future<void> init() async {
     _sharedPreferences = await SharedPreferences.getInstance();
+
+    if (_sharedPreferences.containsKey(key)) {
+      debugPrint('Notifications type already set');
+      return;
+    }
+
     final response = await _messaging.requestPermission();
 
     if (response.authorizationStatus != AuthorizationStatus.authorized) {
       debugPrint('Notifications are not authorized');
+      await _sharedPreferences.setInt(key, NotificationsType.none.index);
       return;
     }
 
@@ -35,7 +42,14 @@ class NotificationsController {
     }
   }
 
-  Future<void> setNotificationsType(NotificationsType type) async {
+  Future<bool> setNotificationsType(NotificationsType type) async {
+    final response = await _messaging.requestPermission();
+
+    if (response.authorizationStatus != AuthorizationStatus.authorized) {
+      debugPrint('Notifications are not authorized');
+      return false;
+    }
+
     final futures = <Future>[];
     futures.add(_sharedPreferences.setInt(key, type.index));
 
@@ -67,5 +81,6 @@ class NotificationsController {
 
     await Future.wait(futures);
     streamController.add(type);
+    return true;
   }
 }

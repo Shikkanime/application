@@ -94,5 +94,7 @@
   "watchlist": "Watchlist",
   "weekDays": "{day, select, 0{Lundi} 1{Mardi} 2{Mercredi} 3{Jeudi} 4{Vendredi} 5{Samedi} 6{Dimanche} other{}}",
   "days": "j",
-  "watch": "Regarder"
+  "watch": "Regarder",
+  "notificationNotAuthorized": "Les notifications ne sont pas autorisées",
+  "notificationNotAuthorizedSubtitle": "Veuillez les activer dans les paramètres de votre application"
 }

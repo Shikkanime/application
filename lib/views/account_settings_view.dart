@@ -135,9 +135,46 @@ class AccountSettingsView extends StatelessWidget {
                                 trailing: snapshot.data == type
                                     ? const Icon(Icons.check)
                                     : null,
-                                onTap: () {
-                                  NotificationsController.instance
+                                onTap: () async {
+                                  final response = await NotificationsController
+                                      .instance
                                       .setNotificationsType(type);
+
+                                  if (response || !context.mounted) return;
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      behavior: SnackBarBehavior.floating,
+                                      content: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          const Icon(Icons.error),
+                                          const SizedBox(width: 8),
+                                          Expanded(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(AppLocalizations.of(
+                                                        context)!
+                                                    .notificationNotAuthorized),
+                                                const SizedBox(height: 4),
+                                                Text(
+                                                  AppLocalizations.of(context)!
+                                                      .notificationNotAuthorizedSubtitle,
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
                                 },
                               ),
                           ],
