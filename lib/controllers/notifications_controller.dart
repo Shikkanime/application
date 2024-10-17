@@ -31,31 +31,41 @@ class NotificationsController {
     }
 
     if (!_sharedPreferences.containsKey(key)) {
-      await setNotificationsType(NotificationsType.all);
+      await setNotificationsType(NotificationsType.watchlist);
     }
   }
 
   Future<void> setNotificationsType(NotificationsType type) async {
-    await _sharedPreferences.setInt(key, type.index);
+    final futures = <Future>[];
+    futures.add(_sharedPreferences.setInt(key, type.index));
 
     switch (type) {
       case NotificationsType.all:
-        await _messaging.subscribeToTopic('global');
-        await _messaging
-            .unsubscribeFromTopic(MemberController.instance.member!.uuid);
+        futures.addAll([
+          _messaging.subscribeToTopic('global'),
+          _messaging
+              .unsubscribeFromTopic(MemberController.instance.member!.uuid),
+        ]);
+
         break;
       case NotificationsType.watchlist:
-        await _messaging
-            .subscribeToTopic(MemberController.instance.member!.uuid);
-        await _messaging.unsubscribeFromTopic('global');
+        futures.addAll([
+          _messaging.unsubscribeFromTopic('global'),
+          _messaging.subscribeToTopic(MemberController.instance.member!.uuid),
+        ]);
+
         break;
       case NotificationsType.none:
-        await _messaging.unsubscribeFromTopic('global');
-        await _messaging
-            .unsubscribeFromTopic(MemberController.instance.member!.uuid);
+        futures.addAll([
+          _messaging.unsubscribeFromTopic('global'),
+          _messaging
+              .unsubscribeFromTopic(MemberController.instance.member!.uuid),
+        ]);
+
         break;
     }
 
+    await Future.wait(futures);
     streamController.add(type);
   }
 }
