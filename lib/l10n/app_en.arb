@@ -372,5 +372,13 @@
   "watch": "Watch",
   "@watch": {
     "description": "Text for the button to watch an episode."
+  },
+  "notificationNotAuthorized": "Notifications are not authorized",
+  "@notificationNotAuthorized": {
+    "description": "Message indicating that notifications are not authorized."
+  },
+  "notificationNotAuthorizedSubtitle": "Please enable them in your app settings",
+  "@notificationNotAuthorizedSubtitle": {
+    "description": "Subtitle indicating where to enable notifications."
   }
 }
