@@ -167,10 +167,26 @@ class MyApp extends StatelessWidget {
           shadowColor: elevatedButtonShadowColor,
         ),
       ),
+      searchBarTheme: SearchBarThemeData(
+        backgroundColor:
+            WidgetStatePropertyAll<Color>(elevatedButtonBackground),
+        shadowColor: WidgetStatePropertyAll<Color>(elevatedButtonShadowColor),
+        textStyle: WidgetStatePropertyAll<TextStyle>(
+          TextStyle(
+            color: textColor,
+            fontSize: 20,
+          ),
+        ),
+      ),
       popupMenuTheme: PopupMenuThemeData(
         color: canvasColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(Constant.borderRadius),
+        ),
+      ),
+      iconButtonTheme: IconButtonThemeData(
+        style: IconButton.styleFrom(
+          foregroundColor: primary,
         ),
       ),
     );

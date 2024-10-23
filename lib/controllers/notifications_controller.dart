@@ -6,8 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum NotificationsType {
-  all,
   watchlist,
+  all,
   none,
 }
 
