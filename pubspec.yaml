@@ -2,11 +2,11 @@ name: application
 description: "A new Flutter project."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.2.1+4
+version: 1.2.2+5
 
 environment:
   sdk: '>=3.5.0 <4.0.0'
-  flutter: 3.24.4
+  flutter: 3.24.3
 
 dependencies:
   cached_network_image: ^3.4.1
