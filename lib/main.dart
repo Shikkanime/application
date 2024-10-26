@@ -7,6 +7,7 @@ import 'package:application/controllers/followed_episode_controller.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/missed_anime_controller.dart';
 import 'package:application/controllers/notifications_controller.dart';
+import 'package:application/controllers/patch_controller.dart';
 import 'package:application/controllers/sort_controller.dart';
 import 'package:application/dtos/member_dto.dart';
 import 'package:application/dtos/missed_anime_dto.dart';
@@ -216,6 +217,7 @@ class _MyHomePageState extends State<MyHomePage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       NotificationsController.instance.init();
       Analytics.instance.logScreenView('home');
+      PatchController.instance.patch(context);
     });
   }
 

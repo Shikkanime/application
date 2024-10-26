@@ -380,5 +380,17 @@
   "notificationNotAuthorizedSubtitle": "Please enable them in your app settings",
   "@notificationNotAuthorizedSubtitle": {
     "description": "Subtitle indicating where to enable notifications."
+  },
+  "downloadingPatch": "Downloading patch...",
+  "@downloadingPatch": {
+    "description": "Message indicating that a patch is being downloaded."
+  },
+  "patchDownloaded": "Patch downloaded! Restart the application to apply the changes.",
+  "@patchDownloaded": {
+    "description": "Message indicating that the patch has been downloaded and needs to be applied."
+  },
+  "patchFailed": "Patch failed to download. Please try again later.",
+  "@patchFailed": {
+    "description": "Message indicating that the patch failed to download."
   }
 }
