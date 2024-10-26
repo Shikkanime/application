@@ -96,5 +96,8 @@
   "days": "j",
   "watch": "Regarder",
   "notificationNotAuthorized": "Les notifications ne sont pas autorisées",
-  "notificationNotAuthorizedSubtitle": "Veuillez les activer dans les paramètres de votre application"
+  "notificationNotAuthorizedSubtitle": "Veuillez les activer dans les paramètres de votre application",
+  "downloadingPatch": "Téléchargement du correctif...",
+  "patchDownloaded": "Correctif téléchargé ! Redémarrez l'application pour appliquer les changements.",
+  "patchFailed": "Échec du téléchargement du correctif. Veuillez réessayer plus tard."
 }
