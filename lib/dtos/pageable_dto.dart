@@ -6,12 +6,12 @@ part 'pageable_dto.g.dart';
 @freezed
 class PageableDto with _$PageableDto {
   const factory PageableDto({
-    required List<dynamic> data,
-    required int page,
-    required int limit,
-    required int total,
+    required final List<dynamic> data,
+    required final int page,
+    required final int limit,
+    required final int total,
   }) = _PageableDto;
 
-  factory PageableDto.fromJson(Map<String, dynamic> json) =>
+  factory PageableDto.fromJson(final Map<String, dynamic> json) =>
       _$PageableDtoFromJson(json);
 }

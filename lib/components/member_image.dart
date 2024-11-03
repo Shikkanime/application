@@ -5,23 +5,23 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class MemberImage extends StatelessWidget {
-  final MemberDto? member;
-  final double? width;
-  final double? height;
-  final bool hasBorder;
-
   const MemberImage({
-    super.key,
     required this.member,
+    super.key,
     this.width,
     this.height,
     this.hasBorder = true,
   });
 
+  final MemberDto? member;
+  final double? width;
+  final double? height;
+  final bool hasBorder;
+
   @override
-  Widget build(BuildContext context) {
-    final showDefaultImage = member?.hasProfilePicture == false;
-    final defaultImage = DecoratedBox(
+  Widget build(final BuildContext context) {
+    final bool showDefaultImage = member?.hasProfilePicture == false;
+    final DecoratedBox defaultImage = DecoratedBox(
       decoration: BoxDecoration(color: Theme.of(context).canvasColor),
       child: const Icon(
         Icons.person,
@@ -52,9 +52,19 @@ class MemberImage extends StatelessWidget {
                 imageUrl:
                     '${Constant.apiUrl}/v1/attachments?uuid=${member?.uuid}&v=${MemberController.instance.imageVersion}',
                 filterQuality: FilterQuality.high,
-                placeholder: (context, url) =>
-                    const CircularProgressIndicator(),
-                errorWidget: (context, url, error) => defaultImage,
+                placeholder: (final BuildContext context, final String url) =>
+                    const Padding(
+                  padding: EdgeInsets.all(24),
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                  ),
+                ),
+                errorWidget: (
+                  final BuildContext context,
+                  final String url,
+                  final Object error,
+                ) =>
+                    defaultImage,
               ),
       ),
     );

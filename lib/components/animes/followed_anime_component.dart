@@ -8,57 +8,57 @@ import 'package:flutter/material.dart';
 double _ratio = 4;
 
 class FollowedAnimeComponent extends StatelessWidget {
-  final AnimeDto anime;
-
   const FollowedAnimeComponent({
-    super.key,
     required this.anime,
+    super.key,
   });
 
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 360 / _ratio + 10,
-      child: GestureDetector(
-        onTap: () {
-          Analytics.instance.logSelectContent('anime', anime.uuid);
+  final AnimeDto anime;
 
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => AnimeDetailsView(anime: anime),
-            ),
-          );
-        },
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            SizedBox(
-              width: 360 / _ratio,
-              height: 640 / _ratio,
-              child: ImageComponent(
-                uuid: anime.uuid,
-                borderRadius: const BorderRadius.all(
-                    Radius.circular(Constant.borderRadius)),
+  @override
+  Widget build(final BuildContext context) => SizedBox(
+        width: 360 / _ratio + 10,
+        child: GestureDetector(
+          onTap: () {
+            Analytics.instance.logSelectContent('anime', anime.uuid);
+
+            Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (final BuildContext context) => AnimeDetailsView(
+                  anime: anime,
+                ),
               ),
-            ),
-            const SizedBox(height: 4),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: Text(
-                anime.shortName,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall
-                    ?.copyWith(fontWeight: FontWeight.bold),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-                textAlign: TextAlign.center,
+            );
+          },
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              SizedBox(
+                width: 360 / _ratio,
+                height: 640 / _ratio,
+                child: ImageComponent(
+                  uuid: anime.uuid,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(Constant.borderRadius),
+                  ),
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 4),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: Text(
+                  anime.shortName,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall
+                      ?.copyWith(fontWeight: FontWeight.bold),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 }

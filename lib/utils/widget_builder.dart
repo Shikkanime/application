@@ -8,10 +8,10 @@ enum DeviceType {
 }
 
 class WidgetBuilder {
-  static final instance = WidgetBuilder();
+  static final WidgetBuilder instance = WidgetBuilder();
 
   DeviceType getDeviceType() {
-    final display = PlatformDispatcher.instance.views.first.display;
+    final Display display = PlatformDispatcher.instance.views.first.display;
 
     return display.size.shortestSide / display.devicePixelRatio < 600
         ? DeviceType.mobile
@@ -19,10 +19,10 @@ class WidgetBuilder {
   }
 
   List<Widget> buildRowWidgets(
-    Iterable<Widget> toSeparateList, {
-    int maxElementsPerRow = 2,
+    final Iterable<Widget> toSeparateList, {
+    final int maxElementsPerRow = 2,
   }) {
-    final widgets = <Widget>[];
+    final List<Widget> widgets = <Widget>[];
 
     if (maxElementsPerRow < 1) {
       throw Exception('maxElementsPerRow must be greater than 0');
@@ -36,11 +36,12 @@ class WidgetBuilder {
     for (int i = 0; i < toSeparateList.length; i += maxElementsPerRow) {
       widgets.add(
         Row(
-          children: List.generate(maxElementsPerRow, (j) {
-            return i + j < toSeparateList.length
+          children: List<Widget>.generate(
+            maxElementsPerRow,
+            (final int j) => i + j < toSeparateList.length
                 ? Expanded(child: toSeparateList.elementAt(i + j))
-                : const Spacer();
-          }),
+                : const Spacer(),
+          ),
         ),
       );
     }

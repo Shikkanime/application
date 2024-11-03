@@ -6,13 +6,13 @@ part 'simulcast_dto.g.dart';
 @freezed
 class SimulcastDto with _$SimulcastDto {
   const factory SimulcastDto({
-    required String uuid,
-    required String season,
-    required int year,
-    required String slug,
-    required String label,
+    required final String uuid,
+    required final String season,
+    required final int year,
+    required final String slug,
+    required final String label,
   }) = _SimulcastDto;
 
-  factory SimulcastDto.fromJson(Map<String, dynamic> json) =>
+  factory SimulcastDto.fromJson(final Map<String, dynamic> json) =>
       _$SimulcastDtoFromJson(json);
 }

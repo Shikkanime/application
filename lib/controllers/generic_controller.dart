@@ -3,17 +3,18 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 
 abstract class GenericController<T> {
-  final items = <T>[];
-  final scrollController = ScrollController();
-  final streamController = StreamController<List<T>>.broadcast();
+  GenericController({
+    this.addScrollListener = true,
+  });
+
+  final List<T> items = <T>[];
+  final ScrollController scrollController = ScrollController();
+  final StreamController<List<T>> streamController =
+      StreamController<List<T>>.broadcast();
   final bool addScrollListener;
   int page = 1;
   bool isLoading = false;
   bool canLoadMore = true;
-
-  GenericController({
-    this.addScrollListener = true,
-  });
 
   Future<void> init() async {
     items.clear();
@@ -25,13 +26,14 @@ abstract class GenericController<T> {
     await nextPage();
 
     if (addScrollListener) {
-      scrollController.removeListener(_scrollListener);
-      scrollController.addListener(_scrollListener);
+      scrollController
+        ..removeListener(_scrollListener)
+        ..addListener(_scrollListener);
     }
   }
 
   void _scrollListener() {
-    final position = scrollController.position;
+    final ScrollPosition position = scrollController.position;
 
     if (position.pixels >= position.maxScrollExtent - 300 &&
         !isLoading &&
@@ -51,18 +53,20 @@ abstract class GenericController<T> {
   }
 
   Future<void> nextPage() async {
-    if (isLoading) return;
+    if (isLoading) {
+      return;
+    }
 
     isLoading = true;
     debugPrint('$runtimeType - Loading page $page');
 
     try {
-      final newItems = await fetchItems();
+      final Iterable<T> newItems = await fetchItems();
       items.addAll(newItems);
 
       streamController.add(items);
       canLoadMore = newItems.isNotEmpty;
-    } catch (e) {
+    } on Exception catch (e) {
       debugPrint(e.toString());
     } finally {
       isLoading = false;

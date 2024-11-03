@@ -8,56 +8,54 @@ import 'package:application/utils/constant.dart';
 import 'package:flutter/material.dart';
 
 class AnimeEpisodeComponent extends StatelessWidget {
-  final EpisodeMappingDto episode;
-
   const AnimeEpisodeComponent({
-    super.key,
     required this.episode,
+    super.key,
   });
 
+  final EpisodeMappingDto episode;
+
   @override
-  Widget build(BuildContext context) {
-    return CustomCard(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            child: EpisodeImage(
-              episode: episode,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(Constant.borderRadius),
-                bottomLeft: Radius.circular(Constant.borderRadius),
-              ),
-              fit: BoxFit.cover,
-              height: 170,
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    episode.title ?? Constant.defaultText,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
+  Widget build(final BuildContext context) => CustomCard(
+        child: SizedBox(
+          height: 170,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Expanded(
+                child: EpisodeImage(
+                  episode: episode,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(Constant.borderRadius),
                   ),
-                  EpisodeInformation(episode: episode, showSeason: false),
-                  if (episode.langTypes != null)
-                    for (final langType in episode.langTypes!)
-                      LangTypeComponent(langType: langType),
-                  EpisodeActionBar(
-                    episode: episode,
-                    simple: true,
-                  ),
-                ],
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      episode.title ?? Constant.defaultText,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
+                    EpisodeInformation(episode: episode, showSeason: false),
+                    if (episode.langTypes != null)
+                      for (final String langType in episode.langTypes!)
+                        LangTypeComponent(langType: langType),
+                    const Spacer(),
+                    EpisodeActionBar(
+                      episode: episode,
+                      simple: true,
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
-  }
+        ),
+      );
 }

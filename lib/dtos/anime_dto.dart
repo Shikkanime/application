@@ -8,23 +8,23 @@ part 'anime_dto.g.dart';
 @freezed
 class AnimeDto with _$AnimeDto {
   const factory AnimeDto({
-    required String uuid,
-    required String countryCode,
-    required String name,
-    required String shortName,
-    required String slug,
-    required String releaseDateTime,
-    required String lastReleaseDateTime,
-    required String image,
-    required String banner,
-    required String? description,
-    required List<SimulcastDto>? simulcasts,
-    required List<String>? audioLocales,
-    required List<String>? langTypes,
-    required List<SeasonDto>? seasons,
-    required String? status,
+    required final String uuid,
+    required final String countryCode,
+    required final String name,
+    required final String shortName,
+    required final String slug,
+    required final String releaseDateTime,
+    required final String lastReleaseDateTime,
+    required final String image,
+    required final String banner,
+    required final String? description,
+    required final List<SimulcastDto>? simulcasts,
+    required final List<String>? audioLocales,
+    required final List<String>? langTypes,
+    required final List<SeasonDto>? seasons,
+    required final String? status,
   }) = _AnimeDto;
 
-  factory AnimeDto.fromJson(Map<String, dynamic> json) =>
+  factory AnimeDto.fromJson(final Map<String, dynamic> json) =>
       _$AnimeDtoFromJson(json);
 }

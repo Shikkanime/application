@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:application/components/elevated_dropdown_button.dart';
 import 'package:application/components/episodes/anime_episode_component.dart';
-import 'package:application/components/watchlist_button.dart';
 import 'package:application/components/image_component.dart';
 import 'package:application/components/lang_type_component.dart';
+import 'package:application/components/watchlist_button.dart';
 import 'package:application/controllers/anime_details_controller.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/sort_controller.dart';
@@ -20,9 +20,9 @@ import 'package:share_plus/share_plus.dart';
 import 'package:vibration/vibration.dart';
 
 class AnimeDetailsView extends StatefulWidget {
-  final AnimeDto anime;
+  const AnimeDetailsView({required this.anime, super.key});
 
-  const AnimeDetailsView({super.key, required this.anime});
+  final AnimeDto anime;
 
   @override
   State<AnimeDetailsView> createState() => _AnimeDetailsViewState();
@@ -42,7 +42,7 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
       AnimeDetailsController.instance.season = widget.anime.seasons?.last;
     }
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((final _) {
       AnimeDetailsController.instance.init();
     });
   }
@@ -54,16 +54,16 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final span = TextSpan(
+  Widget build(final BuildContext context) {
+    final TextSpan span = TextSpan(
       text: widget.anime.description ?? '',
       style: Theme.of(context)
           .textTheme
           .bodyMedium
-          ?.copyWith(color: Theme.of(context).textTheme.titleLarge!.color!),
+          ?.copyWith(color: Theme.of(context).textTheme.titleLarge!.color),
     );
 
-    final textPainter = TextPainter(
+    final TextPainter textPainter = TextPainter(
       text: span,
       textDirection: TextDirection.ltr,
       maxLines: 4,
@@ -74,24 +74,22 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        actions: [
-          PopupMenuButton(
+        actions: <Widget>[
+          PopupMenuButton<int>(
             icon: const Icon(Icons.more_vert),
-            itemBuilder: (context) {
-              return [
-                PopupMenuItem(
-                  value: 0,
-                  child: Text(AppLocalizations.of(context)!.markWatched),
-                ),
-                PopupMenuItem(
-                  value: 1,
-                  child: Text(AppLocalizations.of(context)!.share),
-                ),
-              ];
-            },
-            onSelected: (int value) {
+            itemBuilder: (final BuildContext context) => <PopupMenuItem<int>>[
+              PopupMenuItem<int>(
+                value: 0,
+                child: Text(AppLocalizations.of(context)!.markWatched),
+              ),
+              PopupMenuItem<int>(
+                value: 1,
+                child: Text(AppLocalizations.of(context)!.share),
+              ),
+            ],
+            onSelected: (final int value) {
               if (value == 0) {
-                Vibration.vibrate(pattern: [0, 50, 125, 50, 125, 50]);
+                Vibration.vibrate(pattern: <int>[0, 50, 125, 50, 125, 50]);
                 MemberController.instance.followAllEpisodes(widget.anime);
               } else if (value == 1) {
                 Analytics.instance
@@ -108,9 +106,9 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
       body: SingleChildScrollView(
         controller: AnimeDetailsController.instance.scrollController,
         child: Column(
-          children: [
+          children: <Widget>[
             Stack(
-              children: [
+              children: <Widget>[
                 ImageComponent(
                   uuid: widget.anime.uuid,
                   fit: BoxFit.cover,
@@ -125,7 +123,7 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
-                        colors: [
+                        colors: <Color>[
                           Theme.of(context).scaffoldBackgroundColor,
                           Theme.of(context)
                               .scaffoldBackgroundColor
@@ -146,7 +144,7 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
-                children: [
+                children: <Widget>[
                   Text(
                     widget.anime.shortName,
                     style: Theme.of(context).textTheme.bodyLarge,
@@ -154,11 +152,12 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                     maxLines: 2,
                   ),
                   if (widget.anime.langTypes != null)
-                    for (final langType in widget.anime.langTypes!)
+                    for (final String langType in widget.anime.langTypes!)
                       LangTypeComponent(langType: langType),
+                  const SizedBox(height: 8),
                   Flex(
                     direction: Axis.horizontal,
-                    children: [
+                    children: <Widget>[
                       WatchlistButton(anime: widget.anime),
                     ],
                   ),
@@ -173,7 +172,7 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                     ),
                   ),
                   Row(
-                    children: [
+                    children: <Widget>[
                       const Spacer(),
                       if (textPainter.didExceedMaxLines)
                         GestureDetector(
@@ -193,14 +192,15 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                     ],
                   ),
                   Row(
-                    children: [
+                    children: <Widget>[
                       if (widget.anime.seasons != null)
                         ElevatedDropdownButton<SeasonDto>(
                           globalKey: GlobalKey(),
                           value: AnimeDetailsController.instance.season,
-                          items: [
-                            for (final season in widget.anime.seasons!)
-                              ElevatedPopupMenuItem(
+                          items: <ElevatedPopupMenuItem<SeasonDto>>[
+                            for (final SeasonDto season
+                                in widget.anime.seasons!)
+                              ElevatedPopupMenuItem<SeasonDto>(
                                 value: season,
                                 child: Text(
                                   AppLocalizations.of(context)!.season(
@@ -209,7 +209,7 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                                 ),
                               ),
                           ],
-                          onChanged: (value) {
+                          onChanged: (final SeasonDto value) {
                             setState(() {
                               AnimeDetailsController.instance.season = value;
                               AnimeDetailsController.instance.init();
@@ -217,12 +217,12 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                           },
                         ),
                       const Spacer(),
-                      ElevatedDropdownButton(
+                      ElevatedDropdownButton<SortType>(
                         globalKey: GlobalKey(),
                         value: SortController.instance.sortType,
-                        items: [
-                          for (final sortType in SortType.values)
-                            ElevatedPopupMenuItem(
+                        items: <ElevatedPopupMenuItem<SortType>>[
+                          for (final SortType sortType in SortType.values)
+                            ElevatedPopupMenuItem<SortType>(
                               value: sortType,
                               child: Text(
                                 AppLocalizations.of(context)!
@@ -230,7 +230,7 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                               ),
                             ),
                         ],
-                        onChanged: (value) {
+                        onChanged: (final SortType value) {
                           setState(() {
                             SortController.instance.setSortType(value);
                             AnimeDetailsController.instance.init();
@@ -239,7 +239,7 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                         showIcon: false,
                         child: Flex(
                           direction: Axis.horizontal,
-                          children: [
+                          children: <Widget>[
                             const Icon(Icons.sort),
                             const SizedBox(width: 8),
                             Text(AppLocalizations.of(context)!.sort),
@@ -254,8 +254,12 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
             StreamBuilder<List<EpisodeMappingDto>>(
               stream: AnimeDetailsController.instance.streamController.stream,
               initialData: AnimeDetailsController.instance.items,
-              builder: (context, snapshot) {
-                final list = _buildEpisodeList(context, snapshot.data!);
+              builder: (
+                final BuildContext context,
+                final AsyncSnapshot<List<EpisodeMappingDto>> snapshot,
+              ) {
+                final List<Widget> list =
+                    _buildEpisodeList(context, snapshot.data!);
                 return Column(children: list);
               },
             ),
@@ -266,13 +270,16 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
   }
 
   List<Widget> _buildEpisodeList(
-    BuildContext context,
-    List<EpisodeMappingDto> episodes,
+    final BuildContext context,
+    final List<EpisodeMappingDto> episodes,
   ) {
-    final smallestDimension = MediaQuery.sizeOf(context).width;
+    final double smallestDimension = MediaQuery.sizeOf(context).width;
 
     return wb.WidgetBuilder.instance.buildRowWidgets(
-      episodes.map((episode) => AnimeEpisodeComponent(episode: episode)),
+      episodes.map(
+        (final EpisodeMappingDto episode) =>
+            AnimeEpisodeComponent(episode: episode),
+      ),
       maxElementsPerRow: max(1, (smallestDimension * 2 / 900).floor()),
     );
   }

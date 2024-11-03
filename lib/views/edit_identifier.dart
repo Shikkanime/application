@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:application/controllers/member_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -15,48 +17,46 @@ class _EditIdentifierState extends State<EditIdentifier> {
   bool _isInvalidIdentiferError = false;
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        title: Text(AppLocalizations.of(context)!.enterNewIdentifier),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(height: 16),
-              TextField(
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  labelText: AppLocalizations.of(context)!.identifier,
-                  errorText: _isInvalidIdentiferError
-                      ? AppLocalizations.of(context)!.invalidIdentifier
-                      : null,
+  Widget build(final BuildContext context) => Scaffold(
+        appBar: AppBar(
+          centerTitle: false,
+          title: Text(AppLocalizations.of(context)!.enterNewIdentifier),
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                const SizedBox(height: 16),
+                TextField(
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    labelText: AppLocalizations.of(context)!.identifier,
+                    errorText: _isInvalidIdentiferError
+                        ? AppLocalizations.of(context)!.invalidIdentifier
+                        : null,
+                  ),
+                  controller: _controller,
                 ),
-                controller: _controller,
-              ),
-              const SizedBox(height: 32),
-              ElevatedButton(
-                onPressed: () => saveIdentifier(context),
-                child: Text(AppLocalizations.of(context)!.save),
-              ),
-            ],
+                const SizedBox(height: 32),
+                ElevatedButton(
+                  onPressed: () => saveIdentifier(context),
+                  child: Text(AppLocalizations.of(context)!.save),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
 
-  Future<void> saveIdentifier(BuildContext context) async {
+  Future<void> saveIdentifier(final BuildContext context) async {
     if (_controller.text.isEmpty) {
-      Vibration.vibrate(duration: 200, amplitude: 255);
+      unawaited(Vibration.vibrate(duration: 200, amplitude: 255));
       return;
     }
 
-    final oldIdentifier = MemberController.instance.identifier;
+    final String? oldIdentifier = MemberController.instance.identifier;
 
     try {
       await MemberController.instance.testLogin(_controller.text);
@@ -65,8 +65,8 @@ class _EditIdentifierState extends State<EditIdentifier> {
       if (context.mounted) {
         Navigator.of(context).pop();
       }
-    } catch (e) {
-      Vibration.vibrate(duration: 200, amplitude: 255);
+    } on Exception catch (_) {
+      unawaited(Vibration.vibrate(duration: 200, amplitude: 255));
 
       if (MemberController.instance.identifier != oldIdentifier) {
         await MemberController.instance.login(identifier: oldIdentifier);

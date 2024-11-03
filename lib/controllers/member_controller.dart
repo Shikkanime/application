@@ -24,12 +24,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 class MemberController {
   static MemberController instance = MemberController();
   late final SharedPreferences _sharedPreferences;
-  final streamController = StreamController<MemberDto>.broadcast();
+  final StreamController<MemberDto> streamController =
+      StreamController<MemberDto>.broadcast();
   String? identifier;
   MemberDto? member;
   int imageVersion = 0;
 
-  Future<void> init({bool afterDelete = false}) async {
+  Future<void> init({final bool afterDelete = false}) async {
     if (!afterDelete) {
       _sharedPreferences = await SharedPreferences.getInstance();
     }
@@ -44,7 +45,7 @@ class MemberController {
 
       if (!afterDelete) {
         // Move the current identifier to old identifier
-        final oldIdentifier = identifier;
+        final String? oldIdentifier = identifier;
         await _sharedPreferences.remove('identifier');
         await _sharedPreferences.remove('imageVersion');
 
@@ -61,21 +62,21 @@ class MemberController {
   }
 
   Future<String> register() async {
-    final response = await HttpRequest().post('/v1/members/register');
+    final Response response = await HttpRequest().post('/v1/members/register');
 
     if (response.statusCode != HttpStatus.created) {
       throw const HttpException('Failed to register');
     }
 
-    final String identifier =
-        jsonDecode(utf8.decode(response.bodyBytes))['identifier'];
+    final String identifier = (jsonDecode(utf8.decode(response.bodyBytes))
+        as Map<String, dynamic>)['identifier'] as String;
     await _sharedPreferences.setString('identifier', identifier);
     Analytics.instance.logSignUp();
     return identifier;
   }
 
-  Future<Response> testLogin(String identifier) async {
-    final response =
+  Future<Response> testLogin(final String identifier) async {
+    final Response response =
         await HttpRequest().post('/v1/members/login', body: identifier);
 
     if (response.statusCode == HttpStatus.notFound) {
@@ -89,9 +90,10 @@ class MemberController {
     return response;
   }
 
-  Future<void> login({String? identifier}) async {
-    final response = await testLogin(identifier ?? this.identifier!);
-    final json = jsonDecode(utf8.decode(response.bodyBytes));
+  Future<void> login({final String? identifier}) async {
+    final Response response = await testLogin(identifier ?? this.identifier!);
+    final Map<String, dynamic> json =
+        jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
 
     if (identifier != null) {
       this.identifier = identifier;
@@ -108,27 +110,37 @@ class MemberController {
   }
 
   Future<void> refresh() async {
-    final json = await HttpRequest().get<Map<String, dynamic>>(
+    final Map<String, dynamic> json =
+        await HttpRequest().get<Map<String, dynamic>>(
       '/v1/members/refresh',
       token: member!.token,
     );
 
-    final refreshedMember = RefreshMemberDto.fromJson(json);
+    final RefreshMemberDto refreshedMember = RefreshMemberDto.fromJson(json);
 
     member = member!.copyWith(
       totalDuration: refreshedMember.totalDuration,
       totalUnseenDuration: refreshedMember.totalUnseenDuration,
     );
 
-    final missedAnimes = refreshedMember.missedAnimes.data
-        .map((e) => MissedAnimeDto.fromJson(e as Map<String, dynamic>))
+    final List<MissedAnimeDto> missedAnimes = refreshedMember.missedAnimes.data
+        .map(
+          (final dynamic e) =>
+              MissedAnimeDto.fromJson(e as Map<String, dynamic>),
+        )
         .toList();
-    final followedAnimes = refreshedMember.followedAnimes.data
-        .map((e) => AnimeDto.fromJson(e as Map<String, dynamic>))
+
+    final List<AnimeDto> followedAnimes = refreshedMember.followedAnimes.data
+        .map((final dynamic e) => AnimeDto.fromJson(e as Map<String, dynamic>))
         .toList();
-    final followedEpisodes = refreshedMember.followedEpisodes.data
-        .map((e) => EpisodeMappingDto.fromJson(e as Map<String, dynamic>))
-        .toList();
+
+    final List<EpisodeMappingDto> followedEpisodes =
+        refreshedMember.followedEpisodes.data
+            .map(
+              (final dynamic e) =>
+                  EpisodeMappingDto.fromJson(e as Map<String, dynamic>),
+            )
+            .toList();
 
     streamController.add(member!);
     MissedAnimeController.instance.setItems(missedAnimes);
@@ -136,45 +148,43 @@ class MemberController {
     FollowedEpisodeController.instance.setItems(followedEpisodes);
   }
 
-  Future<void> changeImage(BuildContext context) async {
-    final picker = ImagePicker();
-    final result = await picker.pickImage(source: ImageSource.gallery);
-    final bytes = await result?.readAsBytes();
+  Future<void> changeImage(final BuildContext context) async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? result = await picker.pickImage(source: ImageSource.gallery);
+    final Uint8List? bytes = await result?.readAsBytes();
 
     if (result == null || bytes == null || !context.mounted) {
       return;
     }
 
-    const allowedFormats = ['jpeg', 'png', 'jpg'];
+    const List<String> allowedFormats = <String>['jpeg', 'png', 'jpg'];
 
     // Check if the image format is allowed
     if (!allowedFormats.contains(result.path.split('.').last)) {
-      showDialog(
+      await showDialog(
         context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text(AppLocalizations.of(context)!.invalidImageFormat),
-            content: Text(AppLocalizations.of(context)!.invalidImageExtension),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(AppLocalizations.of(context)!.ok),
-              ),
-            ],
-          );
-        },
+        builder: (final BuildContext context) => AlertDialog(
+          title: Text(AppLocalizations.of(context)!.invalidImageFormat),
+          content: Text(AppLocalizations.of(context)!.invalidImageExtension),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(AppLocalizations.of(context)!.ok),
+            ),
+          ],
+        ),
       );
 
       return;
     }
 
-    final controller = CropController();
+    final CropController controller = CropController();
 
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => CropView(
+    await Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (final BuildContext context) => CropView(
           bytes: bytes,
           controller: controller,
         ),
@@ -182,8 +192,8 @@ class MemberController {
     );
   }
 
-  Future<void> updateImage(Uint8List image) async {
-    final response = await HttpRequest().postMultipart(
+  Future<void> updateImage(final Uint8List image) async {
+    final Response response = await HttpRequest().postMultipart(
       '/v1/members/image',
       member!.token,
       image,
@@ -206,15 +216,12 @@ class MemberController {
   Future<void> increaseImageVersion() async {
     imageVersion++;
     await _sharedPreferences.setInt('imageVersion', imageVersion);
-
-    Future.delayed(const Duration(seconds: 1), () {
-      member = member!.copyWith(hasProfilePicture: true);
-      streamController.add(member!);
-    });
+    member = member!.copyWith(hasProfilePicture: true);
+    streamController.add(member!);
   }
 
-  Future<String> associateEmail(String email) async {
-    final response = await HttpRequest().post(
+  Future<String> associateEmail(final String email) async {
+    final Response response = await HttpRequest().post(
       '/v1/members/associate-email',
       token: member!.token,
       body: email,
@@ -233,11 +240,12 @@ class MemberController {
       throw const HttpException('Failed to associate email');
     }
 
-    return jsonDecode(utf8.decode(response.bodyBytes))['uuid'] as String;
+    return (jsonDecode(utf8.decode(response.bodyBytes))
+        as Map<String, dynamic>)['uuid'] as String;
   }
 
-  Future<String> forgotIdentifier(String email) async {
-    final response = await HttpRequest().post(
+  Future<String> forgotIdentifier(final String email) async {
+    final Response response = await HttpRequest().post(
       '/v1/members/forgot-identifier',
       token: member!.token,
       body: email,
@@ -256,11 +264,12 @@ class MemberController {
       throw const HttpException('Failed to associate email');
     }
 
-    return jsonDecode(utf8.decode(response.bodyBytes))['uuid'] as String;
+    return (jsonDecode(utf8.decode(response.bodyBytes))
+        as Map<String, dynamic>)['uuid'] as String;
   }
 
-  Future<void> validateAction(String uuid, String code) async {
-    final response = await HttpRequest().post(
+  Future<void> validateAction(final String uuid, final String code) async {
+    final Response response = await HttpRequest().post(
       '/v1/member-actions/validate?uuid=$uuid',
       token: member!.token,
       body: code,
@@ -276,11 +285,14 @@ class MemberController {
     }
   }
 
-  Future<void> followAnime(AnimeDto anime, {bool loadMemberData = true}) async {
-    final response = await HttpRequest().put(
+  Future<void> followAnime(
+    final AnimeDto anime, {
+    final bool loadMemberData = true,
+  }) async {
+    final Response response = await HttpRequest().put(
       '/v1/members/animes',
       member!.token,
-      jsonEncode({'uuid': anime.uuid}),
+      jsonEncode(<String, String>{'uuid': anime.uuid}),
     );
 
     if (response.statusCode == HttpStatus.unauthorized) {
@@ -301,11 +313,11 @@ class MemberController {
     }
   }
 
-  Future<void> unfollowAnime(AnimeDto anime) async {
-    final response = await HttpRequest().delete(
+  Future<void> unfollowAnime(final AnimeDto anime) async {
+    final Response response = await HttpRequest().delete(
       '/v1/members/animes',
       member!.token,
-      jsonEncode({'uuid': anime.uuid}),
+      jsonEncode(<String, String>{'uuid': anime.uuid}),
     );
 
     if (response.statusCode == HttpStatus.unauthorized) {
@@ -321,15 +333,15 @@ class MemberController {
     await refresh();
   }
 
-  Future<void> followAllEpisodes(AnimeDto anime) async {
+  Future<void> followAllEpisodes(final AnimeDto anime) async {
     if (!member!.followedAnimes.contains(anime.uuid)) {
       await followAnime(anime, loadMemberData: false);
     }
 
-    final response = await HttpRequest().put(
+    final Response response = await HttpRequest().put(
       '/v1/members/follow-all-episodes',
       member!.token,
-      jsonEncode({'uuid': anime.uuid}),
+      jsonEncode(<String, String>{'uuid': anime.uuid}),
     );
 
     if (response.statusCode == HttpStatus.unauthorized) {
@@ -341,19 +353,19 @@ class MemberController {
       throw const HttpException('Failed to follow all episodes');
     }
 
-    final json =
+    final Map<String, dynamic> json =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
-    final data = List<String>.from(json['data'] as List);
+    final List<String> data = List<String>.from(json['data'] as List<dynamic>);
 
     member!.followedEpisodes.addAll(data);
     await refresh();
   }
 
   Future<void> followEpisode(
-    AnimeDto? animeDto,
-    EpisodeMappingDto episode,
+    final AnimeDto? animeDto,
+    final EpisodeMappingDto episode,
   ) async {
-    final anime = animeDto ?? episode.anime;
+    final AnimeDto? anime = animeDto ?? episode.anime;
 
     if (anime == null) {
       return;
@@ -363,10 +375,10 @@ class MemberController {
       await followAnime(anime, loadMemberData: false);
     }
 
-    final response = await HttpRequest().put(
+    final Response response = await HttpRequest().put(
       '/v1/members/episodes',
       member!.token,
-      jsonEncode({'uuid': episode.uuid}),
+      jsonEncode(<String, String>{'uuid': episode.uuid}),
     );
 
     if (response.statusCode == HttpStatus.unauthorized) {
@@ -382,11 +394,11 @@ class MemberController {
     await refresh();
   }
 
-  Future<void> unfollowEpisode(EpisodeMappingDto episode) async {
-    final response = await HttpRequest().delete(
+  Future<void> unfollowEpisode(final EpisodeMappingDto episode) async {
+    final Response response = await HttpRequest().delete(
       '/v1/members/episodes',
       member!.token,
-      jsonEncode({'uuid': episode.uuid}),
+      jsonEncode(<String, String>{'uuid': episode.uuid}),
     );
 
     if (response.statusCode == HttpStatus.unauthorized) {

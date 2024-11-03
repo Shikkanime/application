@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LangTypeComponent extends StatelessWidget {
+  const LangTypeComponent({required this.langType, super.key});
+
   final String langType;
 
-  const LangTypeComponent({super.key, required this.langType});
-
-  static String getLangTypeTranslation(BuildContext context, String langType) {
+  static String getLangTypeTranslation(
+    final BuildContext context,
+    final String langType,
+  ) {
     switch (langType) {
       case 'SUBTITLES':
         return AppLocalizations.of(context)!.subtitles;
@@ -18,12 +21,12 @@ class LangTypeComponent extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final textStyle = Theme.of(context).textTheme.bodyMedium;
+  Widget build(final BuildContext context) {
+    final TextStyle? textStyle = Theme.of(context).textTheme.bodyMedium;
 
     return Flex(
       direction: Axis.horizontal,
-      children: [
+      children: <Widget>[
         if (langType == 'SUBTITLES')
           Icon(
             Icons.closed_caption,

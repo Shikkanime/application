@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:application/controllers/member_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -20,92 +22,89 @@ class _ForgotIdentifierState extends State<ForgotIdentifier> {
   String? _actionUuid;
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        title: Text(AppLocalizations.of(context)!.forgotIdentifier),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                AppLocalizations.of(context)!.emailNotAssociated,
-                textAlign: TextAlign.left,
-              ),
-              const SizedBox(height: 32),
-              TextField(
-                enabled: _actionUuid == null,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  labelText: AppLocalizations.of(context)!.email,
-                  errorText: errorText(context),
+  Widget build(final BuildContext context) => Scaffold(
+        appBar: AppBar(
+          centerTitle: false,
+          title: Text(AppLocalizations.of(context)!.forgotIdentifier),
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  AppLocalizations.of(context)!.emailNotAssociated,
+                  textAlign: TextAlign.left,
                 ),
-                controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
-              ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      enabled: _actionUuid != null,
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        labelText: AppLocalizations.of(context)!.code,
-                        errorText: _isCodeInError
-                            ? AppLocalizations.of(context)!.invalidCode
-                            : null,
+                const SizedBox(height: 32),
+                TextField(
+                  enabled: _actionUuid == null,
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    labelText: AppLocalizations.of(context)!.email,
+                    errorText: errorText(context),
+                  ),
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: TextField(
+                        enabled: _actionUuid != null,
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          labelText: AppLocalizations.of(context)!.code,
+                          errorText: _isCodeInError
+                              ? AppLocalizations.of(context)!.invalidCode
+                              : null,
+                        ),
+                        controller: _codeController,
+                        onChanged: (final String value) {
+                          // Make it uppercase
+                          setState(() {
+                            _codeController
+                              ..text = value.toUpperCase()
+                              ..selection = TextSelection.fromPosition(
+                                TextPosition(
+                                  offset: _codeController.text.length,
+                                ),
+                              );
+                          });
+                        },
                       ),
-                      controller: _codeController,
-                      onChanged: (value) {
-                        // Make it uppercase
-                        setState(() {
-                          _codeController.text = value.toUpperCase();
-                          _codeController.selection =
-                              TextSelection.fromPosition(
-                            TextPosition(offset: _codeController.text.length),
-                          );
-                        });
-                      },
                     ),
-                  ),
-                  const SizedBox(width: 16),
-                  ElevatedButton(
-                    onPressed: _actionUuid != null || _isLoading
-                        ? null
-                        : () {
-                            sendAction();
-                          },
-                    child: Text(AppLocalizations.of(context)!.sendCode),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Text(
-                AppLocalizations.of(context)!.emailSpamWarning,
-                textAlign: TextAlign.left,
-              ),
-              const SizedBox(height: 32),
-              ElevatedButton(
-                onPressed: _actionUuid == null || _isLoading
-                    ? null
-                    : () {
-                        validateAction(context);
-                      },
-                child: Text(AppLocalizations.of(context)!.save),
-              ),
-            ],
+                    const SizedBox(width: 16),
+                    ElevatedButton(
+                      onPressed:
+                          _actionUuid != null || _isLoading ? null : sendAction,
+                      child: Text(AppLocalizations.of(context)!.sendCode),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  AppLocalizations.of(context)!.emailSpamWarning,
+                  textAlign: TextAlign.left,
+                ),
+                const SizedBox(height: 32),
+                ElevatedButton(
+                  onPressed: _actionUuid == null || _isLoading
+                      ? null
+                      : () {
+                          validateAction(context);
+                        },
+                  child: Text(AppLocalizations.of(context)!.save),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
 
-  String? errorText(BuildContext context) {
+  String? errorText(final BuildContext context) {
     if (_isInvalidEmailError) {
       return AppLocalizations.of(context)!.invalidEmail;
     }
@@ -130,7 +129,7 @@ class _ForgotIdentifierState extends State<ForgotIdentifier> {
       return;
     }
 
-    if (MemberController.instance.member?.email?.isNotEmpty == true &&
+    if (MemberController.instance.member!.email!.isNotEmpty &&
         _emailController.text == MemberController.instance.member?.email) {
       vibrate();
       updateState(conflictEmail: true);
@@ -147,7 +146,7 @@ class _ForgotIdentifierState extends State<ForgotIdentifier> {
     } on ConflictEmailException {
       vibrate();
       updateState(conflictEmail: true, invalidEmail: false);
-    } catch (e) {
+    } on Exception {
       vibrate();
       updateState(conflictEmail: false, invalidEmail: true);
     } finally {
@@ -159,23 +158,34 @@ class _ForgotIdentifierState extends State<ForgotIdentifier> {
     Vibration.vibrate(duration: 200, amplitude: 255);
   }
 
-  bool isValidEmail(String email) {
-    return RegExp(r'^[A-Za-z0-9+_.-]+@(.+)$').hasMatch(email);
-  }
+  bool isValidEmail(final String email) =>
+      RegExp(r'^[A-Za-z0-9+_.-]+@(.+)$').hasMatch(email);
 
-  void updateState({bool? invalidEmail, bool? conflictEmail, bool? isLoading}) {
+  void updateState({
+    final bool? invalidEmail,
+    final bool? conflictEmail,
+    final bool? isLoading,
+  }) {
     if (context.mounted) {
       setState(() {
-        if (invalidEmail != null) _isInvalidEmailError = invalidEmail;
-        if (conflictEmail != null) _isConflictEmailError = conflictEmail;
-        if (isLoading != null) _isLoading = isLoading;
+        if (invalidEmail != null) {
+          _isInvalidEmailError = invalidEmail;
+        }
+
+        if (conflictEmail != null) {
+          _isConflictEmailError = conflictEmail;
+        }
+
+        if (isLoading != null) {
+          _isLoading = isLoading;
+        }
       });
     }
   }
 
-  Future<void> validateAction(BuildContext context) async {
+  Future<void> validateAction(final BuildContext context) async {
     if (_codeController.text.isEmpty || _actionUuid == null) {
-      Vibration.vibrate(duration: 200, amplitude: 255);
+      unawaited(Vibration.vibrate(duration: 200, amplitude: 255));
       return;
     }
 
@@ -190,26 +200,24 @@ class _ForgotIdentifierState extends State<ForgotIdentifier> {
       if (context.mounted) {
         Navigator.of(context).pop();
 
-        showDialog(
+        await showDialog(
           context: context,
-          builder: (context) {
-            return AlertDialog(
-              content: Text(
-                AppLocalizations.of(context)!.yourNewIdentifierHasBeenSent,
+          builder: (final BuildContext context) => AlertDialog(
+            content: Text(
+              AppLocalizations.of(context)!.yourNewIdentifierHasBeenSent,
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(AppLocalizations.of(context)!.ok),
               ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text(AppLocalizations.of(context)!.ok),
-                ),
-              ],
-            );
-          },
+            ],
+          ),
         );
       }
-    } catch (e) {
+    } on Exception catch (e) {
       debugPrint(e.toString());
       vibrate();
 

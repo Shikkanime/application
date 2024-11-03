@@ -6,10 +6,10 @@ part 'season_dto.g.dart';
 @freezed
 class SeasonDto with _$SeasonDto {
   const factory SeasonDto({
-    required int number,
-    required String lastReleaseDateTime,
+    required final int number,
+    required final String lastReleaseDateTime,
   }) = _SeasonDto;
 
-  factory SeasonDto.fromJson(Map<String, dynamic> json) =>
+  factory SeasonDto.fromJson(final Map<String, dynamic> json) =>
       _$SeasonDtoFromJson(json);
 }
