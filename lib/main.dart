@@ -169,9 +169,8 @@ class MyApp extends StatelessWidget {
         ),
       ),
       searchBarTheme: SearchBarThemeData(
-        backgroundColor:
-            WidgetStatePropertyAll<Color>(elevatedButtonBackground),
-        shadowColor: WidgetStatePropertyAll<Color>(elevatedButtonShadowColor),
+        backgroundColor: WidgetStatePropertyAll<Color>(canvasColor),
+        shadowColor: WidgetStatePropertyAll<Color>(canvasColor),
         textStyle: WidgetStatePropertyAll<TextStyle>(
           TextStyle(
             color: textColor,
@@ -181,8 +180,9 @@ class MyApp extends StatelessWidget {
       ),
       popupMenuTheme: PopupMenuThemeData(
         color: canvasColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(Constant.borderRadius),
+        shape: const RoundedRectangleBorder(
+          borderRadius:
+              BorderRadius.all(Radius.circular(Constant.borderRadius)),
         ),
       ),
       iconButtonTheme: IconButtonThemeData(

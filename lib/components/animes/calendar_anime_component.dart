@@ -177,20 +177,22 @@ class CalendarAnimeComponent extends StatelessWidget {
                           children: [
                             if ((!isReleased || isMultipleReleased) &&
                                 !AnimeWeeklyController.instance.memberMode)
-                              WatchlistButton(anime: release.anime),
+                              WatchlistButton(
+                                anime: release.anime,
+                                simple: true,
+                              ),
                             if (isReleased && !isMultipleReleased) ...[
-                              if (!AnimeWeeklyController
-                                  .instance.memberMode) ...[
-                                WatchlistButton(
-                                  anime: release.anime,
-                                  episode: release.mappings!.first,
-                                  isCalendar: true,
-                                ),
-                                const SizedBox(width: 8),
-                              ],
+                              WatchlistButton(
+                                anime: release.anime,
+                                episode: release.mappings!.first,
+                                isCalendar: true,
+                                simple: true,
+                              ),
+                              const SizedBox(width: 8),
                               WatchButton(
                                 url:
                                     release.mappings?.first.variants?.first.url,
+                                simple: true,
                               ),
                             ],
                           ],
