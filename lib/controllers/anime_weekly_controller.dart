@@ -6,18 +6,20 @@ import 'package:application/dtos/week_day_dto.dart';
 import 'package:application/utils/http_request.dart';
 
 class AnimeWeeklyController extends GenericController<WeekDayDto> {
-  static final instance = AnimeWeeklyController();
-  bool memberMode = false;
-
   AnimeWeeklyController() : super(addScrollListener: false);
+
+  static final AnimeWeeklyController instance = AnimeWeeklyController();
+  bool memberMode = false;
 
   @override
   Future<Iterable<WeekDayDto>> fetchItems() async {
-    final json = await HttpRequest.instance.get<List>(
-      '/v1/animes/weekly',
+    final List<dynamic> json = await HttpRequest.instance.get<List<dynamic>>(
+      '/v2/animes/weekly',
       token: memberMode ? MemberController.instance.member?.token : null,
     );
 
-    return json.map((e) => WeekDayDto.fromJson(e as Map<String, dynamic>));
+    return json.map(
+      (final dynamic e) => WeekDayDto.fromJson(e as Map<String, dynamic>),
+    );
   }
 }

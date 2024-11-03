@@ -24,7 +24,7 @@ mixin _$WeekDayReleaseDto {
   List<PlatformDto> get platforms => throw _privateConstructorUsedError;
   String get releaseDateTime => throw _privateConstructorUsedError;
   String get slug => throw _privateConstructorUsedError;
-  String get langType => throw _privateConstructorUsedError;
+  List<String> get langTypes => throw _privateConstructorUsedError;
   String? get episodeType => throw _privateConstructorUsedError;
   int? get minNumber => throw _privateConstructorUsedError;
   int? get maxNumber => throw _privateConstructorUsedError;
@@ -52,7 +52,7 @@ abstract class $WeekDayReleaseDtoCopyWith<$Res> {
       List<PlatformDto> platforms,
       String releaseDateTime,
       String slug,
-      String langType,
+      List<String> langTypes,
       String? episodeType,
       int? minNumber,
       int? maxNumber,
@@ -81,7 +81,7 @@ class _$WeekDayReleaseDtoCopyWithImpl<$Res, $Val extends WeekDayReleaseDto>
     Object? platforms = null,
     Object? releaseDateTime = null,
     Object? slug = null,
-    Object? langType = null,
+    Object? langTypes = null,
     Object? episodeType = freezed,
     Object? minNumber = freezed,
     Object? maxNumber = freezed,
@@ -105,10 +105,10 @@ class _$WeekDayReleaseDtoCopyWithImpl<$Res, $Val extends WeekDayReleaseDto>
           ? _value.slug
           : slug // ignore: cast_nullable_to_non_nullable
               as String,
-      langType: null == langType
-          ? _value.langType
-          : langType // ignore: cast_nullable_to_non_nullable
-              as String,
+      langTypes: null == langTypes
+          ? _value.langTypes
+          : langTypes // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       episodeType: freezed == episodeType
           ? _value.episodeType
           : episodeType // ignore: cast_nullable_to_non_nullable
@@ -156,7 +156,7 @@ abstract class _$$WeekDayReleaseDtoImplCopyWith<$Res>
       List<PlatformDto> platforms,
       String releaseDateTime,
       String slug,
-      String langType,
+      List<String> langTypes,
       String? episodeType,
       int? minNumber,
       int? maxNumber,
@@ -184,7 +184,7 @@ class __$$WeekDayReleaseDtoImplCopyWithImpl<$Res>
     Object? platforms = null,
     Object? releaseDateTime = null,
     Object? slug = null,
-    Object? langType = null,
+    Object? langTypes = null,
     Object? episodeType = freezed,
     Object? minNumber = freezed,
     Object? maxNumber = freezed,
@@ -208,10 +208,10 @@ class __$$WeekDayReleaseDtoImplCopyWithImpl<$Res>
           ? _value.slug
           : slug // ignore: cast_nullable_to_non_nullable
               as String,
-      langType: null == langType
-          ? _value.langType
-          : langType // ignore: cast_nullable_to_non_nullable
-              as String,
+      langTypes: null == langTypes
+          ? _value._langTypes
+          : langTypes // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       episodeType: freezed == episodeType
           ? _value.episodeType
           : episodeType // ignore: cast_nullable_to_non_nullable
@@ -244,13 +244,14 @@ class _$WeekDayReleaseDtoImpl implements _WeekDayReleaseDto {
       required final List<PlatformDto> platforms,
       required this.releaseDateTime,
       required this.slug,
-      required this.langType,
+      required final List<String> langTypes,
       required this.episodeType,
       required this.minNumber,
       required this.maxNumber,
       required this.number,
       required final List<EpisodeMappingDto>? mappings})
       : _platforms = platforms,
+        _langTypes = langTypes,
         _mappings = mappings;
 
   factory _$WeekDayReleaseDtoImpl.fromJson(Map<String, dynamic> json) =>
@@ -270,8 +271,14 @@ class _$WeekDayReleaseDtoImpl implements _WeekDayReleaseDto {
   final String releaseDateTime;
   @override
   final String slug;
+  final List<String> _langTypes;
   @override
-  final String langType;
+  List<String> get langTypes {
+    if (_langTypes is EqualUnmodifiableListView) return _langTypes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_langTypes);
+  }
+
   @override
   final String? episodeType;
   @override
@@ -292,7 +299,7 @@ class _$WeekDayReleaseDtoImpl implements _WeekDayReleaseDto {
 
   @override
   String toString() {
-    return 'WeekDayReleaseDto(anime: $anime, platforms: $platforms, releaseDateTime: $releaseDateTime, slug: $slug, langType: $langType, episodeType: $episodeType, minNumber: $minNumber, maxNumber: $maxNumber, number: $number, mappings: $mappings)';
+    return 'WeekDayReleaseDto(anime: $anime, platforms: $platforms, releaseDateTime: $releaseDateTime, slug: $slug, langTypes: $langTypes, episodeType: $episodeType, minNumber: $minNumber, maxNumber: $maxNumber, number: $number, mappings: $mappings)';
   }
 
   @override
@@ -306,8 +313,8 @@ class _$WeekDayReleaseDtoImpl implements _WeekDayReleaseDto {
             (identical(other.releaseDateTime, releaseDateTime) ||
                 other.releaseDateTime == releaseDateTime) &&
             (identical(other.slug, slug) || other.slug == slug) &&
-            (identical(other.langType, langType) ||
-                other.langType == langType) &&
+            const DeepCollectionEquality()
+                .equals(other._langTypes, _langTypes) &&
             (identical(other.episodeType, episodeType) ||
                 other.episodeType == episodeType) &&
             (identical(other.minNumber, minNumber) ||
@@ -326,7 +333,7 @@ class _$WeekDayReleaseDtoImpl implements _WeekDayReleaseDto {
       const DeepCollectionEquality().hash(_platforms),
       releaseDateTime,
       slug,
-      langType,
+      const DeepCollectionEquality().hash(_langTypes),
       episodeType,
       minNumber,
       maxNumber,
@@ -356,7 +363,7 @@ abstract class _WeekDayReleaseDto implements WeekDayReleaseDto {
           required final List<PlatformDto> platforms,
           required final String releaseDateTime,
           required final String slug,
-          required final String langType,
+          required final List<String> langTypes,
           required final String? episodeType,
           required final int? minNumber,
           required final int? maxNumber,
@@ -376,7 +383,7 @@ abstract class _WeekDayReleaseDto implements WeekDayReleaseDto {
   @override
   String get slug;
   @override
-  String get langType;
+  List<String> get langTypes;
   @override
   String? get episodeType;
   @override

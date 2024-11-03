@@ -16,14 +16,14 @@ class SearchView extends StatefulWidget {
 }
 
 class _SearchViewState extends State<SearchView> {
-  final _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
   bool _isOpen = false;
 
   @override
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((final _) {
       AnimeSearchController.instance.init();
     });
   }
@@ -34,78 +34,82 @@ class _SearchViewState extends State<SearchView> {
     super.dispose();
   }
 
-  List<Widget> _buildAnimeList(BuildContext context, List<AnimeDto> animes) {
-    final smallestDimension = MediaQuery.sizeOf(context).width;
+  List<Widget> _buildAnimeList(
+    final BuildContext context,
+    final List<AnimeDto> animes,
+  ) {
+    final double smallestDimension = MediaQuery.sizeOf(context).width;
 
-    return [
-      _isOpen
-          ? AdvancedSearchCard(controller: _controller)
-          : const SizedBox.shrink(),
+    return <Widget>[
+      if (_isOpen)
+        AdvancedSearchCard(controller: _controller)
+      else
+        const SizedBox.shrink(),
       ...wb.WidgetBuilder.instance.buildRowWidgets(
-        animes.map((anime) => AnimeComponent(anime: anime)),
+        animes.map((final AnimeDto anime) => AnimeComponent(anime: anime)),
         maxElementsPerRow: max(2, (smallestDimension * 3 / 600).floor()),
       ),
     ];
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        elevation: 0,
-        title: SearchBar(
-          shadowColor: WidgetStateProperty.all(Colors.transparent),
-          controller: _controller,
-          autoFocus: true,
-          hintText: AppLocalizations.of(context)!.search,
-          trailing: [
-            if (_controller.text.isNotEmpty)
-              IconButton(
-                icon: const Icon(Icons.clear),
-                onPressed: () {
-                  AnimeSearchController.instance.search('');
-
-                  setState(() {
-                    _controller.clear();
-                  });
-                },
-              ),
-          ],
-          onChanged: (query) {
-            AnimeSearchController.instance.search(query);
-            setState(() {});
-          },
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              setState(() {
-                _isOpen = !_isOpen;
-              });
+  Widget build(final BuildContext context) => Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          elevation: 0,
+          title: SearchBar(
+            shadowColor: WidgetStateProperty.all(Colors.transparent),
+            controller: _controller,
+            autoFocus: true,
+            hintText: AppLocalizations.of(context)!.search,
+            trailing: <Widget>[
+              if (_controller.text.isNotEmpty)
+                IconButton(
+                  icon: const Icon(Icons.clear),
+                  onPressed: () {
+                    AnimeSearchController.instance.search('');
+                    setState(_controller.clear);
+                  },
+                ),
+            ],
+            onChanged: (final String query) {
+              AnimeSearchController.instance.search(query);
+              setState(() {});
             },
-            icon: const Icon(Icons.tune),
           ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 8),
-        child: StreamBuilder<List<AnimeDto>>(
-          stream: AnimeSearchController.instance.streamController.stream,
-          initialData: AnimeSearchController.instance.items,
-          builder: (context, snapshot) {
-            final list = _buildAnimeList(context, snapshot.data!);
-
-            return ListView.builder(
-              addAutomaticKeepAlives: false,
-              addRepaintBoundaries: false,
-              controller: AnimeSearchController.instance.scrollController,
-              itemCount: list.length,
-              itemBuilder: (context, index) => list[index],
-            );
-          },
+          actions: <Widget>[
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  _isOpen = !_isOpen;
+                });
+              },
+              icon: const Icon(Icons.tune),
+            ),
+          ],
         ),
-      ),
-    );
-  }
+        body: Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: StreamBuilder<List<AnimeDto>>(
+            stream: AnimeSearchController.instance.streamController.stream,
+            initialData: AnimeSearchController.instance.items,
+            builder: (
+              final BuildContext context,
+              final AsyncSnapshot<List<AnimeDto>> snapshot,
+            ) {
+              final List<Widget> list =
+                  _buildAnimeList(context, snapshot.data!);
+
+              return ListView.builder(
+                addAutomaticKeepAlives: false,
+                addRepaintBoundaries: false,
+                controller: AnimeSearchController.instance.scrollController,
+                itemCount: list.length,
+                itemBuilder: (final BuildContext context, final int index) =>
+                    list[index],
+              );
+            },
+          ),
+        ),
+      );
 }

@@ -5,32 +5,34 @@ import 'package:application/dtos/member_dto.dart';
 import 'package:flutter/material.dart';
 
 class FollowedStreamBuilder extends StatelessWidget {
-  final Widget Function(BuildContext, bool, bool) builder;
-  final AnimeDto? anime;
-  final EpisodeMappingDto? episode;
-
   const FollowedStreamBuilder({
-    super.key,
     required this.builder,
+    super.key,
     this.anime,
     this.episode,
   });
 
+  final Widget Function(BuildContext, bool, bool) builder;
+
+  final AnimeDto? anime;
+  final EpisodeMappingDto? episode;
+
   @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<MemberDto>(
-      stream: MemberController.instance.streamController.stream,
-      initialData: MemberController.instance.member,
-      builder: (context, snapshot) {
-        final memberDto = snapshot.data;
+  Widget build(final BuildContext context) => StreamBuilder<MemberDto>(
+        stream: MemberController.instance.streamController.stream,
+        initialData: MemberController.instance.member,
+        builder: (
+          final BuildContext context,
+          final AsyncSnapshot<MemberDto> snapshot,
+        ) {
+          final MemberDto? memberDto = snapshot.data;
 
-        final containsAnime =
-            anime != null && memberDto!.followedAnimes.contains(anime?.uuid);
-        final containsEpisode = episode != null &&
-            memberDto!.followedEpisodes.contains(episode?.uuid);
+          final bool containsAnime =
+              anime != null && memberDto!.followedAnimes.contains(anime?.uuid);
+          final bool containsEpisode = episode != null &&
+              memberDto!.followedEpisodes.contains(episode?.uuid);
 
-        return builder(context, containsAnime, containsEpisode);
-      },
-    );
-  }
+          return builder(context, containsAnime, containsEpisode);
+        },
+      );
 }

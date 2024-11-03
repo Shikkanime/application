@@ -9,24 +9,24 @@ part 'episode_mapping_dto.g.dart';
 @freezed
 class EpisodeMappingDto with _$EpisodeMappingDto {
   const factory EpisodeMappingDto({
-    required String uuid,
-    required AnimeDto? anime,
-    required String releaseDateTime,
-    required String lastReleaseDateTime,
-    required String lastUpdateDateTime,
-    required String episodeType,
-    required int season,
-    required int number,
-    required int duration,
-    required String? title,
-    required String? description,
-    required String image,
-    required List<EpisodeVariantDto>? variants,
-    required List<PlatformDto>? platforms,
-    required List<String>? langTypes,
-    required String status,
+    required final String uuid,
+    required final AnimeDto? anime,
+    required final String releaseDateTime,
+    required final String lastReleaseDateTime,
+    required final String lastUpdateDateTime,
+    required final String episodeType,
+    required final int season,
+    required final int number,
+    required final int duration,
+    required final String? title,
+    required final String? description,
+    required final String image,
+    required final List<EpisodeVariantDto>? variants,
+    required final List<PlatformDto>? platforms,
+    required final List<String>? langTypes,
+    required final String status,
   }) = _EpisodeMappingDto;
 
-  factory EpisodeMappingDto.fromJson(Map<String, dynamic> json) =>
+  factory EpisodeMappingDto.fromJson(final Map<String, dynamic> json) =>
       _$EpisodeMappingDtoFromJson(json);
 }

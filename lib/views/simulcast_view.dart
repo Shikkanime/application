@@ -14,23 +14,26 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SimulcastView extends StatelessWidget {
   const SimulcastView({super.key});
 
-  List<Widget> _buildAnimeList(BuildContext context, List<AnimeDto> animes) {
-    final smallestDimension = MediaQuery.sizeOf(context).width;
+  List<Widget> _buildAnimeList(
+    final BuildContext context,
+    final List<AnimeDto> animes,
+  ) {
+    final double smallestDimension = MediaQuery.sizeOf(context).width;
 
-    return [
+    return <Widget>[
       Padding(
         padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
-          children: [
+          children: <Widget>[
             ElevatedDropdownButton<SimulcastDto>(
               globalKey: GlobalKey(),
               value: AnimeController.instance.selectedSimulcast,
-              items: [
-                for (final simulcast in SimulcastController.instance.items)
-                  ElevatedPopupMenuItem(
+              items: <ElevatedPopupMenuItem<SimulcastDto>>[
+                for (final SimulcastDto simulcast
+                    in SimulcastController.instance.items)
+                  ElevatedPopupMenuItem<SimulcastDto>(
                     value: simulcast,
                     child: Text(
                       AppLocalizations.of(context)!
@@ -38,7 +41,7 @@ class SimulcastView extends StatelessWidget {
                     ),
                   ),
               ],
-              onChanged: (value) {
+              onChanged: (final SimulcastDto value) {
                 Analytics.instance.logSelectContent('simulcast', value.uuid);
                 AnimeController.instance.selectedSimulcast = value;
                 AnimeController.instance.goToTop();
@@ -48,33 +51,35 @@ class SimulcastView extends StatelessWidget {
         ),
       ),
       ...wb.WidgetBuilder.instance.buildRowWidgets(
-        animes.map((anime) => AnimeComponent(anime: anime)),
+        animes.map((final AnimeDto anime) => AnimeComponent(anime: anime)),
         maxElementsPerRow: max(2, (smallestDimension * 3 / 600).floor()),
       ),
     ];
   }
 
   @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<List<AnimeDto>>(
-      stream: AnimeController.instance.streamController.stream,
-      initialData: AnimeController.instance.items,
-      builder: (context, snapshot) {
-        final list = _buildAnimeList(context, snapshot.data!);
+  Widget build(final BuildContext context) => StreamBuilder<List<AnimeDto>>(
+        stream: AnimeController.instance.streamController.stream,
+        initialData: AnimeController.instance.items,
+        builder: (
+          final BuildContext context,
+          final AsyncSnapshot<List<AnimeDto>> snapshot,
+        ) {
+          final List<Widget> list = _buildAnimeList(context, snapshot.data!);
 
-        return RefreshIndicator.adaptive(
-          onRefresh: () async {
-            await AnimeController.instance.init();
-          },
-          child: ListView.builder(
-            addAutomaticKeepAlives: false,
-            addRepaintBoundaries: false,
-            controller: AnimeController.instance.scrollController,
-            itemCount: list.length,
-            itemBuilder: (context, index) => list[index],
-          ),
-        );
-      },
-    );
-  }
+          return RefreshIndicator.adaptive(
+            onRefresh: () async {
+              await AnimeController.instance.init();
+            },
+            child: ListView.builder(
+              addAutomaticKeepAlives: false,
+              addRepaintBoundaries: false,
+              controller: AnimeController.instance.scrollController,
+              itemCount: list.length,
+              itemBuilder: (final BuildContext context, final int index) =>
+                  list[index],
+            ),
+          );
+        },
+      );
 }

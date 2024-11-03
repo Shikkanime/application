@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AdvancedSearchCard extends StatelessWidget {
+  const AdvancedSearchCard({required this.controller, super.key});
+
   final TextEditingController controller;
-  static const _letters = [
+  static const List<String> _letters = <String>[
     '#',
     'A',
     'B',
@@ -33,19 +35,14 @@ class AdvancedSearchCard extends StatelessWidget {
     'W',
     'X',
     'Y',
-    'Z'
+    'Z',
   ];
 
-  const AdvancedSearchCard({super.key, required this.controller});
-
   @override
-  Widget build(BuildContext context) {
-    return CustomCard(
-      child: Padding(
-        padding: const EdgeInsets.all(8),
+  Widget build(final BuildContext context) => CustomCard(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             Text(
               AppLocalizations.of(context)!.advancedSearch,
               style: Theme.of(context).textTheme.titleMedium,
@@ -54,10 +51,10 @@ class AdvancedSearchCard extends StatelessWidget {
             Center(
               child: Wrap(
                 alignment: WrapAlignment.center,
-                spacing: 4,
-                runSpacing: 4,
-                children: [
-                  for (final letter in _letters)
+                spacing: 8,
+                runSpacing: 8,
+                children: <Widget>[
+                  for (final String letter in _letters)
                     ActionChip(
                       label: Text(letter),
                       onPressed: () {
@@ -68,17 +65,18 @@ class AdvancedSearchCard extends StatelessWidget {
                 ],
               ),
             ),
+            const SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                for (final type in SearchType.values)
+              children: <Widget>[
+                for (final SearchType type in SearchType.values)
                   Flex(
                     direction: Axis.horizontal,
-                    children: [
+                    children: <Widget>[
                       Checkbox(
                         value: AnimeSearchController.instance.searchTypes
                             .contains(type),
-                        onChanged: (value) {
+                        onChanged: (final bool? value) {
                           if (value!) {
                             AnimeSearchController.instance.searchTypes
                                 .add(type);
@@ -94,7 +92,9 @@ class AdvancedSearchCard extends StatelessWidget {
                       ),
                       Text(
                         LangTypeComponent.getLangTypeTranslation(
-                            context, type.name.toUpperCase()),
+                          context,
+                          type.name.toUpperCase(),
+                        ),
                       ),
                     ],
                   ),
@@ -102,7 +102,5 @@ class AdvancedSearchCard extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
+      );
 }

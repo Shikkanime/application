@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:application/controllers/generic_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
+import 'package:application/dtos/pageable_dto.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/http_request.dart';
 import 'package:application/utils/widget_builder.dart' as wb;
@@ -10,17 +11,17 @@ import 'package:flutter/widgets.dart';
 enum SearchType { subtitles, voice }
 
 class AnimeSearchController extends GenericController<AnimeDto> {
-  static final instance = AnimeSearchController();
+  static final AnimeSearchController instance = AnimeSearchController();
   Timer? _timer;
   String query = '';
-  final searchTypes = SearchType.values.toSet();
+  final Set<SearchType> searchTypes = SearchType.values.toSet();
 
   int get _limit =>
       wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
           ? 6
           : 24;
 
-  void search(String query) {
+  void search(final String query) {
     this.query = query;
 
     items.clear();
@@ -30,16 +31,16 @@ class AnimeSearchController extends GenericController<AnimeDto> {
     _timer?.cancel();
     _timer = Timer(
       const Duration(milliseconds: 250),
-      () => nextPage(),
+      nextPage,
     );
   }
 
   @override
   Future<Iterable<AnimeDto>> fetchItems() async {
-    final searchTypesString =
-        searchTypes.map((e) => e.name.toUpperCase()).join(',');
+    final String searchTypesString =
+        searchTypes.map((final SearchType e) => e.name.toUpperCase()).join(',');
 
-    final Map<String, Object> queryMap = {
+    final Map<String, Object> queryMap = <String, Object>{
       'country': 'FR',
       'searchTypes': searchTypesString,
       if (query.isNotEmpty) 'name': Uri.encodeComponent(query),
@@ -48,17 +49,18 @@ class AnimeSearchController extends GenericController<AnimeDto> {
       if (query.isEmpty) 'sort': 'name',
     };
 
-    final queryString =
-        queryMap.entries.map((e) => '${e.key}=${e.value}').join('&');
+    final String queryString = queryMap.entries
+        .map((final MapEntry<String, Object> e) => '${e.key}=${e.value}')
+        .join('&');
 
-    debugPrint('$runtimeType - Query: $queryString');
+    debugPrint('Query: $queryString');
 
-    final pageableDto =
+    final PageableDto pageableDto =
         await HttpRequest.instance.getPage('/v1/animes?$queryString');
 
     Analytics.instance.logSearch(query, queryMap);
 
     return pageableDto.data
-        .map((e) => AnimeDto.fromJson(e as Map<String, dynamic>));
+        .map((final dynamic e) => AnimeDto.fromJson(e as Map<String, dynamic>));
   }
 }

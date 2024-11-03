@@ -7,15 +7,15 @@ part 'episode_variant_dto.g.dart';
 @freezed
 class EpisodeVariantDto with _$EpisodeVariantDto {
   const factory EpisodeVariantDto({
-    required String uuid,
-    required String releaseDateTime,
-    required PlatformDto platform,
-    required String audioLocale,
-    required String identifier,
-    required String url,
-    required bool uncensored,
+    required final String uuid,
+    required final String releaseDateTime,
+    required final PlatformDto platform,
+    required final String audioLocale,
+    required final String identifier,
+    required final String url,
+    required final bool uncensored,
   }) = _EpisodeVariantDto;
 
-  factory EpisodeVariantDto.fromJson(Map<String, dynamic> json) =>
+  factory EpisodeVariantDto.fromJson(final Map<String, dynamic> json) =>
       _$EpisodeVariantDtoFromJson(json);
 }

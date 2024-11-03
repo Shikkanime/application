@@ -6,19 +6,19 @@ part 'member_dto.g.dart';
 @Freezed(makeCollectionsUnmodifiable: false)
 class MemberDto with _$MemberDto {
   const factory MemberDto({
-    required String uuid,
-    required String token,
-    required String creationDateTime,
-    required String lastUpdateDateTime,
-    required bool isPrivate,
-    required String? email,
-    required List<String> followedAnimes,
-    required List<String> followedEpisodes,
-    required int totalDuration,
-    required int totalUnseenDuration,
-    required bool hasProfilePicture,
+    required final String uuid,
+    required final String token,
+    required final String creationDateTime,
+    required final String lastUpdateDateTime,
+    required final bool isPrivate,
+    required final String? email,
+    required final List<String> followedAnimes,
+    required final List<String> followedEpisodes,
+    required final int totalDuration,
+    required final int totalUnseenDuration,
+    required final bool hasProfilePicture,
   }) = _MemberDto;
 
-  factory MemberDto.fromJson(Map<String, dynamic> json) =>
+  factory MemberDto.fromJson(final Map<String, dynamic> json) =>
       _$MemberDtoFromJson(json);
 }

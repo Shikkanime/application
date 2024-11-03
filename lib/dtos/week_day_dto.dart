@@ -7,10 +7,10 @@ part 'week_day_dto.g.dart';
 @freezed
 class WeekDayDto with _$WeekDayDto {
   const factory WeekDayDto({
-    required String dayOfWeek,
-    required List<WeekDayReleaseDto> releases,
+    required final String dayOfWeek,
+    required final List<WeekDayReleaseDto> releases,
   }) = _WeekDayDto;
 
-  factory WeekDayDto.fromJson(Map<String, dynamic> json) =>
+  factory WeekDayDto.fromJson(final Map<String, dynamic> json) =>
       _$WeekDayDtoFromJson(json);
 }

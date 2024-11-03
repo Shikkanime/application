@@ -139,10 +139,6 @@
   "@sendCode": {
     "description": "Text for the button to send a verification code."
   },
-  "member": "Member",
-  "@member": {
-    "description": "Text to designate a member of the service."
-  },
   "account": "Account",
   "@account": {
     "description": "Text to designate the user account section."

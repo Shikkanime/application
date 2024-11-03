@@ -9,72 +9,61 @@ import 'package:flutter/material.dart';
 double _ratio = 4;
 
 class FollowedEpisodeComponent extends StatelessWidget {
-  final EpisodeMappingDto episode;
-
   const FollowedEpisodeComponent({
-    super.key,
     required this.episode,
+    super.key,
   });
 
+  final EpisodeMappingDto episode;
+
   @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 640 / _ratio + 10,
-      child: GestureDetector(
-        onTap: () {
-          if (episode.anime == null) {
-            return;
-          }
+  Widget build(final BuildContext context) => SizedBox(
+        width: 640 / _ratio + 10,
+        child: GestureDetector(
+          onTap: () {
+            if (episode.anime == null) {
+              return;
+            }
 
-          Analytics.instance.logSelectContent('anime', episode.anime!.uuid);
+            Analytics.instance.logSelectContent('anime', episode.anime!.uuid);
 
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => AnimeDetailsView(anime: episode.anime!),
-            ),
-          );
-        },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            SizedBox(
-              width: 640 / _ratio,
-              height: 360 / _ratio,
-              child: EpisodeImage(
-                episode: episode,
-                fit: BoxFit.fill,
-                borderRadius: const BorderRadius.all(
-                    Radius.circular(Constant.borderRadius)),
-                showDuration: false,
+            Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (final BuildContext context) => AnimeDetailsView(
+                  anime: episode.anime!,
+                ),
               ),
-            ),
-            const SizedBox(height: 4),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    episode.anime?.shortName ?? Constant.defaultText,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.copyWith(fontWeight: FontWeight.bold),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    textAlign: TextAlign.center,
+            );
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              SizedBox(
+                width: 640 / _ratio,
+                height: 360 / _ratio,
+                child: EpisodeImage(
+                  episode: episode,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(Constant.borderRadius),
                   ),
-                  EpisodeInformation(episode: episode),
-                ],
+                  showDuration: false,
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 4),
+              Text(
+                episode.anime?.shortName ?? Constant.defaultText,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall
+                    ?.copyWith(fontWeight: FontWeight.bold),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                textAlign: TextAlign.center,
+              ),
+              EpisodeInformation(episode: episode),
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 }

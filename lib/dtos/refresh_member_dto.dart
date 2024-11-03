@@ -7,13 +7,13 @@ part 'refresh_member_dto.g.dart';
 @freezed
 class RefreshMemberDto with _$RefreshMemberDto {
   const factory RefreshMemberDto({
-    required PageableDto missedAnimes,
-    required PageableDto followedAnimes,
-    required PageableDto followedEpisodes,
-    required int totalDuration,
-    required int totalUnseenDuration,
+    required final PageableDto missedAnimes,
+    required final PageableDto followedAnimes,
+    required final PageableDto followedEpisodes,
+    required final int totalDuration,
+    required final int totalUnseenDuration,
   }) = _RefreshMemberDto;
 
-  factory RefreshMemberDto.fromJson(Map<String, dynamic> json) =>
+  factory RefreshMemberDto.fromJson(final Map<String, dynamic> json) =>
       _$RefreshMemberDtoFromJson(json);
 }

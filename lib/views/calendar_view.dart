@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:application/components/animes/calendar_anime_component.dart';
 import 'package:application/controllers/anime_weekly_controller.dart';
 import 'package:application/dtos/week_day_dto.dart';
+import 'package:application/dtos/week_day_release_dto.dart';
 import 'package:application/utils/widget_builder.dart' as wb;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -19,59 +20,55 @@ class CalendarView extends StatefulWidget {
 class _CalendarViewState extends State<CalendarView> {
   int _currentDay = 0;
 
-  List<Widget> _buildList(List<WeekDayDto> releases) {
-    final smallestDimension = MediaQuery.sizeOf(context).width;
+  List<Widget> _buildList(final List<WeekDayDto> releases) {
+    final double smallestDimension = MediaQuery.sizeOf(context).width;
 
-    final currentWeekDay = releases.firstWhere(
-      (weekDay) => _currentDay == releases.indexOf(weekDay),
+    final WeekDayDto currentWeekDay = releases.firstWhere(
+      (final WeekDayDto weekDay) => _currentDay == releases.indexOf(weekDay),
       orElse: () => WeekDayDto(
         dayOfWeek:
             AppLocalizations.of(context)!.weekDays(_currentDay.toString()),
-        releases: [],
+        releases: <WeekDayReleaseDto>[],
       ),
     );
 
-    final daysButton = Padding(
+    final Padding daysButton = Padding(
       padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
-      child: SegmentedButton<int>(
-        multiSelectionEnabled: false,
-        showSelectedIcon: false,
-        onSelectionChanged: (values) {
-          setState(() {
-            _currentDay = values.first;
-          });
-        },
-        segments: <ButtonSegment<int>>[
-          for (final weekDay in releases)
-            ButtonSegment(
-              value: releases.indexOf(weekDay),
-              label: Text(
-                AppLocalizations.of(context)!
-                    .weekDays(releases.indexOf(weekDay).toString())
-                    .substring(0, 3),
-                style: _currentDay == releases.indexOf(weekDay)
-                    ? Theme.of(context)
-                        .segmentedButtonTheme
-                        .style
-                        ?.textStyle
-                        ?.resolve({WidgetState.selected})?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      )
-                    : null,
-              ),
-            ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          IconButton(
+            onPressed: () {
+              setState(() {
+                _currentDay = (_currentDay - 1) % 7;
+              });
+            },
+            icon: const Icon(Icons.keyboard_arrow_left),
+          ),
+          Text(
+            AppLocalizations.of(context)!
+                .weekDays(releases.indexOf(currentWeekDay).toString()),
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          IconButton(
+            onPressed: () {
+              setState(() {
+                _currentDay = (_currentDay + 1) % 7;
+              });
+            },
+            icon: const Icon(Icons.keyboard_arrow_right),
+          ),
         ],
-        selected: {_currentDay},
       ),
     );
 
     if (currentWeekDay.releases.isEmpty) {
-      return [
+      return <Widget>[
         daysButton,
         Padding(
           padding: const EdgeInsets.all(8),
           child: Column(
-            children: [
+            children: <Widget>[
               const Icon(
                 Icons.sentiment_very_dissatisfied,
                 size: 48,
@@ -95,11 +92,15 @@ class _CalendarViewState extends State<CalendarView> {
       ];
     }
 
-    return [
+    return <Widget>[
       daysButton,
       ...wb.WidgetBuilder.instance.buildRowWidgets(
-        currentWeekDay.releases
-            .map((release) => CalendarAnimeComponent(release: release)),
+        currentWeekDay.releases.map(
+          (final WeekDayReleaseDto release) => CalendarAnimeComponent(
+            key: Key(release.anime.uuid),
+            release: release,
+          ),
+        ),
         maxElementsPerRow: max(1, (smallestDimension * 2 / 900).floor()),
       ),
     ];
@@ -112,32 +113,34 @@ class _CalendarViewState extends State<CalendarView> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<List<WeekDayDto>>(
-      stream: AnimeWeeklyController.instance.streamController.stream,
-      initialData: AnimeWeeklyController.instance.items,
-      builder: (context, snapshot) {
-        if (snapshot.data == null || snapshot.data!.isEmpty) {
-          return const Center(
-            child: CircularProgressIndicator(),
+  Widget build(final BuildContext context) => StreamBuilder<List<WeekDayDto>>(
+        stream: AnimeWeeklyController.instance.streamController.stream,
+        initialData: AnimeWeeklyController.instance.items,
+        builder: (
+          final BuildContext context,
+          final AsyncSnapshot<List<WeekDayDto>> snapshot,
+        ) {
+          if (snapshot.data == null || snapshot.data!.isEmpty) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          final List<Widget> list = _buildList(snapshot.data!);
+
+          return RefreshIndicator.adaptive(
+            onRefresh: () async {
+              await AnimeWeeklyController.instance.init();
+            },
+            child: ListView.builder(
+              addAutomaticKeepAlives: false,
+              addRepaintBoundaries: false,
+              controller: AnimeWeeklyController.instance.scrollController,
+              itemCount: list.length,
+              itemBuilder: (final BuildContext context, final int index) =>
+                  list[index],
+            ),
           );
-        }
-
-        final list = _buildList(snapshot.data!);
-
-        return RefreshIndicator.adaptive(
-          onRefresh: () async {
-            await AnimeWeeklyController.instance.init();
-          },
-          child: ListView.builder(
-            addAutomaticKeepAlives: false,
-            addRepaintBoundaries: false,
-            controller: AnimeWeeklyController.instance.scrollController,
-            itemCount: list.length,
-            itemBuilder: (context, index) => list[index],
-          ),
-        );
-      },
-    );
-  }
+        },
+      );
 }

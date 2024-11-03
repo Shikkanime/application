@@ -8,53 +8,43 @@ import 'package:application/utils/constant.dart';
 import 'package:flutter/material.dart';
 
 class EpisodeComponent extends StatelessWidget {
-  final EpisodeMappingDto episode;
-  final bool showWatchlist;
-
   const EpisodeComponent({
-    super.key,
     required this.episode,
+    super.key,
     this.showWatchlist = true,
   });
 
+  final EpisodeMappingDto episode;
+  final bool showWatchlist;
+
   @override
-  Widget build(BuildContext context) {
-    return CustomCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          EpisodeImage(
-            fit: BoxFit.cover,
-            episode: episode,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(Constant.borderRadius),
-              topRight: Radius.circular(Constant.borderRadius),
+  Widget build(final BuildContext context) => CustomCard(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            EpisodeImage(
+              fit: BoxFit.cover,
+              episode: episode,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(Constant.borderRadius),
+              ),
+              height: 200,
             ),
-            height: 200,
-          ),
-          const SizedBox(height: 4),
-          Padding(
-            padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  episode.anime?.shortName ?? Constant.defaultText,
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-                EpisodeInformation(episode: episode),
-                if (episode.langTypes != null)
-                  for (final langType in episode.langTypes!)
-                    LangTypeComponent(langType: langType),
-                EpisodeActionBar(
-                  episode: episode,
-                  showWatchlist: showWatchlist,
-                ),
-              ],
+            const SizedBox(height: 8),
+            Text(
+              episode.anime?.shortName ?? Constant.defaultText,
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
-          ),
-        ],
-      ),
-    );
-  }
+            EpisodeInformation(episode: episode),
+            if (episode.langTypes != null)
+              for (final String langType in episode.langTypes!)
+                LangTypeComponent(langType: langType),
+            const SizedBox(height: 8),
+            EpisodeActionBar(
+              episode: episode,
+              showWatchlist: showWatchlist,
+            ),
+          ],
+        ),
+      );
 }

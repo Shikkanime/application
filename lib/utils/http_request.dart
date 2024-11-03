@@ -7,17 +7,17 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 class HttpRequest {
-  static final instance = HttpRequest();
-  static const _timeout = Duration(seconds: 10);
+  static final HttpRequest instance = HttpRequest();
+  static const Duration _timeout = Duration(seconds: 10);
 
-  Future<T> get<T>(String endpoint, {String? token}) async {
-    final headers = <String, String>{};
+  Future<T> get<T>(final String endpoint, {final String? token}) async {
+    final Map<String, String> headers = <String, String>{};
 
     if (token != null) {
       headers['Authorization'] = 'Bearer $token';
     }
 
-    final response = await http
+    final http.Response response = await http
         .get(
           Uri.parse(
             Constant.apiUrl + endpoint,
@@ -34,26 +34,25 @@ class HttpRequest {
   }
 
   Future<PageableDto> getPage(
-    String endpoint, {
-    String? token,
-  }) async {
-    return PageableDto.fromJson(
-      await get<Map<String, dynamic>>(endpoint, token: token),
-    );
-  }
+    final String endpoint, {
+    final String? token,
+  }) async =>
+      PageableDto.fromJson(
+        await get<Map<String, dynamic>>(endpoint, token: token),
+      );
 
   Future<http.Response> post<Response>(
-    String endpoint, {
-    String? token,
-    Object? body,
+    final String endpoint, {
+    final String? token,
+    final Object? body,
   }) async {
-    final headers = <String, String>{};
+    final Map<String, String> headers = <String, String>{};
 
     if (token != null) {
       headers['Authorization'] = 'Bearer $token';
     }
 
-    return await http
+    return http
         .post(
           Uri.parse(
             Constant.apiUrl + endpoint,
@@ -65,11 +64,11 @@ class HttpRequest {
   }
 
   Future<http.Response> postMultipart<Response>(
-    String endpoint,
-    String token,
-    Uint8List bytes,
+    final String endpoint,
+    final String token,
+    final Uint8List bytes,
   ) async {
-    final request = http.MultipartRequest(
+    final http.MultipartRequest request = http.MultipartRequest(
       'POST',
       Uri.parse(
         Constant.apiUrl + endpoint,
@@ -89,43 +88,38 @@ class HttpRequest {
   }
 
   Future<http.Response> put<Response>(
-    String endpoint,
-    String token,
-    Object body,
-  ) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token',
-    };
-    return await http
-        .put(
-          Uri.parse(
-            Constant.apiUrl + endpoint,
-          ),
-          headers: headers,
-          body: body,
-        )
-        .timeout(_timeout);
-  }
+    final String endpoint,
+    final String token,
+    final Object body,
+  ) async =>
+      http
+          .put(
+            Uri.parse(
+              Constant.apiUrl + endpoint,
+            ),
+            headers: <String, String>{
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer $token',
+            },
+            body: body,
+          )
+          .timeout(_timeout);
 
   Future<http.Response> delete<Response>(
-    String endpoint,
-    String token,
-    Object body,
-  ) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token',
-    };
-
-    return await http
-        .delete(
-          Uri.parse(
-            Constant.apiUrl + endpoint,
-          ),
-          headers: headers,
-          body: body,
-        )
-        .timeout(_timeout);
-  }
+    final String endpoint,
+    final String token,
+    final Object body,
+  ) async =>
+      http
+          .delete(
+            Uri.parse(
+              Constant.apiUrl + endpoint,
+            ),
+            headers: <String, String>{
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer $token',
+            },
+            body: body,
+          )
+          .timeout(_timeout);
 }

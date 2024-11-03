@@ -3,18 +3,19 @@ import 'dart:async';
 import 'package:application/controllers/generic_controller.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
+import 'package:application/dtos/pageable_dto.dart';
 import 'package:application/utils/http_request.dart';
 import 'package:application/utils/widget_builder.dart' as wb;
 
 class FollowedEpisodeController extends GenericController<EpisodeMappingDto> {
-  static final instance = FollowedEpisodeController();
+  static final FollowedEpisodeController instance = FollowedEpisodeController();
 
   int get _limit =>
       wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
           ? 9
           : 16;
 
-  void setItems(List<EpisodeMappingDto> items) {
+  void setItems(final List<EpisodeMappingDto> items) {
     this.items.clear();
     this.items.addAll(items);
     streamController.add(this.items);
@@ -24,13 +25,15 @@ class FollowedEpisodeController extends GenericController<EpisodeMappingDto> {
 
   @override
   Future<Iterable<EpisodeMappingDto>> fetchItems() async {
-    final pageableDto = await HttpRequest.instance.getPage(
+    final PageableDto pageableDto = await HttpRequest.instance.getPage(
       '/v1/episode-mappings?page=$page&limit=$_limit',
       token: MemberController.instance.member?.token,
     );
 
-    return pageableDto.data
-        .map((e) => EpisodeMappingDto.fromJson(e as Map<String, dynamic>));
+    return pageableDto.data.map(
+      (final dynamic e) =>
+          EpisodeMappingDto.fromJson(e as Map<String, dynamic>),
+    );
   }
 
   @override

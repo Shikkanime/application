@@ -7,10 +7,10 @@ part 'missed_anime_dto.g.dart';
 @freezed
 class MissedAnimeDto with _$MissedAnimeDto {
   const factory MissedAnimeDto({
-    required AnimeDto anime,
-    required int episodeMissed,
+    required final AnimeDto anime,
+    required final int episodeMissed,
   }) = _MissedAnimeDto;
 
-  factory MissedAnimeDto.fromJson(Map<String, dynamic> json) =>
+  factory MissedAnimeDto.fromJson(final Map<String, dynamic> json) =>
       _$MissedAnimeDtoFromJson(json);
 }

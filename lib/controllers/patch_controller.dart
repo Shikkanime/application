@@ -4,52 +4,59 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shorebird_code_push/shorebird_code_push.dart';
 
-enum _PatchDownloadStatus {
+enum PatchDownloadStatus {
   downloading,
   downloaded,
   failed,
 }
 
 class PatchController {
-  static final instance = PatchController();
-  final _shorebirdCodePush = ShorebirdCodePush();
-  final streamController = StreamController<_PatchDownloadStatus>.broadcast();
+  static final PatchController instance = PatchController();
+  final ShorebirdUpdater _shorebirdUpdater = ShorebirdUpdater();
+  final StreamController<PatchDownloadStatus> streamController =
+      StreamController<PatchDownloadStatus>.broadcast();
 
-  bool get _isShorebirdAvailable => _shorebirdCodePush.isShorebirdAvailable();
+  Future<void> patch(final BuildContext context) async {
+    if (!_shorebirdUpdater.isAvailable) {
+      return;
+    }
 
-  Future<void> patch(BuildContext context) async {
-    if (!_isShorebirdAvailable) return;
-    final isPatchAvailable =
-        await _shorebirdCodePush.isNewPatchAvailableForDownload();
-    if (!context.mounted || !isPatchAvailable) return;
+    final UpdateStatus status = await _shorebirdUpdater.checkForUpdate();
+
+    if (!context.mounted || status != UpdateStatus.outdated) {
+      return;
+    }
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         duration: const Duration(days: 1),
         behavior: SnackBarBehavior.floating,
-        content: StreamBuilder<_PatchDownloadStatus>(
+        content: StreamBuilder<PatchDownloadStatus>(
           stream: streamController.stream,
-          initialData: _PatchDownloadStatus.downloading,
-          builder: (context, snapshot) {
-            final status = snapshot.data;
+          initialData: PatchDownloadStatus.downloading,
+          builder: (
+            final BuildContext context,
+            final AsyncSnapshot<PatchDownloadStatus> snapshot,
+          ) {
+            final PatchDownloadStatus? status = snapshot.data;
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if (status == _PatchDownloadStatus.downloading) ...[
+              children: <Widget>[
+                if (status == PatchDownloadStatus.downloading) ...<Widget>[
                   const CircularProgressIndicator(),
                   const SizedBox(width: 16),
                   Expanded(
                     child: Text(AppLocalizations.of(context)!.downloadingPatch),
                   ),
                 ],
-                if (status == _PatchDownloadStatus.downloaded) ...[
+                if (status == PatchDownloadStatus.downloaded) ...<Widget>[
                   const Icon(Icons.check),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(AppLocalizations.of(context)!.patchDownloaded),
                   ),
                 ],
-                if (status == _PatchDownloadStatus.failed) ...[
+                if (status == PatchDownloadStatus.failed) ...<Widget>[
                   const Icon(Icons.error),
                   const SizedBox(width: 8),
                   Expanded(
@@ -63,10 +70,19 @@ class PatchController {
       ),
     );
 
-    await _shorebirdCodePush.downloadUpdateIfAvailable();
-    await Future.delayed(const Duration(seconds: 1));
-    streamController.add(_PatchDownloadStatus.downloaded);
-    await Future.delayed(const Duration(seconds: 5));
-    if (context.mounted) ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    try {
+      await _shorebirdUpdater.update();
+      await Future<void>.delayed(const Duration(seconds: 1));
+      streamController.add(PatchDownloadStatus.downloaded);
+    } on UpdateException {
+      await Future<void>.delayed(const Duration(seconds: 1));
+      streamController.add(PatchDownloadStatus.failed);
+    }
+
+    await Future<void>.delayed(const Duration(seconds: 5));
+
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    }
   }
 }
