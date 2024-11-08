@@ -11,6 +11,10 @@ updates:
       - "Ziedelth"
     reviewers:
       - "Ziedelth"
+    groups:
+      firebase:
+        patterns:
+          - "*firebase*"
 
   - package-ecosystem: "github-actions"
     directory: "/"
