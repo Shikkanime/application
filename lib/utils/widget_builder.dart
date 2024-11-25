@@ -36,6 +36,7 @@ class WidgetBuilder {
     for (int i = 0; i < toSeparateList.length; i += maxElementsPerRow) {
       widgets.add(
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: List<Widget>.generate(
             maxElementsPerRow,
             (final int j) => i + j < toSeparateList.length

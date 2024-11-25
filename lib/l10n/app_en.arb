@@ -61,7 +61,7 @@
       }
     }
   },
-  "episodeType": "{type, select, episode{Episode} special{Special} film{Movie} summary{Recap Episode} other{}}",
+  "episodeType": "{type, select, episode{Episode} special{Special} film{Movie} summary{Recap Episode} spin_off{Spin-off} other{}}",
   "@episodeType": {
     "description": "Text to display the episode type (episode, special, movie, recap)."
   },
@@ -106,7 +106,7 @@
     "description": "Text to indicate the availability of dubbing."
   },
 
-  "markWatched": "Mark as watched",
+  "markWatched": "All seen",
   "@markWatched": {
     "description": "Text for the button to mark an episode as watched."
   },
@@ -114,11 +114,11 @@
   "@share": {
     "description": "Text for the button to share content."
   },
-  "showMore": "Show more",
+  "showMore": "...more",
   "@showMore": {
     "description": "Text for the button to display more information."
   },
-  "showLess": "Show less",
+  "showLess": "...less",
   "@showLess": {
     "description": "Text for the button to display less information."
   },

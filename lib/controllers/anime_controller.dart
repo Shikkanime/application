@@ -56,11 +56,25 @@ class AnimeController extends GenericController<AnimeDto> {
       items: <PopupMenuEntry<int>>[
         PopupMenuItem<int>(
           value: 0,
-          child: Text(AppLocalizations.of(context)!.markWatched),
+          child: Flex(
+            direction: Axis.horizontal,
+            children: <Widget>[
+              const Icon(Icons.checklist),
+              const SizedBox(width: 8),
+              Text(AppLocalizations.of(context)!.markWatched),
+            ],
+          ),
         ),
         PopupMenuItem<int>(
           value: 1,
-          child: Text(AppLocalizations.of(context)!.share),
+          child: Flex(
+            direction: Axis.horizontal,
+            children: <Widget>[
+              const Icon(Icons.share),
+              const SizedBox(width: 8),
+              Text(AppLocalizations.of(context)!.share),
+            ],
+          ),
         ),
       ],
     ).then((final int? value) async {

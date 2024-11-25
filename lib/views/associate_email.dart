@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:application/controllers/member_controller.dart';
+import 'package:application/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:vibration/vibration.dart';
@@ -153,7 +154,9 @@ class _AssociateEmailState extends State<AssociateEmail> {
   }
 
   void vibrate() {
-    Vibration.vibrate(duration: 200, amplitude: 255);
+    if (Constant.isAndroidOrIOS) {
+      Vibration.vibrate(duration: 200, amplitude: 255);
+    }
   }
 
   bool isValidEmail(final String email) =>
@@ -183,7 +186,10 @@ class _AssociateEmailState extends State<AssociateEmail> {
 
   Future<void> validateAction(final BuildContext context) async {
     if (_codeController.text.isEmpty || _actionUuid == null) {
-      unawaited(Vibration.vibrate(duration: 200, amplitude: 255));
+      if (Constant.isAndroidOrIOS) {
+        unawaited(Vibration.vibrate(duration: 200, amplitude: 255));
+      }
+
       return;
     }
 

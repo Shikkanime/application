@@ -2,7 +2,6 @@ import 'package:application/components/image_component.dart';
 import 'package:application/components/platforms/platform_component.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/dtos/platform_dto.dart';
-import 'package:application/utils/constant.dart';
 import 'package:flutter/material.dart';
 
 class EpisodeImage extends StatelessWidget {
@@ -36,30 +35,25 @@ class EpisodeImage extends StatelessWidget {
           if (episode.platforms != null && episode.platforms!.isNotEmpty)
             for (final PlatformDto platform in episode.platforms!)
               Positioned(
-                right: 7.5 + episode.platforms!.indexOf(platform) * 15,
+                right: 7.5 + episode.platforms!.indexOf(platform) * 10,
                 top: 7.5,
                 child: PlatformComponent(platform: platform),
               ),
           if (showDuration)
             Positioned(
-              bottom: 7.5,
-              right: 7.5,
+              bottom: 8,
+              right: 8,
               child: ClipRRect(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(Constant.borderRadius),
-                ),
+                borderRadius: const BorderRadius.all(Radius.circular(4)),
                 child: ColoredBox(
                   color: Colors.black.withOpacity(0.5),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
+                    padding: const EdgeInsets.all(4),
                     child: Text(
                       _duration(Duration(seconds: episode.duration)),
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 12,
+                        fontSize: 10,
                       ),
                     ),
                   ),

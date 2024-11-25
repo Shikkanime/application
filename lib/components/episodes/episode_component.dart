@@ -4,7 +4,9 @@ import 'package:application/components/episodes/episode_image.dart';
 import 'package:application/components/episodes/episode_information_component.dart';
 import 'package:application/components/lang_type_component.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
+import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
+import 'package:application/views/anime_details_view.dart';
 import 'package:flutter/material.dart';
 
 class EpisodeComponent extends StatelessWidget {
@@ -19,6 +21,17 @@ class EpisodeComponent extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => CustomCard(
+        onTap: () {
+          Analytics.instance.logSelectContent('anime', episode.anime!.uuid);
+
+          Navigator.of(context).push(
+            MaterialPageRoute<void>(
+              builder: (final BuildContext context) => AnimeDetailsView(
+                anime: episode.anime!,
+              ),
+            ),
+          );
+        },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -30,7 +43,6 @@ class EpisodeComponent extends StatelessWidget {
               ),
               height: 200,
             ),
-            const SizedBox(height: 8),
             Text(
               episode.anime?.shortName ?? Constant.defaultText,
               style: Theme.of(context).textTheme.bodyLarge,

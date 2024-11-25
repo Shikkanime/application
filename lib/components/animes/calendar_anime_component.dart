@@ -72,7 +72,7 @@ class CalendarAnimeComponent extends StatelessWidget {
               ),
               for (final PlatformDto platform in release.platforms)
                 Positioned(
-                  right: 7.5 + release.platforms.indexOf(platform) * 15,
+                  right: 7.5 + release.platforms.indexOf(platform) * 10,
                   top: 7.5,
                   child: PlatformComponent(platform: platform),
                 ),

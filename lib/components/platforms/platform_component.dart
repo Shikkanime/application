@@ -16,13 +16,13 @@ class PlatformComponent extends StatelessWidget {
               '${Constant.baseUrl}/assets/img/platforms/${platform.image}',
           filterQuality: FilterQuality.high,
           fit: BoxFit.cover,
-          width: 24,
-          height: 24,
+          width: 16,
+          height: 16,
           placeholder: (final BuildContext context, final String url) =>
               Container(
             color: Colors.grey,
-            width: 24,
-            height: 24,
+            width: 16,
+            height: 16,
           ),
         ),
       );

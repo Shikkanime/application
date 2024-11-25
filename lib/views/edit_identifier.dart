@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:application/controllers/member_controller.dart';
+import 'package:application/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:vibration/vibration.dart';
@@ -52,7 +53,10 @@ class _EditIdentifierState extends State<EditIdentifier> {
 
   Future<void> saveIdentifier(final BuildContext context) async {
     if (_controller.text.isEmpty) {
-      unawaited(Vibration.vibrate(duration: 200, amplitude: 255));
+      if (Constant.isAndroidOrIOS) {
+        unawaited(Vibration.vibrate(duration: 200, amplitude: 255));
+      }
+
       return;
     }
 
@@ -66,7 +70,9 @@ class _EditIdentifierState extends State<EditIdentifier> {
         Navigator.of(context).pop();
       }
     } on Exception catch (_) {
-      unawaited(Vibration.vibrate(duration: 200, amplitude: 255));
+      if (Constant.isAndroidOrIOS) {
+        unawaited(Vibration.vibrate(duration: 200, amplitude: 255));
+      }
 
       if (MemberController.instance.identifier != oldIdentifier) {
         await MemberController.instance.login(identifier: oldIdentifier);

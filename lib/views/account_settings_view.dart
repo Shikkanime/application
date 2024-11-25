@@ -3,6 +3,7 @@ import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/notifications_controller.dart';
 import 'package:application/controllers/sort_controller.dart';
 import 'package:application/dtos/member_dto.dart';
+import 'package:application/utils/constant.dart';
 import 'package:application/views/associate_email.dart';
 import 'package:application/views/edit_identifier.dart';
 import 'package:application/views/forgot_identifier.dart';
@@ -83,7 +84,9 @@ class AccountSettingsView extends StatelessWidget {
                           ),
                         );
 
-                        Vibration.vibrate(duration: 200, amplitude: 255);
+                        if (Constant.isAndroidOrIOS) {
+                          Vibration.vibrate(duration: 200, amplitude: 255);
+                        }
                       },
                     ),
                     SettingsOption(

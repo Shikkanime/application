@@ -57,10 +57,6 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
   Widget build(final BuildContext context) {
     final TextSpan span = TextSpan(
       text: widget.anime.description ?? '',
-      style: Theme.of(context)
-          .textTheme
-          .bodyMedium
-          ?.copyWith(color: Theme.of(context).textTheme.titleLarge!.color),
     );
 
     final TextPainter textPainter = TextPainter(
@@ -72,198 +68,194 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
         elevation: 0,
         actions: <Widget>[
-          PopupMenuButton<int>(
-            icon: const Icon(Icons.more_vert),
-            itemBuilder: (final BuildContext context) => <PopupMenuItem<int>>[
-              PopupMenuItem<int>(
-                value: 0,
-                child: Text(AppLocalizations.of(context)!.markWatched),
-              ),
-              PopupMenuItem<int>(
-                value: 1,
-                child: Text(AppLocalizations.of(context)!.share),
-              ),
-            ],
-            onSelected: (final int value) {
-              if (value == 0) {
+          ElevatedButton(
+            onPressed: () {
+              if (Constant.isAndroidOrIOS) {
                 Vibration.vibrate(pattern: <int>[0, 50, 125, 50, 125, 50]);
-                MemberController.instance.followAllEpisodes(widget.anime);
-              } else if (value == 1) {
-                Analytics.instance
-                    .logShare('anime', widget.anime.uuid, 'appBar');
-
-                Share.share(
-                  '${Constant.baseUrl}/animes/${widget.anime.slug}',
-                );
               }
+
+              MemberController.instance.followAllEpisodes(widget.anime);
             },
+            child: Flex(
+              direction: Axis.horizontal,
+              children: <Widget>[
+                const Icon(Icons.checklist),
+                const SizedBox(width: 8),
+                Text(AppLocalizations.of(context)!.markWatched),
+              ],
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              Analytics.instance.logShare('anime', widget.anime.uuid, 'appBar');
+
+              Share.share(
+                '${Constant.baseUrl}/animes/${widget.anime.slug}',
+              );
+            },
+            icon: const Icon(Icons.share),
           ),
         ],
       ),
       body: SingleChildScrollView(
         controller: AnimeDetailsController.instance.scrollController,
-        child: Column(
-          children: <Widget>[
-            Stack(
-              children: <Widget>[
-                ImageComponent(
-                  uuid: widget.anime.uuid,
-                  fit: BoxFit.cover,
-                  height: MediaQuery.sizeOf(context).height * 0.7,
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  height: (MediaQuery.sizeOf(context).height * 0.7) + 1,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: <Color>[
-                          Theme.of(context).scaffoldBackgroundColor,
-                          Theme.of(context)
-                              .scaffoldBackgroundColor
-                              .withOpacity(0),
-                          Theme.of(context)
-                              .scaffoldBackgroundColor
-                              .withOpacity(0),
-                          Theme.of(context).scaffoldBackgroundColor,
-                        ],
+        child: SafeArea(
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    ImageComponent(
+                      uuid: widget.anime.uuid,
+                      fit: BoxFit.cover,
+                      height: MediaQuery.sizeOf(context).height * 0.3,
+                      type: 'banner',
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(Constant.borderRadius),
                       ),
                     ),
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text(
-                    widget.anime.shortName,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                  ),
-                  if (widget.anime.langTypes != null)
-                    for (final String langType in widget.anime.langTypes!)
-                      LangTypeComponent(langType: langType),
-                  const SizedBox(height: 8),
-                  Flex(
-                    direction: Axis.horizontal,
-                    children: <Widget>[
-                      WatchlistButton(anime: widget.anime),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Text.rich(
-                      span,
-                      overflow: _showMore
-                          ? TextOverflow.visible
-                          : TextOverflow.ellipsis,
-                      maxLines: _showMore ? null : 4,
-                    ),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      const Spacer(),
-                      if (textPainter.didExceedMaxLines)
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _showMore = !_showMore;
-                            });
-                          },
-                          child: Text(
-                            _showMore
-                                ? AppLocalizations.of(context)!.showLess
-                                : AppLocalizations.of(context)!.showMore,
-                            style: Theme.of(context).textTheme.bodyMedium,
+                    const SizedBox(height: 8),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                widget.anime.shortName,
+                                style: Theme.of(context).textTheme.bodyLarge,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                              ),
+                              if (widget.anime.langTypes != null)
+                                for (final String langType
+                                    in widget.anime.langTypes!)
+                                  LangTypeComponent(langType: langType),
+                            ],
                           ),
                         ),
-                      const Spacer(),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      if (widget.anime.seasons != null)
-                        ElevatedDropdownButton<SeasonDto>(
-                          globalKey: GlobalKey(),
-                          value: AnimeDetailsController.instance.season,
-                          items: <ElevatedPopupMenuItem<SeasonDto>>[
-                            for (final SeasonDto season
-                                in widget.anime.seasons!)
-                              ElevatedPopupMenuItem<SeasonDto>(
-                                value: season,
-                                child: Text(
-                                  AppLocalizations.of(context)!.season(
-                                    season.number,
-                                  ),
-                                ),
-                              ),
+                        const SizedBox(width: 8),
+                        Flex(
+                          direction: Axis.horizontal,
+                          children: <Widget>[
+                            WatchlistButton(anime: widget.anime),
                           ],
-                          onChanged: (final SeasonDto value) {
-                            setState(() {
-                              AnimeDetailsController.instance.season = value;
-                              AnimeDetailsController.instance.init();
-                            });
-                          },
                         ),
-                      const Spacer(),
-                      ElevatedDropdownButton<SortType>(
-                        globalKey: GlobalKey(),
-                        value: SortController.instance.sortType,
-                        items: <ElevatedPopupMenuItem<SortType>>[
-                          for (final SortType sortType in SortType.values)
-                            ElevatedPopupMenuItem<SortType>(
-                              value: sortType,
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          Expanded(
+                            child: Text.rich(
+                              span,
+                              overflow: _showMore
+                                  ? TextOverflow.visible
+                                  : TextOverflow.ellipsis,
+                              maxLines: _showMore ? null : 4,
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                          ),
+                          if (textPainter.didExceedMaxLines)
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _showMore = !_showMore;
+                                });
+                              },
                               child: Text(
-                                AppLocalizations.of(context)!
-                                    .sortType(sortType.name),
+                                _showMore
+                                    ? AppLocalizations.of(context)!.showLess
+                                    : AppLocalizations.of(context)!.showMore,
+                                style: Theme.of(context).textTheme.bodySmall,
                               ),
                             ),
                         ],
-                        onChanged: (final SortType value) {
-                          setState(() {
-                            SortController.instance.setSortType(value);
-                            AnimeDetailsController.instance.init();
-                          });
-                        },
-                        showIcon: false,
-                        child: Flex(
-                          direction: Axis.horizontal,
-                          children: <Widget>[
-                            const Icon(Icons.sort),
-                            const SizedBox(width: 8),
-                            Text(AppLocalizations.of(context)!.sort),
-                          ],
-                        ),
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        if (widget.anime.seasons != null)
+                          ElevatedDropdownButton<SeasonDto>(
+                            globalKey: GlobalKey(),
+                            value: AnimeDetailsController.instance.season,
+                            items: <ElevatedPopupMenuItem<SeasonDto>>[
+                              for (final SeasonDto season
+                                  in widget.anime.seasons!)
+                                ElevatedPopupMenuItem<SeasonDto>(
+                                  value: season,
+                                  child: Text(
+                                    AppLocalizations.of(context)!.season(
+                                      season.number,
+                                    ),
+                                  ),
+                                ),
+                            ],
+                            onChanged: (final SeasonDto value) {
+                              setState(() {
+                                AnimeDetailsController.instance.season = value;
+                                AnimeDetailsController.instance.init();
+                              });
+                            },
+                          ),
+                        const Spacer(),
+                        ElevatedDropdownButton<SortType>(
+                          globalKey: GlobalKey(),
+                          value: SortController.instance.sortType,
+                          items: <ElevatedPopupMenuItem<SortType>>[
+                            for (final SortType sortType in SortType.values)
+                              ElevatedPopupMenuItem<SortType>(
+                                value: sortType,
+                                child: Text(
+                                  AppLocalizations.of(context)!
+                                      .sortType(sortType.name),
+                                ),
+                              ),
+                          ],
+                          onChanged: (final SortType value) {
+                            setState(() {
+                              SortController.instance.setSortType(value);
+                              AnimeDetailsController.instance.init();
+                            });
+                          },
+                          showIcon: false,
+                          child: Flex(
+                            direction: Axis.horizontal,
+                            children: <Widget>[
+                              const Icon(Icons.sort),
+                              const SizedBox(width: 8),
+                              Text(AppLocalizations.of(context)!.sort),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-            StreamBuilder<List<EpisodeMappingDto>>(
-              stream: AnimeDetailsController.instance.streamController.stream,
-              initialData: AnimeDetailsController.instance.items,
-              builder: (
-                final BuildContext context,
-                final AsyncSnapshot<List<EpisodeMappingDto>> snapshot,
-              ) {
-                final List<Widget> list =
-                    _buildEpisodeList(context, snapshot.data!);
-                return Column(children: list);
-              },
-            ),
-          ],
+              const SizedBox(height: 8),
+              StreamBuilder<List<EpisodeMappingDto>>(
+                stream: AnimeDetailsController.instance.streamController.stream,
+                initialData: AnimeDetailsController.instance.items,
+                builder: (
+                  final BuildContext context,
+                  final AsyncSnapshot<List<EpisodeMappingDto>> snapshot,
+                ) {
+                  final List<Widget> list =
+                      _buildEpisodeList(context, snapshot.data!);
+                  return Column(children: list);
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
