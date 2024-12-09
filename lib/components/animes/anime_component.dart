@@ -46,6 +46,7 @@ class AnimeComponent extends StatelessWidget {
                 Radius.circular(Constant.borderRadius),
               ),
             ),
+            const SizedBox(height: 8),
             Text(
               anime.shortName,
               style: Theme.of(context).textTheme.bodyLarge,

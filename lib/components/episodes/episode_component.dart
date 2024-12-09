@@ -43,6 +43,7 @@ class EpisodeComponent extends StatelessWidget {
               ),
               height: 200,
             ),
+            const SizedBox(height: 8),
             Text(
               episode.anime?.shortName ?? Constant.defaultText,
               style: Theme.of(context).textTheme.bodyLarge,
