@@ -20,6 +20,7 @@ class AnimeEpisodeComponent extends StatelessWidget {
         child: SizedBox(
           height: 170,
           child: Row(
+            spacing: 8,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Expanded(
@@ -31,7 +32,6 @@ class AnimeEpisodeComponent extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              const SizedBox(width: 8),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

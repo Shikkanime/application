@@ -1,7 +1,6 @@
-import 'dart:async';
-
 import 'package:application/controllers/generic_controller.dart';
 import 'package:application/controllers/member_controller.dart';
+import 'package:application/controllers/vibration_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/pageable_dto.dart';
 import 'package:application/dtos/simulcast_dto.dart';
@@ -12,7 +11,6 @@ import 'package:application/utils/widget_builder.dart' as wb;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:vibration/vibration.dart';
 
 class AnimeController extends GenericController<AnimeDto> {
   static final AnimeController instance = AnimeController();
@@ -57,10 +55,10 @@ class AnimeController extends GenericController<AnimeDto> {
         PopupMenuItem<int>(
           value: 0,
           child: Flex(
+            spacing: 8,
             direction: Axis.horizontal,
             children: <Widget>[
               const Icon(Icons.checklist),
-              const SizedBox(width: 8),
               Text(AppLocalizations.of(context)!.markWatched),
             ],
           ),
@@ -68,10 +66,10 @@ class AnimeController extends GenericController<AnimeDto> {
         PopupMenuItem<int>(
           value: 1,
           child: Flex(
+            spacing: 8,
             direction: Axis.horizontal,
             children: <Widget>[
               const Icon(Icons.share),
-              const SizedBox(width: 8),
               Text(AppLocalizations.of(context)!.share),
             ],
           ),
@@ -80,10 +78,8 @@ class AnimeController extends GenericController<AnimeDto> {
     ).then((final int? value) async {
       if (value == 0) {
         await MemberController.instance.followAllEpisodes(anime);
-
-        if (Constant.isAndroidOrIOS) {
-          unawaited(Vibration.vibrate(pattern: <int>[0, 50, 125, 50, 125, 50]));
-        }
+        VibrationController.instance
+            .vibrate(pattern: <int>[0, 50, 125, 50, 125, 50]);
       } else if (value == 1) {
         Analytics.instance.logShare('anime', anime.uuid, 'onLongPress');
 

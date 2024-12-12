@@ -41,13 +41,13 @@ class AdvancedSearchCard extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => CustomCard(
         child: Column(
+          spacing: 8,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
               AppLocalizations.of(context)!.advancedSearch,
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            const SizedBox(height: 8),
             Center(
               child: Wrap(
                 alignment: WrapAlignment.center,
@@ -65,7 +65,6 @@ class AdvancedSearchCard extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[

@@ -219,45 +219,40 @@ class NavigationController {
       ];
 
   List<Widget> getDrawerItems(final BuildContext context) => <Widget>[
-        ...getMainNavigationItems(context)
-            .mapIndexed<Widget>(
-              (final int index, final NavigationItem e) => DrawerButton(
-                icon: e.nonActiveIcon ?? e.icon,
-                activeIcon: e.icon,
-                label: e.title,
-                onTap: () => setIndex(index, NavigationSource.drawer),
-                isActive: index == _currentIndex,
-              ),
-            )
-            .separatedBy(const SizedBox(height: 8)),
+        ...getMainNavigationItems(context).mapIndexed<Widget>(
+          (final int index, final NavigationItem e) => DrawerButton(
+            icon: e.nonActiveIcon ?? e.icon,
+            activeIcon: e.icon,
+            label: e.title,
+            onTap: () => setIndex(index, NavigationSource.drawer),
+            isActive: index == _currentIndex,
+          ),
+        ),
         const Spacer(),
         ..._getSubNavigationItems(context)
             .where((final SubNavigationItem e) => e.isActive)
-            .toList()
-            .mapIndexed<Widget>(
-              (final int index, final SubNavigationItem e) => DrawerButton(
+            .map<Widget>(
+              (final SubNavigationItem e) => DrawerButton(
                 icon: e.child,
                 label: e.title,
                 onTap: e.onTap,
               ),
-            )
-            .separatedBy(const SizedBox(height: 8)),
+            ),
       ];
 
   List<Widget> getAppbarNavigationItems(final BuildContext context) =>
       _getSubNavigationItems(context)
           .where((final SubNavigationItem e) => e.isActive)
-          .toList()
-          .mapIndexed<Widget>(
-        (final int index, final SubNavigationItem e) {
+          .map<Widget>(
+        (final SubNavigationItem e) {
           if (e.elevated) {
             return ElevatedButton(
               onPressed: e.onTap,
               child: Row(
+                spacing: 8,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   e.child,
-                  const SizedBox(width: 8),
                   Text(e.title),
                 ],
               ),
@@ -372,6 +367,7 @@ class _DrawerButtonState extends State<DrawerButton> {
                   : null,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Column(
+                spacing: 8,
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -380,7 +376,6 @@ class _DrawerButtonState extends State<DrawerButton> {
                     widget.activeIcon!
                   else
                     widget.icon,
-                  const SizedBox(height: 8),
                   Text(widget.label),
                 ],
               ),

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:application/components/elevated_async_button.dart';
 import 'package:application/components/elevated_dropdown_button.dart';
 import 'package:application/components/episodes/anime_episode_component.dart';
 import 'package:application/components/image_component.dart';
@@ -8,6 +9,7 @@ import 'package:application/components/watchlist_button.dart';
 import 'package:application/controllers/anime_details_controller.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/sort_controller.dart';
+import 'package:application/controllers/vibration_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/dtos/season_dto.dart';
@@ -17,7 +19,6 @@ import 'package:application/utils/widget_builder.dart' as wb;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:vibration/vibration.dart';
 
 class AnimeDetailsView extends StatefulWidget {
   const AnimeDetailsView({required this.anime, super.key});
@@ -65,24 +66,28 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
       maxLines: 4,
     )..layout(maxWidth: MediaQuery.sizeOf(context).width - 16);
 
+    final List<SeasonDto>? seasons =
+        SortController.instance.sortType == SortType.oldest
+            ? widget.anime.seasons
+            : widget.anime.seasons?.reversed.toList();
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0,
         actions: <Widget>[
-          ElevatedButton(
-            onPressed: () {
-              if (Constant.isAndroidOrIOS) {
-                Vibration.vibrate(pattern: <int>[0, 50, 125, 50, 125, 50]);
-              }
+          ElevatedAsyncButton(
+            onPressed: () async {
+              await MemberController.instance.followAllEpisodes(widget.anime);
 
-              MemberController.instance.followAllEpisodes(widget.anime);
+              VibrationController.instance
+                  .vibrate(pattern: <int>[0, 50, 125, 50, 125, 50]);
             },
             child: Flex(
+              spacing: 8,
               direction: Axis.horizontal,
               children: <Widget>[
                 const Icon(Icons.checklist),
-                const SizedBox(width: 8),
                 Text(AppLocalizations.of(context)!.markWatched),
               ],
             ),
@@ -103,10 +108,12 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
         controller: AnimeDetailsController.instance.scrollController,
         child: SafeArea(
           child: Column(
+            spacing: 8,
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Column(
+                  spacing: 8,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -119,8 +126,8 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                         Radius.circular(Constant.borderRadius),
                       ),
                     ),
-                    const SizedBox(height: 8),
                     Row(
+                      spacing: 8,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Expanded(
@@ -140,7 +147,6 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                             ],
                           ),
                         ),
-                        const SizedBox(width: 8),
                         Flex(
                           direction: Axis.horizontal,
                           children: <Widget>[
@@ -149,47 +155,43 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: <Widget>[
-                          Expanded(
-                            child: Text.rich(
-                              span,
-                              overflow: _showMore
-                                  ? TextOverflow.visible
-                                  : TextOverflow.ellipsis,
-                              maxLines: _showMore ? null : 4,
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        Expanded(
+                          child: Text.rich(
+                            span,
+                            overflow: _showMore
+                                ? TextOverflow.visible
+                                : TextOverflow.ellipsis,
+                            maxLines: _showMore ? null : 4,
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ),
+                        if (textPainter.didExceedMaxLines)
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _showMore = !_showMore;
+                              });
+                            },
+                            child: Text(
+                              _showMore
+                                  ? AppLocalizations.of(context)!.showLess
+                                  : AppLocalizations.of(context)!.showMore,
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
                           ),
-                          if (textPainter.didExceedMaxLines)
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _showMore = !_showMore;
-                                });
-                              },
-                              child: Text(
-                                _showMore
-                                    ? AppLocalizations.of(context)!.showLess
-                                    : AppLocalizations.of(context)!.showMore,
-                                style: Theme.of(context).textTheme.bodySmall,
-                              ),
-                            ),
-                        ],
-                      ),
+                      ],
                     ),
                     Row(
                       children: <Widget>[
-                        if (widget.anime.seasons != null)
+                        if (seasons != null)
                           ElevatedDropdownButton<SeasonDto>(
                             globalKey: GlobalKey(),
                             value: AnimeDetailsController.instance.season,
                             items: <ElevatedPopupMenuItem<SeasonDto>>[
-                              for (final SeasonDto season
-                                  in widget.anime.seasons!)
+                              for (final SeasonDto season in seasons)
                                 ElevatedPopupMenuItem<SeasonDto>(
                                   value: season,
                                   child: Text(
@@ -228,10 +230,10 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                           },
                           showIcon: false,
                           child: Flex(
+                            spacing: 8,
                             direction: Axis.horizontal,
                             children: <Widget>[
                               const Icon(Icons.sort),
-                              const SizedBox(width: 8),
                               Text(AppLocalizations.of(context)!.sort),
                             ],
                           ),
@@ -241,7 +243,6 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                   ],
                 ),
               ),
-              const SizedBox(height: 8),
               StreamBuilder<List<EpisodeMappingDto>>(
                 stream: AnimeDetailsController.instance.streamController.stream,
                 initialData: AnimeDetailsController.instance.items,

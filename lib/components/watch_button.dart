@@ -25,13 +25,11 @@ class WatchButton extends StatelessWidget {
           );
         },
         child: Flex(
+          spacing: 8,
           direction: Axis.horizontal,
           children: <Widget>[
             const Icon(Icons.live_tv_outlined),
-            if (!simple) ...<Widget>[
-              const SizedBox(width: 8),
-              Text(AppLocalizations.of(context)!.watch),
-            ],
+            if (!simple) Text(AppLocalizations.of(context)!.watch),
           ],
         ),
       );

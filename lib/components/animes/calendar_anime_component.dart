@@ -56,6 +56,7 @@ class CalendarAnimeComponent extends StatelessWidget {
         AnimeController.instance.onLongPress(context, release.anime, details);
       },
       child: Column(
+        spacing: 8,
         children: <Widget>[
           Stack(
             children: <Widget>[
@@ -78,7 +79,6 @@ class CalendarAnimeComponent extends StatelessWidget {
                 ),
             ],
           ),
-          const SizedBox(height: 8),
           IntrinsicHeight(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -120,6 +120,7 @@ class CalendarAnimeComponent extends StatelessWidget {
                         LangTypeComponent(langType: langType),
                       const SizedBox(height: 8),
                       Flex(
+                        spacing: 8,
                         direction: Axis.horizontal,
                         children: <Widget>[
                           if ((!isReleased || isMultipleReleased) &&
@@ -135,7 +136,6 @@ class CalendarAnimeComponent extends StatelessWidget {
                               isCalendar: true,
                               simple: true,
                             ),
-                            const SizedBox(width: 8),
                             WatchButton(
                               url: release.mappings?.first.variants?.first.url,
                               simple: true,

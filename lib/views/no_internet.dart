@@ -11,6 +11,7 @@ class NoInternet extends StatelessWidget {
   Widget build(final BuildContext context) => Scaffold(
         body: Center(
           child: Column(
+            spacing: 20,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Image.asset(
@@ -18,12 +19,10 @@ class NoInternet extends StatelessWidget {
                 width: 128,
                 height: 128,
               ),
-              const SizedBox(height: 20),
               Text(
                 AppLocalizations.of(context)!.noInternet,
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
-              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: Restart.restartApp,
                 child: Text(AppLocalizations.of(context)!.tryAgain),

@@ -86,6 +86,7 @@ class MissedAnimesRow extends StatelessWidget {
             child: Scrollbar(
               controller: MissedAnimeController.instance.scrollController,
               child: Column(
+                spacing: 8,
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -101,7 +102,6 @@ class MissedAnimesRow extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
