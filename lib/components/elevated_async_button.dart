@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 
 class ElevatedAsyncButton extends StatefulWidget {
-  const ElevatedAsyncButton({required this.child, super.key, this.onPressed});
+  const ElevatedAsyncButton({
+    required this.child,
+    super.key,
+    this.onPressed,
+    this.style,
+  });
 
+  final ButtonStyle? style;
   final Future<void> Function()? onPressed;
   final Widget child;
 
@@ -15,6 +21,7 @@ class _ElevatedAsyncButtonState extends State<ElevatedAsyncButton> {
 
   @override
   Widget build(final BuildContext context) => ElevatedButton(
+        style: widget.style ?? Theme.of(context).elevatedButtonTheme.style,
         onPressed: !_isRunning
             ? () async {
                 setState(() {

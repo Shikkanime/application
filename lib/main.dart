@@ -13,6 +13,7 @@ import 'package:application/controllers/sort_controller.dart';
 import 'package:application/firebase_options.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
+import 'package:application/utils/extensions.dart';
 import 'package:application/views/account_view.dart';
 import 'package:application/views/calendar_view.dart';
 import 'package:application/views/home_view.dart';
@@ -146,7 +147,7 @@ class MyApp extends StatelessWidget {
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: elevatedButtonBackground,
+            backgroundColor: canvasColor,
             shadowColor: elevatedButtonShadowColor,
           ),
         ),
@@ -175,7 +176,12 @@ class MyApp extends StatelessWidget {
         dialogTheme: DialogTheme(
           backgroundColor: canvasColor,
         ),
-      );
+      )..addInputDecorationTheme(
+          ElevatedButton.styleFrom(
+            backgroundColor: elevatedButtonBackground,
+            shadowColor: elevatedButtonShadowColor,
+          ),
+        );
 }
 
 class MyHomePage extends StatefulWidget {

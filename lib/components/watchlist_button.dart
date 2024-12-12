@@ -15,12 +15,14 @@ class WatchlistButton extends StatelessWidget {
     this.episode,
     this.isCalendar = false,
     this.simple = false,
+    this.style,
   });
 
   final AnimeDto? anime;
   final EpisodeMappingDto? episode;
   final bool isCalendar;
   final bool simple;
+  final ButtonStyle? style;
 
   @override
   Widget build(final BuildContext context) => FollowedStreamBuilder(
@@ -32,6 +34,7 @@ class WatchlistButton extends StatelessWidget {
           final bool isLiked = animeInWatchlist || episodeInWatchlist;
 
           return ElevatedAsyncButton(
+            style: style,
             onPressed: () async {
               if (!isLiked) {
                 anime != null && !isCalendar

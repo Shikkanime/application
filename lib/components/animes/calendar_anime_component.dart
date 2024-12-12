@@ -10,6 +10,7 @@ import 'package:application/dtos/platform_dto.dart';
 import 'package:application/dtos/week_day_release_dto.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
+import 'package:application/utils/extensions.dart';
 import 'package:application/views/anime_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -128,6 +129,7 @@ class CalendarAnimeComponent extends StatelessWidget {
                             WatchlistButton(
                               anime: release.anime,
                               simple: true,
+                              style: Theme.of(context).getCardButtonStyle(),
                             ),
                           if (isReleased && !isMultipleReleased) ...<Widget>[
                             WatchlistButton(
@@ -135,6 +137,7 @@ class CalendarAnimeComponent extends StatelessWidget {
                               episode: release.mappings!.first,
                               isCalendar: true,
                               simple: true,
+                              style: Theme.of(context).getCardButtonStyle(),
                             ),
                             WatchButton(
                               url: release.mappings?.first.variants?.first.url,

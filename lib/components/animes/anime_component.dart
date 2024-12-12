@@ -6,6 +6,7 @@ import 'package:application/controllers/anime_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
+import 'package:application/utils/extensions.dart';
 import 'package:application/views/anime_details_view.dart';
 import 'package:flutter/material.dart';
 
@@ -61,7 +62,10 @@ class AnimeComponent extends StatelessWidget {
               Flex(
                 direction: Axis.horizontal,
                 children: <Widget>[
-                  WatchlistButton(anime: anime),
+                  WatchlistButton(
+                    anime: anime,
+                    style: Theme.of(context).getCardButtonStyle(),
+                  ),
                 ],
               ),
             ],

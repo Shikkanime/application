@@ -1,3 +1,4 @@
+import 'package:application/components/elevated_async_button.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/vibration_controller.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,6 @@ class _ForgotIdentifierState extends State<ForgotIdentifier> {
   bool _isInvalidEmailError = false;
   bool _isConflictEmailError = false;
   bool _isCodeInError = false;
-  bool _isLoading = false;
   String? _actionUuid;
 
   @override
@@ -74,9 +74,8 @@ class _ForgotIdentifierState extends State<ForgotIdentifier> {
                         },
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed:
-                          _actionUuid != null || _isLoading ? null : sendAction,
+                    ElevatedAsyncButton(
+                      onPressed: _actionUuid != null ? null : askCode,
                       child: Text(AppLocalizations.of(context)!.sendCode),
                     ),
                   ],
@@ -85,12 +84,10 @@ class _ForgotIdentifierState extends State<ForgotIdentifier> {
                   AppLocalizations.of(context)!.emailSpamWarning,
                   textAlign: TextAlign.left,
                 ),
-                ElevatedButton(
-                  onPressed: _actionUuid == null || _isLoading
+                ElevatedAsyncButton(
+                  onPressed: _actionUuid == null
                       ? null
-                      : () {
-                          validateAction(context);
-                        },
+                      : () async => validateAction(context),
                   child: Text(AppLocalizations.of(context)!.save),
                 ),
               ],
@@ -112,7 +109,7 @@ class _ForgotIdentifierState extends State<ForgotIdentifier> {
     return null;
   }
 
-  Future<void> sendAction() async {
+  Future<void> askCode() async {
     if (_emailController.text.isEmpty) {
       vibrate();
       return;
@@ -131,7 +128,7 @@ class _ForgotIdentifierState extends State<ForgotIdentifier> {
       return;
     }
 
-    updateState(invalidEmail: false, conflictEmail: false, isLoading: true);
+    updateState(invalidEmail: false, conflictEmail: false);
 
     try {
       _actionUuid = await MemberController.instance
@@ -144,8 +141,6 @@ class _ForgotIdentifierState extends State<ForgotIdentifier> {
     } on Exception {
       vibrate();
       updateState(conflictEmail: false, invalidEmail: true);
-    } finally {
-      updateState(isLoading: false);
     }
   }
 
@@ -159,7 +154,6 @@ class _ForgotIdentifierState extends State<ForgotIdentifier> {
   void updateState({
     final bool? invalidEmail,
     final bool? conflictEmail,
-    final bool? isLoading,
   }) {
     if (context.mounted) {
       setState(() {
@@ -169,10 +163,6 @@ class _ForgotIdentifierState extends State<ForgotIdentifier> {
 
         if (conflictEmail != null) {
           _isConflictEmailError = conflictEmail;
-        }
-
-        if (isLoading != null) {
-          _isLoading = isLoading;
         }
       });
     }

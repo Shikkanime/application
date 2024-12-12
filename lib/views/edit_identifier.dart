@@ -1,3 +1,4 @@
+import 'package:application/components/elevated_async_button.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/vibration_controller.dart';
 import 'package:flutter/material.dart';
@@ -37,8 +38,8 @@ class _EditIdentifierState extends State<EditIdentifier> {
                   ),
                   controller: _controller,
                 ),
-                ElevatedButton(
-                  onPressed: () => saveIdentifier(context),
+                ElevatedAsyncButton(
+                  onPressed: () async => saveIdentifier(context),
                   child: Text(AppLocalizations.of(context)!.save),
                 ),
               ],

@@ -1,6 +1,7 @@
 import 'package:application/components/watch_button.dart';
 import 'package:application/components/watchlist_button.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
+import 'package:application/utils/extensions.dart';
 import 'package:flutter/material.dart';
 
 class EpisodeActionBar extends StatelessWidget {
@@ -24,6 +25,7 @@ class EpisodeActionBar extends StatelessWidget {
             WatchlistButton(
               episode: episode,
               simple: simple,
+              style: Theme.of(context).getCardButtonStyle(),
             ),
           WatchButton(
             url: episode.variants?.first.url,

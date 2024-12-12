@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:application/components/elevated_async_button.dart';
 import 'package:application/components/member_image.dart';
 import 'package:application/components/pill.dart';
 import 'package:application/controllers/anime_controller.dart';
@@ -184,19 +185,19 @@ class NavigationController {
                 ? Icons.filter_alt
                 : Icons.filter_alt_off,
           ),
-          onTap: () {
+          onTap: () async {
             AnimeWeeklyController.instance.memberMode =
                 !AnimeWeeklyController.instance.memberMode;
             streamController.add(_currentIndex);
-            AnimeWeeklyController.instance.init();
+            await AnimeWeeklyController.instance.init();
           },
         ),
         SubNavigationItem(
           title: AppLocalizations.of(context)!.search,
           isActive: true,
           child: const Icon(Icons.search),
-          onTap: () {
-            Navigator.of(context).push(
+          onTap: () async {
+            await Navigator.of(context).push(
               MaterialPageRoute<void>(
                 builder: (final BuildContext context) => const SearchView(),
               ),
@@ -207,8 +208,8 @@ class NavigationController {
           title: AppLocalizations.of(context)!.settings,
           isActive: _currentIndex == 3 || !Constant.isAndroidOrIOS,
           child: const Icon(Icons.settings),
-          onTap: () {
-            Navigator.of(context).push(
+          onTap: () async {
+            await Navigator.of(context).push(
               MaterialPageRoute<void>(
                 builder: (final BuildContext context) =>
                     const AccountSettingsView(),
@@ -246,7 +247,7 @@ class NavigationController {
           .map<Widget>(
         (final SubNavigationItem e) {
           if (e.elevated) {
-            return ElevatedButton(
+            return ElevatedAsyncButton(
               onPressed: e.onTap,
               child: Row(
                 spacing: 8,
@@ -292,7 +293,7 @@ class SubNavigationItem {
   final Widget child;
   final bool isActive;
   final bool elevated;
-  final void Function()? onTap;
+  final Future<void> Function()? onTap;
 }
 
 class DrawerButton extends StatefulWidget {

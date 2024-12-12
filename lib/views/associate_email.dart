@@ -1,5 +1,4 @@
-import 'dart:async';
-
+import 'package:application/components/elevated_async_button.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/vibration_controller.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +17,6 @@ class _AssociateEmailState extends State<AssociateEmail> {
   bool _isInvalidEmailError = false;
   bool _isConflictEmailError = false;
   bool _isCodeInError = false;
-  bool _isLoading = false;
   String? _actionUuid;
 
   @override
@@ -76,9 +74,8 @@ class _AssociateEmailState extends State<AssociateEmail> {
                         },
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed:
-                          _actionUuid != null || _isLoading ? null : saveEmail,
+                    ElevatedAsyncButton(
+                      onPressed: _actionUuid != null ? null : askCode,
                       child: Text(AppLocalizations.of(context)!.sendCode),
                     ),
                   ],
@@ -87,12 +84,10 @@ class _AssociateEmailState extends State<AssociateEmail> {
                   AppLocalizations.of(context)!.emailSpamWarning,
                   textAlign: TextAlign.left,
                 ),
-                ElevatedButton(
-                  onPressed: _actionUuid == null || _isLoading
+                ElevatedAsyncButton(
+                  onPressed: _actionUuid == null
                       ? null
-                      : () {
-                          validateAction(context);
-                        },
+                      : () async => validateAction(context),
                   child: Text(AppLocalizations.of(context)!.save),
                 ),
               ],
@@ -113,7 +108,7 @@ class _AssociateEmailState extends State<AssociateEmail> {
     return null;
   }
 
-  Future<void> saveEmail() async {
+  Future<void> askCode() async {
     if (_emailController.text.isEmpty) {
       vibrate();
       return;
@@ -131,7 +126,7 @@ class _AssociateEmailState extends State<AssociateEmail> {
       return;
     }
 
-    updateState(invalidEmail: false, conflictEmail: false, isLoading: true);
+    updateState(invalidEmail: false, conflictEmail: false);
 
     try {
       _actionUuid =
@@ -144,8 +139,6 @@ class _AssociateEmailState extends State<AssociateEmail> {
     } on Exception catch (_) {
       vibrate();
       updateState(conflictEmail: false, invalidEmail: true);
-    } finally {
-      updateState(isLoading: false);
     }
   }
 
@@ -159,7 +152,6 @@ class _AssociateEmailState extends State<AssociateEmail> {
   void updateState({
     final bool? invalidEmail,
     final bool? conflictEmail,
-    final bool? isLoading,
   }) {
     if (context.mounted) {
       setState(() {
@@ -169,10 +161,6 @@ class _AssociateEmailState extends State<AssociateEmail> {
 
         if (conflictEmail != null) {
           _isConflictEmailError = conflictEmail;
-        }
-
-        if (isLoading != null) {
-          _isLoading = isLoading;
         }
       });
     }
