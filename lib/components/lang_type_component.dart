@@ -25,6 +25,7 @@ class LangTypeComponent extends StatelessWidget {
     final TextStyle? textStyle = Theme.of(context).textTheme.bodyMedium;
 
     return Flex(
+      spacing: 4,
       direction: Axis.horizontal,
       children: <Widget>[
         if (langType == 'SUBTITLES')
@@ -39,7 +40,6 @@ class LangTypeComponent extends StatelessWidget {
             size: 16,
             color: textStyle?.color,
           ),
-        const SizedBox(width: 4),
         Text(
           getLangTypeTranslation(context, langType),
           style: textStyle,

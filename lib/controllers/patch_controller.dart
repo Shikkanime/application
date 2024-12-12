@@ -40,25 +40,23 @@ class PatchController {
           ) {
             final PatchDownloadStatus? status = snapshot.data;
             return Row(
+              spacing: 16,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 if (status == PatchDownloadStatus.downloading) ...<Widget>[
                   const CircularProgressIndicator(),
-                  const SizedBox(width: 16),
                   Expanded(
                     child: Text(AppLocalizations.of(context)!.downloadingPatch),
                   ),
                 ],
                 if (status == PatchDownloadStatus.downloaded) ...<Widget>[
                   const Icon(Icons.check),
-                  const SizedBox(width: 8),
                   Expanded(
                     child: Text(AppLocalizations.of(context)!.patchDownloaded),
                   ),
                 ],
                 if (status == PatchDownloadStatus.failed) ...<Widget>[
                   const Icon(Icons.error),
-                  const SizedBox(width: 8),
                   Expanded(
                     child: Text(AppLocalizations.of(context)!.patchFailed),
                   ),

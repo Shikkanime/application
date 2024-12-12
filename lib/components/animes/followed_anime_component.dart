@@ -31,6 +31,7 @@ class FollowedAnimeComponent extends StatelessWidget {
             );
           },
           child: Column(
+            spacing: 4,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               SizedBox(
@@ -43,7 +44,6 @@ class FollowedAnimeComponent extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 4),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4),
                 child: Text(

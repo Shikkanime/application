@@ -35,6 +35,7 @@ class MissedAnimeComponent extends StatelessWidget {
         child: SizedBox(
           width: 100,
           child: Column(
+            spacing: 8,
             children: <Widget>[
               SizedBox(
                 width: 80,
@@ -55,16 +56,18 @@ class MissedAnimeComponent extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 8),
-              Text(
-                missedAnime.anime.shortName,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall
-                    ?.copyWith(fontWeight: FontWeight.bold),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-                textAlign: TextAlign.center,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: Text(
+                  missedAnime.anime.shortName,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall
+                      ?.copyWith(fontWeight: FontWeight.bold),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  textAlign: TextAlign.center,
+                ),
               ),
             ],
           ),

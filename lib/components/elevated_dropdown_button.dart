@@ -51,6 +51,7 @@ class ElevatedDropdownButton<T> extends StatelessWidget {
           });
         },
         child: Flex(
+          spacing: 8,
           direction: Axis.horizontal,
           children: <Widget>[
             if (child != null)
@@ -63,10 +64,7 @@ class ElevatedDropdownButton<T> extends StatelessWidget {
                     orElse: () => items.first,
                   )
                   .child,
-            if (showIcon) ...<Widget>[
-              const SizedBox(width: 8),
-              const Icon(Icons.arrow_drop_down),
-            ],
+            if (showIcon) const Icon(Icons.arrow_drop_down),
           ],
         ),
       );
@@ -83,13 +81,11 @@ class ElevatedPopupMenuItem<T> {
   PopupMenuItem<T> build({final bool selected = false}) => PopupMenuItem<T>(
         value: value,
         child: Flex(
+          spacing: 8,
           direction: Axis.horizontal,
           children: <Widget>[
             child,
-            if (selected) ...<Widget>[
-              const SizedBox(width: 8),
-              const Icon(Icons.check),
-            ],
+            if (selected) const Icon(Icons.check),
           ],
         ),
       );

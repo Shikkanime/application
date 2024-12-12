@@ -17,15 +17,14 @@ class EpisodeActionBar extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => Flex(
+        spacing: 8,
         direction: Axis.horizontal,
         children: <Widget>[
-          if (showWatchlist) ...<Widget>[
+          if (showWatchlist)
             WatchlistButton(
               episode: episode,
               simple: simple,
             ),
-            const SizedBox(width: 8),
-          ],
           WatchButton(
             url: episode.variants?.first.url,
             simple: simple,

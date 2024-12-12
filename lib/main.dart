@@ -115,7 +115,7 @@ class MyApp extends StatelessWidget {
           primary: primary,
         ),
         appBarTheme: AppBarTheme(
-          backgroundColor: scaffoldBackground.withOpacity(0.8),
+          backgroundColor: scaffoldBackground.withValues(alpha: 0.8),
         ),
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
           selectedItemColor: primary,
@@ -171,6 +171,9 @@ class MyApp extends StatelessWidget {
           style: IconButton.styleFrom(
             foregroundColor: primary,
           ),
+        ),
+        dialogTheme: DialogTheme(
+          backgroundColor: canvasColor,
         ),
       );
 }
@@ -250,6 +253,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         final AsyncSnapshot<int> snapshot,
                       ) =>
                           Column(
+                        spacing: 8,
                         children: NavigationController.instance
                             .getDrawerItems(context),
                       ),

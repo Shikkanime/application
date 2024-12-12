@@ -22,26 +22,29 @@ class CropView extends StatelessWidget {
           title: Text(AppLocalizations.of(context)!.crop),
         ),
         body: SafeArea(
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                child: Crop(
-                  controller: controller,
-                  image: bytes,
-                  withCircleUi: true,
-                  baseColor: Theme.of(context).scaffoldBackgroundColor,
-                  onCropped: (final Uint8List value) {
-                    Navigator.of(context).pop();
-                    MemberController.instance.updateImage(value);
-                  },
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              spacing: 16,
+              children: <Widget>[
+                Expanded(
+                  child: Crop(
+                    controller: controller,
+                    image: bytes,
+                    withCircleUi: true,
+                    baseColor: Theme.of(context).scaffoldBackgroundColor,
+                    onCropped: (final Uint8List value) {
+                      Navigator.of(context).pop();
+                      MemberController.instance.updateImage(value);
+                    },
+                  ),
                 ),
-              ),
-              // Rotate button
-              ElevatedButton(
-                onPressed: controller.crop,
-                child: Text(AppLocalizations.of(context)!.save),
-              ),
-            ],
+                ElevatedButton(
+                  onPressed: controller.crop,
+                  child: Text(AppLocalizations.of(context)!.save),
+                ),
+              ],
+            ),
           ),
         ),
       );

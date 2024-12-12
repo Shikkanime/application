@@ -1,10 +1,9 @@
 import 'dart:async';
 
 import 'package:application/controllers/member_controller.dart';
-import 'package:application/utils/constant.dart';
+import 'package:application/controllers/vibration_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:vibration/vibration.dart';
 
 class AssociateEmail extends StatefulWidget {
   const AssociateEmail({super.key});
@@ -32,13 +31,13 @@ class _AssociateEmailState extends State<AssociateEmail> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Column(
+              spacing: 32,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text(
                   AppLocalizations.of(context)!.emailContent,
                   textAlign: TextAlign.left,
                 ),
-                const SizedBox(height: 32),
                 TextField(
                   enabled: _actionUuid == null,
                   decoration: InputDecoration(
@@ -49,8 +48,8 @@ class _AssociateEmailState extends State<AssociateEmail> {
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
                 ),
-                const SizedBox(height: 16),
                 Row(
+                  spacing: 16,
                   children: <Widget>[
                     Expanded(
                       child: TextField(
@@ -77,7 +76,6 @@ class _AssociateEmailState extends State<AssociateEmail> {
                         },
                       ),
                     ),
-                    const SizedBox(width: 16),
                     ElevatedButton(
                       onPressed:
                           _actionUuid != null || _isLoading ? null : saveEmail,
@@ -85,12 +83,10 @@ class _AssociateEmailState extends State<AssociateEmail> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
                 Text(
                   AppLocalizations.of(context)!.emailSpamWarning,
                   textAlign: TextAlign.left,
                 ),
-                const SizedBox(height: 32),
                 ElevatedButton(
                   onPressed: _actionUuid == null || _isLoading
                       ? null
@@ -154,9 +150,7 @@ class _AssociateEmailState extends State<AssociateEmail> {
   }
 
   void vibrate() {
-    if (Constant.isAndroidOrIOS) {
-      Vibration.vibrate(duration: 200, amplitude: 255);
-    }
+    VibrationController.instance.vibrate(duration: 200, amplitude: 255);
   }
 
   bool isValidEmail(final String email) =>
@@ -186,10 +180,7 @@ class _AssociateEmailState extends State<AssociateEmail> {
 
   Future<void> validateAction(final BuildContext context) async {
     if (_codeController.text.isEmpty || _actionUuid == null) {
-      if (Constant.isAndroidOrIOS) {
-        unawaited(Vibration.vibrate(duration: 200, amplitude: 255));
-      }
-
+      VibrationController.instance.vibrate(duration: 200, amplitude: 255);
       return;
     }
 

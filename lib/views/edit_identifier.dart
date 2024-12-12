@@ -1,10 +1,7 @@
-import 'dart:async';
-
 import 'package:application/controllers/member_controller.dart';
-import 'package:application/utils/constant.dart';
+import 'package:application/controllers/vibration_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:vibration/vibration.dart';
 
 class EditIdentifier extends StatefulWidget {
   const EditIdentifier({super.key});
@@ -27,9 +24,9 @@ class _EditIdentifierState extends State<EditIdentifier> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Column(
+              spacing: 32,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                const SizedBox(height: 16),
                 TextField(
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
@@ -40,7 +37,6 @@ class _EditIdentifierState extends State<EditIdentifier> {
                   ),
                   controller: _controller,
                 ),
-                const SizedBox(height: 32),
                 ElevatedButton(
                   onPressed: () => saveIdentifier(context),
                   child: Text(AppLocalizations.of(context)!.save),
@@ -53,10 +49,7 @@ class _EditIdentifierState extends State<EditIdentifier> {
 
   Future<void> saveIdentifier(final BuildContext context) async {
     if (_controller.text.isEmpty) {
-      if (Constant.isAndroidOrIOS) {
-        unawaited(Vibration.vibrate(duration: 200, amplitude: 255));
-      }
-
+      VibrationController.instance.vibrate(duration: 200, amplitude: 255);
       return;
     }
 
@@ -70,9 +63,7 @@ class _EditIdentifierState extends State<EditIdentifier> {
         Navigator.of(context).pop();
       }
     } on Exception catch (_) {
-      if (Constant.isAndroidOrIOS) {
-        unawaited(Vibration.vibrate(duration: 200, amplitude: 255));
-      }
+      VibrationController.instance.vibrate(duration: 200, amplitude: 255);
 
       if (MemberController.instance.identifier != oldIdentifier) {
         await MemberController.instance.login(identifier: oldIdentifier);

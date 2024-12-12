@@ -2,15 +2,14 @@ import 'package:application/components/card_component.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/notifications_controller.dart';
 import 'package:application/controllers/sort_controller.dart';
+import 'package:application/controllers/vibration_controller.dart';
 import 'package:application/dtos/member_dto.dart';
-import 'package:application/utils/constant.dart';
 import 'package:application/views/associate_email.dart';
 import 'package:application/views/edit_identifier.dart';
 import 'package:application/views/forgot_identifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:vibration/vibration.dart';
 
 class AccountSettingsView extends StatelessWidget {
   const AccountSettingsView({super.key});
@@ -35,6 +34,7 @@ class AccountSettingsView extends StatelessWidget {
 
           return SingleChildScrollView(
             child: Column(
+              spacing: 16,
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -74,19 +74,18 @@ class AccountSettingsView extends StatelessWidget {
                           SnackBar(
                             behavior: SnackBarBehavior.floating,
                             content: Row(
+                              spacing: 8,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 const Icon(Icons.copy),
-                                const SizedBox(width: 8),
                                 Text(appLocalizations.identifierCopied),
                               ],
                             ),
                           ),
                         );
 
-                        if (Constant.isAndroidOrIOS) {
-                          Vibration.vibrate(duration: 200, amplitude: 255);
-                        }
+                        VibrationController.instance
+                            .vibrate(duration: 200, amplitude: 255);
                       },
                     ),
                     SettingsOption(
@@ -119,7 +118,6 @@ class AccountSettingsView extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
                 SettingsCategory(
                   icon: Icons.notifications,
                   title: appLocalizations.notifications,
@@ -160,13 +158,14 @@ class AccountSettingsView extends StatelessWidget {
                                   SnackBar(
                                     behavior: SnackBarBehavior.floating,
                                     content: Row(
+                                      spacing: 8,
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: <Widget>[
                                         const Icon(Icons.error),
-                                        const SizedBox(width: 8),
                                         Expanded(
                                           child: Column(
+                                            spacing: 4,
                                             mainAxisSize: MainAxisSize.min,
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -175,7 +174,6 @@ class AccountSettingsView extends StatelessWidget {
                                                 AppLocalizations.of(context)!
                                                     .notificationNotAuthorized,
                                               ),
-                                              const SizedBox(height: 4),
                                               Text(
                                                 AppLocalizations.of(context)!
                                                     .notificationNotAuthorizedSubtitle,
@@ -196,7 +194,6 @@ class AccountSettingsView extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
                 SettingsCategory(
                   icon: Icons.sort,
                   title: appLocalizations.sort,
@@ -250,18 +247,19 @@ class SettingsCategory extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => Column(
+        spacing: 8,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Flex(
+              spacing: 8,
               direction: Axis.horizontal,
               children: <Widget>[
                 Icon(
                   icon,
                   color: Colors.grey,
                 ),
-                const SizedBox(width: 8),
                 Text(
                   title,
                   style: const TextStyle(
@@ -273,7 +271,6 @@ class SettingsCategory extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 8),
           CustomCard(
             child: Column(
               children: options,
@@ -301,11 +298,11 @@ class SettingsOption extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => ListTile(
         title: Flex(
+          spacing: 8,
           direction: Axis.horizontal,
           children: <Widget>[
             Text(title),
-            if (tooltip != null) ...<Widget>[
-              const SizedBox(width: 8),
+            if (tooltip != null)
               Tooltip(
                 message: tooltip,
                 child: const Icon(
@@ -314,7 +311,6 @@ class SettingsOption extends StatelessWidget {
                   color: Colors.grey,
                 ),
               ),
-            ],
           ],
         ),
         subtitle: subtitle != null ? Text(subtitle!) : null,
