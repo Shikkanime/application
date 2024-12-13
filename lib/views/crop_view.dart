@@ -33,9 +33,19 @@ class CropView extends StatelessWidget {
                     image: bytes,
                     withCircleUi: true,
                     baseColor: Theme.of(context).scaffoldBackgroundColor,
-                    onCropped: (final Uint8List value) {
-                      Navigator.of(context).pop();
-                      MemberController.instance.updateImage(value);
+                    filterQuality: FilterQuality.high,
+                    onCropped: (final CropResult result) {
+                      switch (result) {
+                        case CropSuccess(:final Uint8List croppedImage):
+                          Navigator.of(context).pop();
+                          MemberController.instance.updateImage(croppedImage);
+                        case CropFailure():
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Failed to crop image'),
+                            ),
+                          );
+                      }
                     },
                   ),
                 ),
