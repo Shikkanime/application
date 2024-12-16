@@ -17,7 +17,6 @@ class SearchView extends StatefulWidget {
 
 class _SearchViewState extends State<SearchView> {
   final TextEditingController _controller = TextEditingController();
-  bool _isOpen = false;
 
   @override
   void initState() {
@@ -41,10 +40,10 @@ class _SearchViewState extends State<SearchView> {
     final double smallestDimension = MediaQuery.sizeOf(context).width;
 
     return <Widget>[
-      if (_isOpen)
-        AdvancedSearchCard(controller: _controller)
-      else
-        const SizedBox.shrink(),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: AdvancedSearchCard(controller: _controller),
+      ),
       ...wb.WidgetBuilder.instance.buildRowWidgets(
         animes.map((final AnimeDto anime) => AnimeComponent(anime: anime)),
         maxElementsPerRow: max(2, (smallestDimension * 3 / 600).floor()),
@@ -77,16 +76,6 @@ class _SearchViewState extends State<SearchView> {
               setState(() {});
             },
           ),
-          actions: <Widget>[
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  _isOpen = !_isOpen;
-                });
-              },
-              icon: const Icon(Icons.tune),
-            ),
-          ],
         ),
         body: Padding(
           padding: const EdgeInsets.only(top: 8),

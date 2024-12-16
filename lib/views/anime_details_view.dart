@@ -31,6 +31,7 @@ class AnimeDetailsView extends StatefulWidget {
 
 class _AnimeDetailsViewState extends State<AnimeDetailsView> {
   bool _showMore = false;
+  final Set<String> _selectedEpisodes = <String>{};
 
   @override
   void initState() {
@@ -92,6 +93,7 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
               ],
             ),
           ),
+          const SizedBox(width: 8),
           IconButton(
             onPressed: () {
               Analytics.instance.logShare('anime', widget.anime.uuid, 'appBar');
@@ -119,7 +121,6 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                   children: <Widget>[
                     ImageComponent(
                       uuid: widget.anime.uuid,
-                      fit: BoxFit.cover,
                       height: MediaQuery.sizeOf(context).height * 0.3,
                       type: 'banner',
                       borderRadius: const BorderRadius.all(
@@ -249,31 +250,65 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                 builder: (
                   final BuildContext context,
                   final AsyncSnapshot<List<EpisodeMappingDto>> snapshot,
-                ) {
-                  final List<Widget> list =
-                      _buildEpisodeList(context, snapshot.data!);
-                  return Column(children: list);
-                },
+                ) =>
+                    Column(
+                  children: _buildEpisodeList(context, snapshot.data!),
+                ),
               ),
             ],
           ),
         ),
       ),
+      floatingActionButton: _selectedEpisodes.isNotEmpty
+          ? FloatingActionButton(
+              onPressed: () async {
+                for (final String uuid in _selectedEpisodes) {
+                  await MemberController.instance.followEpisode(
+                    widget.anime,
+                    AnimeDetailsController.instance.items.firstWhere(
+                      (final EpisodeMappingDto episode) => episode.uuid == uuid,
+                    ),
+                    refreshAfterFollow: false,
+                  );
+                }
+
+                await MemberController.instance.refresh();
+
+                VibrationController.instance
+                    .vibrate(pattern: <int>[0, 50, 125, 50, 125, 50]);
+
+                setState(_selectedEpisodes.clear);
+              },
+              tooltip: 'Mark as watched',
+              child: const Icon(Icons.bookmarks),
+            )
+          : null,
     );
   }
 
   List<Widget> _buildEpisodeList(
     final BuildContext context,
     final List<EpisodeMappingDto> episodes,
-  ) {
-    final double smallestDimension = MediaQuery.sizeOf(context).width;
-
-    return wb.WidgetBuilder.instance.buildRowWidgets(
-      episodes.map(
-        (final EpisodeMappingDto episode) =>
-            AnimeEpisodeComponent(episode: episode),
-      ),
-      maxElementsPerRow: max(1, (smallestDimension * 2 / 900).floor()),
-    );
-  }
+  ) =>
+      wb.WidgetBuilder.instance.buildRowWidgets(
+        episodes.map(
+          (final EpisodeMappingDto episode) => AnimeEpisodeComponent(
+            episode: episode,
+            onDoubleAndLongPress: () {
+              setState(() {
+                if (_selectedEpisodes.contains(episode.uuid)) {
+                  _selectedEpisodes.remove(episode.uuid);
+                } else {
+                  _selectedEpisodes.add(episode.uuid);
+                }
+              });
+            },
+            isSelected: _selectedEpisodes.contains(episode.uuid),
+          ),
+        ),
+        maxElementsPerRow: max(
+          1,
+          (MediaQuery.sizeOf(context).width * 2 / 900).floor(),
+        ),
+      );
 }
