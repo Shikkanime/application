@@ -14,10 +14,17 @@ extension ExtensionsList<T> on List<T> {
 
 extension ExtensionsThemeData on ThemeData {
   static final Map<Brightness, ButtonStyle> _map = <Brightness, ButtonStyle>{};
+  static final Map<Brightness, AssetImage> _mapImage =
+      <Brightness, AssetImage>{};
 
   void addInputDecorationTheme(final ButtonStyle buttonStyle) {
     _map[brightness] = buttonStyle;
   }
 
+  void addImageDecorationTheme(final AssetImage image) {
+    _mapImage[brightness] = image;
+  }
+
   ButtonStyle? getCardButtonStyle() => _map[brightness];
+  AssetImage? getIconImage() => _mapImage[brightness];
 }

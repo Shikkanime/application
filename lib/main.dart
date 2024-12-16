@@ -81,6 +81,7 @@ class MyApp extends StatelessWidget {
           snackBarBackground: Colors.white,
           elevatedButtonBackground: const Color(0xfff6f6f6),
           elevatedButtonShadowColor: Colors.grey[300]!,
+          iconImage: const AssetImage('assets/dark_icon.png'),
         ),
         darkTheme: _buildTheme(
           brightness: Brightness.dark,
@@ -91,6 +92,7 @@ class MyApp extends StatelessWidget {
           snackBarBackground: Colors.grey[900]!,
           elevatedButtonBackground: const Color(0xff1f1f1f),
           elevatedButtonShadowColor: Colors.grey[900]!,
+          iconImage: const AssetImage('assets/light_icon.png'),
         ),
         home: hasInternet ? const MyHomePage() : const NoInternet(),
         debugShowCheckedModeBanner: false,
@@ -105,6 +107,7 @@ class MyApp extends StatelessWidget {
     required final Color snackBarBackground,
     required final Color elevatedButtonBackground,
     required final Color elevatedButtonShadowColor,
+    required final AssetImage iconImage,
   }) =>
       ThemeData(
         brightness: brightness,
@@ -176,12 +179,14 @@ class MyApp extends StatelessWidget {
         dialogTheme: DialogTheme(
           backgroundColor: canvasColor,
         ),
-      )..addInputDecorationTheme(
+      )
+        ..addInputDecorationTheme(
           ElevatedButton.styleFrom(
             backgroundColor: elevatedButtonBackground,
             shadowColor: elevatedButtonShadowColor,
           ),
-        );
+        )
+        ..addImageDecorationTheme(iconImage);
 }
 
 class MyHomePage extends StatefulWidget {
@@ -309,8 +314,8 @@ class ApplicationAppBar extends StatelessWidget implements PreferredSizeWidget {
                 AppBar(
           elevation: 0,
           centerTitle: false,
-          title: const Image(
-            image: AssetImage('assets/icon_450x450.png'),
+          title: Image(
+            image: Theme.of(context).getIconImage()!,
             width: 36,
             height: 36,
           ),
