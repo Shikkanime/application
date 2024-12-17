@@ -1,4 +1,5 @@
 import 'package:application/components/card_component.dart';
+import 'package:application/components/episodes/episode_duration.dart';
 import 'package:application/components/image_component.dart';
 import 'package:application/components/lang_type_component.dart';
 import 'package:application/components/platforms/platform_component.dart';
@@ -15,6 +16,8 @@ import 'package:application/views/anime_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
+
+const double _cornerPadding = 7.5;
 
 class CalendarAnimeComponent extends StatelessWidget {
   const CalendarAnimeComponent({
@@ -74,9 +77,19 @@ class CalendarAnimeComponent extends StatelessWidget {
               ),
               for (final PlatformDto platform in release.platforms)
                 Positioned(
-                  right: 7.5 + release.platforms.indexOf(platform) * 10,
-                  top: 7.5,
+                  right:
+                      _cornerPadding + release.platforms.indexOf(platform) * 10,
+                  top: _cornerPadding,
                   child: PlatformComponent(platform: platform),
+                ),
+              if (isReleased && !isMultipleReleased)
+                Positioned(
+                  bottom: _cornerPadding,
+                  right: _cornerPadding,
+                  child: EpisodeDuration(
+                    episode: release.mappings!.first,
+                    cornerPadding: _cornerPadding,
+                  ),
                 ),
             ],
           ),

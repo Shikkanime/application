@@ -40,11 +40,13 @@ dev_dependencies:
 
 flutter_launcher_icons:
   image_path: 'assets/icon.png'
+  adaptive_icon_background: 'assets/icon.png'
+  adaptive_icon_foreground: 'assets/icon.png'
   android: true
   ios: true
   windows:
     generate: true
-    image_path: 'assets/icon_450x450.png'
+    image_path: 'assets/light_icon.png'
     icon_size: 128
 
 flutter_native_splash:
@@ -52,19 +54,23 @@ flutter_native_splash:
   ios: true
   color: "#ffffff"
   color_dark: "#000000"
-  image: 'assets/splash.png'
+  image: 'assets/dark_icon_padding.png'
+  image_dark: 'assets/light_icon_padding.png'
   android_12:
     color: "#ffffff"
     color_dark: "#000000"
-    image: 'assets/splash.png'
+    image: 'assets/dark_icon_padding.png'
+    image_dark: 'assets/light_icon_padding.png'
 
 flutter:
   generate: true
   uses-material-design: true
   assets:
     - assets/icon.png
-    - assets/icon_450x450.png
-    - assets/splash.png
+    - assets/light_icon_padding.png
+    - assets/light_icon.png
+    - assets/dark_icon_padding.png
+    - assets/dark_icon.png
     - shorebird.yaml
   fonts:
     - family: Satoshi

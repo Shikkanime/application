@@ -28,6 +28,12 @@ class _CustomGestureDetectorState extends State<CustomGestureDetector> {
         onTapDown: (final TapDownDetails details) {
           _tapDownDetails = details;
         },
+        onSecondaryTapDown: (final TapDownDetails details) {
+          _tapDownDetails = details;
+        },
+        onSecondaryTap: () {
+          widget.onLongPress?.call(_tapDownDetails);
+        },
         child: widget.child,
       );
 }

@@ -47,6 +47,14 @@ class CropView extends StatelessWidget {
                           );
                       }
                     },
+                    clipBehavior: Clip.none,
+                    interactive: true,
+                    fixCropRect: true,
+                    cornerDotBuilder: (
+                      final double size,
+                      final EdgeAlignment edgeAlignment,
+                    ) =>
+                        const SizedBox(),
                   ),
                 ),
                 ElevatedButton(

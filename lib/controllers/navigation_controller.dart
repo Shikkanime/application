@@ -154,7 +154,7 @@ class NavigationController {
               member: snapshot.data,
               width: 32,
               height: 32,
-              hasBorder: Constant.isAndroidOrIOS && _currentIndex == 3,
+              hasBorder: _currentIndex == 3,
             ),
           ),
           title: AppLocalizations.of(context)!.myAccount,
@@ -352,15 +352,14 @@ class _DrawerButtonState extends State<DrawerButton> {
           },
           child: SizedBox(
             width: 105,
-            height: 80,
+            height: 82,
             child: Container(
               decoration: isHoverActive || widget.isActive
                   ? BoxDecoration(
                       color: Theme.of(context)
-                          .elevatedButtonTheme
-                          .style!
-                          .backgroundColor!
-                          .resolve(<WidgetState>{}),
+                          .getCardButtonStyle()
+                          ?.backgroundColor
+                          ?.resolve(<WidgetState>{}),
                       borderRadius: const BorderRadius.all(
                         Radius.circular(Constant.borderRadius),
                       ),
