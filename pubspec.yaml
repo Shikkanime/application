@@ -12,7 +12,7 @@ dependencies:
   cached_network_image: ^3.4.1
   crop_your_image: ^2.0.0
   firebase_analytics: ^11.3.6
-  firebase_core: ^3.8.1
+  firebase_core: ^3.9.0
   firebase_messaging: ^15.1.6
   flutter:
     sdk: flutter
