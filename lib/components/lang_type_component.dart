@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LangTypeComponent extends StatelessWidget {
-  const LangTypeComponent({required this.langType, super.key});
+  const LangTypeComponent({required this.langType, super.key, this.color});
 
   final String langType;
+  final Color? color;
 
   static String getLangTypeTranslation(
     final BuildContext context,
@@ -21,30 +22,28 @@ class LangTypeComponent extends StatelessWidget {
   }
 
   @override
-  Widget build(final BuildContext context) {
-    final TextStyle? textStyle = Theme.of(context).textTheme.bodyMedium;
-
-    return Flex(
-      spacing: 4,
-      direction: Axis.horizontal,
-      children: <Widget>[
-        if (langType == 'SUBTITLES')
-          Icon(
-            Icons.closed_caption,
-            size: 16,
-            color: textStyle?.color,
+  Widget build(final BuildContext context) => Flex(
+        spacing: 4,
+        direction: Axis.horizontal,
+        children: <Widget>[
+          if (langType == 'SUBTITLES')
+            Icon(
+              Icons.closed_caption,
+              size: 16,
+              color: color ?? Theme.of(context).textTheme.bodyMedium?.color,
+            ),
+          if (langType == 'VOICE')
+            Icon(
+              Icons.mic,
+              size: 16,
+              color: color ?? Theme.of(context).textTheme.bodyMedium?.color,
+            ),
+          Text(
+            getLangTypeTranslation(context, langType),
+            style: TextStyle(
+              color: color ?? Theme.of(context).textTheme.bodyMedium?.color,
+            ),
           ),
-        if (langType == 'VOICE')
-          Icon(
-            Icons.mic,
-            size: 16,
-            color: textStyle?.color,
-          ),
-        Text(
-          getLangTypeTranslation(context, langType),
-          style: textStyle,
-        ),
-      ],
-    );
-  }
+        ],
+      );
 }

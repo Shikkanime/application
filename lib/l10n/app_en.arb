@@ -65,7 +65,7 @@
   "@episodeType": {
     "description": "Text to display the episode type (episode, special, movie, recap)."
   },
-  "fullInformation": "Season {season} | {episodeType} {number}",
+  "fullInformation": "Season {season} • {episodeType} {number}",
   "@fullInformation": {
     "description": "Combined text to display the season, episode type, and its number.",
     "placeholders": {

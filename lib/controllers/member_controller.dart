@@ -289,6 +289,10 @@ class MemberController {
     final AnimeDto anime, {
     final bool loadMemberData = true,
   }) async {
+    if (member!.followedAnimes.contains(anime.uuid)) {
+      return;
+    }
+
     final Response response = await HttpRequest().put(
       '/v1/members/animes',
       member!.token,
@@ -363,8 +367,13 @@ class MemberController {
 
   Future<void> followEpisode(
     final AnimeDto? animeDto,
-    final EpisodeMappingDto episode,
-  ) async {
+    final EpisodeMappingDto episode, {
+    final bool refreshAfterFollow = true,
+  }) async {
+    if (member!.followedEpisodes.contains(episode.uuid)) {
+      return;
+    }
+
     final AnimeDto? anime = animeDto ?? episode.anime;
 
     if (anime == null) {
@@ -391,7 +400,10 @@ class MemberController {
     }
 
     member!.followedEpisodes.add(episode.uuid);
-    await refresh();
+
+    if (refreshAfterFollow) {
+      await refresh();
+    }
   }
 
   Future<void> unfollowEpisode(final EpisodeMappingDto episode) async {

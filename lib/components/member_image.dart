@@ -21,6 +21,7 @@ class MemberImage extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     final bool showDefaultImage = member?.hasProfilePicture == false;
+
     final DecoratedBox defaultImage = DecoratedBox(
       decoration: BoxDecoration(color: Theme.of(context).canvasColor),
       child: const Icon(
@@ -41,14 +42,14 @@ class MemberImage extends StatelessWidget {
               ),
             )
           : null,
-      padding: const EdgeInsets.all(1),
+      padding: hasBorder ? const EdgeInsets.all(1) : null,
       child: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(360)),
         child: showDefaultImage
             ? defaultImage
             : CachedNetworkImage(
-                width: width,
-                height: height,
+                width: hasBorder && width != null ? width! - 6 : width,
+                height: hasBorder && height != null ? height! - 6 : height,
                 imageUrl:
                     '${Constant.apiUrl}/v1/attachments?uuid=${member?.uuid}&v=${MemberController.instance.imageVersion}',
                 filterQuality: FilterQuality.high,

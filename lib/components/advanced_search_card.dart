@@ -1,4 +1,3 @@
-import 'package:application/components/card_component.dart';
 import 'package:application/components/lang_type_component.dart';
 import 'package:application/controllers/anime_search_controller.dart';
 import 'package:flutter/material.dart';
@@ -39,66 +38,69 @@ class AdvancedSearchCard extends StatelessWidget {
   ];
 
   @override
-  Widget build(final BuildContext context) => CustomCard(
-        child: Column(
+  Widget build(final BuildContext context) => SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
           spacing: 8,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              AppLocalizations.of(context)!.advancedSearch,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            Center(
-              child: Wrap(
-                alignment: WrapAlignment.center,
-                spacing: 8,
-                runSpacing: 8,
-                children: <Widget>[
-                  for (final String letter in _letters)
-                    ActionChip(
-                      label: Text(letter),
-                      onPressed: () {
-                        AnimeSearchController.instance.search(letter);
-                        controller.text = letter;
-                      },
+            ElevatedButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (final BuildContext context) => AlertDialog(
+                    title: Text(AppLocalizations.of(context)!.advancedSearch),
+                    content: Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: <Widget>[
+                        for (final String letter in _letters)
+                          ActionChip(
+                            label: Text(letter),
+                            onPressed: () {
+                              AnimeSearchController.instance.search(letter);
+                              controller.text = letter;
+                            },
+                          ),
+                      ],
                     ),
-                ],
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                for (final SearchType type in SearchType.values)
-                  Flex(
-                    direction: Axis.horizontal,
-                    children: <Widget>[
-                      Checkbox(
-                        value: AnimeSearchController.instance.searchTypes
-                            .contains(type),
-                        onChanged: (final bool? value) {
-                          if (value!) {
-                            AnimeSearchController.instance.searchTypes
-                                .add(type);
-                          } else {
-                            AnimeSearchController.instance.searchTypes
-                                .remove(type);
-                          }
-
-                          AnimeSearchController.instance.search(
-                            AnimeSearchController.instance.query,
-                          );
-                        },
-                      ),
-                      Text(
-                        LangTypeComponent.getLangTypeTranslation(
-                          context,
-                          type.name.toUpperCase(),
-                        ),
-                      ),
-                    ],
                   ),
-              ],
+                );
+              },
+              child: const Icon(Icons.tune),
             ),
+            for (final SearchType type in SearchType.values)
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor:
+                      AnimeSearchController.instance.searchType == type
+                          ? Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.color
+                              ?.withValues(alpha: 0.1)
+                          : Theme.of(context)
+                              .elevatedButtonTheme
+                              .style
+                              ?.backgroundColor
+                              ?.resolve(<WidgetState>{}),
+                ),
+                onPressed: () {
+                  if (AnimeSearchController.instance.searchType == type) {
+                    AnimeSearchController.instance.searchType = null;
+                  } else {
+                    AnimeSearchController.instance.searchType = type;
+                  }
+
+                  AnimeSearchController.instance.search(
+                    AnimeSearchController.instance.query,
+                  );
+                },
+                child: LangTypeComponent(
+                  langType: type.name.toUpperCase(),
+                  color: Theme.of(context).textTheme.bodyLarge?.color,
+                ),
+              ),
           ],
         ),
       );
