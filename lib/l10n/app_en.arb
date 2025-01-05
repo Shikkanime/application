@@ -65,7 +65,7 @@
   "@episodeType": {
     "description": "Text to display the episode type (episode, special, movie, recap)."
   },
-  "fullInformation": "Season {season} | {episodeType} {number}",
+  "fullInformation": "Season {season} • {episodeType} {number}",
   "@fullInformation": {
     "description": "Combined text to display the season, episode type, and its number.",
     "placeholders": {
@@ -388,5 +388,13 @@
   "patchFailed": "Patch failed to download. Please try again later.",
   "@patchFailed": {
     "description": "Message indicating that the patch failed to download."
+  },
+  "watchOn": "Watch on:",
+  "@watchOn": {
+    "description": "Text to indicate where to watch an anime."
+  },
+  "markAsWatched": "Mark as watched",
+  "@markAsWatched": {
+    "description": "Text for the button to mark an episode as watched."
   }
 }

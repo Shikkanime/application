@@ -1,4 +1,5 @@
 import 'package:application/components/image_component.dart';
+import 'package:application/components/platforms/platform_component.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
@@ -37,11 +38,17 @@ class FollowedAnimeComponent extends StatelessWidget {
               SizedBox(
                 width: 360 / _ratio,
                 height: 640 / _ratio,
-                child: ImageComponent(
-                  uuid: anime.uuid,
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(Constant.borderRadius),
-                  ),
+                child: Stack(
+                  children: <Widget>[
+                    ImageComponent(
+                      uuid: anime.uuid,
+                      height: 640 / _ratio,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(Constant.borderRadius),
+                      ),
+                    ),
+                    ...PlatformComponent.toPlatformsRow(anime.platforms),
+                  ],
                 ),
               ),
               Padding(

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-extension ExtensionsList<T> on List<T> {
-  List<R> mapIndexed<R>(final R Function(int index, T e) f) {
+extension ExtensionsIterable<T> on Iterable<T> {
+  Iterable<R> mapIndexed<R>(final R Function(int index, T e) f) {
     final List<R> result = <R>[];
 
     for (int i = 0; i < length; i++) {
-      result.add(f(i, this[i]));
+      result.add(f(i, elementAt(i)));
     }
 
     return result;
@@ -14,10 +14,17 @@ extension ExtensionsList<T> on List<T> {
 
 extension ExtensionsThemeData on ThemeData {
   static final Map<Brightness, ButtonStyle> _map = <Brightness, ButtonStyle>{};
+  static final Map<Brightness, AssetImage> _mapImage =
+      <Brightness, AssetImage>{};
 
   void addInputDecorationTheme(final ButtonStyle buttonStyle) {
     _map[brightness] = buttonStyle;
   }
 
+  void addImageDecorationTheme(final AssetImage image) {
+    _mapImage[brightness] = image;
+  }
+
   ButtonStyle? getCardButtonStyle() => _map[brightness];
+  AssetImage? getIconImage() => _mapImage[brightness];
 }

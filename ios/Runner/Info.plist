@@ -60,5 +60,7 @@
 		<string>Used to upload a profile picture</string>
 		<key>FirebaseAppDelegateProxyEnabled</key>
 		<false/>
+		<key>UIViewControllerBasedStatusBarAppearance</key>
+		<false/>
 	</dict>
 </plist>

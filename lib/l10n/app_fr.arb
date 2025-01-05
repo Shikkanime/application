@@ -13,7 +13,7 @@
   "season": "Saison {season}",
   "simulcastSeason": "{type, select, SPRING{Printemps} SUMMER{Été} AUTUMN{Automne} WINTER{Hiver} other{}} {year}",
   "episodeType": "{type, select, episode{Épisode} special{Spécial} film{Film} summary{Épisode récapitulatif} spin_off{Spin-off} other{}}",
-  "fullInformation": "Saison {season} | {episodeType} {number}",
+  "fullInformation": "Saison {season} • {episodeType} {number}",
   "minInformation": "{episodeType} {number}",
   "subtitles": "Sous-titrage",
   "voice": "Doublage",
@@ -98,5 +98,7 @@
   "notificationNotAuthorizedSubtitle": "Veuillez les activer dans les paramètres de votre application",
   "downloadingPatch": "Téléchargement du correctif...",
   "patchDownloaded": "Correctif téléchargé ! Redémarrez l'application pour appliquer les changements.",
-  "patchFailed": "Échec du téléchargement du correctif. Veuillez réessayer plus tard."
+  "patchFailed": "Échec du téléchargement du correctif. Veuillez réessayer plus tard.",
+  "watchOn": "Regarder sur :",
+  "markAsWatched": "Marquer comme vu"
 }

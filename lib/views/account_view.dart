@@ -49,208 +49,221 @@ class AccountView extends StatelessWidget {
     final AppLocalizations? appLocalizations = AppLocalizations.of(context);
 
     return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: StreamBuilder<MemberDto>(
-          stream: MemberController.instance.streamController.stream,
-          initialData: MemberController.instance.member,
-          builder: (
-            final BuildContext context,
-            final AsyncSnapshot<MemberDto> snapshot,
-          ) {
-            final MemberDto? member = snapshot.data;
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
+          child: StreamBuilder<MemberDto>(
+            stream: MemberController.instance.streamController.stream,
+            initialData: MemberController.instance.member,
+            builder: (
+              final BuildContext context,
+              final AsyncSnapshot<MemberDto> snapshot,
+            ) {
+              final MemberDto? member = snapshot.data;
 
-            return Column(
-              spacing: 16,
-              children: <Widget>[
-                Row(
-                  spacing: 16,
-                  children: <Widget>[
-                    GestureDetector(
-                      onTap: () {
-                        MemberController.instance.changeImage(context);
-                      },
-                      child: Stack(
-                        children: <Widget>[
-                          SizedBox(
-                            width: 80,
-                            height: 80,
-                            child: MemberImage(member: member),
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge!
-                                    .color,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(4),
-                                child: Icon(
-                                  Icons.edit,
-                                  size: 15,
-                                  color: Theme.of(context).canvasColor,
+              return Column(
+                spacing: 16,
+                children: <Widget>[
+                  Row(
+                    spacing: 16,
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: () {
+                          MemberController.instance.changeImage(context);
+                        },
+                        child: Stack(
+                          children: <Widget>[
+                            SizedBox(
+                              width: 80,
+                              height: 80,
+                              child: MemberImage(member: member),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge!
+                                      .color,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(4),
+                                  child: Icon(
+                                    Icons.edit,
+                                    size: 15,
+                                    color: Theme.of(context).canvasColor,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Column(
-                      spacing: 8,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Flex(
-                          spacing: 8,
-                          direction: Axis.horizontal,
-                          children: <Widget>[
-                            Text(
-                              appLocalizations!.anonymousAccount,
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge!
-                                    .color,
-                              ),
-                            ),
-                            GestureDetector(
-                              child: const Icon(
-                                Icons.info_outline,
-                                color: Colors.grey,
-                                size: 20,
-                              ),
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (final BuildContext context) =>
-                                      AlertDialog(
-                                    title: Text(
-                                      appLocalizations.anonymousWarningTitle,
-                                    ),
-                                    content: SingleChildScrollView(
-                                      child: Column(
-                                        spacing: 16,
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            appLocalizations
-                                                .anonymousWarningContent1,
-                                          ),
-                                          Text(
-                                            appLocalizations
-                                                .anonymousWarningContent2,
-                                          ),
-                                          Text(
-                                            appLocalizations
-                                                .anonymousWarningContent3,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text(appLocalizations.ok),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
                             ),
                           ],
                         ),
-                        if (member?.email == null)
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute<void>(
-                                  builder: (final BuildContext context) =>
-                                      const AssociateEmail(),
-                                ),
-                              );
-                            },
-                            child: Text(appLocalizations.associateEmail),
-                          ),
-                      ],
-                    ),
-                  ],
-                ),
-                Row(
-                  spacing: 16,
-                  children: <Widget>[
-                    Expanded(
-                      child: AccountCard(
-                        label: appLocalizations.animesAdded,
-                        value: NumberFormat.decimalPattern()
-                            .format(member?.followedAnimes.length ?? 0),
                       ),
-                    ),
-                    Expanded(
-                      child: AccountCard(
-                        label: appLocalizations.episodesWatched,
-                        // 2376 -> 2 376
-                        value: NumberFormat.decimalPattern()
-                            .format(member?.followedEpisodes.length ?? 0),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: AccountCard(
-                        label: appLocalizations.watchTime,
-                        value: buildTotalDuration(
-                          context,
-                          member?.totalDuration ?? 0,
-                        ),
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8),
-                            child: LinearProgressIndicator(
-                              value: (member?.totalDuration ?? 0) /
-                                  max(
-                                    1,
-                                    ((member?.totalDuration ?? 0) +
-                                            (member?.totalUnseenDuration ?? 0))
-                                        .toDouble(),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Flex(
+                              spacing: 8,
+                              direction: Axis.horizontal,
+                              children: <Widget>[
+                                Text(
+                                  appLocalizations!.anonymousAccount,
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge!
+                                        .color,
                                   ),
+                                ),
+                                GestureDetector(
+                                  child: const Icon(
+                                    Icons.info_outline,
+                                    color: Colors.grey,
+                                    size: 20,
+                                  ),
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (final BuildContext context) =>
+                                          AlertDialog(
+                                        title: Text(
+                                          appLocalizations
+                                              .anonymousWarningTitle,
+                                        ),
+                                        content: SingleChildScrollView(
+                                          child: Column(
+                                            spacing: 16,
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Text(
+                                                appLocalizations
+                                                    .anonymousWarningContent1,
+                                              ),
+                                              Text(
+                                                appLocalizations
+                                                    .anonymousWarningContent2,
+                                              ),
+                                              Text(
+                                                appLocalizations
+                                                    .anonymousWarningContent3,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text(appLocalizations.ok),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
+                            Text(
+                              appLocalizations.accountCreatedAt(
+                                DateFormat(
+                                  AppLocalizations.of(context)!
+                                      .accountDateFormat,
+                                  WidgetsBinding
+                                      .instance.platformDispatcher.locale
+                                      .toString(),
+                                ).format(
+                                  DateTime.parse(
+                                    member?.creationDateTime ?? '',
+                                  ),
+                                ),
+                              ),
+                              style: const TextStyle(
+                                fontSize: 14,
+                              ),
+                              maxLines: 2,
+                            ),
+                            if (member?.email == null) ...<Widget>[
+                              const SizedBox(height: 8),
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute<void>(
+                                      builder: (final BuildContext context) =>
+                                          const AssociateEmail(),
+                                    ),
+                                  );
+                                },
+                                child: Text(appLocalizations.associateEmail),
+                              ),
+                            ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                const FollowedAnimesRow(),
-                const FollowedEpisodesRow(),
-                Text(
-                  appLocalizations.accountCreatedAt(
-                    DateFormat(
-                      AppLocalizations.of(context)!.accountDateFormat,
-                      WidgetsBinding.instance.platformDispatcher.locale
-                          .toString(),
-                    ).format(DateTime.parse(member?.creationDateTime ?? '')),
+                    ],
                   ),
-                  style: const TextStyle(
-                    fontSize: 14,
+                  Row(
+                    spacing: 16,
+                    children: <Widget>[
+                      Expanded(
+                        child: AccountCard(
+                          label: appLocalizations.animesAdded,
+                          value: NumberFormat.decimalPattern()
+                              .format(member?.followedAnimes.length ?? 0),
+                        ),
+                      ),
+                      Expanded(
+                        child: AccountCard(
+                          label: appLocalizations.episodesWatched,
+                          // 2376 -> 2 376
+                          value: NumberFormat.decimalPattern()
+                              .format(member?.followedEpisodes.length ?? 0),
+                        ),
+                      ),
+                    ],
                   ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            );
-          },
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: AccountCard(
+                          label: appLocalizations.watchTime,
+                          value: buildTotalDuration(
+                            context,
+                            member?.totalDuration ?? 0,
+                          ),
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8),
+                              child: LinearProgressIndicator(
+                                value: (member?.totalDuration ?? 0) /
+                                    max(
+                                      1,
+                                      ((member?.totalDuration ?? 0) +
+                                              (member?.totalUnseenDuration ??
+                                                  0))
+                                          .toDouble(),
+                                    ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const FollowedAnimesRow(),
+                  const FollowedEpisodesRow(),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
@@ -396,7 +409,7 @@ class FollowedEpisodesRow extends StatelessWidget {
                     children: <Widget>[
                       Expanded(
                         child: SizedBox(
-                          height: 130,
+                          height: 125,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             addAutomaticKeepAlives: false,

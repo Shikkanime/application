@@ -101,7 +101,7 @@ class _CalendarViewState extends State<CalendarView> {
             release: release,
           ),
         ),
-        maxElementsPerRow: max(1, (smallestDimension * 2 / 900).floor()),
+        maxElementsPerRow: max(1, (smallestDimension * 3 / 900).floor()),
       ),
     ];
   }

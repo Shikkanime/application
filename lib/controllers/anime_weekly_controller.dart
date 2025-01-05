@@ -12,7 +12,7 @@ class AnimeWeeklyController extends GenericController<WeekDayDto> {
   @override
   Future<Iterable<WeekDayDto>> fetchItems() async {
     final List<dynamic> json = await HttpRequest.instance.get<List<dynamic>>(
-      '/v2/animes/weekly',
+      '/v1/animes/weekly',
       token: memberMode ? MemberController.instance.member?.token : null,
     );
 

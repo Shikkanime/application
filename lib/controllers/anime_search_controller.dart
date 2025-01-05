@@ -14,7 +14,7 @@ class AnimeSearchController extends GenericController<AnimeDto> {
   static final AnimeSearchController instance = AnimeSearchController();
   Timer? _timer;
   String query = '';
-  final Set<SearchType> searchTypes = SearchType.values.toSet();
+  SearchType? searchType;
 
   int get _limit =>
       wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
@@ -37,12 +37,9 @@ class AnimeSearchController extends GenericController<AnimeDto> {
 
   @override
   Future<Iterable<AnimeDto>> fetchItems() async {
-    final String searchTypesString =
-        searchTypes.map((final SearchType e) => e.name.toUpperCase()).join(',');
-
     final Map<String, Object> queryMap = <String, Object>{
       'country': 'FR',
-      'searchTypes': searchTypesString,
+      if (searchType != null) 'searchTypes': searchType!.name.toUpperCase(),
       if (query.isNotEmpty) 'name': Uri.encodeComponent(query),
       'page': page,
       'limit': _limit,

@@ -1,7 +1,8 @@
+import 'package:application/components/episodes/episode_duration.dart';
 import 'package:application/components/image_component.dart';
 import 'package:application/components/platforms/platform_component.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
-import 'package:application/dtos/platform_dto.dart';
+import 'package:application/utils/constant.dart';
 import 'package:flutter/material.dart';
 
 class EpisodeImage extends StatelessWidget {
@@ -33,49 +34,16 @@ class EpisodeImage extends StatelessWidget {
             height: height,
           ),
           if (episode.platforms != null && episode.platforms!.isNotEmpty)
-            for (final PlatformDto platform in episode.platforms!)
-              Positioned(
-                right: 7.5 + episode.platforms!.indexOf(platform) * 10,
-                top: 7.5,
-                child: PlatformComponent(platform: platform),
-              ),
+            ...PlatformComponent.toPlatformsRow(episode.platforms!),
           if (showDuration)
             Positioned(
-              bottom: 8,
-              right: 8,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(4)),
-                child: ColoredBox(
-                  color: Colors.black.withValues(alpha: 0.5),
-                  child: Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: Text(
-                      _duration(Duration(seconds: episode.duration)),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                      ),
-                    ),
-                  ),
-                ),
+              bottom: Constant.cornerPadding,
+              right: Constant.cornerPadding,
+              child: EpisodeDuration(
+                episode: episode,
+                cornerPadding: Constant.cornerPadding,
               ),
-            )
-          else
-            const SizedBox(),
+            ),
         ],
       );
-
-  String _duration(final Duration duration) {
-    final List<String> parts = <String>[];
-
-    if (duration.inHours > 0) {
-      parts.add('${duration.inHours}');
-    }
-
-    parts
-      ..add(duration.inMinutes.remainder(60).toString())
-      ..add(duration.inSeconds.remainder(60).toString().padLeft(2, '0'));
-
-    return parts.join(':');
-  }
 }

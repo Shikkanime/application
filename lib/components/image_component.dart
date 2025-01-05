@@ -10,7 +10,7 @@ class ImageComponent extends StatelessWidget {
     this.type = 'image',
     this.borderRadius = BorderRadius.zero,
     this.width = double.infinity,
-    this.height = double.infinity,
+    this.height,
     this.animate = true,
   });
 
@@ -18,8 +18,8 @@ class ImageComponent extends StatelessWidget {
   final BoxFit fit;
   final String type;
   final BorderRadius borderRadius;
-  final double width;
-  final double height;
+  final double? width;
+  final double? height;
   final bool animate;
 
   @override
