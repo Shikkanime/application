@@ -6,6 +6,7 @@ import 'dart:typed_data';
 import 'package:application/controllers/followed_anime_controller.dart';
 import 'package:application/controllers/followed_episode_controller.dart';
 import 'package:application/controllers/missed_anime_controller.dart';
+import 'package:application/controllers/shared_preferences_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/dtos/member_dto.dart';
@@ -19,11 +20,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class MemberController {
   static MemberController instance = MemberController();
-  late final SharedPreferences _sharedPreferences;
   final StreamController<MemberDto> streamController =
       StreamController<MemberDto>.broadcast();
   String? identifier;
@@ -31,12 +30,10 @@ class MemberController {
   int imageVersion = 0;
 
   Future<void> init({final bool afterDelete = false}) async {
-    if (!afterDelete) {
-      _sharedPreferences = await SharedPreferences.getInstance();
-    }
-
-    identifier = _sharedPreferences.getString('identifier') ?? await register();
-    imageVersion = _sharedPreferences.getInt('imageVersion') ?? 0;
+    identifier = SharedPreferencesController.instance.getString('identifier') ??
+        await register();
+    imageVersion =
+        SharedPreferencesController.instance.getInt('imageVersion') ?? 0;
 
     try {
       await login();
@@ -46,10 +43,11 @@ class MemberController {
       if (!afterDelete) {
         // Move the current identifier to old identifier
         final String? oldIdentifier = identifier;
-        await _sharedPreferences.remove('identifier');
-        await _sharedPreferences.remove('imageVersion');
+        await SharedPreferencesController.instance.remove('identifier');
+        await SharedPreferencesController.instance.remove('imageVersion');
 
-        await _sharedPreferences.setString('oldIdentifier', oldIdentifier!);
+        await SharedPreferencesController.instance
+            .setString('oldIdentifier', oldIdentifier!);
         await init(afterDelete: true);
       }
     } on TimeoutException catch (e) {
@@ -70,7 +68,8 @@ class MemberController {
 
     final String identifier = (jsonDecode(utf8.decode(response.bodyBytes))
         as Map<String, dynamic>)['identifier'] as String;
-    await _sharedPreferences.setString('identifier', identifier);
+    await SharedPreferencesController.instance
+        .setString('identifier', identifier);
     Analytics.instance.logSignUp();
     return identifier;
   }
@@ -97,7 +96,8 @@ class MemberController {
 
     if (identifier != null) {
       this.identifier = identifier;
-      await _sharedPreferences.setString('identifier', identifier);
+      await SharedPreferencesController.instance
+          .setString('identifier', identifier);
     }
 
     member = MemberDto.fromJson(json);
@@ -215,7 +215,8 @@ class MemberController {
 
   Future<void> increaseImageVersion() async {
     imageVersion++;
-    await _sharedPreferences.setInt('imageVersion', imageVersion);
+    await SharedPreferencesController.instance
+        .setInt('imageVersion', imageVersion);
     member = member!.copyWith(hasProfilePicture: true);
     streamController.add(member!);
   }

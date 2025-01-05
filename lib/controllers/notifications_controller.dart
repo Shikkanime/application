@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:application/controllers/member_controller.dart';
+import 'package:application/controllers/shared_preferences_controller.dart';
 import 'package:application/utils/constant.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 enum NotificationsType {
   watchlist,
@@ -15,19 +15,16 @@ enum NotificationsType {
 class NotificationsController {
   static final NotificationsController instance = NotificationsController();
   final String key = 'notificationsType';
-  late final SharedPreferences _sharedPreferences;
   final StreamController<NotificationsType> streamController =
       StreamController<NotificationsType>.broadcast();
   FirebaseMessaging? _messaging;
 
-  NotificationsType get notificationsType =>
-      NotificationsType.values[_sharedPreferences.getInt(key) ?? 0];
+  NotificationsType get notificationsType => NotificationsType
+      .values[SharedPreferencesController.instance.getInt(key) ?? 0];
 
   Future<void> init() async {
-    _sharedPreferences = await SharedPreferences.getInstance();
-
     if (!Constant.isAndroidOrIOS) {
-      if (!_sharedPreferences.containsKey(key)) {
+      if (!SharedPreferencesController.instance.containsKey(key)) {
         await setNotificationsType(NotificationsType.none);
       }
 
@@ -36,7 +33,7 @@ class NotificationsController {
 
     _messaging = FirebaseMessaging.instance;
 
-    if (_sharedPreferences.containsKey(key)) {
+    if (SharedPreferencesController.instance.containsKey(key)) {
       debugPrint('Notifications type already set');
       return;
     }
@@ -46,18 +43,19 @@ class NotificationsController {
 
     if (response?.authorizationStatus != AuthorizationStatus.authorized) {
       debugPrint('Notifications are not authorized');
-      await _sharedPreferences.setInt(key, NotificationsType.none.index);
+      await SharedPreferencesController.instance
+          .setInt(key, NotificationsType.none.index);
       return;
     }
 
-    if (!_sharedPreferences.containsKey(key)) {
+    if (!SharedPreferencesController.instance.containsKey(key)) {
       await setNotificationsType(NotificationsType.watchlist);
     }
   }
 
   Future<bool> setNotificationsType(final NotificationsType type) async {
     if (_messaging == null || !Constant.isAndroidOrIOS) {
-      await _sharedPreferences.setInt(key, type.index);
+      await SharedPreferencesController.instance.setInt(key, type.index);
       return false;
     }
 
@@ -69,7 +67,7 @@ class NotificationsController {
     }
 
     final List<Future<void>> futures = <Future<void>>[
-      _sharedPreferences.setInt(key, type.index),
+      SharedPreferencesController.instance.setInt(key, type.index),
     ];
 
     switch (type) {
