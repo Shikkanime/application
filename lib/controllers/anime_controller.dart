@@ -24,6 +24,10 @@ class AnimeController extends GenericController<AnimeDto> {
 
   @override
   Future<Iterable<AnimeDto>> fetchItems() async {
+    if (selectedSimulcast == null) {
+      return <AnimeDto>[];
+    }
+
     final PageableDto pageableDto = await HttpRequest.instance.getPage(
       '/v1/animes?simulcast=${selectedSimulcast?.uuid}&sort=name&page=$page&limit=$_limit',
     );
