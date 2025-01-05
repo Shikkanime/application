@@ -8,6 +8,8 @@ import 'package:application/controllers/missed_anime_controller.dart';
 import 'package:application/controllers/navigation_controller.dart';
 import 'package:application/controllers/notifications_controller.dart';
 import 'package:application/controllers/patch_controller.dart';
+import 'package:application/controllers/review_controller.dart';
+import 'package:application/controllers/shared_preferences_controller.dart';
 import 'package:application/controllers/simulcast_controller.dart';
 import 'package:application/controllers/sort_controller.dart';
 import 'package:application/firebase_options.dart';
@@ -40,6 +42,7 @@ Future<void> main() async {
       );
     }
 
+    await SharedPreferencesController.instance.init();
     await MemberController.instance.init();
 
     await Future.wait(<Future<void>>[
@@ -214,6 +217,7 @@ class _MyHomePageState extends State<MyHomePage> {
       NotificationsController.instance.init();
       Analytics.instance.logScreenView('home');
       PatchController.instance.patch(context);
+      ReviewController.instance.requestReview();
     });
   }
 

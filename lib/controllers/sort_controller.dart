@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:application/controllers/shared_preferences_controller.dart';
 
 enum SortType {
   oldest(
@@ -26,22 +26,20 @@ enum SortType {
 class SortController {
   static final SortController instance = SortController();
   final String key = 'sortType';
-  late final SharedPreferences _sharedPreferences;
   final StreamController<SortType> streamController =
       StreamController<SortType>.broadcast();
 
-  SortType get sortType => SortType.values[_sharedPreferences.getInt(key) ?? 0];
+  SortType get sortType =>
+      SortType.values[SharedPreferencesController.instance.getInt(key) ?? 0];
 
   Future<void> init() async {
-    _sharedPreferences = await SharedPreferences.getInstance();
-
-    if (!_sharedPreferences.containsKey(key)) {
+    if (!SharedPreferencesController.instance.containsKey(key)) {
       await setSortType(SortType.oldest);
     }
   }
 
   Future<void> setSortType(final SortType sortType) async {
-    await _sharedPreferences.setInt(key, sortType.index);
+    await SharedPreferencesController.instance.setInt(key, sortType.index);
     streamController.add(sortType);
   }
 }
