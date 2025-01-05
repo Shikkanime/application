@@ -22,39 +22,44 @@ class CropView extends StatelessWidget {
           title: Text(AppLocalizations.of(context)!.crop),
         ),
         body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Column(
-              spacing: 16,
-              children: <Widget>[
-                Expanded(
-                  child: Crop(
-                    controller: controller,
-                    image: bytes,
-                    withCircleUi: true,
-                    baseColor: Theme.of(context).scaffoldBackgroundColor,
-                    filterQuality: FilterQuality.high,
-                    onCropped: (final CropResult result) {
-                      switch (result) {
-                        case CropSuccess(:final Uint8List croppedImage):
-                          Navigator.of(context).pop();
-                          MemberController.instance.updateImage(croppedImage);
-                        case CropFailure():
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Failed to crop image'),
-                            ),
-                          );
-                      }
-                    },
-                  ),
+          child: Column(
+            spacing: 16,
+            children: <Widget>[
+              Expanded(
+                child: Crop(
+                  controller: controller,
+                  image: bytes,
+                  withCircleUi: true,
+                  baseColor: Theme.of(context).scaffoldBackgroundColor,
+                  filterQuality: FilterQuality.high,
+                  onCropped: (final CropResult result) {
+                    switch (result) {
+                      case CropSuccess(:final Uint8List croppedImage):
+                        Navigator.of(context).pop();
+                        MemberController.instance.updateImage(croppedImage);
+                      case CropFailure():
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Failed to crop image'),
+                          ),
+                        );
+                    }
+                  },
+                  clipBehavior: Clip.none,
+                  interactive: true,
+                  fixCropRect: true,
+                  cornerDotBuilder: (
+                    final double size,
+                    final EdgeAlignment edgeAlignment,
+                  ) =>
+                      const SizedBox(),
                 ),
-                ElevatedButton(
-                  onPressed: controller.crop,
-                  child: Text(AppLocalizations.of(context)!.save),
-                ),
-              ],
-            ),
+              ),
+              ElevatedButton(
+                onPressed: controller.crop,
+                child: Text(AppLocalizations.of(context)!.save),
+              ),
+            ],
           ),
         ),
       );

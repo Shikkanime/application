@@ -1,6 +1,7 @@
 import 'package:application/components/card_component.dart';
 import 'package:application/components/image_component.dart';
 import 'package:application/components/lang_type_component.dart';
+import 'package:application/components/platforms/platform_component.dart';
 import 'package:application/components/watchlist_button.dart';
 import 'package:application/controllers/anime_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
@@ -39,13 +40,18 @@ class AnimeComponent extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            ImageComponent(
-              fit: BoxFit.cover,
-              uuid: anime.uuid,
-              height: 280,
-              borderRadius: const BorderRadius.all(
-                Radius.circular(Constant.borderRadius),
-              ),
+            Stack(
+              children: <Widget>[
+                ImageComponent(
+                  fit: BoxFit.cover,
+                  uuid: anime.uuid,
+                  height: 280,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(Constant.borderRadius),
+                  ),
+                ),
+                ...PlatformComponent.toPlatformsRow(anime.platforms),
+              ],
             ),
             const SizedBox(height: 8),
             Text(

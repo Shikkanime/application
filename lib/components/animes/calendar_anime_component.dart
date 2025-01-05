@@ -1,4 +1,5 @@
 import 'package:application/components/card_component.dart';
+import 'package:application/components/episodes/episode_duration.dart';
 import 'package:application/components/image_component.dart';
 import 'package:application/components/lang_type_component.dart';
 import 'package:application/components/platforms/platform_component.dart';
@@ -6,7 +7,6 @@ import 'package:application/components/watch_button.dart';
 import 'package:application/components/watchlist_button.dart';
 import 'package:application/controllers/anime_controller.dart';
 import 'package:application/controllers/anime_weekly_controller.dart';
-import 'package:application/dtos/platform_dto.dart';
 import 'package:application/dtos/week_day_release_dto.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
@@ -72,11 +72,15 @@ class CalendarAnimeComponent extends StatelessWidget {
                 ),
                 height: 185,
               ),
-              for (final PlatformDto platform in release.platforms)
+              ...PlatformComponent.toPlatformsRow(release.platforms),
+              if (isReleased && !isMultipleReleased)
                 Positioned(
-                  right: 7.5 + release.platforms.indexOf(platform) * 10,
-                  top: 7.5,
-                  child: PlatformComponent(platform: platform),
+                  bottom: Constant.cornerPadding,
+                  right: Constant.cornerPadding,
+                  child: EpisodeDuration(
+                    episode: release.mappings!.first,
+                    cornerPadding: Constant.cornerPadding,
+                  ),
                 ),
             ],
           ),

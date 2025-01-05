@@ -7,10 +7,12 @@ class EpisodeInformation extends StatelessWidget {
     required this.episode,
     super.key,
     this.showSeason = true,
+    this.style,
   });
 
   final EpisodeMappingDto episode;
   final bool showSeason;
+  final TextStyle? style;
 
   @override
   Widget build(final BuildContext context) => Text(
@@ -26,7 +28,7 @@ class EpisodeInformation extends StatelessWidget {
                     .episodeType(episode.episodeType.toLowerCase()),
                 episode.number,
               ),
-        style: Theme.of(context).textTheme.bodyMedium,
+        style: style ?? Theme.of(context).textTheme.bodyMedium,
         overflow: TextOverflow.ellipsis,
       );
 }

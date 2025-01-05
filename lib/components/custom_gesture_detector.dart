@@ -4,11 +4,13 @@ class CustomGestureDetector extends StatefulWidget {
   const CustomGestureDetector({
     super.key,
     this.onTap,
+    this.onDoubleTap,
     this.onLongPress,
     this.child,
   });
 
   final Function()? onTap;
+  final Function()? onDoubleTap;
   final Function(TapDownDetails?)? onLongPress;
   final Widget? child;
 
@@ -22,11 +24,18 @@ class _CustomGestureDetectorState extends State<CustomGestureDetector> {
   @override
   Widget build(final BuildContext context) => GestureDetector(
         onTap: widget.onTap,
+        onDoubleTap: widget.onDoubleTap,
         onLongPress: () {
           widget.onLongPress?.call(_tapDownDetails);
         },
         onTapDown: (final TapDownDetails details) {
           _tapDownDetails = details;
+        },
+        onSecondaryTapDown: (final TapDownDetails details) {
+          _tapDownDetails = details;
+        },
+        onSecondaryTap: () {
+          widget.onLongPress?.call(_tapDownDetails);
         },
         child: widget.child,
       );

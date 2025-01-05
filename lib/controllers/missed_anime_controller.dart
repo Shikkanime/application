@@ -2,16 +2,17 @@ import 'package:application/controllers/generic_controller.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/dtos/missed_anime_dto.dart';
 import 'package:application/dtos/pageable_dto.dart';
+import 'package:application/utils/constant.dart';
 import 'package:application/utils/http_request.dart';
 import 'package:application/utils/widget_builder.dart' as wb;
 
 class MissedAnimeController extends GenericController<MissedAnimeDto> {
   static final MissedAnimeController instance = MissedAnimeController();
 
-  int get _limit =>
-      wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
-          ? 9
-          : 24;
+  int get _limit => Constant.isAndroidOrIOS &&
+          wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
+      ? 9
+      : 24;
 
   void setItems(final List<MissedAnimeDto> items) {
     this.items.clear();

@@ -31,6 +31,9 @@ _$AnimeDtoImpl _$$AnimeDtoImplFromJson(Map<String, dynamic> json) =>
           ?.map((e) => SeasonDto.fromJson(e as Map<String, dynamic>))
           .toList(),
       status: json['status'] as String?,
+      platformIds: (json['platformIds'] as List<dynamic>?)
+          ?.map((e) => AnimePlatformDto.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$AnimeDtoImplToJson(_$AnimeDtoImpl instance) =>
@@ -50,4 +53,5 @@ Map<String, dynamic> _$$AnimeDtoImplToJson(_$AnimeDtoImpl instance) =>
       'langTypes': instance.langTypes,
       'seasons': instance.seasons,
       'status': instance.status,
+      'platformIds': instance.platformIds,
     };

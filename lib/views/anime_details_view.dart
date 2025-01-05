@@ -5,13 +5,16 @@ import 'package:application/components/elevated_dropdown_button.dart';
 import 'package:application/components/episodes/anime_episode_component.dart';
 import 'package:application/components/image_component.dart';
 import 'package:application/components/lang_type_component.dart';
+import 'package:application/components/platforms/platform_component.dart';
 import 'package:application/components/watchlist_button.dart';
 import 'package:application/controllers/anime_details_controller.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/sort_controller.dart';
 import 'package:application/controllers/vibration_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
+import 'package:application/dtos/anime_platform_dto.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
+import 'package:application/dtos/platform_dto.dart';
 import 'package:application/dtos/season_dto.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
@@ -19,6 +22,7 @@ import 'package:application/utils/widget_builder.dart' as wb;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AnimeDetailsView extends StatefulWidget {
   const AnimeDetailsView({required this.anime, super.key});
@@ -31,6 +35,8 @@ class AnimeDetailsView extends StatefulWidget {
 
 class _AnimeDetailsViewState extends State<AnimeDetailsView> {
   bool _showMore = false;
+  final ScrollController scrollController = ScrollController();
+  final Set<String> _selectedEpisodes = <String>{};
 
   @override
   void initState() {
@@ -117,14 +123,21 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    ImageComponent(
-                      uuid: widget.anime.uuid,
-                      fit: BoxFit.cover,
-                      height: MediaQuery.sizeOf(context).height * 0.3,
-                      type: 'banner',
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(Constant.borderRadius),
-                      ),
+                    Stack(
+                      children: <Widget>[
+                        ImageComponent(
+                          uuid: widget.anime.uuid,
+                          type: 'banner',
+                          height: MediaQuery.sizeOf(context).height * 0.3,
+                          fit: BoxFit.cover,
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(Constant.borderRadius),
+                          ),
+                        ),
+                        ...PlatformComponent.toPlatformsRow(
+                          widget.anime.platforms,
+                        ),
+                      ],
                     ),
                     Row(
                       spacing: 8,
@@ -152,6 +165,80 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                           children: <Widget>[
                             WatchlistButton(anime: widget.anime),
                           ],
+                        ),
+                      ],
+                    ),
+                    Column(
+                      spacing: 4,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(AppLocalizations.of(context)!.watchOn),
+                        Scrollbar(
+                          controller: scrollController,
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            controller: scrollController,
+                            child: Row(
+                              spacing: 16,
+                              children: <Widget>[
+                                for (final PlatformDto platform
+                                    in widget.anime.platforms)
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      final AnimePlatformDto? animePlatform =
+                                          widget.anime.platformIds?.firstWhere(
+                                        (final AnimePlatformDto e) =>
+                                            e.platform.id == platform.id,
+                                      );
+
+                                      if (animePlatform == null) {
+                                        return;
+                                      }
+
+                                      String? url;
+
+                                      switch (platform.id) {
+                                        case 'CRUN':
+                                          url =
+                                              'https://www.crunchyroll.com/series/${animePlatform.platformId}';
+                                        case 'ANIM':
+                                          url =
+                                              'https://animationdigitalnetwork.com/video/${animePlatform.platformId}';
+                                        case 'NETF':
+                                          url =
+                                              'https://www.netflix.com/title/${animePlatform.platformId}';
+                                        case 'PRIM':
+                                          url =
+                                              'https://www.primevideo.com/detail/${animePlatform.platformId}';
+                                        case 'DISN':
+                                          url =
+                                              'https://www.disneyplus.com/browse/entity-${animePlatform.platformId}';
+                                      }
+
+                                      if (url != null) {
+                                        launchUrl(
+                                          Uri.parse(url),
+                                          mode: LaunchMode
+                                              .externalNonBrowserApplication,
+                                        );
+                                      }
+                                    },
+                                    child: Flex(
+                                      spacing: 8,
+                                      mainAxisSize: MainAxisSize.min,
+                                      direction: Axis.horizontal,
+                                      children: <Widget>[
+                                        PlatformComponent(platform: platform),
+                                        Text(
+                                          platform.name,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -249,31 +336,65 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                 builder: (
                   final BuildContext context,
                   final AsyncSnapshot<List<EpisodeMappingDto>> snapshot,
-                ) {
-                  final List<Widget> list =
-                      _buildEpisodeList(context, snapshot.data!);
-                  return Column(children: list);
-                },
+                ) =>
+                    Column(
+                  children: _buildEpisodeList(context, snapshot.data!),
+                ),
               ),
             ],
           ),
         ),
       ),
+      floatingActionButton: _selectedEpisodes.isNotEmpty
+          ? FloatingActionButton(
+              onPressed: () async {
+                for (final String uuid in _selectedEpisodes) {
+                  await MemberController.instance.followEpisode(
+                    widget.anime,
+                    AnimeDetailsController.instance.items.firstWhere(
+                      (final EpisodeMappingDto episode) => episode.uuid == uuid,
+                    ),
+                    refreshAfterFollow: false,
+                  );
+                }
+
+                await MemberController.instance.refresh();
+
+                VibrationController.instance
+                    .vibrate(pattern: <int>[0, 50, 125, 50, 125, 50]);
+
+                setState(_selectedEpisodes.clear);
+              },
+              tooltip: AppLocalizations.of(context)!.markAsWatched,
+              child: const Icon(Icons.bookmarks),
+            )
+          : null,
     );
   }
 
   List<Widget> _buildEpisodeList(
     final BuildContext context,
     final List<EpisodeMappingDto> episodes,
-  ) {
-    final double smallestDimension = MediaQuery.sizeOf(context).width;
-
-    return wb.WidgetBuilder.instance.buildRowWidgets(
-      episodes.map(
-        (final EpisodeMappingDto episode) =>
-            AnimeEpisodeComponent(episode: episode),
-      ),
-      maxElementsPerRow: max(1, (smallestDimension * 2 / 900).floor()),
-    );
-  }
+  ) =>
+      wb.WidgetBuilder.instance.buildRowWidgets(
+        episodes.map(
+          (final EpisodeMappingDto episode) => AnimeEpisodeComponent(
+            episode: episode,
+            onDoubleAndLongPress: () {
+              setState(() {
+                if (_selectedEpisodes.contains(episode.uuid)) {
+                  _selectedEpisodes.remove(episode.uuid);
+                } else {
+                  _selectedEpisodes.add(episode.uuid);
+                }
+              });
+            },
+            isSelected: _selectedEpisodes.contains(episode.uuid),
+          ),
+        ),
+        maxElementsPerRow: max(
+          1,
+          (MediaQuery.sizeOf(context).width * 2 / 900).floor(),
+        ),
+      );
 }

@@ -11,12 +11,21 @@ class AnimeEpisodeComponent extends StatelessWidget {
   const AnimeEpisodeComponent({
     required this.episode,
     super.key,
+    this.onDoubleAndLongPress,
+    this.isSelected = false,
   });
 
   final EpisodeMappingDto episode;
+  final void Function()? onDoubleAndLongPress;
+  final bool isSelected;
 
   @override
   Widget build(final BuildContext context) => CustomCard(
+        onDoubleTap: onDoubleAndLongPress,
+        onLongPress: (final TapDownDetails? details) {
+          onDoubleAndLongPress?.call();
+        },
+        isSelected: isSelected,
         child: SizedBox(
           height: 170,
           child: Row(

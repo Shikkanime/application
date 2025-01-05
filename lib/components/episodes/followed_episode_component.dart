@@ -64,7 +64,10 @@ class FollowedEpisodeComponent extends StatelessWidget {
               maxLines: 1,
               textAlign: TextAlign.center,
             ),
-            EpisodeInformation(episode: episode),
+            EpisodeInformation(
+              episode: episode,
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
           ],
         ),
       ),
