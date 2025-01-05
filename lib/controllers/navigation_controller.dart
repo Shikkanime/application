@@ -8,6 +8,7 @@ import 'package:application/controllers/anime_weekly_controller.dart';
 import 'package:application/controllers/episode_controller.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/missed_anime_controller.dart';
+import 'package:application/controllers/simulcast_controller.dart';
 import 'package:application/dtos/member_dto.dart';
 import 'package:application/dtos/missed_anime_dto.dart';
 import 'package:application/utils/analytics.dart';
@@ -52,7 +53,13 @@ class NavigationController {
           EpisodeController.instance.goToTop();
           MissedAnimeController.instance.init();
         case 1:
-          AnimeController.instance.goToTop();
+          Future.forEach(
+            <Future<void>>[
+              SimulcastController.instance.init(),
+              AnimeController.instance.goToTop(),
+            ],
+            (final Future<void> e) => e,
+          );
         case 2:
           AnimeWeeklyController.instance.goToTop();
       }
