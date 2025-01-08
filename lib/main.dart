@@ -12,6 +12,7 @@ import 'package:application/controllers/review_controller.dart';
 import 'package:application/controllers/shared_preferences_controller.dart';
 import 'package:application/controllers/simulcast_controller.dart';
 import 'package:application/controllers/sort_controller.dart';
+import 'package:application/controllers/update_controller.dart';
 import 'package:application/firebase_options.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
@@ -218,6 +219,7 @@ class _MyHomePageState extends State<MyHomePage> {
       Analytics.instance.logScreenView('home');
       PatchController.instance.patch(context);
       ReviewController.instance.requestReview();
+      UpdateController.instance.checkIfStoreUpdateIsAvailable(context);
     });
   }
 
