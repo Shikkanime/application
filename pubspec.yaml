@@ -12,7 +12,7 @@ dependencies:
   cached_network_image: ^3.4.1
   crop_your_image: ^2.0.0
   firebase_analytics: ^11.4.0
-  firebase_core: ^3.9.0
+  firebase_core: ^3.10.0
   firebase_messaging: ^15.2.0
   flutter:
     sdk: flutter
@@ -37,7 +37,7 @@ dev_dependencies:
   flutter_lints: ^5.0.0
   flutter_native_splash: ^2.4.4
   freezed: ^2.5.8
-  json_serializable: ^6.9.0
+  json_serializable: ^6.9.2
 
 flutter_launcher_icons:
   image_path: 'assets/icon.png'
