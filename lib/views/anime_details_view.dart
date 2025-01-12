@@ -128,10 +128,7 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                         ImageComponent(
                           uuid: widget.anime.uuid,
                           type: 'banner',
-                          height: wb.WidgetBuilder.instance.getDeviceType() ==
-                                  wb.DeviceType.mobile
-                              ? null
-                              : MediaQuery.sizeOf(context).height * 0.3,
+                          height: MediaQuery.sizeOf(context).height * 0.25,
                           fit: BoxFit.cover,
                           borderRadius: const BorderRadius.all(
                             Radius.circular(Constant.borderRadius),
