@@ -10,7 +10,11 @@ class HttpRequest {
   static final HttpRequest instance = HttpRequest();
   static const Duration _timeout = Duration(seconds: 10);
 
-  Future<T> get<T>(final String endpoint, {final String? token}) async {
+  Future<T> get<T>(
+    final String endpoint, {
+    final String? token,
+    final VoidCallback? onUnauthorized,
+  }) async {
     final Map<String, String> headers = <String, String>{};
 
     if (token != null) {
@@ -26,6 +30,17 @@ class HttpRequest {
         )
         .timeout(_timeout);
 
+    if (response.statusCode == HttpStatus.unauthorized) {
+      onUnauthorized?.call();
+
+      return Future<T>.error(
+        PlatformException(
+          code: '401',
+          message: 'Unauthorized',
+        ),
+      );
+    }
+
     if (response.statusCode != HttpStatus.ok) {
       throw Exception('Failed to load data');
     }
@@ -36,9 +51,14 @@ class HttpRequest {
   Future<PageableDto> getPage(
     final String endpoint, {
     final String? token,
+    final VoidCallback? onUnauthorized,
   }) async =>
       PageableDto.fromJson(
-        await get<Map<String, dynamic>>(endpoint, token: token),
+        await get<Map<String, dynamic>>(
+          endpoint,
+          token: token,
+          onUnauthorized: onUnauthorized,
+        ),
       );
 
   Future<http.Response> post<Response>(

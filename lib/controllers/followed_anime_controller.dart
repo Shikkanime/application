@@ -7,6 +7,7 @@ import 'package:application/utils/widget_builder.dart' as wb;
 
 class FollowedAnimeController extends GenericController<AnimeDto> {
   static final FollowedAnimeController instance = FollowedAnimeController();
+  bool _isRetry = false;
 
   int get _limit =>
       wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
@@ -26,7 +27,18 @@ class FollowedAnimeController extends GenericController<AnimeDto> {
     final PageableDto pageableDto = await HttpRequest.instance.getPage(
       '/v1/animes?page=$page&limit=$_limit',
       token: MemberController.instance.member?.token,
+      onUnauthorized: () async {
+        if (_isRetry) {
+          return;
+        }
+
+        _isRetry = true;
+        await MemberController.instance.login();
+        await fetchItems();
+      },
     );
+
+    _isRetry = false;
 
     return pageableDto.data
         .map((final dynamic e) => AnimeDto.fromJson(e as Map<String, dynamic>));
