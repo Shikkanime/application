@@ -5,6 +5,7 @@ import 'package:application/controllers/shared_preferences_controller.dart';
 import 'package:application/utils/constant.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 enum NotificationsType {
   watchlist,
@@ -32,6 +33,23 @@ class NotificationsController {
     }
 
     _messaging = FirebaseMessaging.instance;
+
+    const AndroidNotificationChannel channel = AndroidNotificationChannel(
+      'high_importance_channel',
+      'High Importance Notifications',
+      description: 'This channel is used for important notifications',
+      importance: Importance.max,
+    );
+
+    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+        FlutterLocalNotificationsPlugin();
+
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+
+    await _messaging?.subscribeToTopic('dev');
 
     if (SharedPreferencesController.instance.containsKey(key)) {
       debugPrint('Notifications type already set');
