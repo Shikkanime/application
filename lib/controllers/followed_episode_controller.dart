@@ -7,6 +7,7 @@ import 'package:application/utils/widget_builder.dart' as wb;
 
 class FollowedEpisodeController extends GenericController<EpisodeMappingDto> {
   static final FollowedEpisodeController instance = FollowedEpisodeController();
+  bool _isRetry = false;
 
   int get _limit =>
       wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
@@ -26,7 +27,18 @@ class FollowedEpisodeController extends GenericController<EpisodeMappingDto> {
     final PageableDto pageableDto = await HttpRequest.instance.getPage(
       '/v1/episode-mappings?page=$page&limit=$_limit',
       token: MemberController.instance.member?.token,
+      onUnauthorized: () async {
+        if (_isRetry) {
+          return;
+        }
+
+        _isRetry = true;
+        await MemberController.instance.login();
+        await fetchItems();
+      },
     );
+
+    _isRetry = false;
 
     return pageableDto.data.map(
       (final dynamic e) =>
