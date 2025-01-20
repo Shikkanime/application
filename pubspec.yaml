@@ -45,7 +45,10 @@ flutter_launcher_icons:
   adaptive_icon_background: 'assets/icon.png'
   adaptive_icon_foreground: 'assets/icon.png'
   android: true
+  adaptive_icon_monochrome: 'assets/monochrome.png'
   ios: true
+  image_path_ios_tinted_grayscale: 'assets/grayscale.png'
+  desaturate_tinted_to_grayscale_ios: true
   windows:
     generate: true
     image_path: 'assets/light_icon.png'
@@ -68,10 +71,7 @@ flutter:
   generate: true
   uses-material-design: true
   assets:
-    - assets/icon.png
-    - assets/light_icon_padding.png
     - assets/light_icon.png
-    - assets/dark_icon_padding.png
     - assets/dark_icon.png
     - shorebird.yaml
   fonts:
