@@ -1,3 +1,4 @@
+import 'package:application/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:restart_app/restart_app.dart';
@@ -14,8 +15,8 @@ class NoInternet extends StatelessWidget {
             spacing: 20,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image.asset(
-                'assets/icon_450x450.png',
+              Image(
+                image: Theme.of(context).getIconImage()!,
                 width: 128,
                 height: 128,
               ),
