@@ -100,5 +100,6 @@
   "patchDownloaded": "Correctif téléchargé ! Redémarrez l'application pour appliquer les changements.",
   "patchFailed": "Échec du téléchargement du correctif. Veuillez réessayer plus tard.",
   "watchOn": "Regarder sur :",
-  "markAsWatched": "Marquer comme vu"
+  "markAsWatched": "Marquer comme vu",
+  "defaultDescription": "Aucune description pour le moment..."
 }

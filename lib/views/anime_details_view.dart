@@ -63,7 +63,8 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
   @override
   Widget build(final BuildContext context) {
     final TextSpan span = TextSpan(
-      text: widget.anime.description ?? '',
+      text: widget.anime.description ??
+          AppLocalizations.of(context)!.defaultDescription,
     );
 
     final TextPainter textPainter = TextPainter(

@@ -396,5 +396,9 @@
   "markAsWatched": "Mark as watched",
   "@markAsWatched": {
     "description": "Text for the button to mark an episode as watched."
+  },
+  "defaultDescription": "No description yet...",
+  "@defaultDescription": {
+    "description": "Default text to display when there is no description available."
   }
 }
