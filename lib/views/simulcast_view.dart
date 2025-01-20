@@ -21,35 +21,37 @@ class SimulcastView extends StatelessWidget {
     final double smallestDimension = MediaQuery.sizeOf(context).width;
 
     return <Widget>[
-      Padding(
-        padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            ElevatedDropdownButton<SimulcastDto>(
-              globalKey: GlobalKey(),
-              value: AnimeController.instance.selectedSimulcast,
-              items: <ElevatedPopupMenuItem<SimulcastDto>>[
-                for (final SimulcastDto simulcast
-                    in SimulcastController.instance.items)
-                  ElevatedPopupMenuItem<SimulcastDto>(
-                    value: simulcast,
-                    child: Text(
-                      AppLocalizations.of(context)!
-                          .simulcastSeason(simulcast.season, simulcast.year),
+      if (AnimeController.instance.selectedSimulcast != null &&
+          SimulcastController.instance.items.isNotEmpty)
+        Padding(
+          padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ElevatedDropdownButton<SimulcastDto>(
+                globalKey: GlobalKey(),
+                value: AnimeController.instance.selectedSimulcast,
+                items: <ElevatedPopupMenuItem<SimulcastDto>>[
+                  for (final SimulcastDto simulcast
+                      in SimulcastController.instance.items)
+                    ElevatedPopupMenuItem<SimulcastDto>(
+                      value: simulcast,
+                      child: Text(
+                        AppLocalizations.of(context)!
+                            .simulcastSeason(simulcast.season, simulcast.year),
+                      ),
                     ),
-                  ),
-              ],
-              onChanged: (final SimulcastDto value) {
-                Analytics.instance.logSelectContent('simulcast', value.uuid);
-                AnimeController.instance.selectedSimulcast = value;
-                AnimeController.instance.goToTop();
-              },
-            ),
-          ],
+                ],
+                onChanged: (final SimulcastDto value) {
+                  Analytics.instance.logSelectContent('simulcast', value.uuid);
+                  AnimeController.instance.selectedSimulcast = value;
+                  AnimeController.instance.goToTop();
+                },
+              ),
+            ],
+          ),
         ),
-      ),
       ...wb.WidgetBuilder.instance.buildRowWidgets(
         animes.map((final AnimeDto anime) => AnimeComponent(anime: anime)),
         maxElementsPerRow: max(2, (smallestDimension * 3 / 600).floor()),
@@ -69,7 +71,10 @@ class SimulcastView extends StatelessWidget {
 
           return RefreshIndicator.adaptive(
             onRefresh: () async {
-              await AnimeController.instance.init();
+              await Future.wait(<Future<void>>[
+                SimulcastController.instance.init(),
+                AnimeController.instance.init(),
+              ]);
             },
             child: ListView.builder(
               addAutomaticKeepAlives: false,

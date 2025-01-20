@@ -120,12 +120,6 @@ class _CalendarViewState extends State<CalendarView> {
           final BuildContext context,
           final AsyncSnapshot<List<WeekDayDto>> snapshot,
         ) {
-          if (snapshot.data == null || snapshot.data!.isEmpty) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
           final List<Widget> list = _buildList(snapshot.data!);
 
           return RefreshIndicator.adaptive(

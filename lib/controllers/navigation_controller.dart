@@ -6,6 +6,8 @@ import 'package:application/components/pill.dart';
 import 'package:application/controllers/anime_controller.dart';
 import 'package:application/controllers/anime_weekly_controller.dart';
 import 'package:application/controllers/episode_controller.dart';
+import 'package:application/controllers/followed_anime_controller.dart';
+import 'package:application/controllers/followed_episode_controller.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/missed_anime_controller.dart';
 import 'package:application/controllers/simulcast_controller.dart';
@@ -33,8 +35,30 @@ class NavigationController {
   final StreamController<int> streamController =
       StreamController<int>.broadcast();
   bool _isPageViewChanging = false;
+  final List<int> _initializedPages = <int>[0];
 
   int get currentIndex => _currentIndex;
+
+  Future<void> _loadIndexData() async {
+    switch (_currentIndex) {
+      case 0:
+        await Future.wait(<Future<void>>[
+          MissedAnimeController.instance.goToTop(),
+          EpisodeController.instance.goToTop(),
+        ]);
+      case 1:
+        await SimulcastController.instance
+            .goToTop()
+            .then((final _) => AnimeController.instance.goToTop());
+      case 2:
+        await AnimeWeeklyController.instance.goToTop();
+      case 3:
+        await Future.wait(<Future<void>>[
+          FollowedAnimeController.instance.goToTop(),
+          FollowedEpisodeController.instance.goToTop(),
+        ]);
+    }
+  }
 
   void setIndex(final int index, final NavigationSource source) {
     if (_isPageViewChanging) {
@@ -48,27 +72,17 @@ class NavigationController {
     );
 
     if (index == _currentIndex && source != NavigationSource.pageView) {
-      switch (index) {
-        case 0:
-          EpisodeController.instance.goToTop();
-          MissedAnimeController.instance.init();
-        case 1:
-          Future.forEach(
-            <Future<void>>[
-              SimulcastController.instance.init(),
-              AnimeController.instance.goToTop(),
-            ],
-            (final Future<void> e) => e,
-          );
-        case 2:
-          AnimeWeeklyController.instance.goToTop();
-      }
-
+      _loadIndexData();
       _isPageViewChanging = false;
       return;
     }
 
     _currentIndex = index;
+
+    if (!_initializedPages.contains(index)) {
+      _initializedPages.add(index);
+      _loadIndexData();
+    }
 
     if (source != NavigationSource.pageView) {
       pageController.jumpToPage(index);
@@ -76,20 +90,15 @@ class NavigationController {
 
     streamController.add(index);
 
-    String screenName = '';
+    final List<String> screenNames = <String>[
+      'home',
+      'catalog',
+      'calendar',
+      'account',
+    ];
 
-    switch (index) {
-      case 0:
-        screenName = 'home';
-      case 1:
-        screenName = 'catalog';
-      case 2:
-        screenName = 'calendar';
-      case 3:
-        screenName = 'account';
-    }
+    Analytics.instance.logScreenView(screenNames[index]);
 
-    Analytics.instance.logScreenView(screenName);
     _isPageViewChanging = false;
   }
 

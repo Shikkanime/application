@@ -34,20 +34,22 @@ abstract class GenericController<T> {
 
   void _scrollListener() {
     final ScrollPosition position = scrollController.position;
+    // If 90% of the list is scrolled, load more items
+    final bool isAtBottom = position.pixels >= position.maxScrollExtent * 0.9;
 
-    if (position.pixels >= position.maxScrollExtent - 300 &&
-        !isLoading &&
-        canLoadMore) {
+    if (isAtBottom && !isLoading && canLoadMore) {
       nextPage();
     }
   }
 
   Future<void> goToTop() async {
-    await scrollController.animateTo(
-      0,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
-    );
+    if (scrollController.hasClients) {
+      await scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    }
 
     await init();
   }
@@ -58,7 +60,8 @@ abstract class GenericController<T> {
     }
 
     isLoading = true;
-    debugPrint('$runtimeType - Loading page $page');
+    final int start = DateTime.now().millisecondsSinceEpoch;
+    debugPrint('$runtimeType - Loading page $page...');
 
     try {
       final Iterable<T> newItems = await fetchItems();
@@ -69,6 +72,10 @@ abstract class GenericController<T> {
     } on Exception catch (e) {
       debugPrint(e.toString());
     } finally {
+      debugPrint(
+        '$runtimeType - Page $page loaded in ${DateTime.now().millisecondsSinceEpoch - start}ms',
+      );
+
       isLoading = false;
       page++;
     }
