@@ -30,7 +30,7 @@ dependencies:
   shared_preferences: ^2.3.5
   shorebird_code_push: ^2.0.2
   url_launcher: ^6.3.1
-  vibration: ^2.0.1
+  vibration: ^3.0.0
 
 dev_dependencies:
   build_runner: ^2.4.14
