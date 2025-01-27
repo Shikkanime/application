@@ -23,8 +23,67 @@ class HomeView extends StatelessWidget {
     final double smallestDimension = MediaQuery.sizeOf(context).width;
 
     return <Widget>[
-      if (MissedAnimeController.instance.items.isNotEmpty)
-        const MissedAnimesRow(),
+      StreamBuilder<List<MissedAnimeDto>>(
+        stream: MissedAnimeController.instance.streamController.stream,
+        initialData: MissedAnimeController.instance.items,
+        builder: (
+          final BuildContext context,
+          final AsyncSnapshot<List<MissedAnimeDto>> snapshot,
+        ) {
+          if (snapshot.data!.isEmpty) {
+            return const SizedBox.shrink();
+          }
+
+          return CustomCard(
+            margin: 12,
+            child: Scrollbar(
+              controller: MissedAnimeController.instance.scrollController,
+              child: Column(
+                spacing: 8,
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Flex(
+                    direction: Axis.horizontal,
+                    children: <Widget>[
+                      Text(
+                        AppLocalizations.of(context)!.whatYouMightHaveMissed1,
+                      ),
+                      Text(
+                        AppLocalizations.of(context)!.whatYouMightHaveMissed2,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Expanded(
+                        child: SizedBox(
+                          height: 105,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            addAutomaticKeepAlives: false,
+                            addRepaintBoundaries: false,
+                            controller:
+                                MissedAnimeController.instance.scrollController,
+                            itemCount: snapshot.data!.length,
+                            itemBuilder:
+                                (final BuildContext context, final int index) =>
+                                    MissedAnimeComponent(
+                              missedAnime: snapshot.data![index],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
       ...wb.WidgetBuilder.instance.buildRowWidgets(
         episodes.map(
           (final EpisodeMappingDto episode) =>
@@ -63,70 +122,5 @@ class HomeView extends StatelessWidget {
             ),
           );
         },
-      );
-}
-
-class MissedAnimesRow extends StatelessWidget {
-  const MissedAnimesRow({
-    super.key,
-  });
-
-  @override
-  Widget build(final BuildContext context) =>
-      StreamBuilder<List<MissedAnimeDto>>(
-        stream: MissedAnimeController.instance.streamController.stream,
-        initialData: MissedAnimeController.instance.items,
-        builder: (
-          final BuildContext context,
-          final AsyncSnapshot<List<MissedAnimeDto>> snapshot,
-        ) =>
-            CustomCard(
-          margin: 12,
-          child: Scrollbar(
-            controller: MissedAnimeController.instance.scrollController,
-            child: Column(
-              spacing: 8,
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Flex(
-                  direction: Axis.horizontal,
-                  children: <Widget>[
-                    Text(
-                      AppLocalizations.of(context)!.whatYouMightHaveMissed1,
-                    ),
-                    Text(
-                      AppLocalizations.of(context)!.whatYouMightHaveMissed2,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Expanded(
-                      child: SizedBox(
-                        height: 105,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          addAutomaticKeepAlives: false,
-                          addRepaintBoundaries: false,
-                          controller:
-                              MissedAnimeController.instance.scrollController,
-                          itemCount: snapshot.data!.length,
-                          itemBuilder:
-                              (final BuildContext context, final int index) =>
-                                  MissedAnimeComponent(
-                            missedAnime: snapshot.data![index],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
       );
 }
