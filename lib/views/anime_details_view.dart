@@ -18,6 +18,7 @@ import 'package:application/dtos/platform_dto.dart';
 import 'package:application/dtos/season_dto.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
+import 'package:application/utils/extensions.dart';
 import 'package:application/utils/widget_builder.dart' as wb;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -128,6 +129,10 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                       children: <Widget>[
                         ImageComponent(
                           uuid: widget.anime.uuid,
+                          version: widget.anime.lastUpdateDateTime
+                              .toDateTime()
+                              ?.millisecondsSinceEpoch
+                              .toString(),
                           type: 'banner',
                           height: MediaQuery.sizeOf(context).height * 0.25,
                           fit: BoxFit.cover,

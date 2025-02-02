@@ -17,6 +17,7 @@ class AnimeDto with _$AnimeDto {
     required final String slug,
     required final String releaseDateTime,
     required final String lastReleaseDateTime,
+    required final String? lastUpdateDateTime,
     required final String image,
     required final String banner,
     required final String? description,

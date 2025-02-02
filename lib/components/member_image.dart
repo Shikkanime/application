@@ -1,7 +1,6 @@
+import 'package:application/components/image_component.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/dtos/member_dto.dart';
-import 'package:application/utils/constant.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class MemberImage extends StatelessWidget {
@@ -19,55 +18,38 @@ class MemberImage extends StatelessWidget {
   final bool hasBorder;
 
   @override
-  Widget build(final BuildContext context) {
-    final bool showDefaultImage = member?.hasProfilePicture == false;
-
-    final DecoratedBox defaultImage = DecoratedBox(
-      decoration: BoxDecoration(color: Theme.of(context).canvasColor),
-      child: const Icon(
-        Icons.person,
-        size: 32,
-      ),
-    );
-
-    return Container(
-      decoration: hasBorder
-          ? BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.fromBorderSide(
-                BorderSide(
-                  color: Theme.of(context).textTheme.titleLarge!.color!,
-                  width: 2,
-                ),
-              ),
-            )
-          : null,
-      padding: hasBorder ? const EdgeInsets.all(1) : null,
-      child: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(360)),
-        child: showDefaultImage
-            ? defaultImage
-            : CachedNetworkImage(
-                width: hasBorder && width != null ? width! - 6 : width,
-                height: hasBorder && height != null ? height! - 6 : height,
-                imageUrl:
-                    '${Constant.apiUrl}/v1/attachments?uuid=${member?.uuid}&v=${MemberController.instance.imageVersion}',
-                filterQuality: FilterQuality.high,
-                placeholder: (final BuildContext context, final String url) =>
-                    const Padding(
-                  padding: EdgeInsets.all(24),
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
+  Widget build(final BuildContext context) => Container(
+        decoration: hasBorder
+            ? BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.fromBorderSide(
+                  BorderSide(
+                    color: Theme.of(context).textTheme.titleLarge!.color!,
+                    width: 2,
                   ),
                 ),
-                errorWidget: (
-                  final BuildContext context,
-                  final String url,
-                  final Object error,
-                ) =>
-                    defaultImage,
-              ),
-      ),
-    );
-  }
+              )
+            : null,
+        padding: hasBorder ? const EdgeInsets.all(1) : null,
+        child: ImageComponent(
+          uuid: true == member?.hasProfilePicture ? (member?.uuid ?? '') : '',
+          version: MemberController.instance.imageVersion.toString(),
+          borderRadius: const BorderRadius.all(Radius.circular(360)),
+          width: hasBorder && width != null ? width! - 6 : width,
+          height: hasBorder && height != null ? height! - 6 : height,
+          placeholder: const Padding(
+            padding: EdgeInsets.all(24),
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+            ),
+          ),
+          errorWidget: DecoratedBox(
+            decoration: BoxDecoration(color: Theme.of(context).canvasColor),
+            child: const Icon(
+              Icons.person,
+              size: 32,
+            ),
+          ),
+        ),
+      );
 }

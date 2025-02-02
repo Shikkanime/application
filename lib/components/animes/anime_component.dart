@@ -45,6 +45,10 @@ class AnimeComponent extends StatelessWidget {
                 ImageComponent(
                   fit: BoxFit.cover,
                   uuid: anime.uuid,
+                  version: anime.lastUpdateDateTime
+                      .toDateTime()
+                      ?.millisecondsSinceEpoch
+                      .toString(),
                   height: 280,
                   borderRadius: const BorderRadius.all(
                     Radius.circular(Constant.borderRadius),

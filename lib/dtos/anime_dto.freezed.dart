@@ -27,6 +27,7 @@ mixin _$AnimeDto {
   String get slug => throw _privateConstructorUsedError;
   String get releaseDateTime => throw _privateConstructorUsedError;
   String get lastReleaseDateTime => throw _privateConstructorUsedError;
+  String? get lastUpdateDateTime => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
   String get banner => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
@@ -60,6 +61,7 @@ abstract class $AnimeDtoCopyWith<$Res> {
       String slug,
       String releaseDateTime,
       String lastReleaseDateTime,
+      String? lastUpdateDateTime,
       String image,
       String banner,
       String? description,
@@ -93,6 +95,7 @@ class _$AnimeDtoCopyWithImpl<$Res, $Val extends AnimeDto>
     Object? slug = null,
     Object? releaseDateTime = null,
     Object? lastReleaseDateTime = null,
+    Object? lastUpdateDateTime = freezed,
     Object? image = null,
     Object? banner = null,
     Object? description = freezed,
@@ -132,6 +135,10 @@ class _$AnimeDtoCopyWithImpl<$Res, $Val extends AnimeDto>
           ? _value.lastReleaseDateTime
           : lastReleaseDateTime // ignore: cast_nullable_to_non_nullable
               as String,
+      lastUpdateDateTime: freezed == lastUpdateDateTime
+          ? _value.lastUpdateDateTime
+          : lastUpdateDateTime // ignore: cast_nullable_to_non_nullable
+              as String?,
       image: null == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
@@ -188,6 +195,7 @@ abstract class _$$AnimeDtoImplCopyWith<$Res>
       String slug,
       String releaseDateTime,
       String lastReleaseDateTime,
+      String? lastUpdateDateTime,
       String image,
       String banner,
       String? description,
@@ -219,6 +227,7 @@ class __$$AnimeDtoImplCopyWithImpl<$Res>
     Object? slug = null,
     Object? releaseDateTime = null,
     Object? lastReleaseDateTime = null,
+    Object? lastUpdateDateTime = freezed,
     Object? image = null,
     Object? banner = null,
     Object? description = freezed,
@@ -258,6 +267,10 @@ class __$$AnimeDtoImplCopyWithImpl<$Res>
           ? _value.lastReleaseDateTime
           : lastReleaseDateTime // ignore: cast_nullable_to_non_nullable
               as String,
+      lastUpdateDateTime: freezed == lastUpdateDateTime
+          ? _value.lastUpdateDateTime
+          : lastUpdateDateTime // ignore: cast_nullable_to_non_nullable
+              as String?,
       image: null == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
@@ -309,6 +322,7 @@ class _$AnimeDtoImpl implements _AnimeDto {
       required this.slug,
       required this.releaseDateTime,
       required this.lastReleaseDateTime,
+      required this.lastUpdateDateTime,
       required this.image,
       required this.banner,
       required this.description,
@@ -341,6 +355,8 @@ class _$AnimeDtoImpl implements _AnimeDto {
   final String releaseDateTime;
   @override
   final String lastReleaseDateTime;
+  @override
+  final String? lastUpdateDateTime;
   @override
   final String image;
   @override
@@ -401,7 +417,7 @@ class _$AnimeDtoImpl implements _AnimeDto {
 
   @override
   String toString() {
-    return 'AnimeDto(uuid: $uuid, countryCode: $countryCode, name: $name, shortName: $shortName, slug: $slug, releaseDateTime: $releaseDateTime, lastReleaseDateTime: $lastReleaseDateTime, image: $image, banner: $banner, description: $description, simulcasts: $simulcasts, audioLocales: $audioLocales, langTypes: $langTypes, seasons: $seasons, status: $status, platformIds: $platformIds)';
+    return 'AnimeDto(uuid: $uuid, countryCode: $countryCode, name: $name, shortName: $shortName, slug: $slug, releaseDateTime: $releaseDateTime, lastReleaseDateTime: $lastReleaseDateTime, lastUpdateDateTime: $lastUpdateDateTime, image: $image, banner: $banner, description: $description, simulcasts: $simulcasts, audioLocales: $audioLocales, langTypes: $langTypes, seasons: $seasons, status: $status, platformIds: $platformIds)';
   }
 
   @override
@@ -420,6 +436,8 @@ class _$AnimeDtoImpl implements _AnimeDto {
                 other.releaseDateTime == releaseDateTime) &&
             (identical(other.lastReleaseDateTime, lastReleaseDateTime) ||
                 other.lastReleaseDateTime == lastReleaseDateTime) &&
+            (identical(other.lastUpdateDateTime, lastUpdateDateTime) ||
+                other.lastUpdateDateTime == lastUpdateDateTime) &&
             (identical(other.image, image) || other.image == image) &&
             (identical(other.banner, banner) || other.banner == banner) &&
             (identical(other.description, description) ||
@@ -447,6 +465,7 @@ class _$AnimeDtoImpl implements _AnimeDto {
       slug,
       releaseDateTime,
       lastReleaseDateTime,
+      lastUpdateDateTime,
       image,
       banner,
       description,
@@ -482,6 +501,7 @@ abstract class _AnimeDto implements AnimeDto {
       required final String slug,
       required final String releaseDateTime,
       required final String lastReleaseDateTime,
+      required final String? lastUpdateDateTime,
       required final String image,
       required final String banner,
       required final String? description,
@@ -509,6 +529,8 @@ abstract class _AnimeDto implements AnimeDto {
   String get releaseDateTime;
   @override
   String get lastReleaseDateTime;
+  @override
+  String? get lastUpdateDateTime;
   @override
   String get image;
   @override
