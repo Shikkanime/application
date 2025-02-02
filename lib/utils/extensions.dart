@@ -28,3 +28,13 @@ extension ExtensionsThemeData on ThemeData {
   ButtonStyle? getCardButtonStyle() => _map[brightness];
   AssetImage? getIconImage() => _mapImage[brightness];
 }
+
+extension StringExtensions on String? {
+  DateTime? toDateTime() {
+    if (this == null) {
+      return null;
+    }
+
+    return DateTime.tryParse(this!);
+  }
+}

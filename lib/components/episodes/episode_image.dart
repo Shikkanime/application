@@ -3,6 +3,7 @@ import 'package:application/components/image_component.dart';
 import 'package:application/components/platforms/platform_component.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/utils/constant.dart';
+import 'package:application/utils/extensions.dart';
 import 'package:flutter/material.dart';
 
 class EpisodeImage extends StatelessWidget {
@@ -28,6 +29,10 @@ class EpisodeImage extends StatelessWidget {
         children: <Widget>[
           ImageComponent(
             uuid: episode.uuid,
+            version: episode.lastUpdateDateTime
+                .toDateTime()
+                ?.millisecondsSinceEpoch
+                .toString(),
             fit: fit,
             borderRadius: borderRadius,
             width: width,

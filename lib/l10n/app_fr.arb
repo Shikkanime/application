@@ -54,7 +54,7 @@
   "noAnimeToday": "Il n'y a pas d'animé disponible aujourd'hui.",
   "noInternet": "Pas de connexion Internet",
   "noEmail": "Aucune adresse e-mail associée",
-  "tryAgain": "Veuillez réessayer",
+  "tryAgain": "Réessayer",
   "invalidEmail": "Adresse e-mail invalide",
   "conflictEmail": "Cette adresse e-mail est déjà associée à un autre compte",
   "invalidCode": "Code invalide",

@@ -241,7 +241,7 @@
   "@noEmail": {
     "description": "Message indicating that no email address is associated with the account."
   },
-  "tryAgain": "Please try again",
+  "tryAgain": "Try again",
   "@tryAgain": {
     "description": "Text for a button to retry a failed action."
   },

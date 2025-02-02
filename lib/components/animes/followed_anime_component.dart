@@ -3,6 +3,7 @@ import 'package:application/components/platforms/platform_component.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
+import 'package:application/utils/extensions.dart';
 import 'package:application/views/anime_details_view.dart';
 import 'package:flutter/material.dart';
 
@@ -42,6 +43,10 @@ class FollowedAnimeComponent extends StatelessWidget {
                   children: <Widget>[
                     ImageComponent(
                       uuid: anime.uuid,
+                      version: anime.lastUpdateDateTime
+                          .toDateTime()
+                          ?.millisecondsSinceEpoch
+                          .toString(),
                       height: 640 / _ratio,
                       borderRadius: const BorderRadius.all(
                         Radius.circular(Constant.borderRadius),
