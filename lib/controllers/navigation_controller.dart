@@ -13,13 +13,13 @@ import 'package:application/controllers/missed_anime_controller.dart';
 import 'package:application/controllers/simulcast_controller.dart';
 import 'package:application/dtos/member_dto.dart';
 import 'package:application/dtos/missed_anime_dto.dart';
+import 'package:application/l10n/generated/app_localizations.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
 import 'package:application/utils/extensions.dart';
 import 'package:application/views/account_settings_view.dart';
 import 'package:application/views/search_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum NavigationSource {
   bottomNavigationBar,

@@ -4,9 +4,9 @@ import 'package:application/components/advanced_search_card.dart';
 import 'package:application/components/animes/anime_component.dart';
 import 'package:application/controllers/anime_search_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
+import 'package:application/l10n/generated/app_localizations.dart';
 import 'package:application/utils/widget_builder.dart' as wb;
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchView extends StatefulWidget {
   const SearchView({super.key});

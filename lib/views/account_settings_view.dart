@@ -4,12 +4,12 @@ import 'package:application/controllers/notifications_controller.dart';
 import 'package:application/controllers/sort_controller.dart';
 import 'package:application/controllers/vibration_controller.dart';
 import 'package:application/dtos/member_dto.dart';
+import 'package:application/l10n/generated/app_localizations.dart';
 import 'package:application/views/associate_email.dart';
 import 'package:application/views/edit_identifier.dart';
 import 'package:application/views/forgot_identifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AccountSettingsView extends StatelessWidget {
   const AccountSettingsView({super.key});

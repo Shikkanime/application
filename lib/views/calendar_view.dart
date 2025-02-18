@@ -4,9 +4,9 @@ import 'package:application/components/animes/calendar_anime_component.dart';
 import 'package:application/controllers/anime_weekly_controller.dart';
 import 'package:application/dtos/week_day_dto.dart';
 import 'package:application/dtos/week_day_release_dto.dart';
+import 'package:application/l10n/generated/app_localizations.dart';
 import 'package:application/utils/widget_builder.dart' as wb;
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CalendarView extends StatefulWidget {
   const CalendarView({

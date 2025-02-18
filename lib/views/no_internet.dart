@@ -1,6 +1,6 @@
+import 'package:application/l10n/generated/app_localizations.dart';
 import 'package:application/utils/extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:restart_app/restart_app.dart';
 
 class NoInternet extends StatelessWidget {

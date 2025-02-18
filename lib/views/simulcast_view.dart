@@ -6,10 +6,10 @@ import 'package:application/controllers/anime_controller.dart';
 import 'package:application/controllers/simulcast_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/simulcast_dto.dart';
+import 'package:application/l10n/generated/app_localizations.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/widget_builder.dart' as wb;
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SimulcastView extends StatelessWidget {
   const SimulcastView({super.key});

@@ -12,12 +12,12 @@ import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/dtos/member_dto.dart';
 import 'package:application/dtos/missed_anime_dto.dart';
 import 'package:application/dtos/refresh_member_dto.dart';
+import 'package:application/l10n/generated/app_localizations.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/http_request.dart';
 import 'package:application/views/crop_view.dart';
 import 'package:crop_your_image/crop_your_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 

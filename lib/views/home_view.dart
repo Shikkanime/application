@@ -7,9 +7,9 @@ import 'package:application/controllers/episode_controller.dart';
 import 'package:application/controllers/missed_anime_controller.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/dtos/missed_anime_dto.dart';
+import 'package:application/l10n/generated/app_localizations.dart';
 import 'package:application/utils/widget_builder.dart' as wb;
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({

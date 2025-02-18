@@ -11,9 +11,9 @@ import 'package:application/controllers/member_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/dtos/member_dto.dart';
+import 'package:application/l10n/generated/app_localizations.dart';
 import 'package:application/views/associate_email.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
 class AccountView extends StatelessWidget {

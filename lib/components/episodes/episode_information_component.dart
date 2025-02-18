@@ -1,6 +1,6 @@
 import 'package:application/dtos/episode_mapping_dto.dart';
+import 'package:application/l10n/generated/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EpisodeInformation extends StatelessWidget {
   const EpisodeInformation({

@@ -9,6 +9,7 @@ import 'package:application/controllers/shared_preferences_controller.dart';
 import 'package:application/controllers/sort_controller.dart';
 import 'package:application/controllers/update_controller.dart';
 import 'package:application/firebase_options.dart';
+import 'package:application/l10n/generated/app_localizations.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
 import 'package:application/utils/extensions.dart';
@@ -21,7 +22,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

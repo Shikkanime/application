@@ -1,8 +1,8 @@
 import 'package:application/components/elevated_async_button.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/vibration_controller.dart';
+import 'package:application/l10n/generated/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EditIdentifier extends StatefulWidget {
   const EditIdentifier({super.key});
