@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:application/components/animes/anime_component.dart';
 import 'package:application/components/elevated_dropdown_button.dart';
-import 'package:application/controllers/anime_controller.dart';
+import 'package:application/controllers/animes/anime_controller.dart';
 import 'package:application/controllers/simulcast_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/simulcast_dto.dart';

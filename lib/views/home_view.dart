@@ -5,8 +5,8 @@ import 'package:application/components/animes/missed_anime_loader_component.dart
 import 'package:application/components/card_component.dart';
 import 'package:application/components/episodes/episode_component.dart';
 import 'package:application/components/episodes/episode_loader_component.dart';
-import 'package:application/controllers/episode_controller.dart';
-import 'package:application/controllers/missed_anime_controller.dart';
+import 'package:application/controllers/animes/missed_anime_controller.dart';
+import 'package:application/controllers/episodes/episode_controller.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/dtos/missed_anime_dto.dart';
 import 'package:application/utils/constant.dart';
