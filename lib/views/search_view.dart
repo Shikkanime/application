@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:application/components/advanced_search_card.dart';
 import 'package:application/components/animes/anime_component.dart';
-import 'package:application/controllers/anime_search_controller.dart';
+import 'package:application/controllers/animes/anime_search_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/utils/widget_builder.dart' as wb;
 import 'package:flutter/material.dart';

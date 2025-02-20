@@ -1,7 +1,7 @@
 import 'package:application/components/custom_gesture_detector.dart';
 import 'package:application/components/image_component.dart';
 import 'package:application/components/pill.dart';
-import 'package:application/controllers/anime_controller.dart';
+import 'package:application/controllers/animes/anime_controller.dart';
 import 'package:application/dtos/missed_anime_dto.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/extensions.dart';

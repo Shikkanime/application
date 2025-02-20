@@ -7,7 +7,7 @@ import 'package:application/components/image_component.dart';
 import 'package:application/components/lang_type_component.dart';
 import 'package:application/components/platforms/platform_component.dart';
 import 'package:application/components/watchlist_button.dart';
-import 'package:application/controllers/anime_details_controller.dart';
+import 'package:application/controllers/animes/anime_details_controller.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/sort_controller.dart';
 import 'package:application/controllers/vibration_controller.dart';

@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:application/components/animes/calendar_anime_component.dart';
-import 'package:application/controllers/anime_weekly_controller.dart';
+import 'package:application/controllers/animes/anime_weekly_controller.dart';
 import 'package:application/dtos/week_day_dto.dart';
 import 'package:application/dtos/week_day_release_dto.dart';
 import 'package:application/utils/widget_builder.dart' as wb;

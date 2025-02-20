@@ -1,4 +1,4 @@
-import 'package:application/controllers/anime_controller.dart';
+import 'package:application/controllers/animes/anime_controller.dart';
 import 'package:application/controllers/generic_controller.dart';
 import 'package:application/dtos/simulcast_dto.dart';
 import 'package:application/utils/http_request.dart';

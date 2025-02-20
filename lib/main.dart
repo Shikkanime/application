@@ -1,6 +1,6 @@
-import 'package:application/controllers/episode_controller.dart';
+import 'package:application/controllers/animes/missed_anime_controller.dart';
+import 'package:application/controllers/episodes/episode_controller.dart';
 import 'package:application/controllers/member_controller.dart';
-import 'package:application/controllers/missed_anime_controller.dart';
 import 'package:application/controllers/navigation_controller.dart';
 import 'package:application/controllers/notifications_controller.dart';
 import 'package:application/controllers/patch_controller.dart';

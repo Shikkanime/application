@@ -1,5 +1,5 @@
 import 'package:application/components/lang_type_component.dart';
-import 'package:application/controllers/anime_search_controller.dart';
+import 'package:application/controllers/animes/anime_search_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

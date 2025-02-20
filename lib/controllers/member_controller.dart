@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:application/controllers/followed_anime_controller.dart';
-import 'package:application/controllers/followed_episode_controller.dart';
-import 'package:application/controllers/missed_anime_controller.dart';
+import 'package:application/controllers/animes/followed_anime_controller.dart';
+import 'package:application/controllers/animes/missed_anime_controller.dart';
+import 'package:application/controllers/episodes/followed_episode_controller.dart';
 import 'package:application/controllers/shared_preferences_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
