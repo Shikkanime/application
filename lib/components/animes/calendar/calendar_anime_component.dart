@@ -98,12 +98,9 @@ class CalendarAnimeComponent extends StatelessWidget {
                   _releaseHour(context, release.releaseDateTime),
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: VerticalDivider(
-                    color: Theme.of(context).dividerColor,
-                    thickness: 0.5,
-                  ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 4),
+                  child: VerticalDivider(thickness: 0.5),
                 ),
                 Expanded(
                   child: Column(

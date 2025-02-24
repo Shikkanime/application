@@ -1,6 +1,7 @@
 import 'dart:math';
 
-import 'package:application/components/animes/calendar_anime_component.dart';
+import 'package:application/components/animes/calendar/calendar_anime_component.dart';
+import 'package:application/components/animes/calendar/calendar_anime_loader_component.dart';
 import 'package:application/controllers/animes/anime_weekly_controller.dart';
 import 'package:application/dtos/week_day_dto.dart';
 import 'package:application/dtos/week_day_release_dto.dart';
@@ -8,26 +9,34 @@ import 'package:application/utils/widget_builder.dart' as wb;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class CalendarView extends StatefulWidget {
+class CalendarView extends StatelessWidget {
   const CalendarView({
     super.key,
   });
 
-  @override
-  State<StatefulWidget> createState() => _CalendarViewState();
-}
+  List<Widget> _buildList(
+    final BuildContext context,
+    final List<WeekDayDto> releases,
+  ) {
+    final int currentDay = AnimeWeeklyController.instance.selectedDay;
+    final int maxElementsPerRow =
+        max(1, (MediaQuery.sizeOf(context).width * 3 / 900).floor());
 
-class _CalendarViewState extends State<CalendarView> {
-  int _currentDay = 0;
-
-  List<Widget> _buildList(final List<WeekDayDto> releases) {
-    final double smallestDimension = MediaQuery.sizeOf(context).width;
+    if (releases.isEmpty) {
+      return wb.WidgetBuilder.instance.buildRowWidgets(
+        List<CalendarAnimeLoaderComponent>.generate(
+          12,
+          (final int index) => const CalendarAnimeLoaderComponent(),
+        ),
+        maxElementsPerRow: maxElementsPerRow,
+      );
+    }
 
     final WeekDayDto currentWeekDay = releases.firstWhere(
-      (final WeekDayDto weekDay) => _currentDay == releases.indexOf(weekDay),
+      (final WeekDayDto weekDay) => currentDay == releases.indexOf(weekDay),
       orElse: () => WeekDayDto(
         dayOfWeek:
-            AppLocalizations.of(context)!.weekDays(_currentDay.toString()),
+            AppLocalizations.of(context)!.weekDays(currentDay.toString()),
         releases: <WeekDayReleaseDto>[],
       ),
     );
@@ -38,11 +47,7 @@ class _CalendarViewState extends State<CalendarView> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           IconButton(
-            onPressed: () {
-              setState(() {
-                _currentDay = (_currentDay - 1) % 7;
-              });
-            },
+            onPressed: AnimeWeeklyController.instance.previousDay,
             icon: const Icon(Icons.keyboard_arrow_left),
           ),
           Text(
@@ -51,11 +56,7 @@ class _CalendarViewState extends State<CalendarView> {
             style: Theme.of(context).textTheme.headlineSmall,
           ),
           IconButton(
-            onPressed: () {
-              setState(() {
-                _currentDay = (_currentDay + 1) % 7;
-              });
-            },
+            onPressed: AnimeWeeklyController.instance.nextDay,
             icon: const Icon(Icons.keyboard_arrow_right),
           ),
         ],
@@ -101,15 +102,9 @@ class _CalendarViewState extends State<CalendarView> {
             release: release,
           ),
         ),
-        maxElementsPerRow: max(1, (smallestDimension * 3 / 900).floor()),
+        maxElementsPerRow: maxElementsPerRow,
       ),
     ];
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _currentDay = DateTime.now().weekday - 1;
   }
 
   @override
@@ -120,7 +115,7 @@ class _CalendarViewState extends State<CalendarView> {
           final BuildContext context,
           final AsyncSnapshot<List<WeekDayDto>> snapshot,
         ) {
-          final List<Widget> list = _buildList(snapshot.data!);
+          final List<Widget> list = _buildList(context, snapshot.data!);
 
           return RefreshIndicator.adaptive(
             onRefresh: () async {
