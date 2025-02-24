@@ -9,6 +9,7 @@ class AnimeWeeklyController extends GenericController<WeekDayDto> {
   static final AnimeWeeklyController instance = AnimeWeeklyController();
   bool memberMode = false;
   bool _isRetry = false;
+  int selectedDay = DateTime.now().weekday - 1;
 
   @override
   Future<Iterable<WeekDayDto>> fetchItems() async {
@@ -33,5 +34,15 @@ class AnimeWeeklyController extends GenericController<WeekDayDto> {
     return json.map(
       (final dynamic e) => WeekDayDto.fromJson(e as Map<String, dynamic>),
     );
+  }
+
+  void previousDay() {
+    selectedDay = (selectedDay - 1) % 7;
+    streamController.add(items);
+  }
+
+  void nextDay() {
+    selectedDay = (selectedDay + 1) % 7;
+    streamController.add(items);
   }
 }

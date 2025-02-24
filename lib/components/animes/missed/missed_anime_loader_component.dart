@@ -15,7 +15,9 @@ class MissedAnimeLoaderComponent extends StatelessWidget {
             SizedBox(
               width: 80,
               height: 80,
-              child: GenericLoader(),
+              child: GenericLoader(
+                borderRadius: 360,
+              ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 4),
