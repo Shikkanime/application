@@ -8,7 +8,7 @@ part 'anime_dto.freezed.dart';
 part 'anime_dto.g.dart';
 
 @freezed
-class AnimeDto with _$AnimeDto {
+sealed class AnimeDto with _$AnimeDto {
   const factory AnimeDto({
     required final String uuid,
     required final String countryCode,

@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,100 +10,63 @@ part of 'pageable_dto.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-PageableDto _$PageableDtoFromJson(Map<String, dynamic> json) {
-  return _PageableDto.fromJson(json);
-}
 
 /// @nodoc
 mixin _$PageableDto {
-  List<dynamic> get data => throw _privateConstructorUsedError;
-  int get page => throw _privateConstructorUsedError;
-  int get limit => throw _privateConstructorUsedError;
-  int get total => throw _privateConstructorUsedError;
-
-  /// Serializes this PageableDto to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  List<dynamic> get data;
+  int get page;
+  int get limit;
+  int get total;
 
   /// Create a copy of PageableDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $PageableDtoCopyWith<PageableDto> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $PageableDtoCopyWith<$Res> {
-  factory $PageableDtoCopyWith(
-          PageableDto value, $Res Function(PageableDto) then) =
-      _$PageableDtoCopyWithImpl<$Res, PageableDto>;
-  @useResult
-  $Res call({List<dynamic> data, int page, int limit, int total});
-}
-
-/// @nodoc
-class _$PageableDtoCopyWithImpl<$Res, $Val extends PageableDto>
-    implements $PageableDtoCopyWith<$Res> {
-  _$PageableDtoCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of PageableDto
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $PageableDtoCopyWith<PageableDto> get copyWith =>
+      _$PageableDtoCopyWithImpl<PageableDto>(this as PageableDto, _$identity);
+
+  /// Serializes this PageableDto to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? data = null,
-    Object? page = null,
-    Object? limit = null,
-    Object? total = null,
-  }) {
-    return _then(_value.copyWith(
-      data: null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
-      page: null == page
-          ? _value.page
-          : page // ignore: cast_nullable_to_non_nullable
-              as int,
-      limit: null == limit
-          ? _value.limit
-          : limit // ignore: cast_nullable_to_non_nullable
-              as int,
-      total: null == total
-          ? _value.total
-          : total // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is PageableDto &&
+            const DeepCollectionEquality().equals(other.data, data) &&
+            (identical(other.page, page) || other.page == page) &&
+            (identical(other.limit, limit) || other.limit == limit) &&
+            (identical(other.total, total) || other.total == total));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(data), page, limit, total);
+
+  @override
+  String toString() {
+    return 'PageableDto(data: $data, page: $page, limit: $limit, total: $total)';
   }
 }
 
 /// @nodoc
-abstract class _$$PageableDtoImplCopyWith<$Res>
-    implements $PageableDtoCopyWith<$Res> {
-  factory _$$PageableDtoImplCopyWith(
-          _$PageableDtoImpl value, $Res Function(_$PageableDtoImpl) then) =
-      __$$PageableDtoImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $PageableDtoCopyWith<$Res> {
+  factory $PageableDtoCopyWith(
+          PageableDto value, $Res Function(PageableDto) _then) =
+      _$PageableDtoCopyWithImpl;
   @useResult
   $Res call({List<dynamic> data, int page, int limit, int total});
 }
 
 /// @nodoc
-class __$$PageableDtoImplCopyWithImpl<$Res>
-    extends _$PageableDtoCopyWithImpl<$Res, _$PageableDtoImpl>
-    implements _$$PageableDtoImplCopyWith<$Res> {
-  __$$PageableDtoImplCopyWithImpl(
-      _$PageableDtoImpl _value, $Res Function(_$PageableDtoImpl) _then)
-      : super(_value, _then);
+class _$PageableDtoCopyWithImpl<$Res> implements $PageableDtoCopyWith<$Res> {
+  _$PageableDtoCopyWithImpl(this._self, this._then);
+
+  final PageableDto _self;
+  final $Res Function(PageableDto) _then;
 
   /// Create a copy of PageableDto
   /// with the given fields replaced by the non-null parameter values.
@@ -114,21 +78,21 @@ class __$$PageableDtoImplCopyWithImpl<$Res>
     Object? limit = null,
     Object? total = null,
   }) {
-    return _then(_$PageableDtoImpl(
+    return _then(_self.copyWith(
       data: null == data
-          ? _value._data
+          ? _self.data
           : data // ignore: cast_nullable_to_non_nullable
               as List<dynamic>,
       page: null == page
-          ? _value.page
+          ? _self.page
           : page // ignore: cast_nullable_to_non_nullable
               as int,
       limit: null == limit
-          ? _value.limit
+          ? _self.limit
           : limit // ignore: cast_nullable_to_non_nullable
               as int,
       total: null == total
-          ? _value.total
+          ? _self.total
           : total // ignore: cast_nullable_to_non_nullable
               as int,
     ));
@@ -137,16 +101,15 @@ class __$$PageableDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$PageableDtoImpl implements _PageableDto {
-  const _$PageableDtoImpl(
+class _PageableDto implements PageableDto {
+  const _PageableDto(
       {required final List<dynamic> data,
       required this.page,
       required this.limit,
       required this.total})
       : _data = data;
-
-  factory _$PageableDtoImpl.fromJson(Map<String, dynamic> json) =>
-      _$$PageableDtoImplFromJson(json);
+  factory _PageableDto.fromJson(Map<String, dynamic> json) =>
+      _$PageableDtoFromJson(json);
 
   final List<dynamic> _data;
   @override
@@ -163,16 +126,26 @@ class _$PageableDtoImpl implements _PageableDto {
   @override
   final int total;
 
+  /// Create a copy of PageableDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'PageableDto(data: $data, page: $page, limit: $limit, total: $total)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$PageableDtoCopyWith<_PageableDto> get copyWith =>
+      __$PageableDtoCopyWithImpl<_PageableDto>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$PageableDtoToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PageableDtoImpl &&
+            other is _PageableDto &&
             const DeepCollectionEquality().equals(other._data, _data) &&
             (identical(other.page, page) || other.page == page) &&
             (identical(other.limit, limit) || other.limit == limit) &&
@@ -184,45 +157,59 @@ class _$PageableDtoImpl implements _PageableDto {
   int get hashCode => Object.hash(runtimeType,
       const DeepCollectionEquality().hash(_data), page, limit, total);
 
-  /// Create a copy of PageableDto
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$PageableDtoImplCopyWith<_$PageableDtoImpl> get copyWith =>
-      __$$PageableDtoImplCopyWithImpl<_$PageableDtoImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$PageableDtoImplToJson(
-      this,
-    );
+  String toString() {
+    return 'PageableDto(data: $data, page: $page, limit: $limit, total: $total)';
   }
 }
 
-abstract class _PageableDto implements PageableDto {
-  const factory _PageableDto(
-      {required final List<dynamic> data,
-      required final int page,
-      required final int limit,
-      required final int total}) = _$PageableDtoImpl;
+/// @nodoc
+abstract mixin class _$PageableDtoCopyWith<$Res>
+    implements $PageableDtoCopyWith<$Res> {
+  factory _$PageableDtoCopyWith(
+          _PageableDto value, $Res Function(_PageableDto) _then) =
+      __$PageableDtoCopyWithImpl;
+  @override
+  @useResult
+  $Res call({List<dynamic> data, int page, int limit, int total});
+}
 
-  factory _PageableDto.fromJson(Map<String, dynamic> json) =
-      _$PageableDtoImpl.fromJson;
+/// @nodoc
+class __$PageableDtoCopyWithImpl<$Res> implements _$PageableDtoCopyWith<$Res> {
+  __$PageableDtoCopyWithImpl(this._self, this._then);
 
-  @override
-  List<dynamic> get data;
-  @override
-  int get page;
-  @override
-  int get limit;
-  @override
-  int get total;
+  final _PageableDto _self;
+  final $Res Function(_PageableDto) _then;
 
   /// Create a copy of PageableDto
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$PageableDtoImplCopyWith<_$PageableDtoImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? data = null,
+    Object? page = null,
+    Object? limit = null,
+    Object? total = null,
+  }) {
+    return _then(_PageableDto(
+      data: null == data
+          ? _self._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
+      page: null == page
+          ? _self.page
+          : page // ignore: cast_nullable_to_non_nullable
+              as int,
+      limit: null == limit
+          ? _self.limit
+          : limit // ignore: cast_nullable_to_non_nullable
+              as int,
+      total: null == total
+          ? _self.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
 }
+
+// dart format on

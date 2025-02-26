@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,149 +10,30 @@ part of 'missed_anime_dto.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-MissedAnimeDto _$MissedAnimeDtoFromJson(Map<String, dynamic> json) {
-  return _MissedAnimeDto.fromJson(json);
-}
 
 /// @nodoc
 mixin _$MissedAnimeDto {
-  AnimeDto get anime => throw _privateConstructorUsedError;
-  int get episodeMissed => throw _privateConstructorUsedError;
-
-  /// Serializes this MissedAnimeDto to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  AnimeDto get anime;
+  int get episodeMissed;
 
   /// Create a copy of MissedAnimeDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $MissedAnimeDtoCopyWith<MissedAnimeDto> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+      _$MissedAnimeDtoCopyWithImpl<MissedAnimeDto>(
+          this as MissedAnimeDto, _$identity);
 
-/// @nodoc
-abstract class $MissedAnimeDtoCopyWith<$Res> {
-  factory $MissedAnimeDtoCopyWith(
-          MissedAnimeDto value, $Res Function(MissedAnimeDto) then) =
-      _$MissedAnimeDtoCopyWithImpl<$Res, MissedAnimeDto>;
-  @useResult
-  $Res call({AnimeDto anime, int episodeMissed});
-
-  $AnimeDtoCopyWith<$Res> get anime;
-}
-
-/// @nodoc
-class _$MissedAnimeDtoCopyWithImpl<$Res, $Val extends MissedAnimeDto>
-    implements $MissedAnimeDtoCopyWith<$Res> {
-  _$MissedAnimeDtoCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of MissedAnimeDto
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? anime = null,
-    Object? episodeMissed = null,
-  }) {
-    return _then(_value.copyWith(
-      anime: null == anime
-          ? _value.anime
-          : anime // ignore: cast_nullable_to_non_nullable
-              as AnimeDto,
-      episodeMissed: null == episodeMissed
-          ? _value.episodeMissed
-          : episodeMissed // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
-  }
-
-  /// Create a copy of MissedAnimeDto
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AnimeDtoCopyWith<$Res> get anime {
-    return $AnimeDtoCopyWith<$Res>(_value.anime, (value) {
-      return _then(_value.copyWith(anime: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$MissedAnimeDtoImplCopyWith<$Res>
-    implements $MissedAnimeDtoCopyWith<$Res> {
-  factory _$$MissedAnimeDtoImplCopyWith(_$MissedAnimeDtoImpl value,
-          $Res Function(_$MissedAnimeDtoImpl) then) =
-      __$$MissedAnimeDtoImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({AnimeDto anime, int episodeMissed});
-
-  @override
-  $AnimeDtoCopyWith<$Res> get anime;
-}
-
-/// @nodoc
-class __$$MissedAnimeDtoImplCopyWithImpl<$Res>
-    extends _$MissedAnimeDtoCopyWithImpl<$Res, _$MissedAnimeDtoImpl>
-    implements _$$MissedAnimeDtoImplCopyWith<$Res> {
-  __$$MissedAnimeDtoImplCopyWithImpl(
-      _$MissedAnimeDtoImpl _value, $Res Function(_$MissedAnimeDtoImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of MissedAnimeDto
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? anime = null,
-    Object? episodeMissed = null,
-  }) {
-    return _then(_$MissedAnimeDtoImpl(
-      anime: null == anime
-          ? _value.anime
-          : anime // ignore: cast_nullable_to_non_nullable
-              as AnimeDto,
-      episodeMissed: null == episodeMissed
-          ? _value.episodeMissed
-          : episodeMissed // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$MissedAnimeDtoImpl implements _MissedAnimeDto {
-  const _$MissedAnimeDtoImpl(
-      {required this.anime, required this.episodeMissed});
-
-  factory _$MissedAnimeDtoImpl.fromJson(Map<String, dynamic> json) =>
-      _$$MissedAnimeDtoImplFromJson(json);
-
-  @override
-  final AnimeDto anime;
-  @override
-  final int episodeMissed;
-
-  @override
-  String toString() {
-    return 'MissedAnimeDto(anime: $anime, episodeMissed: $episodeMissed)';
-  }
+  /// Serializes this MissedAnimeDto to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MissedAnimeDtoImpl &&
+            other is MissedAnimeDto &&
             (identical(other.anime, anime) || other.anime == anime) &&
             (identical(other.episodeMissed, episodeMissed) ||
                 other.episodeMissed == episodeMissed));
@@ -161,40 +43,135 @@ class _$MissedAnimeDtoImpl implements _MissedAnimeDto {
   @override
   int get hashCode => Object.hash(runtimeType, anime, episodeMissed);
 
-  /// Create a copy of MissedAnimeDto
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$MissedAnimeDtoImplCopyWith<_$MissedAnimeDtoImpl> get copyWith =>
-      __$$MissedAnimeDtoImplCopyWithImpl<_$MissedAnimeDtoImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$MissedAnimeDtoImplToJson(
-      this,
-    );
+  String toString() {
+    return 'MissedAnimeDto(anime: $anime, episodeMissed: $episodeMissed)';
   }
 }
 
-abstract class _MissedAnimeDto implements MissedAnimeDto {
-  const factory _MissedAnimeDto(
-      {required final AnimeDto anime,
-      required final int episodeMissed}) = _$MissedAnimeDtoImpl;
+/// @nodoc
+abstract mixin class $MissedAnimeDtoCopyWith<$Res> {
+  factory $MissedAnimeDtoCopyWith(
+          MissedAnimeDto value, $Res Function(MissedAnimeDto) _then) =
+      _$MissedAnimeDtoCopyWithImpl;
+  @useResult
+  $Res call({AnimeDto anime, int episodeMissed});
+}
 
-  factory _MissedAnimeDto.fromJson(Map<String, dynamic> json) =
-      _$MissedAnimeDtoImpl.fromJson;
+/// @nodoc
+class _$MissedAnimeDtoCopyWithImpl<$Res>
+    implements $MissedAnimeDtoCopyWith<$Res> {
+  _$MissedAnimeDtoCopyWithImpl(this._self, this._then);
+
+  final MissedAnimeDto _self;
+  final $Res Function(MissedAnimeDto) _then;
+
+  /// Create a copy of MissedAnimeDto
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? anime = null,
+    Object? episodeMissed = null,
+  }) {
+    return _then(_self.copyWith(
+      anime: null == anime
+          ? _self.anime
+          : anime // ignore: cast_nullable_to_non_nullable
+              as AnimeDto,
+      episodeMissed: null == episodeMissed
+          ? _self.episodeMissed
+          : episodeMissed // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _MissedAnimeDto implements MissedAnimeDto {
+  const _MissedAnimeDto({required this.anime, required this.episodeMissed});
+  factory _MissedAnimeDto.fromJson(Map<String, dynamic> json) =>
+      _$MissedAnimeDtoFromJson(json);
 
   @override
-  AnimeDto get anime;
+  final AnimeDto anime;
   @override
-  int get episodeMissed;
+  final int episodeMissed;
 
   /// Create a copy of MissedAnimeDto
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$MissedAnimeDtoImplCopyWith<_$MissedAnimeDtoImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  _$MissedAnimeDtoCopyWith<_MissedAnimeDto> get copyWith =>
+      __$MissedAnimeDtoCopyWithImpl<_MissedAnimeDto>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$MissedAnimeDtoToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _MissedAnimeDto &&
+            (identical(other.anime, anime) || other.anime == anime) &&
+            (identical(other.episodeMissed, episodeMissed) ||
+                other.episodeMissed == episodeMissed));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, anime, episodeMissed);
+
+  @override
+  String toString() {
+    return 'MissedAnimeDto(anime: $anime, episodeMissed: $episodeMissed)';
+  }
 }
+
+/// @nodoc
+abstract mixin class _$MissedAnimeDtoCopyWith<$Res>
+    implements $MissedAnimeDtoCopyWith<$Res> {
+  factory _$MissedAnimeDtoCopyWith(
+          _MissedAnimeDto value, $Res Function(_MissedAnimeDto) _then) =
+      __$MissedAnimeDtoCopyWithImpl;
+  @override
+  @useResult
+  $Res call({AnimeDto anime, int episodeMissed});
+}
+
+/// @nodoc
+class __$MissedAnimeDtoCopyWithImpl<$Res>
+    implements _$MissedAnimeDtoCopyWith<$Res> {
+  __$MissedAnimeDtoCopyWithImpl(this._self, this._then);
+
+  final _MissedAnimeDto _self;
+  final $Res Function(_MissedAnimeDto) _then;
+
+  /// Create a copy of MissedAnimeDto
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? anime = null,
+    Object? episodeMissed = null,
+  }) {
+    return _then(_MissedAnimeDto(
+      anime: null == anime
+          ? _self.anime
+          : anime // ignore: cast_nullable_to_non_nullable
+              as AnimeDto,
+      episodeMissed: null == episodeMissed
+          ? _self.episodeMissed
+          : episodeMissed // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+// dart format on

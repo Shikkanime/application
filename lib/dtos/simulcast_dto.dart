@@ -4,7 +4,7 @@ part 'simulcast_dto.freezed.dart';
 part 'simulcast_dto.g.dart';
 
 @freezed
-class SimulcastDto with _$SimulcastDto {
+sealed class SimulcastDto with _$SimulcastDto {
   const factory SimulcastDto({
     required final String uuid,
     required final String season,

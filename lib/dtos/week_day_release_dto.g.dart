@@ -6,9 +6,8 @@ part of 'week_day_release_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$WeekDayReleaseDtoImpl _$$WeekDayReleaseDtoImplFromJson(
-        Map<String, dynamic> json) =>
-    _$WeekDayReleaseDtoImpl(
+_WeekDayReleaseDto _$WeekDayReleaseDtoFromJson(Map<String, dynamic> json) =>
+    _WeekDayReleaseDto(
       anime: AnimeDto.fromJson(json['anime'] as Map<String, dynamic>),
       platforms: (json['platforms'] as List<dynamic>)
           .map((e) => PlatformDto.fromJson(e as Map<String, dynamic>))
@@ -26,8 +25,7 @@ _$WeekDayReleaseDtoImpl _$$WeekDayReleaseDtoImplFromJson(
           .toList(),
     );
 
-Map<String, dynamic> _$$WeekDayReleaseDtoImplToJson(
-        _$WeekDayReleaseDtoImpl instance) =>
+Map<String, dynamic> _$WeekDayReleaseDtoToJson(_WeekDayReleaseDto instance) =>
     <String, dynamic>{
       'anime': instance.anime,
       'platforms': instance.platforms,

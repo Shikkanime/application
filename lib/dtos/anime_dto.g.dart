@@ -6,8 +6,7 @@ part of 'anime_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$AnimeDtoImpl _$$AnimeDtoImplFromJson(Map<String, dynamic> json) =>
-    _$AnimeDtoImpl(
+_AnimeDto _$AnimeDtoFromJson(Map<String, dynamic> json) => _AnimeDto(
       uuid: json['uuid'] as String,
       countryCode: json['countryCode'] as String,
       name: json['name'] as String,
@@ -37,8 +36,7 @@ _$AnimeDtoImpl _$$AnimeDtoImplFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$AnimeDtoImplToJson(_$AnimeDtoImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$AnimeDtoToJson(_AnimeDto instance) => <String, dynamic>{
       'uuid': instance.uuid,
       'countryCode': instance.countryCode,
       'name': instance.name,

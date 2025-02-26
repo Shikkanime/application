@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,106 +10,65 @@ part of 'simulcast_dto.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-SimulcastDto _$SimulcastDtoFromJson(Map<String, dynamic> json) {
-  return _SimulcastDto.fromJson(json);
-}
 
 /// @nodoc
 mixin _$SimulcastDto {
-  String get uuid => throw _privateConstructorUsedError;
-  String get season => throw _privateConstructorUsedError;
-  int get year => throw _privateConstructorUsedError;
-  String get slug => throw _privateConstructorUsedError;
-  String get label => throw _privateConstructorUsedError;
-
-  /// Serializes this SimulcastDto to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get uuid;
+  String get season;
+  int get year;
+  String get slug;
+  String get label;
 
   /// Create a copy of SimulcastDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $SimulcastDtoCopyWith<SimulcastDto> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $SimulcastDtoCopyWith<$Res> {
-  factory $SimulcastDtoCopyWith(
-          SimulcastDto value, $Res Function(SimulcastDto) then) =
-      _$SimulcastDtoCopyWithImpl<$Res, SimulcastDto>;
-  @useResult
-  $Res call({String uuid, String season, int year, String slug, String label});
-}
-
-/// @nodoc
-class _$SimulcastDtoCopyWithImpl<$Res, $Val extends SimulcastDto>
-    implements $SimulcastDtoCopyWith<$Res> {
-  _$SimulcastDtoCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of SimulcastDto
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $SimulcastDtoCopyWith<SimulcastDto> get copyWith =>
+      _$SimulcastDtoCopyWithImpl<SimulcastDto>(
+          this as SimulcastDto, _$identity);
+
+  /// Serializes this SimulcastDto to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? uuid = null,
-    Object? season = null,
-    Object? year = null,
-    Object? slug = null,
-    Object? label = null,
-  }) {
-    return _then(_value.copyWith(
-      uuid: null == uuid
-          ? _value.uuid
-          : uuid // ignore: cast_nullable_to_non_nullable
-              as String,
-      season: null == season
-          ? _value.season
-          : season // ignore: cast_nullable_to_non_nullable
-              as String,
-      year: null == year
-          ? _value.year
-          : year // ignore: cast_nullable_to_non_nullable
-              as int,
-      slug: null == slug
-          ? _value.slug
-          : slug // ignore: cast_nullable_to_non_nullable
-              as String,
-      label: null == label
-          ? _value.label
-          : label // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is SimulcastDto &&
+            (identical(other.uuid, uuid) || other.uuid == uuid) &&
+            (identical(other.season, season) || other.season == season) &&
+            (identical(other.year, year) || other.year == year) &&
+            (identical(other.slug, slug) || other.slug == slug) &&
+            (identical(other.label, label) || other.label == label));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, uuid, season, year, slug, label);
+
+  @override
+  String toString() {
+    return 'SimulcastDto(uuid: $uuid, season: $season, year: $year, slug: $slug, label: $label)';
   }
 }
 
 /// @nodoc
-abstract class _$$SimulcastDtoImplCopyWith<$Res>
-    implements $SimulcastDtoCopyWith<$Res> {
-  factory _$$SimulcastDtoImplCopyWith(
-          _$SimulcastDtoImpl value, $Res Function(_$SimulcastDtoImpl) then) =
-      __$$SimulcastDtoImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $SimulcastDtoCopyWith<$Res> {
+  factory $SimulcastDtoCopyWith(
+          SimulcastDto value, $Res Function(SimulcastDto) _then) =
+      _$SimulcastDtoCopyWithImpl;
   @useResult
   $Res call({String uuid, String season, int year, String slug, String label});
 }
 
 /// @nodoc
-class __$$SimulcastDtoImplCopyWithImpl<$Res>
-    extends _$SimulcastDtoCopyWithImpl<$Res, _$SimulcastDtoImpl>
-    implements _$$SimulcastDtoImplCopyWith<$Res> {
-  __$$SimulcastDtoImplCopyWithImpl(
-      _$SimulcastDtoImpl _value, $Res Function(_$SimulcastDtoImpl) _then)
-      : super(_value, _then);
+class _$SimulcastDtoCopyWithImpl<$Res> implements $SimulcastDtoCopyWith<$Res> {
+  _$SimulcastDtoCopyWithImpl(this._self, this._then);
+
+  final SimulcastDto _self;
+  final $Res Function(SimulcastDto) _then;
 
   /// Create a copy of SimulcastDto
   /// with the given fields replaced by the non-null parameter values.
@@ -121,25 +81,25 @@ class __$$SimulcastDtoImplCopyWithImpl<$Res>
     Object? slug = null,
     Object? label = null,
   }) {
-    return _then(_$SimulcastDtoImpl(
+    return _then(_self.copyWith(
       uuid: null == uuid
-          ? _value.uuid
+          ? _self.uuid
           : uuid // ignore: cast_nullable_to_non_nullable
               as String,
       season: null == season
-          ? _value.season
+          ? _self.season
           : season // ignore: cast_nullable_to_non_nullable
               as String,
       year: null == year
-          ? _value.year
+          ? _self.year
           : year // ignore: cast_nullable_to_non_nullable
               as int,
       slug: null == slug
-          ? _value.slug
+          ? _self.slug
           : slug // ignore: cast_nullable_to_non_nullable
               as String,
       label: null == label
-          ? _value.label
+          ? _self.label
           : label // ignore: cast_nullable_to_non_nullable
               as String,
     ));
@@ -148,16 +108,15 @@ class __$$SimulcastDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$SimulcastDtoImpl implements _SimulcastDto {
-  const _$SimulcastDtoImpl(
+class _SimulcastDto implements SimulcastDto {
+  const _SimulcastDto(
       {required this.uuid,
       required this.season,
       required this.year,
       required this.slug,
       required this.label});
-
-  factory _$SimulcastDtoImpl.fromJson(Map<String, dynamic> json) =>
-      _$$SimulcastDtoImplFromJson(json);
+  factory _SimulcastDto.fromJson(Map<String, dynamic> json) =>
+      _$SimulcastDtoFromJson(json);
 
   @override
   final String uuid;
@@ -170,16 +129,26 @@ class _$SimulcastDtoImpl implements _SimulcastDto {
   @override
   final String label;
 
+  /// Create a copy of SimulcastDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'SimulcastDto(uuid: $uuid, season: $season, year: $year, slug: $slug, label: $label)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$SimulcastDtoCopyWith<_SimulcastDto> get copyWith =>
+      __$SimulcastDtoCopyWithImpl<_SimulcastDto>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$SimulcastDtoToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SimulcastDtoImpl &&
+            other is _SimulcastDto &&
             (identical(other.uuid, uuid) || other.uuid == uuid) &&
             (identical(other.season, season) || other.season == season) &&
             (identical(other.year, year) || other.year == year) &&
@@ -191,48 +160,65 @@ class _$SimulcastDtoImpl implements _SimulcastDto {
   @override
   int get hashCode => Object.hash(runtimeType, uuid, season, year, slug, label);
 
-  /// Create a copy of SimulcastDto
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$SimulcastDtoImplCopyWith<_$SimulcastDtoImpl> get copyWith =>
-      __$$SimulcastDtoImplCopyWithImpl<_$SimulcastDtoImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$SimulcastDtoImplToJson(
-      this,
-    );
+  String toString() {
+    return 'SimulcastDto(uuid: $uuid, season: $season, year: $year, slug: $slug, label: $label)';
   }
 }
 
-abstract class _SimulcastDto implements SimulcastDto {
-  const factory _SimulcastDto(
-      {required final String uuid,
-      required final String season,
-      required final int year,
-      required final String slug,
-      required final String label}) = _$SimulcastDtoImpl;
+/// @nodoc
+abstract mixin class _$SimulcastDtoCopyWith<$Res>
+    implements $SimulcastDtoCopyWith<$Res> {
+  factory _$SimulcastDtoCopyWith(
+          _SimulcastDto value, $Res Function(_SimulcastDto) _then) =
+      __$SimulcastDtoCopyWithImpl;
+  @override
+  @useResult
+  $Res call({String uuid, String season, int year, String slug, String label});
+}
 
-  factory _SimulcastDto.fromJson(Map<String, dynamic> json) =
-      _$SimulcastDtoImpl.fromJson;
+/// @nodoc
+class __$SimulcastDtoCopyWithImpl<$Res>
+    implements _$SimulcastDtoCopyWith<$Res> {
+  __$SimulcastDtoCopyWithImpl(this._self, this._then);
 
-  @override
-  String get uuid;
-  @override
-  String get season;
-  @override
-  int get year;
-  @override
-  String get slug;
-  @override
-  String get label;
+  final _SimulcastDto _self;
+  final $Res Function(_SimulcastDto) _then;
 
   /// Create a copy of SimulcastDto
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SimulcastDtoImplCopyWith<_$SimulcastDtoImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? uuid = null,
+    Object? season = null,
+    Object? year = null,
+    Object? slug = null,
+    Object? label = null,
+  }) {
+    return _then(_SimulcastDto(
+      uuid: null == uuid
+          ? _self.uuid
+          : uuid // ignore: cast_nullable_to_non_nullable
+              as String,
+      season: null == season
+          ? _self.season
+          : season // ignore: cast_nullable_to_non_nullable
+              as String,
+      year: null == year
+          ? _self.year
+          : year // ignore: cast_nullable_to_non_nullable
+              as int,
+      slug: null == slug
+          ? _self.slug
+          : slug // ignore: cast_nullable_to_non_nullable
+              as String,
+      label: null == label
+          ? _self.label
+          : label // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
+
+// dart format on

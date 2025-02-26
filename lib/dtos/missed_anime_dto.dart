@@ -5,7 +5,7 @@ part 'missed_anime_dto.freezed.dart';
 part 'missed_anime_dto.g.dart';
 
 @freezed
-class MissedAnimeDto with _$MissedAnimeDto {
+sealed class MissedAnimeDto with _$MissedAnimeDto {
   const factory MissedAnimeDto({
     required final AnimeDto anime,
     required final int episodeMissed,

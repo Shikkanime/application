@@ -400,5 +400,21 @@
   "defaultDescription": "No description yet...",
   "@defaultDescription": {
     "description": "Default text to display when there is no description available."
+  },
+  "enableNotifications": "Turn on notifications",
+  "@enableNotifications": {
+    "description": "Text for the button to enable notifications."
+  },
+  "notificationsDescription": "Receive updates when a new episode is available. You can disable notifications at any time in the settings.",
+  "@notificationsDescription": {
+    "description": "Description of the notification feature."
+  },
+  "activate": "Turn on",
+  "@activate": {
+    "description": "Text for the button to activate a feature."
+  },
+  "later": "Later",
+  "@later": {
+      "description": "Text for the button to postpone an action."
   }
 }

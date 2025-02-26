@@ -5,7 +5,7 @@ part 'episode_variant_dto.freezed.dart';
 part 'episode_variant_dto.g.dart';
 
 @freezed
-class EpisodeVariantDto with _$EpisodeVariantDto {
+sealed class EpisodeVariantDto with _$EpisodeVariantDto {
   const factory EpisodeVariantDto({
     required final String uuid,
     required final String releaseDateTime,

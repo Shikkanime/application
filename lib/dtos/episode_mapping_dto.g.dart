@@ -6,9 +6,8 @@ part of 'episode_mapping_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$EpisodeMappingDtoImpl _$$EpisodeMappingDtoImplFromJson(
-        Map<String, dynamic> json) =>
-    _$EpisodeMappingDtoImpl(
+_EpisodeMappingDto _$EpisodeMappingDtoFromJson(Map<String, dynamic> json) =>
+    _EpisodeMappingDto(
       uuid: json['uuid'] as String,
       anime: json['anime'] == null
           ? null
@@ -35,8 +34,7 @@ _$EpisodeMappingDtoImpl _$$EpisodeMappingDtoImplFromJson(
       status: json['status'] as String,
     );
 
-Map<String, dynamic> _$$EpisodeMappingDtoImplToJson(
-        _$EpisodeMappingDtoImpl instance) =>
+Map<String, dynamic> _$EpisodeMappingDtoToJson(_EpisodeMappingDto instance) =>
     <String, dynamic>{
       'uuid': instance.uuid,
       'anime': instance.anime,

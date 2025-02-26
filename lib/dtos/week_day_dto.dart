@@ -5,7 +5,7 @@ part 'week_day_dto.freezed.dart';
 part 'week_day_dto.g.dart';
 
 @freezed
-class WeekDayDto with _$WeekDayDto {
+sealed class WeekDayDto with _$WeekDayDto {
   const factory WeekDayDto({
     required final String dayOfWeek,
     required final List<WeekDayReleaseDto> releases,

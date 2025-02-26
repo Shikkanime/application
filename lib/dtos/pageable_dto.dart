@@ -4,7 +4,7 @@ part 'pageable_dto.freezed.dart';
 part 'pageable_dto.g.dart';
 
 @freezed
-class PageableDto with _$PageableDto {
+sealed class PageableDto with _$PageableDto {
   const factory PageableDto({
     required final List<dynamic> data,
     required final int page,

@@ -4,7 +4,7 @@ part 'platform_dto.freezed.dart';
 part 'platform_dto.g.dart';
 
 @freezed
-class PlatformDto with _$PlatformDto {
+sealed class PlatformDto with _$PlatformDto {
   const factory PlatformDto({
     required final String id,
     required final String name,

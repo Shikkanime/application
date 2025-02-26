@@ -5,7 +5,7 @@ part 'anime_platform_dto.freezed.dart';
 part 'anime_platform_dto.g.dart';
 
 @freezed
-class AnimePlatformDto with _$AnimePlatformDto {
+sealed class AnimePlatformDto with _$AnimePlatformDto {
   const factory AnimePlatformDto({
     required final String uuid,
     required final PlatformDto platform,

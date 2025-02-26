@@ -5,7 +5,7 @@ part 'refresh_member_dto.freezed.dart';
 part 'refresh_member_dto.g.dart';
 
 @freezed
-class RefreshMemberDto with _$RefreshMemberDto {
+sealed class RefreshMemberDto with _$RefreshMemberDto {
   const factory RefreshMemberDto({
     required final PageableDto missedAnimes,
     required final PageableDto followedAnimes,

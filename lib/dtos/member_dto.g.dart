@@ -6,8 +6,7 @@ part of 'member_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$MemberDtoImpl _$$MemberDtoImplFromJson(Map<String, dynamic> json) =>
-    _$MemberDtoImpl(
+_MemberDto _$MemberDtoFromJson(Map<String, dynamic> json) => _MemberDto(
       uuid: json['uuid'] as String,
       token: json['token'] as String,
       creationDateTime: json['creationDateTime'] as String,
@@ -25,7 +24,7 @@ _$MemberDtoImpl _$$MemberDtoImplFromJson(Map<String, dynamic> json) =>
       hasProfilePicture: json['hasProfilePicture'] as bool,
     );
 
-Map<String, dynamic> _$$MemberDtoImplToJson(_$MemberDtoImpl instance) =>
+Map<String, dynamic> _$MemberDtoToJson(_MemberDto instance) =>
     <String, dynamic>{
       'uuid': instance.uuid,
       'token': instance.token,
