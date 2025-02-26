@@ -101,5 +101,9 @@
   "patchFailed": "Échec du téléchargement du correctif. Veuillez réessayer plus tard.",
   "watchOn": "Regarder sur :",
   "markAsWatched": "Marquer comme vu",
-  "defaultDescription": "Aucune description pour le moment..."
+  "defaultDescription": "Aucune description pour le moment...",
+  "enableNotifications": "Activer les notifications",
+  "notificationsDescription": "Recevez des mises à jour lorsque un nouvel épisode est disponible. Vous pouvez désactiver les notifications à tout moment dans les paramètres",
+  "activate": "Activer",
+  "later": "Plus tard"
 }

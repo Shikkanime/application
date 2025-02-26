@@ -4,7 +4,7 @@ part 'member_dto.freezed.dart';
 part 'member_dto.g.dart';
 
 @Freezed(makeCollectionsUnmodifiable: false)
-class MemberDto with _$MemberDto {
+sealed class MemberDto with _$MemberDto {
   const factory MemberDto({
     required final String uuid,
     required final String token,

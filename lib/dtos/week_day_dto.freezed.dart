@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,88 +10,60 @@ part of 'week_day_dto.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-WeekDayDto _$WeekDayDtoFromJson(Map<String, dynamic> json) {
-  return _WeekDayDto.fromJson(json);
-}
 
 /// @nodoc
 mixin _$WeekDayDto {
-  String get dayOfWeek => throw _privateConstructorUsedError;
-  List<WeekDayReleaseDto> get releases => throw _privateConstructorUsedError;
-
-  /// Serializes this WeekDayDto to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get dayOfWeek;
+  List<WeekDayReleaseDto> get releases;
 
   /// Create a copy of WeekDayDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $WeekDayDtoCopyWith<WeekDayDto> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $WeekDayDtoCopyWith<$Res> {
-  factory $WeekDayDtoCopyWith(
-          WeekDayDto value, $Res Function(WeekDayDto) then) =
-      _$WeekDayDtoCopyWithImpl<$Res, WeekDayDto>;
-  @useResult
-  $Res call({String dayOfWeek, List<WeekDayReleaseDto> releases});
-}
-
-/// @nodoc
-class _$WeekDayDtoCopyWithImpl<$Res, $Val extends WeekDayDto>
-    implements $WeekDayDtoCopyWith<$Res> {
-  _$WeekDayDtoCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of WeekDayDto
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $WeekDayDtoCopyWith<WeekDayDto> get copyWith =>
+      _$WeekDayDtoCopyWithImpl<WeekDayDto>(this as WeekDayDto, _$identity);
+
+  /// Serializes this WeekDayDto to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? dayOfWeek = null,
-    Object? releases = null,
-  }) {
-    return _then(_value.copyWith(
-      dayOfWeek: null == dayOfWeek
-          ? _value.dayOfWeek
-          : dayOfWeek // ignore: cast_nullable_to_non_nullable
-              as String,
-      releases: null == releases
-          ? _value.releases
-          : releases // ignore: cast_nullable_to_non_nullable
-              as List<WeekDayReleaseDto>,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is WeekDayDto &&
+            (identical(other.dayOfWeek, dayOfWeek) ||
+                other.dayOfWeek == dayOfWeek) &&
+            const DeepCollectionEquality().equals(other.releases, releases));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, dayOfWeek, const DeepCollectionEquality().hash(releases));
+
+  @override
+  String toString() {
+    return 'WeekDayDto(dayOfWeek: $dayOfWeek, releases: $releases)';
   }
 }
 
 /// @nodoc
-abstract class _$$WeekDayDtoImplCopyWith<$Res>
-    implements $WeekDayDtoCopyWith<$Res> {
-  factory _$$WeekDayDtoImplCopyWith(
-          _$WeekDayDtoImpl value, $Res Function(_$WeekDayDtoImpl) then) =
-      __$$WeekDayDtoImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $WeekDayDtoCopyWith<$Res> {
+  factory $WeekDayDtoCopyWith(
+          WeekDayDto value, $Res Function(WeekDayDto) _then) =
+      _$WeekDayDtoCopyWithImpl;
   @useResult
   $Res call({String dayOfWeek, List<WeekDayReleaseDto> releases});
 }
 
 /// @nodoc
-class __$$WeekDayDtoImplCopyWithImpl<$Res>
-    extends _$WeekDayDtoCopyWithImpl<$Res, _$WeekDayDtoImpl>
-    implements _$$WeekDayDtoImplCopyWith<$Res> {
-  __$$WeekDayDtoImplCopyWithImpl(
-      _$WeekDayDtoImpl _value, $Res Function(_$WeekDayDtoImpl) _then)
-      : super(_value, _then);
+class _$WeekDayDtoCopyWithImpl<$Res> implements $WeekDayDtoCopyWith<$Res> {
+  _$WeekDayDtoCopyWithImpl(this._self, this._then);
+
+  final WeekDayDto _self;
+  final $Res Function(WeekDayDto) _then;
 
   /// Create a copy of WeekDayDto
   /// with the given fields replaced by the non-null parameter values.
@@ -100,13 +73,13 @@ class __$$WeekDayDtoImplCopyWithImpl<$Res>
     Object? dayOfWeek = null,
     Object? releases = null,
   }) {
-    return _then(_$WeekDayDtoImpl(
+    return _then(_self.copyWith(
       dayOfWeek: null == dayOfWeek
-          ? _value.dayOfWeek
+          ? _self.dayOfWeek
           : dayOfWeek // ignore: cast_nullable_to_non_nullable
               as String,
       releases: null == releases
-          ? _value._releases
+          ? _self.releases
           : releases // ignore: cast_nullable_to_non_nullable
               as List<WeekDayReleaseDto>,
     ));
@@ -115,14 +88,13 @@ class __$$WeekDayDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$WeekDayDtoImpl implements _WeekDayDto {
-  const _$WeekDayDtoImpl(
+class _WeekDayDto implements WeekDayDto {
+  const _WeekDayDto(
       {required this.dayOfWeek,
       required final List<WeekDayReleaseDto> releases})
       : _releases = releases;
-
-  factory _$WeekDayDtoImpl.fromJson(Map<String, dynamic> json) =>
-      _$$WeekDayDtoImplFromJson(json);
+  factory _WeekDayDto.fromJson(Map<String, dynamic> json) =>
+      _$WeekDayDtoFromJson(json);
 
   @override
   final String dayOfWeek;
@@ -134,16 +106,26 @@ class _$WeekDayDtoImpl implements _WeekDayDto {
     return EqualUnmodifiableListView(_releases);
   }
 
+  /// Create a copy of WeekDayDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'WeekDayDto(dayOfWeek: $dayOfWeek, releases: $releases)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$WeekDayDtoCopyWith<_WeekDayDto> get copyWith =>
+      __$WeekDayDtoCopyWithImpl<_WeekDayDto>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$WeekDayDtoToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$WeekDayDtoImpl &&
+            other is _WeekDayDto &&
             (identical(other.dayOfWeek, dayOfWeek) ||
                 other.dayOfWeek == dayOfWeek) &&
             const DeepCollectionEquality().equals(other._releases, _releases));
@@ -154,39 +136,49 @@ class _$WeekDayDtoImpl implements _WeekDayDto {
   int get hashCode => Object.hash(
       runtimeType, dayOfWeek, const DeepCollectionEquality().hash(_releases));
 
-  /// Create a copy of WeekDayDto
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$WeekDayDtoImplCopyWith<_$WeekDayDtoImpl> get copyWith =>
-      __$$WeekDayDtoImplCopyWithImpl<_$WeekDayDtoImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$WeekDayDtoImplToJson(
-      this,
-    );
+  String toString() {
+    return 'WeekDayDto(dayOfWeek: $dayOfWeek, releases: $releases)';
   }
 }
 
-abstract class _WeekDayDto implements WeekDayDto {
-  const factory _WeekDayDto(
-      {required final String dayOfWeek,
-      required final List<WeekDayReleaseDto> releases}) = _$WeekDayDtoImpl;
-
-  factory _WeekDayDto.fromJson(Map<String, dynamic> json) =
-      _$WeekDayDtoImpl.fromJson;
-
+/// @nodoc
+abstract mixin class _$WeekDayDtoCopyWith<$Res>
+    implements $WeekDayDtoCopyWith<$Res> {
+  factory _$WeekDayDtoCopyWith(
+          _WeekDayDto value, $Res Function(_WeekDayDto) _then) =
+      __$WeekDayDtoCopyWithImpl;
   @override
-  String get dayOfWeek;
-  @override
-  List<WeekDayReleaseDto> get releases;
+  @useResult
+  $Res call({String dayOfWeek, List<WeekDayReleaseDto> releases});
+}
+
+/// @nodoc
+class __$WeekDayDtoCopyWithImpl<$Res> implements _$WeekDayDtoCopyWith<$Res> {
+  __$WeekDayDtoCopyWithImpl(this._self, this._then);
+
+  final _WeekDayDto _self;
+  final $Res Function(_WeekDayDto) _then;
 
   /// Create a copy of WeekDayDto
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$WeekDayDtoImplCopyWith<_$WeekDayDtoImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? dayOfWeek = null,
+    Object? releases = null,
+  }) {
+    return _then(_WeekDayDto(
+      dayOfWeek: null == dayOfWeek
+          ? _self.dayOfWeek
+          : dayOfWeek // ignore: cast_nullable_to_non_nullable
+              as String,
+      releases: null == releases
+          ? _self._releases
+          : releases // ignore: cast_nullable_to_non_nullable
+              as List<WeekDayReleaseDto>,
+    ));
+  }
 }
+
+// dart format on

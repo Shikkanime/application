@@ -32,7 +32,7 @@ Future<void> main() async {
   }
 
   try {
-    if (Constant.isAndroidOrIOS) {
+    if (NotificationsController.isSupported) {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
@@ -205,7 +205,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ]);
 
     WidgetsBinding.instance.addPostFrameCallback((final _) {
-      NotificationsController.instance.init();
+      NotificationsController.instance.init(context);
       Analytics.instance.logScreenView('home');
       PatchController.instance.patch(context);
       ReviewController.instance.requestReview();

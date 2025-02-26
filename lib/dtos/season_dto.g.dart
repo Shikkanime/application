@@ -6,13 +6,12 @@ part of 'season_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$SeasonDtoImpl _$$SeasonDtoImplFromJson(Map<String, dynamic> json) =>
-    _$SeasonDtoImpl(
+_SeasonDto _$SeasonDtoFromJson(Map<String, dynamic> json) => _SeasonDto(
       number: (json['number'] as num).toInt(),
       lastReleaseDateTime: json['lastReleaseDateTime'] as String,
     );
 
-Map<String, dynamic> _$$SeasonDtoImplToJson(_$SeasonDtoImpl instance) =>
+Map<String, dynamic> _$SeasonDtoToJson(_SeasonDto instance) =>
     <String, dynamic>{
       'number': instance.number,
       'lastReleaseDateTime': instance.lastReleaseDateTime,

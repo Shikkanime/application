@@ -6,15 +6,14 @@ part of 'platform_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$PlatformDtoImpl _$$PlatformDtoImplFromJson(Map<String, dynamic> json) =>
-    _$PlatformDtoImpl(
+_PlatformDto _$PlatformDtoFromJson(Map<String, dynamic> json) => _PlatformDto(
       id: json['id'] as String,
       name: json['name'] as String,
       url: json['url'] as String,
       image: json['image'] as String,
     );
 
-Map<String, dynamic> _$$PlatformDtoImplToJson(_$PlatformDtoImpl instance) =>
+Map<String, dynamic> _$PlatformDtoToJson(_PlatformDto instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

@@ -7,7 +7,7 @@ part 'week_day_release_dto.freezed.dart';
 part 'week_day_release_dto.g.dart';
 
 @freezed
-class WeekDayReleaseDto with _$WeekDayReleaseDto {
+sealed class WeekDayReleaseDto with _$WeekDayReleaseDto {
   const factory WeekDayReleaseDto({
     required final AnimeDto anime,
     required final List<PlatformDto> platforms,

@@ -7,7 +7,7 @@ part 'episode_mapping_dto.freezed.dart';
 part 'episode_mapping_dto.g.dart';
 
 @freezed
-class EpisodeMappingDto with _$EpisodeMappingDto {
+sealed class EpisodeMappingDto with _$EpisodeMappingDto {
   const factory EpisodeMappingDto({
     required final String uuid,
     required final AnimeDto? anime,

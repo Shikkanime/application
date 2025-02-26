@@ -6,8 +6,8 @@ part of 'simulcast_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$SimulcastDtoImpl _$$SimulcastDtoImplFromJson(Map<String, dynamic> json) =>
-    _$SimulcastDtoImpl(
+_SimulcastDto _$SimulcastDtoFromJson(Map<String, dynamic> json) =>
+    _SimulcastDto(
       uuid: json['uuid'] as String,
       season: json['season'] as String,
       year: (json['year'] as num).toInt(),
@@ -15,7 +15,7 @@ _$SimulcastDtoImpl _$$SimulcastDtoImplFromJson(Map<String, dynamic> json) =>
       label: json['label'] as String,
     );
 
-Map<String, dynamic> _$$SimulcastDtoImplToJson(_$SimulcastDtoImpl instance) =>
+Map<String, dynamic> _$SimulcastDtoToJson(_SimulcastDto instance) =>
     <String, dynamic>{
       'uuid': instance.uuid,
       'season': instance.season,

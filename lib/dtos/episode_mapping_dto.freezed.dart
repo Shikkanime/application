@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,49 +10,100 @@ part of 'episode_mapping_dto.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-EpisodeMappingDto _$EpisodeMappingDtoFromJson(Map<String, dynamic> json) {
-  return _EpisodeMappingDto.fromJson(json);
-}
 
 /// @nodoc
 mixin _$EpisodeMappingDto {
-  String get uuid => throw _privateConstructorUsedError;
-  AnimeDto? get anime => throw _privateConstructorUsedError;
-  String get releaseDateTime => throw _privateConstructorUsedError;
-  String get lastReleaseDateTime => throw _privateConstructorUsedError;
-  String get lastUpdateDateTime => throw _privateConstructorUsedError;
-  String get episodeType => throw _privateConstructorUsedError;
-  int get season => throw _privateConstructorUsedError;
-  int get number => throw _privateConstructorUsedError;
-  int get duration => throw _privateConstructorUsedError;
-  String? get title => throw _privateConstructorUsedError;
-  String? get description => throw _privateConstructorUsedError;
-  String get image => throw _privateConstructorUsedError;
-  List<EpisodeVariantDto>? get variants => throw _privateConstructorUsedError;
-  List<PlatformDto>? get platforms => throw _privateConstructorUsedError;
-  List<String>? get langTypes => throw _privateConstructorUsedError;
-  String get status => throw _privateConstructorUsedError;
-
-  /// Serializes this EpisodeMappingDto to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get uuid;
+  AnimeDto? get anime;
+  String get releaseDateTime;
+  String get lastReleaseDateTime;
+  String get lastUpdateDateTime;
+  String get episodeType;
+  int get season;
+  int get number;
+  int get duration;
+  String? get title;
+  String? get description;
+  String get image;
+  List<EpisodeVariantDto>? get variants;
+  List<PlatformDto>? get platforms;
+  List<String>? get langTypes;
+  String get status;
 
   /// Create a copy of EpisodeMappingDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $EpisodeMappingDtoCopyWith<EpisodeMappingDto> get copyWith =>
-      throw _privateConstructorUsedError;
+      _$EpisodeMappingDtoCopyWithImpl<EpisodeMappingDto>(
+          this as EpisodeMappingDto, _$identity);
+
+  /// Serializes this EpisodeMappingDto to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is EpisodeMappingDto &&
+            (identical(other.uuid, uuid) || other.uuid == uuid) &&
+            (identical(other.anime, anime) || other.anime == anime) &&
+            (identical(other.releaseDateTime, releaseDateTime) ||
+                other.releaseDateTime == releaseDateTime) &&
+            (identical(other.lastReleaseDateTime, lastReleaseDateTime) ||
+                other.lastReleaseDateTime == lastReleaseDateTime) &&
+            (identical(other.lastUpdateDateTime, lastUpdateDateTime) ||
+                other.lastUpdateDateTime == lastUpdateDateTime) &&
+            (identical(other.episodeType, episodeType) ||
+                other.episodeType == episodeType) &&
+            (identical(other.season, season) || other.season == season) &&
+            (identical(other.number, number) || other.number == number) &&
+            (identical(other.duration, duration) ||
+                other.duration == duration) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.image, image) || other.image == image) &&
+            const DeepCollectionEquality().equals(other.variants, variants) &&
+            const DeepCollectionEquality().equals(other.platforms, platforms) &&
+            const DeepCollectionEquality().equals(other.langTypes, langTypes) &&
+            (identical(other.status, status) || other.status == status));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      uuid,
+      anime,
+      releaseDateTime,
+      lastReleaseDateTime,
+      lastUpdateDateTime,
+      episodeType,
+      season,
+      number,
+      duration,
+      title,
+      description,
+      image,
+      const DeepCollectionEquality().hash(variants),
+      const DeepCollectionEquality().hash(platforms),
+      const DeepCollectionEquality().hash(langTypes),
+      status);
+
+  @override
+  String toString() {
+    return 'EpisodeMappingDto(uuid: $uuid, anime: $anime, releaseDateTime: $releaseDateTime, lastReleaseDateTime: $lastReleaseDateTime, lastUpdateDateTime: $lastUpdateDateTime, episodeType: $episodeType, season: $season, number: $number, duration: $duration, title: $title, description: $description, image: $image, variants: $variants, platforms: $platforms, langTypes: $langTypes, status: $status)';
+  }
 }
 
 /// @nodoc
-abstract class $EpisodeMappingDtoCopyWith<$Res> {
+abstract mixin class $EpisodeMappingDtoCopyWith<$Res> {
   factory $EpisodeMappingDtoCopyWith(
-          EpisodeMappingDto value, $Res Function(EpisodeMappingDto) then) =
-      _$EpisodeMappingDtoCopyWithImpl<$Res, EpisodeMappingDto>;
+          EpisodeMappingDto value, $Res Function(EpisodeMappingDto) _then) =
+      _$EpisodeMappingDtoCopyWithImpl;
   @useResult
   $Res call(
       {String uuid,
@@ -70,19 +122,15 @@ abstract class $EpisodeMappingDtoCopyWith<$Res> {
       List<PlatformDto>? platforms,
       List<String>? langTypes,
       String status});
-
-  $AnimeDtoCopyWith<$Res>? get anime;
 }
 
 /// @nodoc
-class _$EpisodeMappingDtoCopyWithImpl<$Res, $Val extends EpisodeMappingDto>
+class _$EpisodeMappingDtoCopyWithImpl<$Res>
     implements $EpisodeMappingDtoCopyWith<$Res> {
-  _$EpisodeMappingDtoCopyWithImpl(this._value, this._then);
+  _$EpisodeMappingDtoCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final EpisodeMappingDto _self;
+  final $Res Function(EpisodeMappingDto) _then;
 
   /// Create a copy of EpisodeMappingDto
   /// with the given fields replaced by the non-null parameter values.
@@ -106,212 +154,69 @@ class _$EpisodeMappingDtoCopyWithImpl<$Res, $Val extends EpisodeMappingDto>
     Object? langTypes = freezed,
     Object? status = null,
   }) {
-    return _then(_value.copyWith(
+    return _then(_self.copyWith(
       uuid: null == uuid
-          ? _value.uuid
+          ? _self.uuid
           : uuid // ignore: cast_nullable_to_non_nullable
               as String,
       anime: freezed == anime
-          ? _value.anime
+          ? _self.anime
           : anime // ignore: cast_nullable_to_non_nullable
               as AnimeDto?,
       releaseDateTime: null == releaseDateTime
-          ? _value.releaseDateTime
+          ? _self.releaseDateTime
           : releaseDateTime // ignore: cast_nullable_to_non_nullable
               as String,
       lastReleaseDateTime: null == lastReleaseDateTime
-          ? _value.lastReleaseDateTime
+          ? _self.lastReleaseDateTime
           : lastReleaseDateTime // ignore: cast_nullable_to_non_nullable
               as String,
       lastUpdateDateTime: null == lastUpdateDateTime
-          ? _value.lastUpdateDateTime
+          ? _self.lastUpdateDateTime
           : lastUpdateDateTime // ignore: cast_nullable_to_non_nullable
               as String,
       episodeType: null == episodeType
-          ? _value.episodeType
+          ? _self.episodeType
           : episodeType // ignore: cast_nullable_to_non_nullable
               as String,
       season: null == season
-          ? _value.season
+          ? _self.season
           : season // ignore: cast_nullable_to_non_nullable
               as int,
       number: null == number
-          ? _value.number
+          ? _self.number
           : number // ignore: cast_nullable_to_non_nullable
               as int,
       duration: null == duration
-          ? _value.duration
+          ? _self.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as int,
       title: freezed == title
-          ? _value.title
+          ? _self.title
           : title // ignore: cast_nullable_to_non_nullable
               as String?,
       description: freezed == description
-          ? _value.description
+          ? _self.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
       image: null == image
-          ? _value.image
+          ? _self.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
       variants: freezed == variants
-          ? _value.variants
+          ? _self.variants
           : variants // ignore: cast_nullable_to_non_nullable
               as List<EpisodeVariantDto>?,
       platforms: freezed == platforms
-          ? _value.platforms
+          ? _self.platforms
           : platforms // ignore: cast_nullable_to_non_nullable
               as List<PlatformDto>?,
       langTypes: freezed == langTypes
-          ? _value.langTypes
+          ? _self.langTypes
           : langTypes // ignore: cast_nullable_to_non_nullable
               as List<String>?,
       status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
-
-  /// Create a copy of EpisodeMappingDto
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AnimeDtoCopyWith<$Res>? get anime {
-    if (_value.anime == null) {
-      return null;
-    }
-
-    return $AnimeDtoCopyWith<$Res>(_value.anime!, (value) {
-      return _then(_value.copyWith(anime: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$EpisodeMappingDtoImplCopyWith<$Res>
-    implements $EpisodeMappingDtoCopyWith<$Res> {
-  factory _$$EpisodeMappingDtoImplCopyWith(_$EpisodeMappingDtoImpl value,
-          $Res Function(_$EpisodeMappingDtoImpl) then) =
-      __$$EpisodeMappingDtoImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {String uuid,
-      AnimeDto? anime,
-      String releaseDateTime,
-      String lastReleaseDateTime,
-      String lastUpdateDateTime,
-      String episodeType,
-      int season,
-      int number,
-      int duration,
-      String? title,
-      String? description,
-      String image,
-      List<EpisodeVariantDto>? variants,
-      List<PlatformDto>? platforms,
-      List<String>? langTypes,
-      String status});
-
-  @override
-  $AnimeDtoCopyWith<$Res>? get anime;
-}
-
-/// @nodoc
-class __$$EpisodeMappingDtoImplCopyWithImpl<$Res>
-    extends _$EpisodeMappingDtoCopyWithImpl<$Res, _$EpisodeMappingDtoImpl>
-    implements _$$EpisodeMappingDtoImplCopyWith<$Res> {
-  __$$EpisodeMappingDtoImplCopyWithImpl(_$EpisodeMappingDtoImpl _value,
-      $Res Function(_$EpisodeMappingDtoImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of EpisodeMappingDto
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? uuid = null,
-    Object? anime = freezed,
-    Object? releaseDateTime = null,
-    Object? lastReleaseDateTime = null,
-    Object? lastUpdateDateTime = null,
-    Object? episodeType = null,
-    Object? season = null,
-    Object? number = null,
-    Object? duration = null,
-    Object? title = freezed,
-    Object? description = freezed,
-    Object? image = null,
-    Object? variants = freezed,
-    Object? platforms = freezed,
-    Object? langTypes = freezed,
-    Object? status = null,
-  }) {
-    return _then(_$EpisodeMappingDtoImpl(
-      uuid: null == uuid
-          ? _value.uuid
-          : uuid // ignore: cast_nullable_to_non_nullable
-              as String,
-      anime: freezed == anime
-          ? _value.anime
-          : anime // ignore: cast_nullable_to_non_nullable
-              as AnimeDto?,
-      releaseDateTime: null == releaseDateTime
-          ? _value.releaseDateTime
-          : releaseDateTime // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastReleaseDateTime: null == lastReleaseDateTime
-          ? _value.lastReleaseDateTime
-          : lastReleaseDateTime // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastUpdateDateTime: null == lastUpdateDateTime
-          ? _value.lastUpdateDateTime
-          : lastUpdateDateTime // ignore: cast_nullable_to_non_nullable
-              as String,
-      episodeType: null == episodeType
-          ? _value.episodeType
-          : episodeType // ignore: cast_nullable_to_non_nullable
-              as String,
-      season: null == season
-          ? _value.season
-          : season // ignore: cast_nullable_to_non_nullable
-              as int,
-      number: null == number
-          ? _value.number
-          : number // ignore: cast_nullable_to_non_nullable
-              as int,
-      duration: null == duration
-          ? _value.duration
-          : duration // ignore: cast_nullable_to_non_nullable
-              as int,
-      title: freezed == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String?,
-      description: freezed == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String?,
-      image: null == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
-              as String,
-      variants: freezed == variants
-          ? _value._variants
-          : variants // ignore: cast_nullable_to_non_nullable
-              as List<EpisodeVariantDto>?,
-      platforms: freezed == platforms
-          ? _value._platforms
-          : platforms // ignore: cast_nullable_to_non_nullable
-              as List<PlatformDto>?,
-      langTypes: freezed == langTypes
-          ? _value._langTypes
-          : langTypes // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      status: null == status
-          ? _value.status
+          ? _self.status
           : status // ignore: cast_nullable_to_non_nullable
               as String,
     ));
@@ -320,8 +225,8 @@ class __$$EpisodeMappingDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$EpisodeMappingDtoImpl implements _EpisodeMappingDto {
-  const _$EpisodeMappingDtoImpl(
+class _EpisodeMappingDto implements EpisodeMappingDto {
+  const _EpisodeMappingDto(
       {required this.uuid,
       required this.anime,
       required this.releaseDateTime,
@@ -341,9 +246,8 @@ class _$EpisodeMappingDtoImpl implements _EpisodeMappingDto {
       : _variants = variants,
         _platforms = platforms,
         _langTypes = langTypes;
-
-  factory _$EpisodeMappingDtoImpl.fromJson(Map<String, dynamic> json) =>
-      _$$EpisodeMappingDtoImplFromJson(json);
+  factory _EpisodeMappingDto.fromJson(Map<String, dynamic> json) =>
+      _$EpisodeMappingDtoFromJson(json);
 
   @override
   final String uuid;
@@ -402,16 +306,26 @@ class _$EpisodeMappingDtoImpl implements _EpisodeMappingDto {
   @override
   final String status;
 
+  /// Create a copy of EpisodeMappingDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'EpisodeMappingDto(uuid: $uuid, anime: $anime, releaseDateTime: $releaseDateTime, lastReleaseDateTime: $lastReleaseDateTime, lastUpdateDateTime: $lastUpdateDateTime, episodeType: $episodeType, season: $season, number: $number, duration: $duration, title: $title, description: $description, image: $image, variants: $variants, platforms: $platforms, langTypes: $langTypes, status: $status)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$EpisodeMappingDtoCopyWith<_EpisodeMappingDto> get copyWith =>
+      __$EpisodeMappingDtoCopyWithImpl<_EpisodeMappingDto>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$EpisodeMappingDtoToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$EpisodeMappingDtoImpl &&
+            other is _EpisodeMappingDto &&
             (identical(other.uuid, uuid) || other.uuid == uuid) &&
             (identical(other.anime, anime) || other.anime == anime) &&
             (identical(other.releaseDateTime, releaseDateTime) ||
@@ -459,82 +373,136 @@ class _$EpisodeMappingDtoImpl implements _EpisodeMappingDto {
       const DeepCollectionEquality().hash(_langTypes),
       status);
 
-  /// Create a copy of EpisodeMappingDto
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$EpisodeMappingDtoImplCopyWith<_$EpisodeMappingDtoImpl> get copyWith =>
-      __$$EpisodeMappingDtoImplCopyWithImpl<_$EpisodeMappingDtoImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$EpisodeMappingDtoImplToJson(
-      this,
-    );
+  String toString() {
+    return 'EpisodeMappingDto(uuid: $uuid, anime: $anime, releaseDateTime: $releaseDateTime, lastReleaseDateTime: $lastReleaseDateTime, lastUpdateDateTime: $lastUpdateDateTime, episodeType: $episodeType, season: $season, number: $number, duration: $duration, title: $title, description: $description, image: $image, variants: $variants, platforms: $platforms, langTypes: $langTypes, status: $status)';
   }
 }
 
-abstract class _EpisodeMappingDto implements EpisodeMappingDto {
-  const factory _EpisodeMappingDto(
-      {required final String uuid,
-      required final AnimeDto? anime,
-      required final String releaseDateTime,
-      required final String lastReleaseDateTime,
-      required final String lastUpdateDateTime,
-      required final String episodeType,
-      required final int season,
-      required final int number,
-      required final int duration,
-      required final String? title,
-      required final String? description,
-      required final String image,
-      required final List<EpisodeVariantDto>? variants,
-      required final List<PlatformDto>? platforms,
-      required final List<String>? langTypes,
-      required final String status}) = _$EpisodeMappingDtoImpl;
+/// @nodoc
+abstract mixin class _$EpisodeMappingDtoCopyWith<$Res>
+    implements $EpisodeMappingDtoCopyWith<$Res> {
+  factory _$EpisodeMappingDtoCopyWith(
+          _EpisodeMappingDto value, $Res Function(_EpisodeMappingDto) _then) =
+      __$EpisodeMappingDtoCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String uuid,
+      AnimeDto? anime,
+      String releaseDateTime,
+      String lastReleaseDateTime,
+      String lastUpdateDateTime,
+      String episodeType,
+      int season,
+      int number,
+      int duration,
+      String? title,
+      String? description,
+      String image,
+      List<EpisodeVariantDto>? variants,
+      List<PlatformDto>? platforms,
+      List<String>? langTypes,
+      String status});
+}
 
-  factory _EpisodeMappingDto.fromJson(Map<String, dynamic> json) =
-      _$EpisodeMappingDtoImpl.fromJson;
+/// @nodoc
+class __$EpisodeMappingDtoCopyWithImpl<$Res>
+    implements _$EpisodeMappingDtoCopyWith<$Res> {
+  __$EpisodeMappingDtoCopyWithImpl(this._self, this._then);
 
-  @override
-  String get uuid;
-  @override
-  AnimeDto? get anime;
-  @override
-  String get releaseDateTime;
-  @override
-  String get lastReleaseDateTime;
-  @override
-  String get lastUpdateDateTime;
-  @override
-  String get episodeType;
-  @override
-  int get season;
-  @override
-  int get number;
-  @override
-  int get duration;
-  @override
-  String? get title;
-  @override
-  String? get description;
-  @override
-  String get image;
-  @override
-  List<EpisodeVariantDto>? get variants;
-  @override
-  List<PlatformDto>? get platforms;
-  @override
-  List<String>? get langTypes;
-  @override
-  String get status;
+  final _EpisodeMappingDto _self;
+  final $Res Function(_EpisodeMappingDto) _then;
 
   /// Create a copy of EpisodeMappingDto
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$EpisodeMappingDtoImplCopyWith<_$EpisodeMappingDtoImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? uuid = null,
+    Object? anime = freezed,
+    Object? releaseDateTime = null,
+    Object? lastReleaseDateTime = null,
+    Object? lastUpdateDateTime = null,
+    Object? episodeType = null,
+    Object? season = null,
+    Object? number = null,
+    Object? duration = null,
+    Object? title = freezed,
+    Object? description = freezed,
+    Object? image = null,
+    Object? variants = freezed,
+    Object? platforms = freezed,
+    Object? langTypes = freezed,
+    Object? status = null,
+  }) {
+    return _then(_EpisodeMappingDto(
+      uuid: null == uuid
+          ? _self.uuid
+          : uuid // ignore: cast_nullable_to_non_nullable
+              as String,
+      anime: freezed == anime
+          ? _self.anime
+          : anime // ignore: cast_nullable_to_non_nullable
+              as AnimeDto?,
+      releaseDateTime: null == releaseDateTime
+          ? _self.releaseDateTime
+          : releaseDateTime // ignore: cast_nullable_to_non_nullable
+              as String,
+      lastReleaseDateTime: null == lastReleaseDateTime
+          ? _self.lastReleaseDateTime
+          : lastReleaseDateTime // ignore: cast_nullable_to_non_nullable
+              as String,
+      lastUpdateDateTime: null == lastUpdateDateTime
+          ? _self.lastUpdateDateTime
+          : lastUpdateDateTime // ignore: cast_nullable_to_non_nullable
+              as String,
+      episodeType: null == episodeType
+          ? _self.episodeType
+          : episodeType // ignore: cast_nullable_to_non_nullable
+              as String,
+      season: null == season
+          ? _self.season
+          : season // ignore: cast_nullable_to_non_nullable
+              as int,
+      number: null == number
+          ? _self.number
+          : number // ignore: cast_nullable_to_non_nullable
+              as int,
+      duration: null == duration
+          ? _self.duration
+          : duration // ignore: cast_nullable_to_non_nullable
+              as int,
+      title: freezed == title
+          ? _self.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _self.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      image: null == image
+          ? _self.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String,
+      variants: freezed == variants
+          ? _self._variants
+          : variants // ignore: cast_nullable_to_non_nullable
+              as List<EpisodeVariantDto>?,
+      platforms: freezed == platforms
+          ? _self._platforms
+          : platforms // ignore: cast_nullable_to_non_nullable
+              as List<PlatformDto>?,
+      langTypes: freezed == langTypes
+          ? _self._langTypes
+          : langTypes // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      status: null == status
+          ? _self.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
+
+// dart format on

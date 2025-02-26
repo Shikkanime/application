@@ -6,9 +6,8 @@ part of 'refresh_member_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$RefreshMemberDtoImpl _$$RefreshMemberDtoImplFromJson(
-        Map<String, dynamic> json) =>
-    _$RefreshMemberDtoImpl(
+_RefreshMemberDto _$RefreshMemberDtoFromJson(Map<String, dynamic> json) =>
+    _RefreshMemberDto(
       missedAnimes:
           PageableDto.fromJson(json['missedAnimes'] as Map<String, dynamic>),
       followedAnimes:
@@ -19,8 +18,7 @@ _$RefreshMemberDtoImpl _$$RefreshMemberDtoImplFromJson(
       totalUnseenDuration: (json['totalUnseenDuration'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$RefreshMemberDtoImplToJson(
-        _$RefreshMemberDtoImpl instance) =>
+Map<String, dynamic> _$RefreshMemberDtoToJson(_RefreshMemberDto instance) =>
     <String, dynamic>{
       'missedAnimes': instance.missedAnimes,
       'followedAnimes': instance.followedAnimes,

@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,43 +10,80 @@ part of 'week_day_release_dto.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-WeekDayReleaseDto _$WeekDayReleaseDtoFromJson(Map<String, dynamic> json) {
-  return _WeekDayReleaseDto.fromJson(json);
-}
 
 /// @nodoc
 mixin _$WeekDayReleaseDto {
-  AnimeDto get anime => throw _privateConstructorUsedError;
-  List<PlatformDto> get platforms => throw _privateConstructorUsedError;
-  String get releaseDateTime => throw _privateConstructorUsedError;
-  String get slug => throw _privateConstructorUsedError;
-  List<String> get langTypes => throw _privateConstructorUsedError;
-  String? get episodeType => throw _privateConstructorUsedError;
-  int? get minNumber => throw _privateConstructorUsedError;
-  int? get maxNumber => throw _privateConstructorUsedError;
-  int? get number => throw _privateConstructorUsedError;
-  List<EpisodeMappingDto>? get mappings => throw _privateConstructorUsedError;
-
-  /// Serializes this WeekDayReleaseDto to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  AnimeDto get anime;
+  List<PlatformDto> get platforms;
+  String get releaseDateTime;
+  String get slug;
+  List<String> get langTypes;
+  String? get episodeType;
+  int? get minNumber;
+  int? get maxNumber;
+  int? get number;
+  List<EpisodeMappingDto>? get mappings;
 
   /// Create a copy of WeekDayReleaseDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $WeekDayReleaseDtoCopyWith<WeekDayReleaseDto> get copyWith =>
-      throw _privateConstructorUsedError;
+      _$WeekDayReleaseDtoCopyWithImpl<WeekDayReleaseDto>(
+          this as WeekDayReleaseDto, _$identity);
+
+  /// Serializes this WeekDayReleaseDto to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is WeekDayReleaseDto &&
+            (identical(other.anime, anime) || other.anime == anime) &&
+            const DeepCollectionEquality().equals(other.platforms, platforms) &&
+            (identical(other.releaseDateTime, releaseDateTime) ||
+                other.releaseDateTime == releaseDateTime) &&
+            (identical(other.slug, slug) || other.slug == slug) &&
+            const DeepCollectionEquality().equals(other.langTypes, langTypes) &&
+            (identical(other.episodeType, episodeType) ||
+                other.episodeType == episodeType) &&
+            (identical(other.minNumber, minNumber) ||
+                other.minNumber == minNumber) &&
+            (identical(other.maxNumber, maxNumber) ||
+                other.maxNumber == maxNumber) &&
+            (identical(other.number, number) || other.number == number) &&
+            const DeepCollectionEquality().equals(other.mappings, mappings));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      anime,
+      const DeepCollectionEquality().hash(platforms),
+      releaseDateTime,
+      slug,
+      const DeepCollectionEquality().hash(langTypes),
+      episodeType,
+      minNumber,
+      maxNumber,
+      number,
+      const DeepCollectionEquality().hash(mappings));
+
+  @override
+  String toString() {
+    return 'WeekDayReleaseDto(anime: $anime, platforms: $platforms, releaseDateTime: $releaseDateTime, slug: $slug, langTypes: $langTypes, episodeType: $episodeType, minNumber: $minNumber, maxNumber: $maxNumber, number: $number, mappings: $mappings)';
+  }
 }
 
 /// @nodoc
-abstract class $WeekDayReleaseDtoCopyWith<$Res> {
+abstract mixin class $WeekDayReleaseDtoCopyWith<$Res> {
   factory $WeekDayReleaseDtoCopyWith(
-          WeekDayReleaseDto value, $Res Function(WeekDayReleaseDto) then) =
-      _$WeekDayReleaseDtoCopyWithImpl<$Res, WeekDayReleaseDto>;
+          WeekDayReleaseDto value, $Res Function(WeekDayReleaseDto) _then) =
+      _$WeekDayReleaseDtoCopyWithImpl;
   @useResult
   $Res call(
       {AnimeDto anime,
@@ -58,19 +96,15 @@ abstract class $WeekDayReleaseDtoCopyWith<$Res> {
       int? maxNumber,
       int? number,
       List<EpisodeMappingDto>? mappings});
-
-  $AnimeDtoCopyWith<$Res> get anime;
 }
 
 /// @nodoc
-class _$WeekDayReleaseDtoCopyWithImpl<$Res, $Val extends WeekDayReleaseDto>
+class _$WeekDayReleaseDtoCopyWithImpl<$Res>
     implements $WeekDayReleaseDtoCopyWith<$Res> {
-  _$WeekDayReleaseDtoCopyWithImpl(this._value, this._then);
+  _$WeekDayReleaseDtoCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final WeekDayReleaseDto _self;
+  final $Res Function(WeekDayReleaseDto) _then;
 
   /// Create a copy of WeekDayReleaseDto
   /// with the given fields replaced by the non-null parameter values.
@@ -88,148 +122,45 @@ class _$WeekDayReleaseDtoCopyWithImpl<$Res, $Val extends WeekDayReleaseDto>
     Object? number = freezed,
     Object? mappings = freezed,
   }) {
-    return _then(_value.copyWith(
+    return _then(_self.copyWith(
       anime: null == anime
-          ? _value.anime
+          ? _self.anime
           : anime // ignore: cast_nullable_to_non_nullable
               as AnimeDto,
       platforms: null == platforms
-          ? _value.platforms
+          ? _self.platforms
           : platforms // ignore: cast_nullable_to_non_nullable
               as List<PlatformDto>,
       releaseDateTime: null == releaseDateTime
-          ? _value.releaseDateTime
+          ? _self.releaseDateTime
           : releaseDateTime // ignore: cast_nullable_to_non_nullable
               as String,
       slug: null == slug
-          ? _value.slug
+          ? _self.slug
           : slug // ignore: cast_nullable_to_non_nullable
               as String,
       langTypes: null == langTypes
-          ? _value.langTypes
+          ? _self.langTypes
           : langTypes // ignore: cast_nullable_to_non_nullable
               as List<String>,
       episodeType: freezed == episodeType
-          ? _value.episodeType
+          ? _self.episodeType
           : episodeType // ignore: cast_nullable_to_non_nullable
               as String?,
       minNumber: freezed == minNumber
-          ? _value.minNumber
+          ? _self.minNumber
           : minNumber // ignore: cast_nullable_to_non_nullable
               as int?,
       maxNumber: freezed == maxNumber
-          ? _value.maxNumber
+          ? _self.maxNumber
           : maxNumber // ignore: cast_nullable_to_non_nullable
               as int?,
       number: freezed == number
-          ? _value.number
+          ? _self.number
           : number // ignore: cast_nullable_to_non_nullable
               as int?,
       mappings: freezed == mappings
-          ? _value.mappings
-          : mappings // ignore: cast_nullable_to_non_nullable
-              as List<EpisodeMappingDto>?,
-    ) as $Val);
-  }
-
-  /// Create a copy of WeekDayReleaseDto
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AnimeDtoCopyWith<$Res> get anime {
-    return $AnimeDtoCopyWith<$Res>(_value.anime, (value) {
-      return _then(_value.copyWith(anime: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$WeekDayReleaseDtoImplCopyWith<$Res>
-    implements $WeekDayReleaseDtoCopyWith<$Res> {
-  factory _$$WeekDayReleaseDtoImplCopyWith(_$WeekDayReleaseDtoImpl value,
-          $Res Function(_$WeekDayReleaseDtoImpl) then) =
-      __$$WeekDayReleaseDtoImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {AnimeDto anime,
-      List<PlatformDto> platforms,
-      String releaseDateTime,
-      String slug,
-      List<String> langTypes,
-      String? episodeType,
-      int? minNumber,
-      int? maxNumber,
-      int? number,
-      List<EpisodeMappingDto>? mappings});
-
-  @override
-  $AnimeDtoCopyWith<$Res> get anime;
-}
-
-/// @nodoc
-class __$$WeekDayReleaseDtoImplCopyWithImpl<$Res>
-    extends _$WeekDayReleaseDtoCopyWithImpl<$Res, _$WeekDayReleaseDtoImpl>
-    implements _$$WeekDayReleaseDtoImplCopyWith<$Res> {
-  __$$WeekDayReleaseDtoImplCopyWithImpl(_$WeekDayReleaseDtoImpl _value,
-      $Res Function(_$WeekDayReleaseDtoImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of WeekDayReleaseDto
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? anime = null,
-    Object? platforms = null,
-    Object? releaseDateTime = null,
-    Object? slug = null,
-    Object? langTypes = null,
-    Object? episodeType = freezed,
-    Object? minNumber = freezed,
-    Object? maxNumber = freezed,
-    Object? number = freezed,
-    Object? mappings = freezed,
-  }) {
-    return _then(_$WeekDayReleaseDtoImpl(
-      anime: null == anime
-          ? _value.anime
-          : anime // ignore: cast_nullable_to_non_nullable
-              as AnimeDto,
-      platforms: null == platforms
-          ? _value._platforms
-          : platforms // ignore: cast_nullable_to_non_nullable
-              as List<PlatformDto>,
-      releaseDateTime: null == releaseDateTime
-          ? _value.releaseDateTime
-          : releaseDateTime // ignore: cast_nullable_to_non_nullable
-              as String,
-      slug: null == slug
-          ? _value.slug
-          : slug // ignore: cast_nullable_to_non_nullable
-              as String,
-      langTypes: null == langTypes
-          ? _value._langTypes
-          : langTypes // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      episodeType: freezed == episodeType
-          ? _value.episodeType
-          : episodeType // ignore: cast_nullable_to_non_nullable
-              as String?,
-      minNumber: freezed == minNumber
-          ? _value.minNumber
-          : minNumber // ignore: cast_nullable_to_non_nullable
-              as int?,
-      maxNumber: freezed == maxNumber
-          ? _value.maxNumber
-          : maxNumber // ignore: cast_nullable_to_non_nullable
-              as int?,
-      number: freezed == number
-          ? _value.number
-          : number // ignore: cast_nullable_to_non_nullable
-              as int?,
-      mappings: freezed == mappings
-          ? _value._mappings
+          ? _self.mappings
           : mappings // ignore: cast_nullable_to_non_nullable
               as List<EpisodeMappingDto>?,
     ));
@@ -238,8 +169,8 @@ class __$$WeekDayReleaseDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$WeekDayReleaseDtoImpl implements _WeekDayReleaseDto {
-  const _$WeekDayReleaseDtoImpl(
+class _WeekDayReleaseDto implements WeekDayReleaseDto {
+  const _WeekDayReleaseDto(
       {required this.anime,
       required final List<PlatformDto> platforms,
       required this.releaseDateTime,
@@ -253,9 +184,8 @@ class _$WeekDayReleaseDtoImpl implements _WeekDayReleaseDto {
       : _platforms = platforms,
         _langTypes = langTypes,
         _mappings = mappings;
-
-  factory _$WeekDayReleaseDtoImpl.fromJson(Map<String, dynamic> json) =>
-      _$$WeekDayReleaseDtoImplFromJson(json);
+  factory _WeekDayReleaseDto.fromJson(Map<String, dynamic> json) =>
+      _$WeekDayReleaseDtoFromJson(json);
 
   @override
   final AnimeDto anime;
@@ -297,16 +227,26 @@ class _$WeekDayReleaseDtoImpl implements _WeekDayReleaseDto {
     return EqualUnmodifiableListView(value);
   }
 
+  /// Create a copy of WeekDayReleaseDto
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'WeekDayReleaseDto(anime: $anime, platforms: $platforms, releaseDateTime: $releaseDateTime, slug: $slug, langTypes: $langTypes, episodeType: $episodeType, minNumber: $minNumber, maxNumber: $maxNumber, number: $number, mappings: $mappings)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$WeekDayReleaseDtoCopyWith<_WeekDayReleaseDto> get copyWith =>
+      __$WeekDayReleaseDtoCopyWithImpl<_WeekDayReleaseDto>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$WeekDayReleaseDtoToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$WeekDayReleaseDtoImpl &&
+            other is _WeekDayReleaseDto &&
             (identical(other.anime, anime) || other.anime == anime) &&
             const DeepCollectionEquality()
                 .equals(other._platforms, _platforms) &&
@@ -340,65 +280,100 @@ class _$WeekDayReleaseDtoImpl implements _WeekDayReleaseDto {
       number,
       const DeepCollectionEquality().hash(_mappings));
 
-  /// Create a copy of WeekDayReleaseDto
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$WeekDayReleaseDtoImplCopyWith<_$WeekDayReleaseDtoImpl> get copyWith =>
-      __$$WeekDayReleaseDtoImplCopyWithImpl<_$WeekDayReleaseDtoImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$WeekDayReleaseDtoImplToJson(
-      this,
-    );
+  String toString() {
+    return 'WeekDayReleaseDto(anime: $anime, platforms: $platforms, releaseDateTime: $releaseDateTime, slug: $slug, langTypes: $langTypes, episodeType: $episodeType, minNumber: $minNumber, maxNumber: $maxNumber, number: $number, mappings: $mappings)';
   }
 }
 
-abstract class _WeekDayReleaseDto implements WeekDayReleaseDto {
-  const factory _WeekDayReleaseDto(
-          {required final AnimeDto anime,
-          required final List<PlatformDto> platforms,
-          required final String releaseDateTime,
-          required final String slug,
-          required final List<String> langTypes,
-          required final String? episodeType,
-          required final int? minNumber,
-          required final int? maxNumber,
-          required final int? number,
-          required final List<EpisodeMappingDto>? mappings}) =
-      _$WeekDayReleaseDtoImpl;
+/// @nodoc
+abstract mixin class _$WeekDayReleaseDtoCopyWith<$Res>
+    implements $WeekDayReleaseDtoCopyWith<$Res> {
+  factory _$WeekDayReleaseDtoCopyWith(
+          _WeekDayReleaseDto value, $Res Function(_WeekDayReleaseDto) _then) =
+      __$WeekDayReleaseDtoCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {AnimeDto anime,
+      List<PlatformDto> platforms,
+      String releaseDateTime,
+      String slug,
+      List<String> langTypes,
+      String? episodeType,
+      int? minNumber,
+      int? maxNumber,
+      int? number,
+      List<EpisodeMappingDto>? mappings});
+}
 
-  factory _WeekDayReleaseDto.fromJson(Map<String, dynamic> json) =
-      _$WeekDayReleaseDtoImpl.fromJson;
+/// @nodoc
+class __$WeekDayReleaseDtoCopyWithImpl<$Res>
+    implements _$WeekDayReleaseDtoCopyWith<$Res> {
+  __$WeekDayReleaseDtoCopyWithImpl(this._self, this._then);
 
-  @override
-  AnimeDto get anime;
-  @override
-  List<PlatformDto> get platforms;
-  @override
-  String get releaseDateTime;
-  @override
-  String get slug;
-  @override
-  List<String> get langTypes;
-  @override
-  String? get episodeType;
-  @override
-  int? get minNumber;
-  @override
-  int? get maxNumber;
-  @override
-  int? get number;
-  @override
-  List<EpisodeMappingDto>? get mappings;
+  final _WeekDayReleaseDto _self;
+  final $Res Function(_WeekDayReleaseDto) _then;
 
   /// Create a copy of WeekDayReleaseDto
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$WeekDayReleaseDtoImplCopyWith<_$WeekDayReleaseDtoImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? anime = null,
+    Object? platforms = null,
+    Object? releaseDateTime = null,
+    Object? slug = null,
+    Object? langTypes = null,
+    Object? episodeType = freezed,
+    Object? minNumber = freezed,
+    Object? maxNumber = freezed,
+    Object? number = freezed,
+    Object? mappings = freezed,
+  }) {
+    return _then(_WeekDayReleaseDto(
+      anime: null == anime
+          ? _self.anime
+          : anime // ignore: cast_nullable_to_non_nullable
+              as AnimeDto,
+      platforms: null == platforms
+          ? _self._platforms
+          : platforms // ignore: cast_nullable_to_non_nullable
+              as List<PlatformDto>,
+      releaseDateTime: null == releaseDateTime
+          ? _self.releaseDateTime
+          : releaseDateTime // ignore: cast_nullable_to_non_nullable
+              as String,
+      slug: null == slug
+          ? _self.slug
+          : slug // ignore: cast_nullable_to_non_nullable
+              as String,
+      langTypes: null == langTypes
+          ? _self._langTypes
+          : langTypes // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      episodeType: freezed == episodeType
+          ? _self.episodeType
+          : episodeType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      minNumber: freezed == minNumber
+          ? _self.minNumber
+          : minNumber // ignore: cast_nullable_to_non_nullable
+              as int?,
+      maxNumber: freezed == maxNumber
+          ? _self.maxNumber
+          : maxNumber // ignore: cast_nullable_to_non_nullable
+              as int?,
+      number: freezed == number
+          ? _self.number
+          : number // ignore: cast_nullable_to_non_nullable
+              as int?,
+      mappings: freezed == mappings
+          ? _self._mappings
+          : mappings // ignore: cast_nullable_to_non_nullable
+              as List<EpisodeMappingDto>?,
+    ));
+  }
 }
+
+// dart format on

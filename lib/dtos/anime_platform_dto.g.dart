@@ -6,16 +6,14 @@ part of 'anime_platform_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$AnimePlatformDtoImpl _$$AnimePlatformDtoImplFromJson(
-        Map<String, dynamic> json) =>
-    _$AnimePlatformDtoImpl(
+_AnimePlatformDto _$AnimePlatformDtoFromJson(Map<String, dynamic> json) =>
+    _AnimePlatformDto(
       uuid: json['uuid'] as String,
       platform: PlatformDto.fromJson(json['platform'] as Map<String, dynamic>),
       platformId: json['platformId'] as String,
     );
 
-Map<String, dynamic> _$$AnimePlatformDtoImplToJson(
-        _$AnimePlatformDtoImpl instance) =>
+Map<String, dynamic> _$AnimePlatformDtoToJson(_AnimePlatformDto instance) =>
     <String, dynamic>{
       'uuid': instance.uuid,
       'platform': instance.platform,

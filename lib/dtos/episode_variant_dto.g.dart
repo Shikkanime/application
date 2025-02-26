@@ -6,9 +6,8 @@ part of 'episode_variant_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$EpisodeVariantDtoImpl _$$EpisodeVariantDtoImplFromJson(
-        Map<String, dynamic> json) =>
-    _$EpisodeVariantDtoImpl(
+_EpisodeVariantDto _$EpisodeVariantDtoFromJson(Map<String, dynamic> json) =>
+    _EpisodeVariantDto(
       uuid: json['uuid'] as String,
       releaseDateTime: json['releaseDateTime'] as String,
       platform: PlatformDto.fromJson(json['platform'] as Map<String, dynamic>),
@@ -18,8 +17,7 @@ _$EpisodeVariantDtoImpl _$$EpisodeVariantDtoImplFromJson(
       uncensored: json['uncensored'] as bool,
     );
 
-Map<String, dynamic> _$$EpisodeVariantDtoImplToJson(
-        _$EpisodeVariantDtoImpl instance) =>
+Map<String, dynamic> _$EpisodeVariantDtoToJson(_EpisodeVariantDto instance) =>
     <String, dynamic>{
       'uuid': instance.uuid,
       'releaseDateTime': instance.releaseDateTime,
