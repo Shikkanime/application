@@ -19,20 +19,21 @@ class FollowedStreamBuilder extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => StreamBuilder<MemberDto>(
-        stream: MemberController.instance.streamController.stream,
-        initialData: MemberController.instance.member,
-        builder: (
-          final BuildContext context,
-          final AsyncSnapshot<MemberDto> snapshot,
-        ) {
-          final MemberDto? memberDto = snapshot.data;
+    stream: MemberController.instance.streamController.stream,
+    initialData: MemberController.instance.member,
+    builder: (
+      final BuildContext context,
+      final AsyncSnapshot<MemberDto> snapshot,
+    ) {
+      final MemberDto? memberDto = snapshot.data;
 
-          final bool containsAnime =
-              anime != null && memberDto!.followedAnimes.contains(anime?.uuid);
-          final bool containsEpisode = episode != null &&
-              memberDto!.followedEpisodes.contains(episode?.uuid);
+      final bool containsAnime =
+          anime != null && memberDto!.followedAnimes.contains(anime?.uuid);
+      final bool containsEpisode =
+          episode != null &&
+          memberDto!.followedEpisodes.contains(episode?.uuid);
 
-          return builder(context, containsAnime, containsEpisode);
-        },
-      );
+      return builder(context, containsAnime, containsEpisode);
+    },
+  );
 }

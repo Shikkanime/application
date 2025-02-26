@@ -1,8 +1,8 @@
 import 'package:application/components/elevated_async_button.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/vibration_controller.dart';
+import 'package:application/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EditIdentifier extends StatefulWidget {
   const EditIdentifier({super.key});
@@ -17,36 +17,37 @@ class _EditIdentifierState extends State<EditIdentifier> {
 
   @override
   Widget build(final BuildContext context) => Scaffold(
-        appBar: AppBar(
-          centerTitle: false,
-          title: Text(AppLocalizations.of(context)!.enterNewIdentifier),
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Column(
-              spacing: 32,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                TextField(
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    labelText: AppLocalizations.of(context)!.identifier,
-                    errorText: _isInvalidIdentiferError
+    appBar: AppBar(
+      centerTitle: false,
+      title: Text(AppLocalizations.of(context)!.enterNewIdentifier),
+    ),
+    body: SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Column(
+          spacing: 32,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            TextField(
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                labelText: AppLocalizations.of(context)!.identifier,
+                errorText:
+                    _isInvalidIdentiferError
                         ? AppLocalizations.of(context)!.invalidIdentifier
                         : null,
-                  ),
-                  controller: _controller,
-                ),
-                ElevatedAsyncButton(
-                  onPressed: () async => saveIdentifier(context),
-                  child: Text(AppLocalizations.of(context)!.save),
-                ),
-              ],
+              ),
+              controller: _controller,
             ),
-          ),
+            ElevatedAsyncButton(
+              onPressed: () async => saveIdentifier(context),
+              child: Text(AppLocalizations.of(context)!.save),
+            ),
+          ],
         ),
-      );
+      ),
+    ),
+  );
 
   Future<void> saveIdentifier(final BuildContext context) async {
     if (_controller.text.isEmpty) {

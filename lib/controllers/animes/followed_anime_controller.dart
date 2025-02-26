@@ -40,8 +40,9 @@ class FollowedAnimeController extends GenericController<AnimeDto> {
 
     _isRetry = false;
 
-    return pageableDto.data
-        .map((final dynamic e) => AnimeDto.fromJson(e as Map<String, dynamic>));
+    return pageableDto.data.map(
+      (final dynamic e) => AnimeDto.fromJson(e as Map<String, dynamic>),
+    );
   }
 
   @override

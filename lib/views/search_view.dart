@@ -4,9 +4,9 @@ import 'package:application/components/advanced_search_card.dart';
 import 'package:application/components/animes/anime_component.dart';
 import 'package:application/controllers/animes/anime_search_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
+import 'package:application/l10n/app_localizations.dart';
 import 'package:application/utils/widget_builder.dart' as wb;
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchView extends StatefulWidget {
   const SearchView({super.key});
@@ -57,52 +57,51 @@ class _SearchViewState extends State<SearchView> {
 
   @override
   Widget build(final BuildContext context) => Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          elevation: 0,
-          title: SearchBar(
-            shadowColor: WidgetStateProperty.all(Colors.transparent),
-            controller: _controller,
-            autoFocus: true,
-            hintText: AppLocalizations.of(context)!.search,
-            trailing: <Widget>[
-              if (_controller.text.isNotEmpty)
-                IconButton(
-                  icon: const Icon(Icons.clear),
-                  onPressed: () {
-                    AnimeSearchController.instance.search('');
-                    setState(_controller.clear);
-                  },
-                ),
-            ],
-            onChanged: (final String query) {
-              AnimeSearchController.instance.search(query);
-              setState(() {});
-            },
-          ),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.only(top: 8),
-          child: StreamBuilder<List<AnimeDto>>(
-            stream: AnimeSearchController.instance.streamController.stream,
-            initialData: AnimeSearchController.instance.items,
-            builder: (
-              final BuildContext context,
-              final AsyncSnapshot<List<AnimeDto>> snapshot,
-            ) {
-              final List<Widget> list =
-                  _buildAnimeList(context, snapshot.data!);
+    extendBodyBehindAppBar: true,
+    appBar: AppBar(
+      elevation: 0,
+      title: SearchBar(
+        shadowColor: WidgetStateProperty.all(Colors.transparent),
+        controller: _controller,
+        autoFocus: true,
+        hintText: AppLocalizations.of(context)!.search,
+        trailing: <Widget>[
+          if (_controller.text.isNotEmpty)
+            IconButton(
+              icon: const Icon(Icons.clear),
+              onPressed: () {
+                AnimeSearchController.instance.search('');
+                setState(_controller.clear);
+              },
+            ),
+        ],
+        onChanged: (final String query) {
+          AnimeSearchController.instance.search(query);
+          setState(() {});
+        },
+      ),
+    ),
+    body: Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: StreamBuilder<List<AnimeDto>>(
+        stream: AnimeSearchController.instance.streamController.stream,
+        initialData: AnimeSearchController.instance.items,
+        builder: (
+          final BuildContext context,
+          final AsyncSnapshot<List<AnimeDto>> snapshot,
+        ) {
+          final List<Widget> list = _buildAnimeList(context, snapshot.data!);
 
-              return ListView.builder(
-                addAutomaticKeepAlives: false,
-                addRepaintBoundaries: false,
-                controller: AnimeSearchController.instance.scrollController,
-                itemCount: list.length,
-                itemBuilder: (final BuildContext context, final int index) =>
-                    list[index],
-              );
-            },
-          ),
-        ),
-      );
+          return ListView.builder(
+            addAutomaticKeepAlives: false,
+            addRepaintBoundaries: false,
+            controller: AnimeSearchController.instance.scrollController,
+            itemCount: list.length,
+            itemBuilder:
+                (final BuildContext context, final int index) => list[index],
+          );
+        },
+      ),
+    ),
+  );
 }

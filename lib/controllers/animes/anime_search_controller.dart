@@ -29,10 +29,7 @@ class AnimeSearchController extends GenericController<AnimeDto> {
     page = 1;
 
     _timer?.cancel();
-    _timer = Timer(
-      const Duration(milliseconds: 250),
-      nextPage,
-    );
+    _timer = Timer(const Duration(milliseconds: 250), nextPage);
   }
 
   @override
@@ -52,12 +49,14 @@ class AnimeSearchController extends GenericController<AnimeDto> {
 
     debugPrint('Query: $queryString');
 
-    final PageableDto pageableDto =
-        await HttpRequest.instance.getPage('/v1/animes?$queryString');
+    final PageableDto pageableDto = await HttpRequest.instance.getPage(
+      '/v1/animes?$queryString',
+    );
 
     Analytics.instance.logSearch(query, queryMap);
 
-    return pageableDto.data
-        .map((final dynamic e) => AnimeDto.fromJson(e as Map<String, dynamic>));
+    return pageableDto.data.map(
+      (final dynamic e) => AnimeDto.fromJson(e as Map<String, dynamic>),
+    );
   }
 }

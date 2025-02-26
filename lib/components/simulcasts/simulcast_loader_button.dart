@@ -6,15 +6,11 @@ class SimulcastLoaderButton extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => const Padding(
-        padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
-        child: Row(
-          children: <Widget>[
-            SizedBox(
-              width: 150,
-              height: 30,
-              child: GenericLoader(),
-            ),
-          ],
-        ),
-      );
+    padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
+    child: Row(
+      children: <Widget>[
+        SizedBox(width: 150, height: 30, child: GenericLoader()),
+      ],
+    ),
+  );
 }

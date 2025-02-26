@@ -9,11 +9,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-enum NotificationsType {
-  all,
-  watchlist,
-  none,
-}
+enum NotificationsType { all, watchlist, none }
 
 class NotificationsController {
   static final NotificationsController instance = NotificationsController();
@@ -28,8 +24,11 @@ class NotificationsController {
 
   static bool get isSupported => Constant.isAndroidOrIOS;
 
-  NotificationsType get notificationsType => NotificationsType.values[
-      SharedPreferencesController.instance.getInt(_keyNotificationsType) ?? 0];
+  NotificationsType get notificationsType =>
+      NotificationsType.values[SharedPreferencesController.instance.getInt(
+            _keyNotificationsType,
+          ) ??
+          0];
 
   Future<void> init(final BuildContext context) async {
     if (!isSupported) {
@@ -43,8 +42,9 @@ class NotificationsController {
     // TODO(Ziedelth): Remove this line later
     await _messaging?.unsubscribeFromTopic('dev');
 
-    if (SharedPreferencesController.instance
-        .containsKey(_keyNotificationsType)) {
+    if (SharedPreferencesController.instance.containsKey(
+      _keyNotificationsType,
+    )) {
       debugPrint('Notifications type already set');
       return;
     }
@@ -55,8 +55,8 @@ class NotificationsController {
 
     await Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (final BuildContext context) =>
-            const RequestNotificationView(),
+        builder:
+            (final BuildContext context) => const RequestNotificationView(),
       ),
     );
 
@@ -96,8 +96,10 @@ class NotificationsController {
       return false;
     }
 
-    await SharedPreferencesController.instance
-        .setInt(_keyNotificationsType, type.index);
+    await SharedPreferencesController.instance.setInt(
+      _keyNotificationsType,
+      type.index,
+    );
 
     switch (type) {
       case NotificationsType.all:
@@ -128,13 +130,16 @@ class NotificationsController {
 
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+          AndroidFlutterLocalNotificationsPlugin
+        >()
         ?.createNotificationChannel(channel);
   }
 
   Future<void> _setAndIgnore(final NotificationsType type) async {
-    await SharedPreferencesController.instance
-        .setInt(_keyNotificationsType, type.index);
+    await SharedPreferencesController.instance.setInt(
+      _keyNotificationsType,
+      type.index,
+    );
     streamController.add(type);
   }
 }

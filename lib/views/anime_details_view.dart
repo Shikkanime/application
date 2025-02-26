@@ -16,12 +16,12 @@ import 'package:application/dtos/anime_platform_dto.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/dtos/platform_dto.dart';
 import 'package:application/dtos/season_dto.dart';
+import 'package:application/l10n/app_localizations.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
 import 'package:application/utils/extensions.dart';
 import 'package:application/utils/widget_builder.dart' as wb;
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -64,7 +64,8 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
   @override
   Widget build(final BuildContext context) {
     final TextSpan span = TextSpan(
-      text: widget.anime.description ??
+      text:
+          widget.anime.description ??
           AppLocalizations.of(context)!.defaultDescription,
     );
 
@@ -88,8 +89,9 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
             onPressed: () async {
               await MemberController.instance.followAllEpisodes(widget.anime);
 
-              VibrationController.instance
-                  .vibrate(pattern: <int>[0, 50, 125, 50, 125, 50]);
+              VibrationController.instance.vibrate(
+                pattern: <int>[0, 50, 125, 50, 125, 50],
+              );
             },
             child: Flex(
               spacing: 8,
@@ -104,9 +106,7 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
             onPressed: () {
               Analytics.instance.logShare('anime', widget.anime.uuid, 'appBar');
 
-              Share.share(
-                '${Constant.baseUrl}/animes/${widget.anime.slug}',
-              );
+              Share.share('${Constant.baseUrl}/animes/${widget.anime.slug}');
             },
             icon: const Icon(Icons.share),
           ),
@@ -129,10 +129,11 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                       children: <Widget>[
                         ImageComponent(
                           uuid: widget.anime.uuid,
-                          version: widget.anime.lastUpdateDateTime
-                              .toDateTime()
-                              ?.millisecondsSinceEpoch
-                              .toString(),
+                          version:
+                              widget.anime.lastUpdateDateTime
+                                  .toDateTime()
+                                  ?.millisecondsSinceEpoch
+                                  .toString(),
                           type: 'banner',
                           height: MediaQuery.sizeOf(context).height * 0.25,
                           fit: BoxFit.cover,
@@ -193,9 +194,9 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                                     onPressed: () {
                                       final AnimePlatformDto? animePlatform =
                                           widget.anime.platformIds?.firstWhere(
-                                        (final AnimePlatformDto e) =>
-                                            e.platform.id == platform.id,
-                                      );
+                                            (final AnimePlatformDto e) =>
+                                                e.platform.id == platform.id,
+                                          );
 
                                       if (animePlatform == null) {
                                         return;
@@ -224,8 +225,9 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                                       if (url != null) {
                                         launchUrl(
                                           Uri.parse(url),
-                                          mode: LaunchMode
-                                              .externalNonBrowserApplication,
+                                          mode:
+                                              LaunchMode
+                                                  .externalNonBrowserApplication,
                                         );
                                       }
                                     },
@@ -254,9 +256,10 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                         Expanded(
                           child: Text.rich(
                             span,
-                            overflow: _showMore
-                                ? TextOverflow.visible
-                                : TextOverflow.ellipsis,
+                            overflow:
+                                _showMore
+                                    ? TextOverflow.visible
+                                    : TextOverflow.ellipsis,
                             maxLines: _showMore ? null : 4,
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
@@ -288,9 +291,9 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                                 ElevatedPopupMenuItem<SeasonDto>(
                                   value: season,
                                   child: Text(
-                                    AppLocalizations.of(context)!.season(
-                                      season.number,
-                                    ),
+                                    AppLocalizations.of(
+                                      context,
+                                    )!.season(season.number),
                                   ),
                                 ),
                             ],
@@ -310,8 +313,9 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                               ElevatedPopupMenuItem<SortType>(
                                 value: sortType,
                                 child: Text(
-                                  AppLocalizations.of(context)!
-                                      .sortType(sortType.name),
+                                  AppLocalizations.of(
+                                    context,
+                                  )!.sortType(sortType.name),
                                 ),
                               ),
                           ],
@@ -339,68 +343,70 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
               StreamBuilder<List<EpisodeMappingDto>>(
                 stream: AnimeDetailsController.instance.streamController.stream,
                 initialData: AnimeDetailsController.instance.items,
-                builder: (
-                  final BuildContext context,
-                  final AsyncSnapshot<List<EpisodeMappingDto>> snapshot,
-                ) =>
-                    Column(
-                  children: _buildEpisodeList(context, snapshot.data!),
-                ),
+                builder:
+                    (
+                      final BuildContext context,
+                      final AsyncSnapshot<List<EpisodeMappingDto>> snapshot,
+                    ) => Column(
+                      children: _buildEpisodeList(context, snapshot.data!),
+                    ),
               ),
             ],
           ),
         ),
       ),
-      floatingActionButton: _selectedEpisodes.isNotEmpty
-          ? FloatingActionButton(
-              onPressed: () async {
-                for (final String uuid in _selectedEpisodes) {
-                  await MemberController.instance.followEpisode(
-                    widget.anime,
-                    AnimeDetailsController.instance.items.firstWhere(
-                      (final EpisodeMappingDto episode) => episode.uuid == uuid,
-                    ),
-                    refreshAfterFollow: false,
+      floatingActionButton:
+          _selectedEpisodes.isNotEmpty
+              ? FloatingActionButton(
+                onPressed: () async {
+                  for (final String uuid in _selectedEpisodes) {
+                    await MemberController.instance.followEpisode(
+                      widget.anime,
+                      AnimeDetailsController.instance.items.firstWhere(
+                        (final EpisodeMappingDto episode) =>
+                            episode.uuid == uuid,
+                      ),
+                      refreshAfterFollow: false,
+                    );
+                  }
+
+                  await MemberController.instance.refresh();
+
+                  VibrationController.instance.vibrate(
+                    pattern: <int>[0, 50, 125, 50, 125, 50],
                   );
-                }
 
-                await MemberController.instance.refresh();
-
-                VibrationController.instance
-                    .vibrate(pattern: <int>[0, 50, 125, 50, 125, 50]);
-
-                setState(_selectedEpisodes.clear);
-              },
-              tooltip: AppLocalizations.of(context)!.markAsWatched,
-              child: const Icon(Icons.bookmarks),
-            )
-          : null,
+                  setState(_selectedEpisodes.clear);
+                },
+                tooltip: AppLocalizations.of(context)!.markAsWatched,
+                child: const Icon(Icons.bookmarks),
+              )
+              : null,
     );
   }
 
   List<Widget> _buildEpisodeList(
     final BuildContext context,
     final List<EpisodeMappingDto> episodes,
-  ) =>
-      wb.WidgetBuilder.instance.buildRowWidgets(
-        episodes.map(
-          (final EpisodeMappingDto episode) => AnimeEpisodeComponent(
-            episode: episode,
-            onDoubleAndLongPress: () {
-              setState(() {
-                if (_selectedEpisodes.contains(episode.uuid)) {
-                  _selectedEpisodes.remove(episode.uuid);
-                } else {
-                  _selectedEpisodes.add(episode.uuid);
-                }
-              });
-            },
-            isSelected: _selectedEpisodes.contains(episode.uuid),
-          ),
-        ),
-        maxElementsPerRow: max(
-          1,
-          (MediaQuery.sizeOf(context).width * 2 / 900).floor(),
-        ),
-      );
+  ) => wb.WidgetBuilder.instance.buildRowWidgets(
+    episodes.map(
+      (final EpisodeMappingDto episode) => AnimeEpisodeComponent(
+        episode: episode,
+        onDoubleAndLongPress: () {
+          setState(() {
+            if (_selectedEpisodes.contains(episode.uuid)) {
+              _selectedEpisodes.remove(episode.uuid);
+            } else {
+              _selectedEpisodes.add(episode.uuid);
+            }
+          });
+        },
+        isSelected: _selectedEpisodes.contains(episode.uuid),
+      ),
+    ),
+    maxElementsPerRow: max(
+      1,
+      (MediaQuery.sizeOf(context).width * 2 / 900).floor(),
+    ),
+  );
 }

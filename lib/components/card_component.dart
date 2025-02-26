@@ -40,21 +40,16 @@ class CustomCard extends StatelessWidget {
               onLongPress: onLongPress,
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  border: isSelected
-                      ? Border.all(
-                          color: selectedColor,
-                          width: 2,
-                        )
-                      : null,
+                  border:
+                      isSelected
+                          ? Border.all(color: selectedColor, width: 2)
+                          : null,
                   borderRadius: BorderRadius.all(
                     Radius.circular(Constant.borderRadius + margin),
                   ),
                   color: Theme.of(context).canvasColor,
                 ),
-                child: Padding(
-                  padding: EdgeInsets.all(margin),
-                  child: child,
-                ),
+                child: Padding(padding: EdgeInsets.all(margin), child: child),
               ),
             ),
           ),
@@ -65,10 +60,7 @@ class CustomCard extends StatelessWidget {
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: selectedColor,
-                  border: Border.all(
-                    color: selectedColor,
-                    width: 2,
-                  ),
+                  border: Border.all(color: selectedColor, width: 2),
                   borderRadius: const BorderRadius.all(
                     Radius.circular(Constant.borderRadius),
                   ),

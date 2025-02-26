@@ -11,16 +11,16 @@ import 'package:application/utils/widget_builder.dart' as wb;
 import 'package:flutter/material.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({
-    super.key,
-  });
+  const HomeView({super.key});
 
   List<Widget> _buildEpisodeList(
     final BuildContext context,
     final List<EpisodeMappingDto> episodes,
   ) {
-    final int maxElementsPerRow =
-        max(1, (MediaQuery.sizeOf(context).width * 2 / 900).floor());
+    final int maxElementsPerRow = max(
+      1,
+      (MediaQuery.sizeOf(context).width * 2 / 900).floor(),
+    );
 
     if (episodes.isEmpty) {
       return <Widget>[
@@ -70,8 +70,8 @@ class HomeView extends StatelessWidget {
               addRepaintBoundaries: false,
               controller: EpisodeController.instance.scrollController,
               itemCount: list.length,
-              itemBuilder: (final BuildContext context, final int index) =>
-                  list[index],
+              itemBuilder:
+                  (final BuildContext context, final int index) => list[index],
             ),
           );
         },

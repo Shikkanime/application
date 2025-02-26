@@ -11,22 +11,18 @@ class PlatformComponent extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(360)),
-        child: CachedNetworkImage(
-          imageUrl:
-              '${Constant.baseUrl}/assets/img/platforms/${platform.image}',
-          filterQuality: FilterQuality.high,
-          fit: BoxFit.cover,
-          width: 16,
-          height: 16,
-          placeholder: (final BuildContext context, final String url) =>
-              Container(
-            color: Colors.grey,
-            width: 16,
-            height: 16,
-          ),
-        ),
-      );
+    borderRadius: const BorderRadius.all(Radius.circular(360)),
+    child: CachedNetworkImage(
+      imageUrl: '${Constant.baseUrl}/assets/img/platforms/${platform.image}',
+      filterQuality: FilterQuality.high,
+      fit: BoxFit.cover,
+      width: 16,
+      height: 16,
+      placeholder:
+          (final BuildContext context, final String url) =>
+              Container(color: Colors.grey, width: 16, height: 16),
+    ),
+  );
 
   static Iterable<Widget> toPlatformsRow(final List<PlatformDto> platforms) =>
       platforms.reversed.mapIndexed(

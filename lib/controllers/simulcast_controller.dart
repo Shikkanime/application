@@ -8,8 +8,9 @@ class SimulcastController extends GenericController<SimulcastDto> {
 
   @override
   Future<Iterable<SimulcastDto>> fetchItems() async {
-    final List<dynamic> json =
-        await HttpRequest.instance.get<List<dynamic>>('/v1/simulcasts');
+    final List<dynamic> json = await HttpRequest.instance.get<List<dynamic>>(
+      '/v1/simulcasts',
+    );
 
     final Iterable<SimulcastDto> list = json.map(
       (final dynamic e) => SimulcastDto.fromJson(e as Map<String, dynamic>),

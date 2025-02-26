@@ -17,8 +17,10 @@ class SimulcastView extends StatelessWidget {
     final BuildContext context,
     final List<AnimeDto> animes,
   ) {
-    final int maxElementsPerRow =
-        max(2, (MediaQuery.sizeOf(context).width * 3 / 600).floor());
+    final int maxElementsPerRow = max(
+      2,
+      (MediaQuery.sizeOf(context).width * 3 / 600).floor(),
+    );
 
     if (animes.isEmpty) {
       return <Widget>[
@@ -44,30 +46,30 @@ class SimulcastView extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => StreamBuilder<List<AnimeDto>>(
-        stream: AnimeController.instance.streamController.stream,
-        initialData: AnimeController.instance.items,
-        builder: (
-          final BuildContext context,
-          final AsyncSnapshot<List<AnimeDto>> snapshot,
-        ) {
-          final List<Widget> list = _buildAnimeList(context, snapshot.data!);
+    stream: AnimeController.instance.streamController.stream,
+    initialData: AnimeController.instance.items,
+    builder: (
+      final BuildContext context,
+      final AsyncSnapshot<List<AnimeDto>> snapshot,
+    ) {
+      final List<Widget> list = _buildAnimeList(context, snapshot.data!);
 
-          return RefreshIndicator.adaptive(
-            onRefresh: () async {
-              await Future.wait(<Future<void>>[
-                SimulcastController.instance.init(),
-                AnimeController.instance.init(),
-              ]);
-            },
-            child: ListView.builder(
-              addAutomaticKeepAlives: false,
-              addRepaintBoundaries: false,
-              controller: AnimeController.instance.scrollController,
-              itemCount: list.length,
-              itemBuilder: (final BuildContext context, final int index) =>
-                  list[index],
-            ),
-          );
+      return RefreshIndicator.adaptive(
+        onRefresh: () async {
+          await Future.wait(<Future<void>>[
+            SimulcastController.instance.init(),
+            AnimeController.instance.init(),
+          ]);
         },
+        child: ListView.builder(
+          addAutomaticKeepAlives: false,
+          addRepaintBoundaries: false,
+          controller: AnimeController.instance.scrollController,
+          itemCount: list.length,
+          itemBuilder:
+              (final BuildContext context, final int index) => list[index],
+        ),
       );
+    },
+  );
 }

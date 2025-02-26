@@ -3,9 +3,7 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 
 abstract class GenericController<T> {
-  GenericController({
-    this.addScrollListener = true,
-  });
+  GenericController({this.addScrollListener = true});
 
   final List<T> items = <T>[];
   final ScrollController scrollController = ScrollController();

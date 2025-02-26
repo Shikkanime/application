@@ -21,43 +21,40 @@ class EpisodeComponent extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => CustomCard(
-        onTap: () {
-          Analytics.instance.logSelectContent('anime', episode.anime!.uuid);
+    onTap: () {
+      Analytics.instance.logSelectContent('anime', episode.anime!.uuid);
 
-          Navigator.of(context).push(
-            MaterialPageRoute<void>(
-              builder: (final BuildContext context) => AnimeDetailsView(
-                anime: episode.anime!,
-              ),
-            ),
-          );
-        },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            EpisodeImage(
-              fit: BoxFit.cover,
-              episode: episode,
-              borderRadius: const BorderRadius.all(
-                Radius.circular(Constant.borderRadius),
-              ),
-              height: 200,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              episode.anime?.shortName ?? Constant.defaultText,
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            EpisodeInformation(episode: episode),
-            if (episode.langTypes != null)
-              for (final String langType in episode.langTypes!)
-                LangTypeComponent(langType: langType),
-            const SizedBox(height: 8),
-            EpisodeActionBar(
-              episode: episode,
-              showWatchlist: showWatchlist,
-            ),
-          ],
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder:
+              (final BuildContext context) =>
+                  AnimeDetailsView(anime: episode.anime!),
         ),
       );
+    },
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        EpisodeImage(
+          fit: BoxFit.cover,
+          episode: episode,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(Constant.borderRadius),
+          ),
+          height: 200,
+        ),
+        const SizedBox(height: 8),
+        Text(
+          episode.anime?.shortName ?? Constant.defaultText,
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+        EpisodeInformation(episode: episode),
+        if (episode.langTypes != null)
+          for (final String langType in episode.langTypes!)
+            LangTypeComponent(langType: langType),
+        const SizedBox(height: 8),
+        EpisodeActionBar(episode: episode, showWatchlist: showWatchlist),
+      ],
+    ),
+  );
 }

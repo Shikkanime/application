@@ -20,73 +20,66 @@ class ElevatedDropdownButton<T> extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => ElevatedButton(
-        key: globalKey,
-        onPressed: () {
-          final RenderBox renderBox =
-              globalKey.currentContext!.findRenderObject()! as RenderBox;
-          // Get position of the season button
-          final Offset position = renderBox.localToGlobal(Offset.zero);
+    key: globalKey,
+    onPressed: () {
+      final RenderBox renderBox =
+          globalKey.currentContext!.findRenderObject()! as RenderBox;
+      // Get position of the season button
+      final Offset position = renderBox.localToGlobal(Offset.zero);
 
-          showMenu<T>(
-            context: context,
-            position: RelativeRect.fromLTRB(
-              position.dx,
-              position.dy,
-              position.dx,
-              position.dy,
-            ),
-            items: <PopupMenuEntry<T>>[
-              ...items.map(
-                (final ElevatedPopupMenuItem<T> item) =>
-                    item.build(selected: item.value == value),
-              ),
-            ],
-            constraints: BoxConstraints(
-              maxHeight: MediaQuery.sizeOf(context).height * 0.3075,
-            ),
-          ).then((final T? value) {
-            if (value != null) {
-              onChanged(value);
-            }
-          });
-        },
-        child: Flex(
-          spacing: 8,
-          direction: Axis.horizontal,
-          children: <Widget>[
-            if (child != null)
-              child!
-            else
-              items
-                  .firstWhere(
-                    (final ElevatedPopupMenuItem<T> item) =>
-                        item.value == value,
-                    orElse: () => items.first,
-                  )
-                  .child,
-            if (showIcon) const Icon(Icons.arrow_drop_down),
-          ],
+      showMenu<T>(
+        context: context,
+        position: RelativeRect.fromLTRB(
+          position.dx,
+          position.dy,
+          position.dx,
+          position.dy,
         ),
-      );
+        items: <PopupMenuEntry<T>>[
+          ...items.map(
+            (final ElevatedPopupMenuItem<T> item) =>
+                item.build(selected: item.value == value),
+          ),
+        ],
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.sizeOf(context).height * 0.3075,
+        ),
+      ).then((final T? value) {
+        if (value != null) {
+          onChanged(value);
+        }
+      });
+    },
+    child: Flex(
+      spacing: 8,
+      direction: Axis.horizontal,
+      children: <Widget>[
+        if (child != null)
+          child!
+        else
+          items
+              .firstWhere(
+                (final ElevatedPopupMenuItem<T> item) => item.value == value,
+                orElse: () => items.first,
+              )
+              .child,
+        if (showIcon) const Icon(Icons.arrow_drop_down),
+      ],
+    ),
+  );
 }
 
 class ElevatedPopupMenuItem<T> {
-  const ElevatedPopupMenuItem({
-    required this.value,
-    required this.child,
-  });
+  const ElevatedPopupMenuItem({required this.value, required this.child});
   final T value;
   final Widget child;
 
   PopupMenuItem<T> build({final bool selected = false}) => PopupMenuItem<T>(
-        value: value,
-        child: Flex(
-          spacing: 8,
-          direction: Axis.horizontal,
-          children: <Widget>[
-            child,
-            if (selected) const Icon(Icons.check),
-          ],
-        ),
-      );
+    value: value,
+    child: Flex(
+      spacing: 8,
+      direction: Axis.horizontal,
+      children: <Widget>[child, if (selected) const Icon(Icons.check)],
+    ),
+  );
 }

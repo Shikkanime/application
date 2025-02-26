@@ -22,22 +22,14 @@ class HttpRequest {
     }
 
     final http.Response response = await http
-        .get(
-          Uri.parse(
-            Constant.apiUrl + endpoint,
-          ),
-          headers: headers,
-        )
+        .get(Uri.parse(Constant.apiUrl + endpoint), headers: headers)
         .timeout(_timeout);
 
     if (response.statusCode == HttpStatus.unauthorized) {
       onUnauthorized?.call();
 
       return Future<T>.error(
-        PlatformException(
-          code: '401',
-          message: 'Unauthorized',
-        ),
+        PlatformException(code: '401', message: 'Unauthorized'),
       );
     }
 
@@ -52,14 +44,13 @@ class HttpRequest {
     final String endpoint, {
     final String? token,
     final VoidCallback? onUnauthorized,
-  }) async =>
-      PageableDto.fromJson(
-        await get<Map<String, dynamic>>(
-          endpoint,
-          token: token,
-          onUnauthorized: onUnauthorized,
-        ),
-      );
+  }) async => PageableDto.fromJson(
+    await get<Map<String, dynamic>>(
+      endpoint,
+      token: token,
+      onUnauthorized: onUnauthorized,
+    ),
+  );
 
   Future<http.Response> post<Response>(
     final String endpoint, {
@@ -74,9 +65,7 @@ class HttpRequest {
 
     return http
         .post(
-          Uri.parse(
-            Constant.apiUrl + endpoint,
-          ),
+          Uri.parse(Constant.apiUrl + endpoint),
           headers: headers,
           body: body,
         )
@@ -90,18 +79,12 @@ class HttpRequest {
   ) async {
     final http.MultipartRequest request = http.MultipartRequest(
       'POST',
-      Uri.parse(
-        Constant.apiUrl + endpoint,
-      ),
+      Uri.parse(Constant.apiUrl + endpoint),
     );
 
     request.headers.putIfAbsent('Authorization', () => 'Bearer $token');
     request.files.add(
-      http.MultipartFile.fromBytes(
-        'file',
-        bytes,
-        filename: 'image.jpg',
-      ),
+      http.MultipartFile.fromBytes('file', bytes, filename: 'image.jpg'),
     );
 
     return http.Response.fromStream(await request.send()).timeout(_timeout);
@@ -111,35 +94,29 @@ class HttpRequest {
     final String endpoint,
     final String token,
     final Object body,
-  ) async =>
-      http
-          .put(
-            Uri.parse(
-              Constant.apiUrl + endpoint,
-            ),
-            headers: <String, String>{
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer $token',
-            },
-            body: body,
-          )
-          .timeout(_timeout);
+  ) async => http
+      .put(
+        Uri.parse(Constant.apiUrl + endpoint),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: body,
+      )
+      .timeout(_timeout);
 
   Future<http.Response> delete<Response>(
     final String endpoint,
     final String token,
     final Object body,
-  ) async =>
-      http
-          .delete(
-            Uri.parse(
-              Constant.apiUrl + endpoint,
-            ),
-            headers: <String, String>{
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer $token',
-            },
-            body: body,
-          )
-          .timeout(_timeout);
+  ) async => http
+      .delete(
+        Uri.parse(Constant.apiUrl + endpoint),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: body,
+      )
+      .timeout(_timeout);
 }

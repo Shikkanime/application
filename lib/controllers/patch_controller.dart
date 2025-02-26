@@ -1,14 +1,10 @@
 import 'dart:async';
 
+import 'package:application/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shorebird_code_push/shorebird_code_push.dart';
 
-enum PatchDownloadStatus {
-  downloading,
-  downloaded,
-  failed,
-}
+enum PatchDownloadStatus { downloading, downloaded, failed }
 
 class PatchController {
   static final PatchController instance = PatchController();

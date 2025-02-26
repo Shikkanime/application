@@ -7,11 +7,11 @@ part of 'pageable_dto.dart';
 // **************************************************************************
 
 _PageableDto _$PageableDtoFromJson(Map<String, dynamic> json) => _PageableDto(
-      data: json['data'] as List<dynamic>,
-      page: (json['page'] as num).toInt(),
-      limit: (json['limit'] as num).toInt(),
-      total: (json['total'] as num).toInt(),
-    );
+  data: json['data'] as List<dynamic>,
+  page: (json['page'] as num).toInt(),
+  limit: (json['limit'] as num).toInt(),
+  total: (json['total'] as num).toInt(),
+);
 
 Map<String, dynamic> _$PageableDtoToJson(_PageableDto instance) =>
     <String, dynamic>{

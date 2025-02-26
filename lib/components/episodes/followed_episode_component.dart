@@ -9,10 +9,7 @@ import 'package:flutter/material.dart';
 double _ratio = 4;
 
 class FollowedEpisodeComponent extends StatelessWidget {
-  const FollowedEpisodeComponent({
-    required this.episode,
-    super.key,
-  });
+  const FollowedEpisodeComponent({required this.episode, super.key});
 
   final EpisodeMappingDto episode;
 
@@ -32,9 +29,9 @@ class FollowedEpisodeComponent extends StatelessWidget {
 
           Navigator.of(context).push(
             MaterialPageRoute<void>(
-              builder: (final BuildContext context) => AnimeDetailsView(
-                anime: episode.anime!,
-              ),
+              builder:
+                  (final BuildContext context) =>
+                      AnimeDetailsView(anime: episode.anime!),
             ),
           );
         },
@@ -56,10 +53,9 @@ class FollowedEpisodeComponent extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               episode.anime?.shortName ?? Constant.defaultText,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall
-                  ?.copyWith(fontWeight: FontWeight.bold),
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
               textAlign: TextAlign.center,

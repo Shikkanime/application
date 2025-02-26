@@ -16,17 +16,18 @@ class AnimeWeeklyController extends GenericController<WeekDayDto> {
     final List<dynamic> json = await HttpRequest.instance.get<List<dynamic>>(
       '/v1/animes/weekly',
       token: memberMode ? MemberController.instance.member?.token : null,
-      onUnauthorized: memberMode
-          ? () async {
-              if (_isRetry) {
-                return;
-              }
+      onUnauthorized:
+          memberMode
+              ? () async {
+                if (_isRetry) {
+                  return;
+                }
 
-              _isRetry = true;
-              await MemberController.instance.login();
-              await fetchItems();
-            }
-          : null,
+                _isRetry = true;
+                await MemberController.instance.login();
+                await fetchItems();
+              }
+              : null,
     );
 
     _isRetry = false;

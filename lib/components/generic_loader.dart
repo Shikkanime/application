@@ -8,11 +8,11 @@ class GenericLoader extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => DecoratedBox(
-        decoration: BoxDecoration(
-          color: Colors.grey,
-          borderRadius: BorderRadius.all(
-            Radius.circular(borderRadius ?? Constant.borderRadius),
-          ),
-        ),
-      );
+    decoration: BoxDecoration(
+      color: Colors.grey,
+      borderRadius: BorderRadius.all(
+        Radius.circular(borderRadius ?? Constant.borderRadius),
+      ),
+    ),
+  );
 }

@@ -9,9 +9,10 @@ part of 'week_day_release_dto.dart';
 _WeekDayReleaseDto _$WeekDayReleaseDtoFromJson(Map<String, dynamic> json) =>
     _WeekDayReleaseDto(
       anime: AnimeDto.fromJson(json['anime'] as Map<String, dynamic>),
-      platforms: (json['platforms'] as List<dynamic>)
-          .map((e) => PlatformDto.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      platforms:
+          (json['platforms'] as List<dynamic>)
+              .map((e) => PlatformDto.fromJson(e as Map<String, dynamic>))
+              .toList(),
       releaseDateTime: json['releaseDateTime'] as String,
       slug: json['slug'] as String,
       langTypes:
@@ -20,9 +21,12 @@ _WeekDayReleaseDto _$WeekDayReleaseDtoFromJson(Map<String, dynamic> json) =>
       minNumber: (json['minNumber'] as num?)?.toInt(),
       maxNumber: (json['maxNumber'] as num?)?.toInt(),
       number: (json['number'] as num?)?.toInt(),
-      mappings: (json['mappings'] as List<dynamic>?)
-          ?.map((e) => EpisodeMappingDto.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      mappings:
+          (json['mappings'] as List<dynamic>?)
+              ?.map(
+                (e) => EpisodeMappingDto.fromJson(e as Map<String, dynamic>),
+              )
+              .toList(),
     );
 
 Map<String, dynamic> _$WeekDayReleaseDtoToJson(_WeekDayReleaseDto instance) =>

@@ -2,10 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-enum DeviceType {
-  mobile,
-  tablet,
-}
+enum DeviceType { mobile, tablet }
 
 class WidgetBuilder {
   static final WidgetBuilder instance = WidgetBuilder();
@@ -39,9 +36,10 @@ class WidgetBuilder {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: List<Widget>.generate(
             maxElementsPerRow,
-            (final int j) => i + j < toSeparateList.length
-                ? Expanded(child: toSeparateList.elementAt(i + j))
-                : const Spacer(),
+            (final int j) =>
+                i + j < toSeparateList.length
+                    ? Expanded(child: toSeparateList.elementAt(i + j))
+                    : const Spacer(),
           ),
         ),
       );

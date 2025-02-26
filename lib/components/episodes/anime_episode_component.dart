@@ -21,50 +21,47 @@ class AnimeEpisodeComponent extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => CustomCard(
-        onDoubleTap: onDoubleAndLongPress,
-        onLongPress: (final TapDownDetails? details) {
-          onDoubleAndLongPress?.call();
-        },
-        isSelected: isSelected,
-        child: SizedBox(
-          height: 170,
-          child: Row(
-            spacing: 8,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Expanded(
-                child: EpisodeImage(
-                  episode: episode,
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(Constant.borderRadius),
-                  ),
-                  fit: BoxFit.cover,
-                ),
+    onDoubleTap: onDoubleAndLongPress,
+    onLongPress: (final TapDownDetails? details) {
+      onDoubleAndLongPress?.call();
+    },
+    isSelected: isSelected,
+    child: SizedBox(
+      height: 170,
+      child: Row(
+        spacing: 8,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            child: EpisodeImage(
+              episode: episode,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(Constant.borderRadius),
               ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      episode.title ?? Constant.defaultText,
-                      style: Theme.of(context).textTheme.bodyLarge,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                    ),
-                    EpisodeInformation(episode: episode, showSeason: false),
-                    if (episode.langTypes != null)
-                      for (final String langType in episode.langTypes!)
-                        LangTypeComponent(langType: langType),
-                    const Spacer(),
-                    EpisodeActionBar(
-                      episode: episode,
-                      simple: true,
-                    ),
-                  ],
-                ),
-              ),
-            ],
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-      );
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  episode.title ?? Constant.defaultText,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                ),
+                EpisodeInformation(episode: episode, showSeason: false),
+                if (episode.langTypes != null)
+                  for (final String langType in episode.langTypes!)
+                    LangTypeComponent(langType: langType),
+                const Spacer(),
+                EpisodeActionBar(episode: episode, simple: true),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }

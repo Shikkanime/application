@@ -18,19 +18,16 @@ class EpisodeActionBar extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => Flex(
-        spacing: 8,
-        direction: Axis.horizontal,
-        children: <Widget>[
-          if (showWatchlist)
-            WatchlistButton(
-              episode: episode,
-              simple: simple,
-              style: Theme.of(context).getCardButtonStyle(),
-            ),
-          WatchButton(
-            url: episode.variants?.first.url,
-            simple: simple,
-          ),
-        ],
-      );
+    spacing: 8,
+    direction: Axis.horizontal,
+    children: <Widget>[
+      if (showWatchlist)
+        WatchlistButton(
+          episode: episode,
+          simple: simple,
+          style: Theme.of(context).getCardButtonStyle(),
+        ),
+      WatchButton(url: episode.variants?.first.url, simple: simple),
+    ],
+  );
 }

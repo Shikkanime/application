@@ -7,11 +7,9 @@ class UpdateController {
   static final UpdateController instance = UpdateController();
 
   void _showSnackBar(final BuildContext context, final String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-      ),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   Future<void> checkIfStoreUpdateIsAvailable(final BuildContext context) async {

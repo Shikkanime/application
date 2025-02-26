@@ -12,12 +12,12 @@ import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/dtos/member_dto.dart';
 import 'package:application/dtos/missed_anime_dto.dart';
 import 'package:application/dtos/refresh_member_dto.dart';
+import 'package:application/l10n/app_localizations.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/http_request.dart';
 import 'package:application/views/crop_view.dart';
 import 'package:crop_your_image/crop_your_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -30,7 +30,8 @@ class MemberController {
   int imageVersion = 0;
 
   Future<void> init({final bool afterDelete = false}) async {
-    identifier = SharedPreferencesController.instance.getString('identifier') ??
+    identifier =
+        SharedPreferencesController.instance.getString('identifier') ??
         await register();
     imageVersion =
         SharedPreferencesController.instance.getInt('imageVersion') ?? 0;
@@ -46,8 +47,10 @@ class MemberController {
         await SharedPreferencesController.instance.remove('identifier');
         await SharedPreferencesController.instance.remove('imageVersion');
 
-        await SharedPreferencesController.instance
-            .setString('oldIdentifier', oldIdentifier!);
+        await SharedPreferencesController.instance.setString(
+          'oldIdentifier',
+          oldIdentifier!,
+        );
         await init(afterDelete: true);
       }
     } on TimeoutException catch (e) {
@@ -66,17 +69,23 @@ class MemberController {
       throw const HttpException('Failed to register');
     }
 
-    final String identifier = (jsonDecode(utf8.decode(response.bodyBytes))
-        as Map<String, dynamic>)['identifier'] as String;
-    await SharedPreferencesController.instance
-        .setString('identifier', identifier);
+    final String identifier =
+        (jsonDecode(utf8.decode(response.bodyBytes))
+                as Map<String, dynamic>)['identifier']
+            as String;
+    await SharedPreferencesController.instance.setString(
+      'identifier',
+      identifier,
+    );
     Analytics.instance.logSignUp();
     return identifier;
   }
 
   Future<Response> testLogin(final String identifier) async {
-    final Response response =
-        await HttpRequest().post('/v1/members/login', body: identifier);
+    final Response response = await HttpRequest().post(
+      '/v1/members/login',
+      body: identifier,
+    );
 
     if (response.statusCode == HttpStatus.notFound) {
       throw const HttpException('Failed to login, identifier not found');
@@ -96,8 +105,10 @@ class MemberController {
 
     if (identifier != null) {
       this.identifier = identifier;
-      await SharedPreferencesController.instance
-          .setString('identifier', identifier);
+      await SharedPreferencesController.instance.setString(
+        'identifier',
+        identifier,
+      );
     }
 
     member = MemberDto.fromJson(json);
@@ -110,11 +121,8 @@ class MemberController {
   }
 
   Future<void> refresh() async {
-    final Map<String, dynamic> json =
-        await HttpRequest().get<Map<String, dynamic>>(
-      '/v1/members/refresh',
-      token: member!.token,
-    );
+    final Map<String, dynamic> json = await HttpRequest()
+        .get<Map<String, dynamic>>('/v1/members/refresh', token: member!.token);
 
     final RefreshMemberDto refreshedMember = RefreshMemberDto.fromJson(json);
 
@@ -123,16 +131,20 @@ class MemberController {
       totalUnseenDuration: refreshedMember.totalUnseenDuration,
     );
 
-    final List<MissedAnimeDto> missedAnimes = refreshedMember.missedAnimes.data
-        .map(
-          (final dynamic e) =>
-              MissedAnimeDto.fromJson(e as Map<String, dynamic>),
-        )
-        .toList();
+    final List<MissedAnimeDto> missedAnimes =
+        refreshedMember.missedAnimes.data
+            .map(
+              (final dynamic e) =>
+                  MissedAnimeDto.fromJson(e as Map<String, dynamic>),
+            )
+            .toList();
 
-    final List<AnimeDto> followedAnimes = refreshedMember.followedAnimes.data
-        .map((final dynamic e) => AnimeDto.fromJson(e as Map<String, dynamic>))
-        .toList();
+    final List<AnimeDto> followedAnimes =
+        refreshedMember.followedAnimes.data
+            .map(
+              (final dynamic e) => AnimeDto.fromJson(e as Map<String, dynamic>),
+            )
+            .toList();
 
     final List<EpisodeMappingDto> followedEpisodes =
         refreshedMember.followedEpisodes.data
@@ -163,18 +175,21 @@ class MemberController {
     if (!allowedFormats.contains(result.path.split('.').last)) {
       await showDialog(
         context: context,
-        builder: (final BuildContext context) => AlertDialog(
-          title: Text(AppLocalizations.of(context)!.invalidImageFormat),
-          content: Text(AppLocalizations.of(context)!.invalidImageExtension),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text(AppLocalizations.of(context)!.ok),
+        builder:
+            (final BuildContext context) => AlertDialog(
+              title: Text(AppLocalizations.of(context)!.invalidImageFormat),
+              content: Text(
+                AppLocalizations.of(context)!.invalidImageExtension,
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(AppLocalizations.of(context)!.ok),
+                ),
+              ],
             ),
-          ],
-        ),
       );
 
       return;
@@ -184,10 +199,9 @@ class MemberController {
 
     await Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (final BuildContext context) => CropView(
-          bytes: bytes,
-          controller: controller,
-        ),
+        builder:
+            (final BuildContext context) =>
+                CropView(bytes: bytes, controller: controller),
       ),
     );
   }
@@ -205,9 +219,7 @@ class MemberController {
     }
 
     if (response.statusCode != HttpStatus.ok) {
-      throw HttpException(
-        'Failed to change image ${response.body}',
-      );
+      throw HttpException('Failed to change image ${response.body}');
     }
 
     await increaseImageVersion();
@@ -215,8 +227,10 @@ class MemberController {
 
   Future<void> increaseImageVersion() async {
     imageVersion++;
-    await SharedPreferencesController.instance
-        .setInt('imageVersion', imageVersion);
+    await SharedPreferencesController.instance.setInt(
+      'imageVersion',
+      imageVersion,
+    );
     member = member!.copyWith(hasProfilePicture: true);
     streamController.add(member!);
   }
@@ -242,7 +256,8 @@ class MemberController {
     }
 
     return (jsonDecode(utf8.decode(response.bodyBytes))
-        as Map<String, dynamic>)['uuid'] as String;
+            as Map<String, dynamic>)['uuid']
+        as String;
   }
 
   Future<String> forgotIdentifier(final String email) async {
@@ -266,7 +281,8 @@ class MemberController {
     }
 
     return (jsonDecode(utf8.decode(response.bodyBytes))
-        as Map<String, dynamic>)['uuid'] as String;
+            as Map<String, dynamic>)['uuid']
+        as String;
   }
 
   Future<void> validateAction(final String uuid, final String code) async {

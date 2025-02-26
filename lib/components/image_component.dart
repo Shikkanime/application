@@ -28,29 +28,26 @@ class ImageComponent extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => ClipRRect(
-        borderRadius: borderRadius,
-        child: CachedNetworkImage(
-          imageUrl:
-              '${Constant.apiUrl}/v1/attachments?uuid=$uuid&type=$type${version != null ? '&v=$version' : ''}',
-          filterQuality: FilterQuality.high,
-          fit: fit,
-          width: width,
-          height: height,
-          placeholder: (final BuildContext context, final String url) =>
+    borderRadius: borderRadius,
+    child: CachedNetworkImage(
+      imageUrl:
+          '${Constant.apiUrl}/v1/attachments?uuid=$uuid&type=$type${version != null ? '&v=$version' : ''}',
+      filterQuality: FilterQuality.high,
+      fit: fit,
+      width: width,
+      height: height,
+      placeholder:
+          (final BuildContext context, final String url) =>
               placeholder ??
-              Container(
-                color: Colors.grey,
-                width: width,
-                height: height,
-              ),
-          errorWidget: errorWidget != null
+              Container(color: Colors.grey, width: width, height: height),
+      errorWidget:
+          errorWidget != null
               ? (
-                  final BuildContext context,
-                  final String url,
-                  final dynamic error,
-                ) =>
-                  errorWidget!
+                final BuildContext context,
+                final String url,
+                final dynamic error,
+              ) => errorWidget!
               : null,
-        ),
-      );
+    ),
+  );
 }

@@ -23,63 +23,63 @@ class AnimeComponent extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => CustomCard(
-        onTap: () {
-          Analytics.instance.logSelectContent('anime', anime.uuid);
+    onTap: () {
+      Analytics.instance.logSelectContent('anime', anime.uuid);
 
-          Navigator.of(context).push(
-            MaterialPageRoute<void>(
-              builder: (final BuildContext context) => AnimeDetailsView(
-                anime: anime,
-              ),
-            ),
-          );
-        },
-        onLongPress: (final TapDownDetails? details) {
-          AnimeController.instance.onLongPress(context, anime, details);
-        },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder:
+              (final BuildContext context) => AnimeDetailsView(anime: anime),
+        ),
+      );
+    },
+    onLongPress: (final TapDownDetails? details) {
+      AnimeController.instance.onLongPress(context, anime, details);
+    },
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Stack(
           children: <Widget>[
-            Stack(
-              children: <Widget>[
-                ImageComponent(
-                  fit: BoxFit.cover,
-                  uuid: anime.uuid,
-                  version: anime.lastUpdateDateTime
+            ImageComponent(
+              fit: BoxFit.cover,
+              uuid: anime.uuid,
+              version:
+                  anime.lastUpdateDateTime
                       .toDateTime()
                       ?.millisecondsSinceEpoch
                       .toString(),
-                  height: 280,
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(Constant.borderRadius),
-                  ),
-                ),
-                ...PlatformComponent.toPlatformsRow(anime.platforms),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Text(
-              anime.shortName,
-              style: Theme.of(context).textTheme.bodyLarge,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-            ),
-            if (anime.langTypes != null)
-              for (final String langType in anime.langTypes!)
-                LangTypeComponent(langType: langType),
-            if (showWatchlist) ...<Widget>[
-              const SizedBox(height: 8),
-              Flex(
-                direction: Axis.horizontal,
-                children: <Widget>[
-                  WatchlistButton(
-                    anime: anime,
-                    style: Theme.of(context).getCardButtonStyle(),
-                  ),
-                ],
+              height: 280,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(Constant.borderRadius),
               ),
-            ],
+            ),
+            ...PlatformComponent.toPlatformsRow(anime.platforms),
           ],
         ),
-      );
+        const SizedBox(height: 8),
+        Text(
+          anime.shortName,
+          style: Theme.of(context).textTheme.bodyLarge,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 2,
+        ),
+        if (anime.langTypes != null)
+          for (final String langType in anime.langTypes!)
+            LangTypeComponent(langType: langType),
+        if (showWatchlist) ...<Widget>[
+          const SizedBox(height: 8),
+          Flex(
+            direction: Axis.horizontal,
+            children: <Widget>[
+              WatchlistButton(
+                anime: anime,
+                style: Theme.of(context).getCardButtonStyle(),
+              ),
+            ],
+          ),
+        ],
+      ],
+    ),
+  );
 }

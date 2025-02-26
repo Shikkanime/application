@@ -8,19 +8,16 @@ import 'package:application/components/watchlist_button.dart';
 import 'package:application/controllers/animes/anime_controller.dart';
 import 'package:application/controllers/animes/anime_weekly_controller.dart';
 import 'package:application/dtos/week_day_release_dto.dart';
+import 'package:application/l10n/app_localizations.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
 import 'package:application/utils/extensions.dart';
 import 'package:application/views/anime_details_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
 class CalendarAnimeComponent extends StatelessWidget {
-  const CalendarAnimeComponent({
-    required this.release,
-    super.key,
-  });
+  const CalendarAnimeComponent({required this.release, super.key});
 
   final WeekDayReleaseDto release;
 
@@ -28,12 +25,14 @@ class CalendarAnimeComponent extends StatelessWidget {
     final BuildContext context,
     final String releaseDateTime,
   ) {
-    final DateTime parsed = DateFormat('yyyy-MM-ddTHH:mm:ssZ')
-        .parse(releaseDateTime, true)
-        .toLocal();
+    final DateTime parsed =
+        DateFormat(
+          'yyyy-MM-ddTHH:mm:ssZ',
+        ).parse(releaseDateTime, true).toLocal();
 
-    return DateFormat(AppLocalizations.of(context)!.calendarTimeFormat)
-        .format(parsed);
+    return DateFormat(
+      AppLocalizations.of(context)!.calendarTimeFormat,
+    ).format(parsed);
   }
 
   @override
@@ -48,8 +47,9 @@ class CalendarAnimeComponent extends StatelessWidget {
 
         Navigator.of(context).push(
           MaterialPageRoute<void>(
-            builder: (final BuildContext context) =>
-                AnimeDetailsView(anime: release.anime),
+            builder:
+                (final BuildContext context) =>
+                    AnimeDetailsView(anime: release.anime),
           ),
         );
       },
@@ -63,15 +63,17 @@ class CalendarAnimeComponent extends StatelessWidget {
             children: <Widget>[
               ImageComponent(
                 fit: BoxFit.cover,
-                uuid: isReleased
-                    ? release.mappings!.first.uuid
-                    : release.anime.uuid,
-                version: (isReleased
-                        ? release.mappings!.first.lastUpdateDateTime
-                        : release.anime.lastUpdateDateTime)
-                    .toDateTime()
-                    ?.millisecondsSinceEpoch
-                    .toString(),
+                uuid:
+                    isReleased
+                        ? release.mappings!.first.uuid
+                        : release.anime.uuid,
+                version:
+                    (isReleased
+                            ? release.mappings!.first.lastUpdateDateTime
+                            : release.anime.lastUpdateDateTime)
+                        .toDateTime()
+                        ?.millisecondsSinceEpoch
+                        .toString(),
                 type: isReleased ? 'image' : 'banner',
                 borderRadius: const BorderRadius.all(
                   Radius.circular(Constant.borderRadius),
@@ -114,9 +116,9 @@ class CalendarAnimeComponent extends StatelessWidget {
                       if (isReleased)
                         Text(
                           AppLocalizations.of(context)!.minInformation(
-                            AppLocalizations.of(context)!.episodeType(
-                              release.episodeType!.toLowerCase(),
-                            ),
+                            AppLocalizations.of(
+                              context,
+                            )!.episodeType(release.episodeType!.toLowerCase()),
                             isMultipleReleased
                                 ? '${release.minNumber} - ${release.maxNumber}'
                                 : release.number!,

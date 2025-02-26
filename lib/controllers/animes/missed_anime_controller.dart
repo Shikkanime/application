@@ -10,10 +10,11 @@ class MissedAnimeController extends GenericController<MissedAnimeDto> {
   static final MissedAnimeController instance = MissedAnimeController();
   bool _isRetry = false;
 
-  int get _limit => Constant.isAndroidOrIOS &&
-          wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
-      ? 9
-      : 24;
+  int get _limit =>
+      Constant.isAndroidOrIOS &&
+              wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
+          ? 9
+          : 24;
 
   void setItems(final List<MissedAnimeDto> items) {
     this.items.clear();

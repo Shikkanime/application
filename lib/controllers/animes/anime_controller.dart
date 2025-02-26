@@ -4,12 +4,12 @@ import 'package:application/controllers/vibration_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/pageable_dto.dart';
 import 'package:application/dtos/simulcast_dto.dart';
+import 'package:application/l10n/app_localizations.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
 import 'package:application/utils/http_request.dart';
 import 'package:application/utils/widget_builder.dart' as wb;
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:share_plus/share_plus.dart';
 
 class AnimeController extends GenericController<AnimeDto> {
@@ -32,8 +32,9 @@ class AnimeController extends GenericController<AnimeDto> {
       '/v1/animes?simulcast=${selectedSimulcast?.uuid}&sort=name&page=$page&limit=$_limit',
     );
 
-    return pageableDto.data
-        .map((final dynamic e) => AnimeDto.fromJson(e as Map<String, dynamic>));
+    return pageableDto.data.map(
+      (final dynamic e) => AnimeDto.fromJson(e as Map<String, dynamic>),
+    );
   }
 
   void onLongPress(
@@ -82,14 +83,13 @@ class AnimeController extends GenericController<AnimeDto> {
     ).then((final int? value) async {
       if (value == 0) {
         await MemberController.instance.followAllEpisodes(anime);
-        VibrationController.instance
-            .vibrate(pattern: <int>[0, 50, 125, 50, 125, 50]);
+        VibrationController.instance.vibrate(
+          pattern: <int>[0, 50, 125, 50, 125, 50],
+        );
       } else if (value == 1) {
         Analytics.instance.logShare('anime', anime.uuid, 'onLongPress');
 
-        await Share.share(
-          '${Constant.baseUrl}/animes/${anime.slug}',
-        );
+        await Share.share('${Constant.baseUrl}/animes/${anime.slug}');
       }
     });
   }

@@ -32,8 +32,9 @@ class AnimeDetailsController extends GenericController<EpisodeMappingDto> {
         .map((final MapEntry<String, dynamic> e) => '${e.key}=${e.value}')
         .join('&');
 
-    final PageableDto pageableDto =
-        await HttpRequest.instance.getPage('/v1/episode-mappings?$queryString');
+    final PageableDto pageableDto = await HttpRequest.instance.getPage(
+      '/v1/episode-mappings?$queryString',
+    );
 
     return pageableDto.data.map(
       (final dynamic e) =>

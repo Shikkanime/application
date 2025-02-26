@@ -2,8 +2,8 @@ import 'package:application/components/animes/missed/missed_anime_component.dart
 import 'package:application/components/card_component.dart';
 import 'package:application/controllers/animes/missed_anime_controller.dart';
 import 'package:application/dtos/missed_anime_dto.dart';
+import 'package:application/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MissedAnimesRow extends StatelessWidget {
   const MissedAnimesRow({super.key});
@@ -58,8 +58,8 @@ class MissedAnimesRow extends StatelessWidget {
                             itemBuilder:
                                 (final BuildContext context, final int index) =>
                                     MissedAnimeComponent(
-                              missedAnime: snapshot.data![index],
-                            ),
+                                      missedAnime: snapshot.data![index],
+                                    ),
                           ),
                         ),
                       ),

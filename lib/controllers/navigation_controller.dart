@@ -13,20 +13,15 @@ import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/simulcast_controller.dart';
 import 'package:application/dtos/member_dto.dart';
 import 'package:application/dtos/missed_anime_dto.dart';
+import 'package:application/l10n/app_localizations.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
 import 'package:application/utils/extensions.dart';
 import 'package:application/views/account_settings_view.dart';
 import 'package:application/views/search_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-enum NavigationSource {
-  bottomNavigationBar,
-  drawer,
-  pageView,
-  appBar,
-}
+enum NavigationSource { bottomNavigationBar, drawer, pageView, appBar }
 
 class NavigationController {
   static final NavigationController instance = NavigationController();
@@ -47,9 +42,9 @@ class NavigationController {
           EpisodeController.instance.goToTop(),
         ]);
       case 1:
-        await SimulcastController.instance
-            .goToTop()
-            .then((final _) => AnimeController.instance.goToTop());
+        await SimulcastController.instance.goToTop().then(
+          (final _) => AnimeController.instance.goToTop(),
+        );
       case 2:
         await AnimeWeeklyController.instance.goToTop();
       case 3:
@@ -123,11 +118,7 @@ class NavigationController {
               return Stack(
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(
-                      left: 12,
-                      right: 12,
-                      top: 8,
-                    ),
+                    padding: const EdgeInsets.only(left: 12, right: 12, top: 8),
                     child: icon,
                   ),
                   if (snapshot.data!.isNotEmpty)
@@ -136,12 +127,8 @@ class NavigationController {
                       right: 0,
                       child: Pill(
                         count: snapshot.data!
-                            .map(
-                              (final MissedAnimeDto e) => e.episodeMissed,
-                            )
-                            .reduce(
-                              (final int a, final int b) => a + b,
-                            ),
+                            .map((final MissedAnimeDto e) => e.episodeMissed)
+                            .reduce((final int a, final int b) => a + b),
                       ),
                     ),
                 ],
@@ -164,16 +151,16 @@ class NavigationController {
           icon: StreamBuilder<MemberDto>(
             stream: MemberController.instance.streamController.stream,
             initialData: MemberController.instance.member,
-            builder: (
-              final BuildContext context,
-              final AsyncSnapshot<MemberDto> snapshot,
-            ) =>
-                MemberImage(
-              member: snapshot.data,
-              width: 32,
-              height: 32,
-              hasBorder: _currentIndex == 3,
-            ),
+            builder:
+                (
+                  final BuildContext context,
+                  final AsyncSnapshot<MemberDto> snapshot,
+                ) => MemberImage(
+                  member: snapshot.data,
+                  width: 32,
+                  height: 32,
+                  hasBorder: _currentIndex == 3,
+                ),
           ),
           title: AppLocalizations.of(context)!.myAccount,
         ),
@@ -229,8 +216,8 @@ class NavigationController {
           onTap: () async {
             await Navigator.of(context).push(
               MaterialPageRoute<void>(
-                builder: (final BuildContext context) =>
-                    const AccountSettingsView(),
+                builder:
+                    (final BuildContext context) => const AccountSettingsView(),
               ),
             );
           },
@@ -238,60 +225,46 @@ class NavigationController {
       ];
 
   List<Widget> getDrawerItems(final BuildContext context) => <Widget>[
-        ...getMainNavigationItems(context).mapIndexed<Widget>(
-          (final int index, final NavigationItem e) => DrawerButton(
-            icon: e.nonActiveIcon ?? e.icon,
-            activeIcon: e.icon,
-            label: e.title,
-            onTap: () => setIndex(index, NavigationSource.drawer),
-            isActive: index == _currentIndex,
-          ),
+    ...getMainNavigationItems(context).mapIndexed<Widget>(
+      (final int index, final NavigationItem e) => DrawerButton(
+        icon: e.nonActiveIcon ?? e.icon,
+        activeIcon: e.icon,
+        label: e.title,
+        onTap: () => setIndex(index, NavigationSource.drawer),
+        isActive: index == _currentIndex,
+      ),
+    ),
+    const Spacer(),
+    ..._getSubNavigationItems(context)
+        .where((final SubNavigationItem e) => e.isActive)
+        .map<Widget>(
+          (final SubNavigationItem e) =>
+              DrawerButton(icon: e.child, label: e.title, onTap: e.onTap),
         ),
-        const Spacer(),
-        ..._getSubNavigationItems(context)
-            .where((final SubNavigationItem e) => e.isActive)
-            .map<Widget>(
-              (final SubNavigationItem e) => DrawerButton(
-                icon: e.child,
-                label: e.title,
-                onTap: e.onTap,
-              ),
-            ),
-      ];
+  ];
 
   List<Widget> getAppbarNavigationItems(final BuildContext context) =>
       _getSubNavigationItems(context)
           .where((final SubNavigationItem e) => e.isActive)
-          .map<Widget>(
-        (final SubNavigationItem e) {
-          if (e.elevated) {
-            return ElevatedAsyncButton(
-              onPressed: e.onTap,
-              child: Row(
-                spacing: 8,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  e.child,
-                  Text(e.title),
-                ],
-              ),
-            );
-          }
+          .map<Widget>((final SubNavigationItem e) {
+            if (e.elevated) {
+              return ElevatedAsyncButton(
+                onPressed: e.onTap,
+                child: Row(
+                  spacing: 8,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[e.child, Text(e.title)],
+                ),
+              );
+            }
 
-          return IconButton(
-            onPressed: e.onTap,
-            icon: e.child,
-          );
-        },
-      ).toList();
+            return IconButton(onPressed: e.onTap, icon: e.child);
+          })
+          .toList();
 }
 
 class NavigationItem {
-  NavigationItem({
-    required this.title,
-    required this.icon,
-    this.nonActiveIcon,
-  });
+  NavigationItem({required this.title, required this.icon, this.nonActiveIcon});
 
   final String title;
   final Widget icon;
@@ -339,66 +312,67 @@ class _DrawerButtonState extends State<DrawerButton> {
 
   @override
   Widget build(final BuildContext context) => MouseRegion(
-        cursor: SystemMouseCursors.click,
-        onEnter: (final _) {
-          if (widget.isActive) {
-            return;
-          }
+    cursor: SystemMouseCursors.click,
+    onEnter: (final _) {
+      if (widget.isActive) {
+        return;
+      }
 
-          setState(() {
-            isHoverActive = true;
-          });
-        },
-        onExit: (final _) {
-          if (widget.isActive) {
-            return;
-          }
+      setState(() {
+        isHoverActive = true;
+      });
+    },
+    onExit: (final _) {
+      if (widget.isActive) {
+        return;
+      }
+
+      setState(() {
+        isHoverActive = false;
+      });
+    },
+    child: GestureDetector(
+      onTap: () {
+        if (widget.onTap != null) {
+          widget.onTap!();
 
           setState(() {
             isHoverActive = false;
           });
-        },
-        child: GestureDetector(
-          onTap: () {
-            if (widget.onTap != null) {
-              widget.onTap!();
-
-              setState(() {
-                isHoverActive = false;
-              });
-            }
-          },
-          child: SizedBox(
-            width: 105,
-            height: 82,
-            child: Container(
-              decoration: isHoverActive || widget.isActive
+        }
+      },
+      child: SizedBox(
+        width: 105,
+        height: 82,
+        child: Container(
+          decoration:
+              isHoverActive || widget.isActive
                   ? BoxDecoration(
-                      color: Theme.of(context)
-                          .getCardButtonStyle()
-                          ?.backgroundColor
-                          ?.resolve(<WidgetState>{}),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(Constant.borderRadius),
-                      ),
-                    )
+                    color: Theme.of(context)
+                        .getCardButtonStyle()
+                        ?.backgroundColor
+                        ?.resolve(<WidgetState>{}),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(Constant.borderRadius),
+                    ),
+                  )
                   : null,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Column(
-                spacing: 8,
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  if ((isHoverActive || widget.isActive) &&
-                      widget.activeIcon != null)
-                    widget.activeIcon!
-                  else
-                    widget.icon,
-                  Text(widget.label),
-                ],
-              ),
-            ),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Column(
+            spacing: 8,
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              if ((isHoverActive || widget.isActive) &&
+                  widget.activeIcon != null)
+                widget.activeIcon!
+              else
+                widget.icon,
+              Text(widget.label),
+            ],
           ),
         ),
-      );
+      ),
+    ),
+  );
 }

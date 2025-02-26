@@ -23,20 +23,20 @@ class _CustomGestureDetectorState extends State<CustomGestureDetector> {
 
   @override
   Widget build(final BuildContext context) => GestureDetector(
-        onTap: widget.onTap,
-        onDoubleTap: widget.onDoubleTap,
-        onLongPress: () {
-          widget.onLongPress?.call(_tapDownDetails);
-        },
-        onTapDown: (final TapDownDetails details) {
-          _tapDownDetails = details;
-        },
-        onSecondaryTapDown: (final TapDownDetails details) {
-          _tapDownDetails = details;
-        },
-        onSecondaryTap: () {
-          widget.onLongPress?.call(_tapDownDetails);
-        },
-        child: widget.child,
-      );
+    onTap: widget.onTap,
+    onDoubleTap: widget.onDoubleTap,
+    onLongPress: () {
+      widget.onLongPress?.call(_tapDownDetails);
+    },
+    onTapDown: (final TapDownDetails details) {
+      _tapDownDetails = details;
+    },
+    onSecondaryTapDown: (final TapDownDetails details) {
+      _tapDownDetails = details;
+    },
+    onSecondaryTap: () {
+      widget.onLongPress?.call(_tapDownDetails);
+    },
+    child: widget.child,
+  );
 }

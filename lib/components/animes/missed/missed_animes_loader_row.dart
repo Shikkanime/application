@@ -8,39 +8,33 @@ class MissedAnimesLoaderRow extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => CustomCard(
-        margin: 12,
-        child: Column(
-          spacing: 8,
-          mainAxisSize: MainAxisSize.min,
+    margin: 12,
+    child: Column(
+      spacing: 8,
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        const SizedBox(width: 150, height: 14, child: GenericLoader()),
+        Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const SizedBox(
-              width: 150,
-              height: 14,
-              child: GenericLoader(),
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Expanded(
-                  child: SizedBox(
-                    height: 105,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      addAutomaticKeepAlives: false,
-                      addRepaintBoundaries: false,
-                      itemCount: 12,
-                      itemBuilder: (
-                        final BuildContext context,
-                        final int index,
-                      ) =>
+            Expanded(
+              child: SizedBox(
+                height: 105,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  addAutomaticKeepAlives: false,
+                  addRepaintBoundaries: false,
+                  itemCount: 12,
+                  itemBuilder:
+                      (final BuildContext context, final int index) =>
                           const MissedAnimeLoaderComponent(),
-                    ),
-                  ),
                 ),
-              ],
+              ),
             ),
           ],
         ),
-      );
+      ],
+    ),
+  );
 }

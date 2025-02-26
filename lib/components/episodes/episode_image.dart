@@ -26,29 +26,30 @@ class EpisodeImage extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => Stack(
-        children: <Widget>[
-          ImageComponent(
-            uuid: episode.uuid,
-            version: episode.lastUpdateDateTime
+    children: <Widget>[
+      ImageComponent(
+        uuid: episode.uuid,
+        version:
+            episode.lastUpdateDateTime
                 .toDateTime()
                 ?.millisecondsSinceEpoch
                 .toString(),
-            fit: fit,
-            borderRadius: borderRadius,
-            width: width,
-            height: height,
+        fit: fit,
+        borderRadius: borderRadius,
+        width: width,
+        height: height,
+      ),
+      if (episode.platforms != null && episode.platforms!.isNotEmpty)
+        ...PlatformComponent.toPlatformsRow(episode.platforms!),
+      if (showDuration)
+        Positioned(
+          bottom: Constant.cornerPadding,
+          right: Constant.cornerPadding,
+          child: EpisodeDuration(
+            episode: episode,
+            cornerPadding: Constant.cornerPadding,
           ),
-          if (episode.platforms != null && episode.platforms!.isNotEmpty)
-            ...PlatformComponent.toPlatformsRow(episode.platforms!),
-          if (showDuration)
-            Positioned(
-              bottom: Constant.cornerPadding,
-              right: Constant.cornerPadding,
-              child: EpisodeDuration(
-                episode: episode,
-                cornerPadding: Constant.cornerPadding,
-              ),
-            ),
-        ],
-      );
+        ),
+    ],
+  );
 }

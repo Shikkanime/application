@@ -11,9 +11,9 @@ import 'package:application/controllers/member_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/dtos/member_dto.dart';
+import 'package:application/l10n/app_localizations.dart';
 import 'package:application/views/associate_email.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
 class AccountView extends StatelessWidget {
@@ -83,10 +83,10 @@ class AccountView extends StatelessWidget {
                               right: 0,
                               child: DecoratedBox(
                                 decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .titleLarge!
-                                      .color,
+                                  color:
+                                      Theme.of(
+                                        context,
+                                      ).textTheme.titleLarge!.color,
                                   shape: BoxShape.circle,
                                 ),
                                 child: Padding(
@@ -115,10 +115,10 @@ class AccountView extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .titleLarge!
-                                        .color,
+                                    color:
+                                        Theme.of(
+                                          context,
+                                        ).textTheme.titleLarge!.color,
                                   ),
                                 ),
                                 GestureDetector(
@@ -130,43 +130,47 @@ class AccountView extends StatelessWidget {
                                   onTap: () {
                                     showDialog(
                                       context: context,
-                                      builder: (final BuildContext context) =>
-                                          AlertDialog(
-                                        title: Text(
-                                          appLocalizations
-                                              .anonymousWarningTitle,
-                                        ),
-                                        content: SingleChildScrollView(
-                                          child: Column(
-                                            spacing: 16,
-                                            mainAxisSize: MainAxisSize.min,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Text(
-                                                appLocalizations
-                                                    .anonymousWarningContent1,
+                                      builder:
+                                          (
+                                            final BuildContext context,
+                                          ) => AlertDialog(
+                                            title: Text(
+                                              appLocalizations
+                                                  .anonymousWarningTitle,
+                                            ),
+                                            content: SingleChildScrollView(
+                                              child: Column(
+                                                spacing: 16,
+                                                mainAxisSize: MainAxisSize.min,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text(
+                                                    appLocalizations
+                                                        .anonymousWarningContent1,
+                                                  ),
+                                                  Text(
+                                                    appLocalizations
+                                                        .anonymousWarningContent2,
+                                                  ),
+                                                  Text(
+                                                    appLocalizations
+                                                        .anonymousWarningContent3,
+                                                  ),
+                                                ],
                                               ),
-                                              Text(
-                                                appLocalizations
-                                                    .anonymousWarningContent2,
-                                              ),
-                                              Text(
-                                                appLocalizations
-                                                    .anonymousWarningContent3,
+                                            ),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text(
+                                                  appLocalizations.ok,
+                                                ),
                                               ),
                                             ],
                                           ),
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: Text(appLocalizations.ok),
-                                          ),
-                                        ],
-                                      ),
                                     );
                                   },
                                 ),
@@ -175,10 +179,13 @@ class AccountView extends StatelessWidget {
                             Text(
                               appLocalizations.accountCreatedAt(
                                 DateFormat(
-                                  AppLocalizations.of(context)!
-                                      .accountDateFormat,
+                                  AppLocalizations.of(
+                                    context,
+                                  )!.accountDateFormat,
                                   WidgetsBinding
-                                      .instance.platformDispatcher.locale
+                                      .instance
+                                      .platformDispatcher
+                                      .locale
                                       .toString(),
                                 ).format(
                                   DateTime.parse(
@@ -186,9 +193,7 @@ class AccountView extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              style: const TextStyle(
-                                fontSize: 14,
-                              ),
+                              style: const TextStyle(fontSize: 14),
                               maxLines: 2,
                             ),
                             if (member?.email == null) ...<Widget>[
@@ -197,8 +202,9 @@ class AccountView extends StatelessWidget {
                                 onPressed: () {
                                   Navigator.of(context).push(
                                     MaterialPageRoute<void>(
-                                      builder: (final BuildContext context) =>
-                                          const AssociateEmail(),
+                                      builder:
+                                          (final BuildContext context) =>
+                                              const AssociateEmail(),
                                     ),
                                   );
                                 },
@@ -216,16 +222,18 @@ class AccountView extends StatelessWidget {
                       Expanded(
                         child: AccountCard(
                           label: appLocalizations.animesAdded,
-                          value: NumberFormat.decimalPattern()
-                              .format(member?.followedAnimes.length ?? 0),
+                          value: NumberFormat.decimalPattern().format(
+                            member?.followedAnimes.length ?? 0,
+                          ),
                         ),
                       ),
                       Expanded(
                         child: AccountCard(
                           label: appLocalizations.episodesWatched,
                           // 2376 -> 2 376
-                          value: NumberFormat.decimalPattern()
-                              .format(member?.followedEpisodes.length ?? 0),
+                          value: NumberFormat.decimalPattern().format(
+                            member?.followedEpisodes.length ?? 0,
+                          ),
                         ),
                       ),
                     ],
@@ -243,7 +251,8 @@ class AccountView extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(top: 8),
                               child: LinearProgressIndicator(
-                                value: (member?.totalDuration ?? 0) /
+                                value:
+                                    (member?.totalDuration ?? 0) /
                                     max(
                                       1,
                                       ((member?.totalDuration ?? 0) +
@@ -271,24 +280,22 @@ class AccountView extends StatelessWidget {
 }
 
 class FollowedAnimesRow extends StatelessWidget {
-  const FollowedAnimesRow({
-    super.key,
-  });
+  const FollowedAnimesRow({super.key});
 
   @override
   Widget build(final BuildContext context) => CustomCard(
-        padding: false,
-        margin: 12,
-        child: Scrollbar(
-          controller: FollowedAnimeController.instance.scrollController,
-          child: StreamBuilder<List<AnimeDto>>(
-            stream: FollowedAnimeController.instance.streamController.stream,
-            initialData: FollowedAnimeController.instance.items,
-            builder: (
+    padding: false,
+    margin: 12,
+    child: Scrollbar(
+      controller: FollowedAnimeController.instance.scrollController,
+      child: StreamBuilder<List<AnimeDto>>(
+        stream: FollowedAnimeController.instance.streamController.stream,
+        initialData: FollowedAnimeController.instance.items,
+        builder:
+            (
               final BuildContext context,
               final AsyncSnapshot<List<AnimeDto>> snapshot,
-            ) =>
-                Column(
+            ) => Column(
               spacing: 8,
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -331,15 +338,15 @@ class FollowedAnimesRow extends StatelessWidget {
                             addAutomaticKeepAlives: false,
                             addRepaintBoundaries: false,
                             itemCount: snapshot.data!.length,
-                            controller: FollowedAnimeController
-                                .instance.scrollController,
-                            itemBuilder: (
-                              final BuildContext context,
-                              final int index,
-                            ) =>
-                                FollowedAnimeComponent(
-                              anime: snapshot.data![index],
-                            ),
+                            controller:
+                                FollowedAnimeController
+                                    .instance
+                                    .scrollController,
+                            itemBuilder:
+                                (final BuildContext context, final int index) =>
+                                    FollowedAnimeComponent(
+                                      anime: snapshot.data![index],
+                                    ),
                           ),
                         ),
                       ),
@@ -347,30 +354,28 @@ class FollowedAnimesRow extends StatelessWidget {
                   ),
               ],
             ),
-          ),
-        ),
-      );
+      ),
+    ),
+  );
 }
 
 class FollowedEpisodesRow extends StatelessWidget {
-  const FollowedEpisodesRow({
-    super.key,
-  });
+  const FollowedEpisodesRow({super.key});
 
   @override
   Widget build(final BuildContext context) => CustomCard(
-        padding: false,
-        margin: 12,
-        child: Scrollbar(
-          controller: FollowedEpisodeController.instance.scrollController,
-          child: StreamBuilder<List<EpisodeMappingDto>>(
-            stream: FollowedEpisodeController.instance.streamController.stream,
-            initialData: FollowedEpisodeController.instance.items,
-            builder: (
+    padding: false,
+    margin: 12,
+    child: Scrollbar(
+      controller: FollowedEpisodeController.instance.scrollController,
+      child: StreamBuilder<List<EpisodeMappingDto>>(
+        stream: FollowedEpisodeController.instance.streamController.stream,
+        initialData: FollowedEpisodeController.instance.items,
+        builder:
+            (
               final BuildContext context,
               final AsyncSnapshot<List<EpisodeMappingDto>> snapshot,
-            ) =>
-                Column(
+            ) => Column(
               spacing: 8,
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -415,15 +420,15 @@ class FollowedEpisodesRow extends StatelessWidget {
                             addAutomaticKeepAlives: false,
                             addRepaintBoundaries: false,
                             itemCount: snapshot.data!.length,
-                            controller: FollowedEpisodeController
-                                .instance.scrollController,
-                            itemBuilder: (
-                              final BuildContext context,
-                              final int index,
-                            ) =>
-                                FollowedEpisodeComponent(
-                              episode: snapshot.data![index],
-                            ),
+                            controller:
+                                FollowedEpisodeController
+                                    .instance
+                                    .scrollController,
+                            itemBuilder:
+                                (final BuildContext context, final int index) =>
+                                    FollowedEpisodeComponent(
+                                      episode: snapshot.data![index],
+                                    ),
                           ),
                         ),
                       ),
@@ -431,7 +436,7 @@ class FollowedEpisodesRow extends StatelessWidget {
                   ),
               ],
             ),
-          ),
-        ),
-      );
+      ),
+    ),
+  );
 }

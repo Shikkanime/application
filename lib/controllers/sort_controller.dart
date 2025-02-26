@@ -13,12 +13,9 @@ enum SortType {
       'sort': 'releaseDateTime,season,episodeType,number',
       'desc': 'releaseDateTime,season,episodeType,number',
     },
-  ),
-  ;
+  );
 
-  const SortType({
-    required this.value,
-  });
+  const SortType({required this.value});
 
   final Map<String, String> value;
 }
