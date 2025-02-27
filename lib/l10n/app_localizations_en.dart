@@ -45,32 +45,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String simulcastSeason(String type, num year) {
-    String _temp0 = intl.Intl.selectLogic(
-      type,
-      {
-        'SPRING': 'Spring',
-        'SUMMER': 'Summer',
-        'AUTUMN': 'Autumn',
-        'WINTER': 'Winter',
-        'other': '',
-      },
-    );
+    String _temp0 = intl.Intl.selectLogic(type, {
+      'SPRING': 'Spring',
+      'SUMMER': 'Summer',
+      'AUTUMN': 'Autumn',
+      'WINTER': 'Winter',
+      'other': '',
+    });
     return '$_temp0 $year';
   }
 
   @override
   String episodeType(String type) {
-    String _temp0 = intl.Intl.selectLogic(
-      type,
-      {
-        'episode': 'Episode',
-        'special': 'Special',
-        'film': 'Movie',
-        'summary': 'Recap Episode',
-        'spin_off': 'Spin-off',
-        'other': '',
-      },
-    );
+    String _temp0 = intl.Intl.selectLogic(type, {
+      'episode': 'Episode',
+      'special': 'Special',
+      'film': 'Movie',
+      'summary': 'Recap Episode',
+      'spin_off': 'Spin-off',
+      'other': '',
+    });
     return '$_temp0';
   }
 
@@ -155,29 +149,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String notificationsType(String type) {
-    String _temp0 = intl.Intl.selectLogic(
-      type,
-      {
-        'all': 'All notifications',
-        'watchlist': 'Watchlist',
-        'none': 'None',
-        'other': 'Other',
-      },
-    );
+    String _temp0 = intl.Intl.selectLogic(type, {
+      'all': 'All notifications',
+      'watchlist': 'Watchlist',
+      'none': 'None',
+      'other': 'Other',
+    });
     return '$_temp0';
   }
 
   @override
   String notificationsSubtitles(String type) {
-    String _temp0 = intl.Intl.selectLogic(
-      type,
-      {
-        'all': 'Receive notifications for all anime',
-        'watchlist': 'Receive notifications for anime in your watchlist',
-        'none': 'Disable notifications',
-        'other': 'Receive notifications for anime you follow',
-      },
-    );
+    String _temp0 = intl.Intl.selectLogic(type, {
+      'all': 'Receive notifications for all anime',
+      'watchlist': 'Receive notifications for anime in your watchlist',
+      'none': 'Disable notifications',
+      'other': 'Receive notifications for anime you follow',
+    });
     return '$_temp0';
   }
 
@@ -186,14 +174,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String sortType(String type) {
-    String _temp0 = intl.Intl.selectLogic(
-      type,
-      {
-        'oldest': 'Oldest',
-        'newest': 'Newest',
-        'other': 'Other',
-      },
-    );
+    String _temp0 = intl.Intl.selectLogic(type, {
+      'oldest': 'Oldest',
+      'newest': 'Newest',
+      'other': 'Other',
+    });
     return '$_temp0';
   }
 
@@ -201,13 +186,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get anonymousWarningTitle => 'Data Backup Warning';
 
   @override
-  String get anonymousWarningContent1 => 'We save your data anonymously on our servers. Each account is associated with a unique identifier. Please note that if you lose this identifier, you risk losing access to all your data.';
+  String get anonymousWarningContent1 =>
+      'We save your data anonymously on our servers. Each account is associated with a unique identifier. Please note that if you lose this identifier, you risk losing access to all your data.';
 
   @override
-  String get anonymousWarningContent2 => 'You can find your unique identifier in the \"Account\" section of the application settings.';
+  String get anonymousWarningContent2 =>
+      'You can find your unique identifier in the \"Account\" section of the application settings.';
 
   @override
-  String get anonymousWarningContent3 => 'To avoid any data loss, we strongly recommend associating an email address. This will allow you to easily recover your data if needed and secure your account against accidental loss.';
+  String get anonymousWarningContent3 =>
+      'To avoid any data loss, we strongly recommend associating an email address. This will allow you to easily recover your data if needed and secure your account against accidental loss.';
 
   @override
   String get oops => 'Oops';
@@ -228,7 +216,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get invalidEmail => 'Invalid email address';
 
   @override
-  String get conflictEmail => 'This email address is already associated with another account';
+  String get conflictEmail =>
+      'This email address is already associated with another account';
 
   @override
   String get invalidCode => 'Invalid code';
@@ -237,22 +226,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get invalidIdentifier => 'Invalid identifier';
 
   @override
-  String get emailContent => 'By associating an email address with your account, you\'ll be able to recover your data if you lose your identifier. Additionally, you can secure your account against accidental loss.';
+  String get emailContent =>
+      'By associating an email address with your account, you\'ll be able to recover your data if you lose your identifier. Additionally, you can secure your account against accidental loss.';
 
   @override
-  String get emailSpamWarning => 'Please check your spam folder if you don\'t receive the email in your inbox. If you still don\'t receive it after a few minutes, please try again.';
+  String get emailSpamWarning =>
+      'Please check your spam folder if you don\'t receive the email in your inbox. If you still don\'t receive it after a few minutes, please try again.';
 
   @override
-  String get emailNotAssociated => 'If you haven\'t associated an email address with your account, you won\'t be able to recover your data if you lose your identifier.';
+  String get emailNotAssociated =>
+      'If you haven\'t associated an email address with your account, you won\'t be able to recover your data if you lose your identifier.';
 
   @override
-  String get emailAlreadyAssociatedWithYourAccount => 'This email address is already associated with your account.';
+  String get emailAlreadyAssociatedWithYourAccount =>
+      'This email address is already associated with your account.';
 
   @override
-  String get yourEmailHasBeenAssociated => 'Your email address has been successfully associated with your account.';
+  String get yourEmailHasBeenAssociated =>
+      'Your email address has been successfully associated with your account.';
 
   @override
-  String get yourNewIdentifierHasBeenSent => 'Your new identifier has been sent to your email address.';
+  String get yourNewIdentifierHasBeenSent =>
+      'Your new identifier has been sent to your email address.';
 
   @override
   String get animesAdded => 'Animes added';
@@ -278,7 +273,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get invalidImageFormat => 'Invalid image format';
 
   @override
-  String get invalidImageExtension => 'Only .jpg, .jpeg, and .png files are allowed';
+  String get invalidImageExtension =>
+      'Only .jpg, .jpeg, and .png files are allowed';
 
   @override
   String get yourRecentlyAddedAnime1 => 'Your recently ';
@@ -287,7 +283,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get yourRecentlyAddedAnime2 => 'added anime';
 
   @override
-  String get noFollowedAnime => 'You haven\'t added any anime to your watchlist yet';
+  String get noFollowedAnime =>
+      'You haven\'t added any anime to your watchlist yet';
 
   @override
   String get yourRecentlyViewedEpisodes1 => 'Your recently ';
@@ -303,19 +300,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String weekDays(String day) {
-    String _temp0 = intl.Intl.selectLogic(
-      day,
-      {
-        '0': 'Monday',
-        '1': 'Tuesday',
-        '2': 'Wednesday',
-        '3': 'Thursday',
-        '4': 'Friday',
-        '5': 'Saturday',
-        '6': 'Sunday',
-        'other': '',
-      },
-    );
+    String _temp0 = intl.Intl.selectLogic(day, {
+      '0': 'Monday',
+      '1': 'Tuesday',
+      '2': 'Wednesday',
+      '3': 'Thursday',
+      '4': 'Friday',
+      '5': 'Saturday',
+      '6': 'Sunday',
+      'other': '',
+    });
     return '$_temp0';
   }
 
@@ -329,13 +323,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notificationNotAuthorized => 'Notifications are not authorized';
 
   @override
-  String get notificationNotAuthorizedSubtitle => 'Please enable them in your app settings';
+  String get notificationNotAuthorizedSubtitle =>
+      'Please enable them in your app settings';
 
   @override
   String get downloadingPatch => 'Downloading patch...';
 
   @override
-  String get patchDownloaded => 'Patch downloaded! Restart the application to apply the changes.';
+  String get patchDownloaded =>
+      'Patch downloaded! Restart the application to apply the changes.';
 
   @override
   String get patchFailed => 'Patch failed to download. Please try again later.';
@@ -353,7 +349,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enableNotifications => 'Turn on notifications';
 
   @override
-  String get notificationsDescription => 'Receive updates when a new episode is available. You can disable notifications at any time in the settings.';
+  String get notificationsDescription =>
+      'Receive updates when a new episode is available. You can disable notifications at any time in the settings.';
 
   @override
   String get activate => 'Turn on';

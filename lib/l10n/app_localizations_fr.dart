@@ -45,32 +45,26 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String simulcastSeason(String type, num year) {
-    String _temp0 = intl.Intl.selectLogic(
-      type,
-      {
-        'SPRING': 'Printemps',
-        'SUMMER': 'Été',
-        'AUTUMN': 'Automne',
-        'WINTER': 'Hiver',
-        'other': '',
-      },
-    );
+    String _temp0 = intl.Intl.selectLogic(type, {
+      'SPRING': 'Printemps',
+      'SUMMER': 'Été',
+      'AUTUMN': 'Automne',
+      'WINTER': 'Hiver',
+      'other': '',
+    });
     return '$_temp0 $year';
   }
 
   @override
   String episodeType(String type) {
-    String _temp0 = intl.Intl.selectLogic(
-      type,
-      {
-        'episode': 'Épisode',
-        'special': 'Spécial',
-        'film': 'Film',
-        'summary': 'Épisode récapitulatif',
-        'spin_off': 'Spin-off',
-        'other': '',
-      },
-    );
+    String _temp0 = intl.Intl.selectLogic(type, {
+      'episode': 'Épisode',
+      'special': 'Spécial',
+      'film': 'Film',
+      'summary': 'Épisode récapitulatif',
+      'spin_off': 'Spin-off',
+      'other': '',
+    });
     return '$_temp0';
   }
 
@@ -124,7 +118,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get identifier => 'Identifiant';
 
   @override
-  String get identifierSubtitle => 'Veuillez le sauvegarder pour récupérer vos données';
+  String get identifierSubtitle =>
+      'Veuillez le sauvegarder pour récupérer vos données';
 
   @override
   String get noIdentifier => 'Aucun identifiant';
@@ -155,29 +150,24 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String notificationsType(String type) {
-    String _temp0 = intl.Intl.selectLogic(
-      type,
-      {
-        'all': 'Toutes les notifications',
-        'watchlist': 'Watchlist',
-        'none': 'Aucune',
-        'other': 'Autre',
-      },
-    );
+    String _temp0 = intl.Intl.selectLogic(type, {
+      'all': 'Toutes les notifications',
+      'watchlist': 'Watchlist',
+      'none': 'Aucune',
+      'other': 'Autre',
+    });
     return '$_temp0';
   }
 
   @override
   String notificationsSubtitles(String type) {
-    String _temp0 = intl.Intl.selectLogic(
-      type,
-      {
-        'all': 'Recevoir des notifications pour tous les animés',
-        'watchlist': 'Recevoir des notifications pour les animés de votre watchlist',
-        'none': 'Désactiver les notifications',
-        'other': 'Recevoir des notifications pour les animés que vous suivez',
-      },
-    );
+    String _temp0 = intl.Intl.selectLogic(type, {
+      'all': 'Recevoir des notifications pour tous les animés',
+      'watchlist':
+          'Recevoir des notifications pour les animés de votre watchlist',
+      'none': 'Désactiver les notifications',
+      'other': 'Recevoir des notifications pour les animés que vous suivez',
+    });
     return '$_temp0';
   }
 
@@ -186,28 +176,29 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String sortType(String type) {
-    String _temp0 = intl.Intl.selectLogic(
-      type,
-      {
-        'oldest': 'Les plus anciens',
-        'newest': 'Les plus récents',
-        'other': 'Autre',
-      },
-    );
+    String _temp0 = intl.Intl.selectLogic(type, {
+      'oldest': 'Les plus anciens',
+      'newest': 'Les plus récents',
+      'other': 'Autre',
+    });
     return '$_temp0';
   }
 
   @override
-  String get anonymousWarningTitle => 'Avertissement sur la sauvegarde des données';
+  String get anonymousWarningTitle =>
+      'Avertissement sur la sauvegarde des données';
 
   @override
-  String get anonymousWarningContent1 => 'Nous sauvegardons vos données de manière anonyme sur nos serveurs. Chaque compte est associé à un identifiant unique. Veuillez noter que si vous perdez cet identifiant, vous risquez de perdre l\'accès à toutes vos données.';
+  String get anonymousWarningContent1 =>
+      'Nous sauvegardons vos données de manière anonyme sur nos serveurs. Chaque compte est associé à un identifiant unique. Veuillez noter que si vous perdez cet identifiant, vous risquez de perdre l\'accès à toutes vos données.';
 
   @override
-  String get anonymousWarningContent2 => 'Vous trouverez votre identifiant unique dans la section \"Compte\" des paramètres de l\'application.';
+  String get anonymousWarningContent2 =>
+      'Vous trouverez votre identifiant unique dans la section \"Compte\" des paramètres de l\'application.';
 
   @override
-  String get anonymousWarningContent3 => 'Pour éviter toute perte de données, nous vous recommandons vivement d\'associer une adresse e-mail. Cela vous permettra de récupérer facilement vos données en cas de besoin et de sécuriser votre compte contre toute perte accidentelle.';
+  String get anonymousWarningContent3 =>
+      'Pour éviter toute perte de données, nous vous recommandons vivement d\'associer une adresse e-mail. Cela vous permettra de récupérer facilement vos données en cas de besoin et de sécuriser votre compte contre toute perte accidentelle.';
 
   @override
   String get oops => 'Oups';
@@ -228,7 +219,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get invalidEmail => 'Adresse e-mail invalide';
 
   @override
-  String get conflictEmail => 'Cette adresse e-mail est déjà associée à un autre compte';
+  String get conflictEmail =>
+      'Cette adresse e-mail est déjà associée à un autre compte';
 
   @override
   String get invalidCode => 'Code invalide';
@@ -237,22 +229,28 @@ class AppLocalizationsFr extends AppLocalizations {
   String get invalidIdentifier => 'Identifiant invalide';
 
   @override
-  String get emailContent => 'En associant une adresse e-mail à votre compte, vous pourrez récupérer vos données en cas de perte de votre identifiant. De plus, vous pourrez sécuriser votre compte contre toute perte accidentelle.';
+  String get emailContent =>
+      'En associant une adresse e-mail à votre compte, vous pourrez récupérer vos données en cas de perte de votre identifiant. De plus, vous pourrez sécuriser votre compte contre toute perte accidentelle.';
 
   @override
-  String get emailSpamWarning => 'Veuillez vérifier votre dossier de courrier indésirable si vous ne recevez pas l\'e-mail dans votre boîte de réception. Si vous ne le recevez toujours pas après quelques minutes, veuillez réessayer.';
+  String get emailSpamWarning =>
+      'Veuillez vérifier votre dossier de courrier indésirable si vous ne recevez pas l\'e-mail dans votre boîte de réception. Si vous ne le recevez toujours pas après quelques minutes, veuillez réessayer.';
 
   @override
-  String get emailNotAssociated => 'Si vous n\'avez pas associé d\'adresse e-mail à votre compte, vous ne pourrez pas récupérer vos données en cas de perte de votre identifiant.';
+  String get emailNotAssociated =>
+      'Si vous n\'avez pas associé d\'adresse e-mail à votre compte, vous ne pourrez pas récupérer vos données en cas de perte de votre identifiant.';
 
   @override
-  String get emailAlreadyAssociatedWithYourAccount => 'Cette adresse e-mail est déjà associée à votre compte.';
+  String get emailAlreadyAssociatedWithYourAccount =>
+      'Cette adresse e-mail est déjà associée à votre compte.';
 
   @override
-  String get yourEmailHasBeenAssociated => 'Votre adresse e-mail a bien été associée à votre compte.';
+  String get yourEmailHasBeenAssociated =>
+      'Votre adresse e-mail a bien été associée à votre compte.';
 
   @override
-  String get yourNewIdentifierHasBeenSent => 'Votre nouvel identifiant a été envoyé à votre adresse e-mail.';
+  String get yourNewIdentifierHasBeenSent =>
+      'Votre nouvel identifiant a été envoyé à votre adresse e-mail.';
 
   @override
   String get animesAdded => 'Animés ajoutés';
@@ -278,7 +276,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get invalidImageFormat => 'Format d\'image invalide';
 
   @override
-  String get invalidImageExtension => 'Seuls les fichiers .jpg, .jpeg et .png sont autorisés';
+  String get invalidImageExtension =>
+      'Seuls les fichiers .jpg, .jpeg et .png sont autorisés';
 
   @override
   String get yourRecentlyAddedAnime1 => 'Vos animés récemment ';
@@ -287,7 +286,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get yourRecentlyAddedAnime2 => 'ajoutés';
 
   @override
-  String get noFollowedAnime => 'Vous n\'avez pas encore ajouté d\'animé à votre watchlist';
+  String get noFollowedAnime =>
+      'Vous n\'avez pas encore ajouté d\'animé à votre watchlist';
 
   @override
   String get yourRecentlyViewedEpisodes1 => 'Vos épisodes récemment ';
@@ -303,19 +303,16 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String weekDays(String day) {
-    String _temp0 = intl.Intl.selectLogic(
-      day,
-      {
-        '0': 'Lundi',
-        '1': 'Mardi',
-        '2': 'Mercredi',
-        '3': 'Jeudi',
-        '4': 'Vendredi',
-        '5': 'Samedi',
-        '6': 'Dimanche',
-        'other': '',
-      },
-    );
+    String _temp0 = intl.Intl.selectLogic(day, {
+      '0': 'Lundi',
+      '1': 'Mardi',
+      '2': 'Mercredi',
+      '3': 'Jeudi',
+      '4': 'Vendredi',
+      '5': 'Samedi',
+      '6': 'Dimanche',
+      'other': '',
+    });
     return '$_temp0';
   }
 
@@ -326,19 +323,23 @@ class AppLocalizationsFr extends AppLocalizations {
   String get watch => 'Regarder';
 
   @override
-  String get notificationNotAuthorized => 'Les notifications ne sont pas autorisées';
+  String get notificationNotAuthorized =>
+      'Les notifications ne sont pas autorisées';
 
   @override
-  String get notificationNotAuthorizedSubtitle => 'Veuillez les activer dans les paramètres de votre application';
+  String get notificationNotAuthorizedSubtitle =>
+      'Veuillez les activer dans les paramètres de votre application';
 
   @override
   String get downloadingPatch => 'Téléchargement du correctif...';
 
   @override
-  String get patchDownloaded => 'Correctif téléchargé ! Redémarrez l\'application pour appliquer les changements.';
+  String get patchDownloaded =>
+      'Correctif téléchargé ! Redémarrez l\'application pour appliquer les changements.';
 
   @override
-  String get patchFailed => 'Échec du téléchargement du correctif. Veuillez réessayer plus tard.';
+  String get patchFailed =>
+      'Échec du téléchargement du correctif. Veuillez réessayer plus tard.';
 
   @override
   String get watchOn => 'Regarder sur :';
@@ -353,7 +354,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get enableNotifications => 'Activer les notifications';
 
   @override
-  String get notificationsDescription => 'Recevez des mises à jour lorsque un nouvel épisode est disponible. Vous pouvez désactiver les notifications à tout moment dans les paramètres';
+  String get notificationsDescription =>
+      'Recevez des mises à jour lorsque un nouvel épisode est disponible. Vous pouvez désactiver les notifications à tout moment dans les paramètres';
 
   @override
   String get activate => 'Activer';
