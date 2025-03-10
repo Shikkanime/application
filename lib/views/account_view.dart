@@ -5,6 +5,7 @@ import 'package:application/components/animes/followed_anime_component.dart';
 import 'package:application/components/card_component.dart';
 import 'package:application/components/episodes/followed_episode_component.dart';
 import 'package:application/components/member_image.dart';
+import 'package:application/components/pill.dart';
 import 'package:application/controllers/animes/followed_anime_controller.dart';
 import 'package:application/controllers/episodes/followed_episode_controller.dart';
 import 'package:application/controllers/member_controller.dart';
@@ -196,21 +197,36 @@ class AccountView extends StatelessWidget {
                               style: const TextStyle(fontSize: 14),
                               maxLines: 2,
                             ),
-                            if (member?.email == null) ...<Widget>[
-                              const SizedBox(height: 8),
-                              ElevatedButton(
-                                onPressed: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute<void>(
-                                      builder:
-                                          (final BuildContext context) =>
-                                              const AssociateEmail(),
+                            if (member?.email == null)
+                              Stack(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 8,
+                                      right: 8,
                                     ),
-                                  );
-                                },
-                                child: Text(appLocalizations.associateEmail),
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute<void>(
+                                            builder:
+                                                (final BuildContext context) =>
+                                                    const AssociateEmail(),
+                                          ),
+                                        );
+                                      },
+                                      child: Text(
+                                        appLocalizations.associateEmail,
+                                      ),
+                                    ),
+                                  ),
+                                  const Positioned(
+                                    top: 0,
+                                    right: 0,
+                                    child: Pill(text: '! '),
+                                  ),
+                                ],
                               ),
-                            ],
                           ],
                         ),
                       ),
@@ -332,7 +348,7 @@ class FollowedAnimesRow extends StatelessWidget {
                     children: <Widget>[
                       Expanded(
                         child: SizedBox(
-                          height: 182,
+                          height: 175,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             addAutomaticKeepAlives: false,
@@ -414,7 +430,7 @@ class FollowedEpisodesRow extends StatelessWidget {
                     children: <Widget>[
                       Expanded(
                         child: SizedBox(
-                          height: 125,
+                          height: 132,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             addAutomaticKeepAlives: false,

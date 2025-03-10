@@ -9,8 +9,6 @@ sealed class SimulcastDto with _$SimulcastDto {
     required final String uuid,
     required final String season,
     required final int year,
-    required final String slug,
-    required final String label,
   }) = _SimulcastDto;
 
   factory SimulcastDto.fromJson(final Map<String, dynamic> json) =>

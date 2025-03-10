@@ -2,9 +2,9 @@ import 'package:application/utils/constant.dart';
 import 'package:flutter/material.dart';
 
 class Pill extends StatelessWidget {
-  const Pill({required this.count, super.key});
+  const Pill({required this.text, super.key});
 
-  final int count;
+  final String text;
 
   @override
   Widget build(final BuildContext context) => Container(
@@ -14,7 +14,7 @@ class Pill extends StatelessWidget {
       borderRadius: BorderRadius.all(Radius.circular(Constant.borderRadius)),
     ),
     child: Text(
-      count >= 10 ? '9+' : count.toString(),
+      text,
       style: const TextStyle(
         color: Colors.white,
         fontSize: 12,

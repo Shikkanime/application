@@ -1,5 +1,6 @@
 import 'package:application/components/image_component.dart';
 import 'package:application/controllers/member_controller.dart';
+import 'package:application/dtos/enums/image_type.dart';
 import 'package:application/dtos/member_dto.dart';
 import 'package:flutter/material.dart';
 
@@ -42,6 +43,7 @@ class MemberImage extends StatelessWidget {
           member!.hasProfilePicture
               ? ImageComponent(
                 uuid: member!.uuid,
+                type: ImageType.memberProfile,
                 version: MemberController.instance.imageVersion.toString(),
                 borderRadius: const BorderRadius.all(Radius.circular(360)),
                 width: hasBorder && width != null ? width! - 6 : width,
@@ -50,7 +52,6 @@ class MemberImage extends StatelessWidget {
                   padding: EdgeInsets.all(24),
                   child: CircularProgressIndicator(strokeWidth: 2),
                 ),
-                errorWidget: defaultMemberImage,
               )
               : ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(360)),

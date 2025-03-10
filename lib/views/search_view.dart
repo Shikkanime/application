@@ -1,7 +1,7 @@
-import 'dart:math';
-
 import 'package:application/components/advanced_search_card.dart';
 import 'package:application/components/animes/anime_component.dart';
+import 'package:application/components/animes/anime_loader_component.dart';
+import 'package:application/controllers/animes/anime_controller.dart';
 import 'package:application/controllers/animes/anime_search_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/l10n/app_localizations.dart';
@@ -38,7 +38,15 @@ class _SearchViewState extends State<SearchView> {
     final BuildContext context,
     final List<AnimeDto> animes,
   ) {
-    final double smallestDimension = MediaQuery.sizeOf(context).width;
+    if (animes.isEmpty) {
+      return wb.WidgetBuilder.instance.buildRowWidgets(
+        List<AnimeLoaderComponent>.generate(
+          12,
+          (final int index) => const AnimeLoaderComponent(),
+        ),
+        maxElementsPerRow: AnimeController.instance.maxElementsPerRow(context),
+      );
+    }
 
     return <Widget>[
       Padding(
@@ -50,7 +58,7 @@ class _SearchViewState extends State<SearchView> {
       ),
       ...wb.WidgetBuilder.instance.buildRowWidgets(
         animes.map((final AnimeDto anime) => AnimeComponent(anime: anime)),
-        maxElementsPerRow: max(2, (smallestDimension * 3 / 600).floor()),
+        maxElementsPerRow: AnimeController.instance.maxElementsPerRow(context),
       ),
     ];
   }

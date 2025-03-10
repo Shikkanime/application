@@ -14,11 +14,10 @@ class FollowedEpisodeComponent extends StatelessWidget {
   final EpisodeMappingDto episode;
 
   @override
-  Widget build(final BuildContext context) {
-    final double width = 640 / _ratio;
-
-    return SizedBox(
-      width: width + 10,
+  Widget build(final BuildContext context) => Padding(
+    padding: const EdgeInsets.only(right: 8),
+    child: SizedBox(
+      width: 640 / _ratio + 10,
       child: GestureDetector(
         onTap: () {
           if (episode.anime == null) {
@@ -39,15 +38,12 @@ class FollowedEpisodeComponent extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            SizedBox(
-              width: width,
-              height: 360 / _ratio,
-              child: EpisodeImage(
-                episode: episode,
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(Constant.borderRadius),
-                ),
-                showDuration: false,
+            EpisodeImage(
+              uuid: episode.uuid,
+              lastUpdateDateTime: episode.lastUpdateDateTime,
+              platforms: episode.platforms,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(Constant.borderRadius),
               ),
             ),
             const SizedBox(height: 4),
@@ -61,12 +57,14 @@ class FollowedEpisodeComponent extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             EpisodeInformation(
-              episode: episode,
+              season: episode.season.toString(),
+              episodeType: episode.episodeType,
+              number: episode.number.toString(),
               style: Theme.of(context).textTheme.bodySmall,
             ),
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
 }

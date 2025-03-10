@@ -12,19 +12,16 @@ sealed class EpisodeMappingDto with _$EpisodeMappingDto {
     required final String uuid,
     required final AnimeDto? anime,
     required final String releaseDateTime,
-    required final String lastReleaseDateTime,
     required final String lastUpdateDateTime,
-    required final String episodeType,
     required final int season,
+    required final String episodeType,
     required final int number,
     required final int duration,
     required final String? title,
     required final String? description,
-    required final String image,
     required final List<EpisodeVariantDto>? variants,
     required final List<PlatformDto>? platforms,
     required final List<String>? langTypes,
-    required final String status,
   }) = _EpisodeMappingDto;
 
   factory EpisodeMappingDto.fromJson(final Map<String, dynamic> json) =>

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:application/controllers/generic_controller.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/vibration_controller.dart';
@@ -21,6 +23,12 @@ class AnimeController extends GenericController<AnimeDto> {
       wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
           ? 6
           : 24;
+
+  int maxElementsPerRow(final BuildContext context) =>
+      max(2, (MediaQuery.sizeOf(context).width * 0.005).floor());
+
+  double placeholderHeight(final BuildContext context) =>
+      MediaQuery.sizeOf(context).width * 1.1 / maxElementsPerRow(context);
 
   @override
   Future<Iterable<AnimeDto>> fetchItems() async {
@@ -82,7 +90,7 @@ class AnimeController extends GenericController<AnimeDto> {
       ],
     ).then((final int? value) async {
       if (value == 0) {
-        await MemberController.instance.followAllEpisodes(anime);
+        await MemberController.instance.followAllEpisodes(anime.uuid);
         VibrationController.instance.vibrate(
           pattern: <int>[0, 50, 125, 50, 125, 50],
         );

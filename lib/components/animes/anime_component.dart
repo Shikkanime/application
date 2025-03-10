@@ -5,6 +5,7 @@ import 'package:application/components/platforms/platform_component.dart';
 import 'package:application/components/watchlist_button.dart';
 import 'package:application/controllers/animes/anime_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
+import 'package:application/dtos/enums/image_type.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
 import 'package:application/utils/extensions.dart';
@@ -42,16 +43,18 @@ class AnimeComponent extends StatelessWidget {
         Stack(
           children: <Widget>[
             ImageComponent(
-              fit: BoxFit.cover,
               uuid: anime.uuid,
+              type: ImageType.thumbnail,
               version:
                   anime.lastUpdateDateTime
                       .toDateTime()
                       ?.millisecondsSinceEpoch
                       .toString(),
-              height: 280,
               borderRadius: const BorderRadius.all(
                 Radius.circular(Constant.borderRadius),
+              ),
+              placeholderHeight: AnimeController.instance.placeholderHeight(
+                context,
               ),
             ),
             ...PlatformComponent.toPlatformsRow(anime.platforms),
@@ -73,7 +76,8 @@ class AnimeComponent extends StatelessWidget {
             direction: Axis.horizontal,
             children: <Widget>[
               WatchlistButton(
-                anime: anime,
+                anime: anime.uuid,
+                isAnime: true,
                 style: Theme.of(context).getCardButtonStyle(),
               ),
             ],

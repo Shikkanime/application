@@ -2,6 +2,7 @@ import 'package:application/components/custom_gesture_detector.dart';
 import 'package:application/components/image_component.dart';
 import 'package:application/components/pill.dart';
 import 'package:application/controllers/animes/anime_controller.dart';
+import 'package:application/dtos/enums/image_type.dart';
 import 'package:application/dtos/missed_anime_dto.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/extensions.dart';
@@ -41,6 +42,7 @@ class MissedAnimeComponent extends StatelessWidget {
               children: <Widget>[
                 ImageComponent(
                   uuid: missedAnime.anime.uuid,
+                  type: ImageType.thumbnail,
                   version:
                       missedAnime.anime.lastUpdateDateTime
                           .toDateTime()
@@ -52,7 +54,12 @@ class MissedAnimeComponent extends StatelessWidget {
                 Positioned(
                   top: 0,
                   right: 0,
-                  child: Pill(count: missedAnime.episodeMissed),
+                  child: Pill(
+                    text:
+                        missedAnime.episodeMissed >= 10
+                            ? '9+'
+                            : missedAnime.episodeMissed.toString(),
+                  ),
                 ),
               ],
             ),
