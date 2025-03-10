@@ -2,8 +2,6 @@ import 'package:application/components/elevated_async_button.dart';
 import 'package:application/components/followed_stream_builder.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/vibration_controller.dart';
-import 'package:application/dtos/anime_dto.dart';
-import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/l10n/app_localizations.dart';
 import 'package:application/utils/constant.dart';
 import 'package:flutter/material.dart';
@@ -13,14 +11,16 @@ class WatchlistButton extends StatelessWidget {
     super.key,
     this.anime,
     this.episode,
-    this.isCalendar = false,
     this.simple = false,
+    this.isAnime = false,
+    this.isEpisode = false,
     this.style,
   });
 
-  final AnimeDto? anime;
-  final EpisodeMappingDto? episode;
-  final bool isCalendar;
+  final String? anime;
+  final String? episode;
+  final bool isAnime;
+  final bool isEpisode;
   final bool simple;
   final ButtonStyle? style;
 
@@ -31,26 +31,32 @@ class WatchlistButton extends StatelessWidget {
       final bool animeInWatchlist,
       final bool episodeInWatchlist,
     ) {
-      final bool isLiked = animeInWatchlist || episodeInWatchlist;
+      final bool isLiked =
+          (isAnime && animeInWatchlist) || (isEpisode && episodeInWatchlist);
 
       return ElevatedAsyncButton(
         style: style,
         onPressed: () async {
           if (!isLiked) {
-            anime != null && !isCalendar
-                ? await MemberController.instance.followAnime(anime!)
-                : await MemberController.instance.followEpisode(
-                  anime,
-                  episode!,
-                );
+            if (isAnime && anime != null) {
+              await MemberController.instance.followAnime(anime!);
+            }
+
+            if (isEpisode && anime != null && episode != null) {
+              await MemberController.instance.followEpisode(anime!, episode!);
+            }
 
             VibrationController.instance.vibrate(
               pattern: <int>[0, 50, 125, 50, 125, 50],
             );
           } else {
-            anime != null && !isCalendar
-                ? await MemberController.instance.unfollowAnime(anime!)
-                : await MemberController.instance.unfollowEpisode(episode!);
+            if (isAnime && anime != null) {
+              await MemberController.instance.unfollowAnime(anime!);
+            }
+
+            if (isEpisode && episode != null) {
+              await MemberController.instance.unfollowEpisode(episode!);
+            }
           }
         },
         child: Flex(
@@ -66,7 +72,7 @@ class WatchlistButton extends StatelessWidget {
         ),
       );
     },
-    anime: !isCalendar ? anime : null,
+    anime: anime,
     episode: episode,
   );
 }

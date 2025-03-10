@@ -42,7 +42,7 @@
     "description": "Text to display the season number.",
     "placeholders": {
       "season": {
-        "type": "num",
+        "type": "String",
         "example": "1"
       }
     }
@@ -70,7 +70,7 @@
     "description": "Combined text to display the season, episode type, and its number.",
     "placeholders": {
       "season": {
-        "type": "num",
+        "type": "String",
         "example": "1"
       },
       "episodeType": {
@@ -78,7 +78,7 @@
         "example": "Episode"
       },
       "number": {
-        "type": "num",
+        "type": "String",
         "example": "12"
       }
     }
@@ -92,7 +92,7 @@
         "example": "Episode"
       },
       "number": {
-        "type": "dynamic",
+        "type": "String",
         "example": "12"
       }
     }

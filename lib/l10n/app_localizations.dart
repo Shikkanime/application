@@ -162,7 +162,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Season {season}'**
-  String season(num season);
+  String season(String season);
 
   /// Text to display the simulcast season and year.
   ///
@@ -180,13 +180,13 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Season {season} • {episodeType} {number}'**
-  String fullInformation(num season, String episodeType, num number);
+  String fullInformation(String season, String episodeType, String number);
 
   /// Reduced version of episode information with only the episode type and number.
   ///
   /// In en, this message translates to:
   /// **'{episodeType} {number}'**
-  String minInformation(String episodeType, dynamic number);
+  String minInformation(String episodeType, String number);
 
   /// Text to indicate the availability of subtitles.
   ///

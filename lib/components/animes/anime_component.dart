@@ -73,7 +73,8 @@ class AnimeComponent extends StatelessWidget {
             direction: Axis.horizontal,
             children: <Widget>[
               WatchlistButton(
-                anime: anime,
+                anime: anime.uuid,
+                isAnime: true,
                 style: Theme.of(context).getCardButtonStyle(),
               ),
             ],

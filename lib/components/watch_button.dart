@@ -4,24 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class WatchButton extends StatelessWidget {
-  const WatchButton({super.key, this.url, this.simple = false});
+  const WatchButton({required this.url, super.key, this.simple = false});
 
-  final String? url;
+  final String url;
   final bool simple;
 
   @override
   Widget build(final BuildContext context) => ElevatedButton(
     style: Theme.of(context).getCardButtonStyle(),
-    onPressed: () {
-      if (url == null || url!.isEmpty) {
-        return;
-      }
-
-      launchUrl(
-        Uri.parse(url!),
-        mode: LaunchMode.externalNonBrowserApplication,
-      );
-    },
+    onPressed:
+        () => launchUrl(
+          Uri.parse(url),
+          mode: LaunchMode.externalNonBrowserApplication,
+        ),
     child: Flex(
       spacing: 8,
       direction: Axis.horizontal,

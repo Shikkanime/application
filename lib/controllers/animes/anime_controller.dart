@@ -82,7 +82,7 @@ class AnimeController extends GenericController<AnimeDto> {
       ],
     ).then((final int? value) async {
       if (value == 0) {
-        await MemberController.instance.followAllEpisodes(anime);
+        await MemberController.instance.followAllEpisodes(anime.uuid);
         VibrationController.instance.vibrate(
           pattern: <int>[0, 50, 125, 50, 125, 50],
         );

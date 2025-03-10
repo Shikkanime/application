@@ -52,7 +52,12 @@ class MissedAnimeComponent extends StatelessWidget {
                 Positioned(
                   top: 0,
                   right: 0,
-                  child: Pill(count: missedAnime.episodeMissed),
+                  child: Pill(
+                    text:
+                        missedAnime.episodeMissed >= 10
+                            ? '9+'
+                            : missedAnime.episodeMissed.toString(),
+                  ),
                 ),
               ],
             ),
