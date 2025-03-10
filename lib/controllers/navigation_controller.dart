@@ -97,74 +97,93 @@ class NavigationController {
     _isPageViewChanging = false;
   }
 
-  List<NavigationItem> getMainNavigationItems(final BuildContext context) =>
-      <NavigationItem>[
-        NavigationItem(
-          icon: StreamBuilder<List<MissedAnimeDto>>(
-            stream: MissedAnimeController.instance.streamController.stream,
-            initialData: MissedAnimeController.instance.items,
-            builder: (
-              final BuildContext context,
-              final AsyncSnapshot<List<MissedAnimeDto>> snapshot,
-            ) {
-              final Icon icon = Icon(
-                _currentIndex == 0 ? Icons.home : Icons.home_outlined,
-              );
+  List<NavigationItem> getMainNavigationItems(
+    final BuildContext context,
+  ) => <NavigationItem>[
+    NavigationItem(
+      icon: StreamBuilder<List<MissedAnimeDto>>(
+        stream: MissedAnimeController.instance.streamController.stream,
+        initialData: MissedAnimeController.instance.items,
+        builder: (
+          final BuildContext context,
+          final AsyncSnapshot<List<MissedAnimeDto>> snapshot,
+        ) {
+          final Icon icon = Icon(
+            _currentIndex == 0 ? Icons.home : Icons.home_outlined,
+          );
 
-              if (snapshot.data!.isEmpty) {
-                return icon;
-              }
+          if (snapshot.data!.isEmpty) {
+            return icon;
+          }
 
-              return Stack(
+          final int totalEpisodeMissed = snapshot.data!
+              .map((final MissedAnimeDto e) => e.episodeMissed)
+              .reduce((final int a, final int b) => a + b);
+
+          return Stack(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(left: 12, right: 12, top: 8),
+                child: icon,
+              ),
+              if (snapshot.data!.isNotEmpty)
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: Pill(
+                    text:
+                        totalEpisodeMissed >= 10
+                            ? '9+'
+                            : totalEpisodeMissed.toString(),
+                  ),
+                ),
+            ],
+          );
+        },
+      ),
+      title: AppLocalizations.of(context)!.home,
+    ),
+    NavigationItem(
+      icon: const Icon(Icons.video_collection),
+      nonActiveIcon: const Icon(Icons.video_collection_outlined),
+      title: AppLocalizations.of(context)!.catalog,
+    ),
+    NavigationItem(
+      icon: const Icon(Icons.calendar_today),
+      nonActiveIcon: const Icon(Icons.calendar_today_outlined),
+      title: AppLocalizations.of(context)!.calendar,
+    ),
+    NavigationItem(
+      icon: StreamBuilder<MemberDto>(
+        stream: MemberController.instance.streamController.stream,
+        initialData: MemberController.instance.member,
+        builder: (
+          final BuildContext context,
+          final AsyncSnapshot<MemberDto> snapshot,
+        ) {
+          final MemberImage memberImage = MemberImage(
+            member: snapshot.data,
+            width: 32,
+            height: 32,
+            hasBorder: _currentIndex == 3,
+          );
+
+          return snapshot.data?.email != null
+              ? memberImage
+              : Stack(
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(left: 12, right: 12, top: 8),
-                    child: icon,
+                    padding: const EdgeInsets.only(left: 12, right: 8, top: 8),
+                    child: memberImage,
                   ),
-                  if (snapshot.data!.isNotEmpty)
-                    Positioned(
-                      top: 0,
-                      right: 0,
-                      child: Pill(
-                        count: snapshot.data!
-                            .map((final MissedAnimeDto e) => e.episodeMissed)
-                            .reduce((final int a, final int b) => a + b),
-                      ),
-                    ),
+                  const Positioned(top: 0, right: 0, child: Pill(text: '!')),
                 ],
               );
-            },
-          ),
-          title: AppLocalizations.of(context)!.home,
-        ),
-        NavigationItem(
-          icon: const Icon(Icons.video_collection),
-          nonActiveIcon: const Icon(Icons.video_collection_outlined),
-          title: AppLocalizations.of(context)!.catalog,
-        ),
-        NavigationItem(
-          icon: const Icon(Icons.calendar_today),
-          nonActiveIcon: const Icon(Icons.calendar_today_outlined),
-          title: AppLocalizations.of(context)!.calendar,
-        ),
-        NavigationItem(
-          icon: StreamBuilder<MemberDto>(
-            stream: MemberController.instance.streamController.stream,
-            initialData: MemberController.instance.member,
-            builder:
-                (
-                  final BuildContext context,
-                  final AsyncSnapshot<MemberDto> snapshot,
-                ) => MemberImage(
-                  member: snapshot.data,
-                  width: 32,
-                  height: 32,
-                  hasBorder: _currentIndex == 3,
-                ),
-          ),
-          title: AppLocalizations.of(context)!.myAccount,
-        ),
-      ];
+        },
+      ),
+      title: AppLocalizations.of(context)!.myAccount,
+    ),
+  ];
 
   List<BottomNavigationBarItem> getBottomNavigationBarItems(
     final BuildContext context,
@@ -343,7 +362,7 @@ class _DrawerButtonState extends State<DrawerButton> {
       },
       child: SizedBox(
         width: 105,
-        height: 82,
+        height: 85,
         child: Container(
           decoration:
               isHoverActive || widget.isActive

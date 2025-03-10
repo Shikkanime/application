@@ -1,15 +1,14 @@
-import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/utils/constant.dart';
 import 'package:flutter/material.dart';
 
 class EpisodeDuration extends StatelessWidget {
   const EpisodeDuration({
-    required this.episode,
+    required this.duration,
     required this.cornerPadding,
     super.key,
   });
 
-  final EpisodeMappingDto episode;
+  final int duration;
   final double cornerPadding;
 
   String _duration(final Duration duration) => <String>[
@@ -31,7 +30,7 @@ class EpisodeDuration extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(5),
         child: Text(
-          _duration(Duration(seconds: episode.duration)),
+          _duration(Duration(seconds: duration)),
           style: const TextStyle(color: Colors.white, fontSize: 10),
         ),
       ),

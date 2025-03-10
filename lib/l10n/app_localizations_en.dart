@@ -39,7 +39,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get whatYouMightHaveMissed2 => 'missed';
 
   @override
-  String season(num season) {
+  String season(String season) {
     return 'Season $season';
   }
 
@@ -69,12 +69,12 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String fullInformation(num season, String episodeType, num number) {
+  String fullInformation(String season, String episodeType, String number) {
     return 'Season $season • $episodeType $number';
   }
 
   @override
-  String minInformation(String episodeType, dynamic number) {
+  String minInformation(String episodeType, String number) {
     return '$episodeType $number';
   }
 

@@ -43,11 +43,12 @@ class FollowedEpisodeComponent extends StatelessWidget {
               width: width,
               height: 360 / _ratio,
               child: EpisodeImage(
-                episode: episode,
+                uuid: episode.uuid,
+                lastUpdateDateTime: episode.lastUpdateDateTime,
+                platforms: episode.platforms,
                 borderRadius: const BorderRadius.all(
                   Radius.circular(Constant.borderRadius),
                 ),
-                showDuration: false,
               ),
             ),
             const SizedBox(height: 4),
@@ -61,7 +62,9 @@ class FollowedEpisodeComponent extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             EpisodeInformation(
-              episode: episode,
+              season: episode.season.toString(),
+              episodeType: episode.episodeType,
+              number: episode.number.toString(),
               style: Theme.of(context).textTheme.bodySmall,
             ),
           ],

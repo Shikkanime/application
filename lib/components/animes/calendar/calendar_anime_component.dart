@@ -86,7 +86,7 @@ class CalendarAnimeComponent extends StatelessWidget {
                   bottom: Constant.cornerPadding,
                   right: Constant.cornerPadding,
                   child: EpisodeDuration(
-                    episode: release.mappings!.first,
+                    duration: release.mappings!.first.duration,
                     cornerPadding: Constant.cornerPadding,
                   ),
                 ),
@@ -121,7 +121,7 @@ class CalendarAnimeComponent extends StatelessWidget {
                             )!.episodeType(release.episodeType!.toLowerCase()),
                             isMultipleReleased
                                 ? '${release.minNumber} - ${release.maxNumber}'
-                                : release.number!,
+                                : release.number!.toString(),
                           ),
                           style: Theme.of(context).textTheme.bodyMedium,
                           overflow: TextOverflow.ellipsis,
@@ -136,20 +136,21 @@ class CalendarAnimeComponent extends StatelessWidget {
                           if ((!isReleased || isMultipleReleased) &&
                               !AnimeWeeklyController.instance.memberMode)
                             WatchlistButton(
-                              anime: release.anime,
+                              anime: release.anime.uuid,
+                              isAnime: true,
                               simple: true,
                               style: Theme.of(context).getCardButtonStyle(),
                             ),
                           if (isReleased && !isMultipleReleased) ...<Widget>[
                             WatchlistButton(
-                              anime: release.anime,
-                              episode: release.mappings!.first,
-                              isCalendar: true,
+                              anime: release.anime.uuid,
+                              episode: release.mappings!.first.uuid,
+                              isEpisode: true,
                               simple: true,
                               style: Theme.of(context).getCardButtonStyle(),
                             ),
                             WatchButton(
-                              url: release.mappings?.first.variants?.first.url,
+                              url: release.mappings!.first.variants!.first.url,
                               simple: true,
                             ),
                           ],
