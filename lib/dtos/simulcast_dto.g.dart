@@ -11,8 +11,6 @@ _SimulcastDto _$SimulcastDtoFromJson(Map<String, dynamic> json) =>
       uuid: json['uuid'] as String,
       season: json['season'] as String,
       year: (json['year'] as num).toInt(),
-      slug: json['slug'] as String,
-      label: json['label'] as String,
     );
 
 Map<String, dynamic> _$SimulcastDtoToJson(_SimulcastDto instance) =>
@@ -20,6 +18,4 @@ Map<String, dynamic> _$SimulcastDtoToJson(_SimulcastDto instance) =>
       'uuid': instance.uuid,
       'season': instance.season,
       'year': instance.year,
-      'slug': instance.slug,
-      'label': instance.label,
     };

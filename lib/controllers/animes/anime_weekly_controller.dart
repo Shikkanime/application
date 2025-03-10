@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:application/controllers/generic_controller.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/dtos/week_day_dto.dart';
 import 'package:application/utils/http_request.dart';
+import 'package:flutter/material.dart';
 
 class AnimeWeeklyController extends GenericController<WeekDayDto> {
   AnimeWeeklyController() : super(addScrollListener: false);
@@ -10,6 +13,12 @@ class AnimeWeeklyController extends GenericController<WeekDayDto> {
   bool memberMode = false;
   bool _isRetry = false;
   int selectedDay = DateTime.now().weekday - 1;
+
+  int maxElementsPerRow(final BuildContext context) =>
+      max(1, (MediaQuery.sizeOf(context).width * 0.00333).floor());
+
+  double placeholderHeight(final BuildContext context) =>
+      MediaQuery.sizeOf(context).width * 0.46 / maxElementsPerRow(context);
 
   @override
   Future<Iterable<WeekDayDto>> fetchItems() async {

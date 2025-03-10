@@ -9,8 +9,6 @@ sealed class MemberDto with _$MemberDto {
     required final String uuid,
     required final String token,
     required final String creationDateTime,
-    required final String lastUpdateDateTime,
-    required final bool isPrivate,
     required final String? email,
     required final List<String> followedAnimes,
     required final List<String> followedEpisodes,

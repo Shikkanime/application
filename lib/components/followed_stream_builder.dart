@@ -1,6 +1,4 @@
 import 'package:application/controllers/member_controller.dart';
-import 'package:application/dtos/anime_dto.dart';
-import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/dtos/member_dto.dart';
 import 'package:flutter/material.dart';
 
@@ -14,8 +12,8 @@ class FollowedStreamBuilder extends StatelessWidget {
 
   final Widget Function(BuildContext, bool, bool) builder;
 
-  final AnimeDto? anime;
-  final EpisodeMappingDto? episode;
+  final String? anime;
+  final String? episode;
 
   @override
   Widget build(final BuildContext context) => StreamBuilder<MemberDto>(
@@ -28,10 +26,9 @@ class FollowedStreamBuilder extends StatelessWidget {
       final MemberDto? memberDto = snapshot.data;
 
       final bool containsAnime =
-          anime != null && memberDto!.followedAnimes.contains(anime?.uuid);
+          anime != null && memberDto!.followedAnimes.contains(anime);
       final bool containsEpisode =
-          episode != null &&
-          memberDto!.followedEpisodes.contains(episode?.uuid);
+          episode != null && memberDto!.followedEpisodes.contains(episode);
 
       return builder(context, containsAnime, containsEpisode);
     },

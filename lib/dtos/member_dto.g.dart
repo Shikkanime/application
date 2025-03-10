@@ -10,8 +10,6 @@ _MemberDto _$MemberDtoFromJson(Map<String, dynamic> json) => _MemberDto(
   uuid: json['uuid'] as String,
   token: json['token'] as String,
   creationDateTime: json['creationDateTime'] as String,
-  lastUpdateDateTime: json['lastUpdateDateTime'] as String,
-  isPrivate: json['isPrivate'] as bool,
   email: json['email'] as String?,
   followedAnimes:
       (json['followedAnimes'] as List<dynamic>)
@@ -31,8 +29,6 @@ Map<String, dynamic> _$MemberDtoToJson(_MemberDto instance) =>
       'uuid': instance.uuid,
       'token': instance.token,
       'creationDateTime': instance.creationDateTime,
-      'lastUpdateDateTime': instance.lastUpdateDateTime,
-      'isPrivate': instance.isPrivate,
       'email': instance.email,
       'followedAnimes': instance.followedAnimes,
       'followedEpisodes': instance.followedEpisodes,

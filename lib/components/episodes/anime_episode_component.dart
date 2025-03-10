@@ -34,11 +34,15 @@ class AnimeEpisodeComponent extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: EpisodeImage(
-              episode: episode,
+              uuid: episode.uuid,
+              lastUpdateDateTime: episode.lastUpdateDateTime,
+              platforms: episode.platforms,
+              duration: episode.duration,
               borderRadius: const BorderRadius.all(
                 Radius.circular(Constant.borderRadius),
               ),
               fit: BoxFit.cover,
+              height: double.infinity,
             ),
           ),
           Expanded(
@@ -51,12 +55,22 @@ class AnimeEpisodeComponent extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                 ),
-                EpisodeInformation(episode: episode, showSeason: false),
+                EpisodeInformation(
+                  season: episode.season.toString(),
+                  episodeType: episode.episodeType,
+                  number: episode.number.toString(),
+                  showSeason: false,
+                ),
                 if (episode.langTypes != null)
                   for (final String langType in episode.langTypes!)
                     LangTypeComponent(langType: langType),
                 const Spacer(),
-                EpisodeActionBar(episode: episode, simple: true),
+                EpisodeActionBar(
+                  anime: episode.anime!.uuid,
+                  episode: episode.uuid,
+                  url: episode.variants!.first.url,
+                  simple: true,
+                ),
               ],
             ),
           ),

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:application/components/animes/anime_component.dart';
 import 'package:application/components/animes/anime_loader_component.dart';
 import 'package:application/components/simulcasts/simulcast_dropdown_button.dart';
@@ -17,11 +15,6 @@ class SimulcastView extends StatelessWidget {
     final BuildContext context,
     final List<AnimeDto> animes,
   ) {
-    final int maxElementsPerRow = max(
-      2,
-      (MediaQuery.sizeOf(context).width * 3 / 600).floor(),
-    );
-
     if (animes.isEmpty) {
       return <Widget>[
         const SimulcastLoaderButton(),
@@ -30,7 +23,9 @@ class SimulcastView extends StatelessWidget {
             12,
             (final int index) => const AnimeLoaderComponent(),
           ),
-          maxElementsPerRow: maxElementsPerRow,
+          maxElementsPerRow: AnimeController.instance.maxElementsPerRow(
+            context,
+          ),
         ),
       ];
     }
@@ -39,7 +34,7 @@ class SimulcastView extends StatelessWidget {
       const SimulcastDropdownButton(),
       ...wb.WidgetBuilder.instance.buildRowWidgets(
         animes.map((final AnimeDto anime) => AnimeComponent(anime: anime)),
-        maxElementsPerRow: maxElementsPerRow,
+        maxElementsPerRow: AnimeController.instance.maxElementsPerRow(context),
       ),
     ];
   }

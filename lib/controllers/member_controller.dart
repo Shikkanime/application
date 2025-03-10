@@ -63,7 +63,9 @@ class MemberController {
   }
 
   Future<String> register() async {
-    final Response response = await HttpRequest().post('/v1/members/register');
+    final Response response = await HttpRequest.instance.post(
+      '/v1/members/register',
+    );
 
     if (response.statusCode != HttpStatus.created) {
       throw const HttpException('Failed to register');
@@ -82,7 +84,7 @@ class MemberController {
   }
 
   Future<Response> testLogin(final String identifier) async {
-    final Response response = await HttpRequest().post(
+    final Response response = await HttpRequest.instance.post(
       '/v1/members/login',
       body: identifier,
     );
@@ -121,7 +123,7 @@ class MemberController {
   }
 
   Future<void> refresh() async {
-    final Map<String, dynamic> json = await HttpRequest()
+    final Map<String, dynamic> json = await HttpRequest.instance
         .get<Map<String, dynamic>>('/v1/members/refresh', token: member!.token);
 
     final RefreshMemberDto refreshedMember = RefreshMemberDto.fromJson(json);
@@ -207,7 +209,7 @@ class MemberController {
   }
 
   Future<void> updateImage(final Uint8List image) async {
-    final Response response = await HttpRequest().postMultipart(
+    final Response response = await HttpRequest.instance.postMultipart(
       '/v1/members/image',
       member!.token,
       image,
@@ -236,7 +238,7 @@ class MemberController {
   }
 
   Future<String> associateEmail(final String email) async {
-    final Response response = await HttpRequest().post(
+    final Response response = await HttpRequest.instance.post(
       '/v1/members/associate-email',
       token: member!.token,
       body: email,
@@ -261,7 +263,7 @@ class MemberController {
   }
 
   Future<String> forgotIdentifier(final String email) async {
-    final Response response = await HttpRequest().post(
+    final Response response = await HttpRequest.instance.post(
       '/v1/members/forgot-identifier',
       token: member!.token,
       body: email,
@@ -286,7 +288,7 @@ class MemberController {
   }
 
   Future<void> validateAction(final String uuid, final String code) async {
-    final Response response = await HttpRequest().post(
+    final Response response = await HttpRequest.instance.post(
       '/v1/member-actions/validate?uuid=$uuid',
       token: member!.token,
       body: code,
@@ -303,17 +305,17 @@ class MemberController {
   }
 
   Future<void> followAnime(
-    final AnimeDto anime, {
+    final String anime, {
     final bool loadMemberData = true,
   }) async {
-    if (member!.followedAnimes.contains(anime.uuid)) {
+    if (member!.followedAnimes.contains(anime)) {
       return;
     }
 
-    final Response response = await HttpRequest().put(
+    final Response response = await HttpRequest.instance.put(
       '/v1/members/animes',
       member!.token,
-      jsonEncode(<String, String>{'uuid': anime.uuid}),
+      jsonEncode(<String, String>{'uuid': anime}),
     );
 
     if (response.statusCode == HttpStatus.unauthorized) {
@@ -325,7 +327,7 @@ class MemberController {
       throw const HttpException('Failed to follow anime');
     }
 
-    member!.followedAnimes.add(anime.uuid);
+    member!.followedAnimes.add(anime);
 
     if (loadMemberData) {
       await refresh();
@@ -334,11 +336,11 @@ class MemberController {
     }
   }
 
-  Future<void> unfollowAnime(final AnimeDto anime) async {
-    final Response response = await HttpRequest().delete(
+  Future<void> unfollowAnime(final String anime) async {
+    final Response response = await HttpRequest.instance.delete(
       '/v1/members/animes',
       member!.token,
-      jsonEncode(<String, String>{'uuid': anime.uuid}),
+      jsonEncode(<String, String>{'uuid': anime}),
     );
 
     if (response.statusCode == HttpStatus.unauthorized) {
@@ -350,19 +352,19 @@ class MemberController {
       throw const HttpException('Failed to unfollow anime');
     }
 
-    member!.followedAnimes.remove(anime.uuid);
+    member!.followedAnimes.remove(anime);
     await refresh();
   }
 
-  Future<void> followAllEpisodes(final AnimeDto anime) async {
-    if (!member!.followedAnimes.contains(anime.uuid)) {
+  Future<void> followAllEpisodes(final String anime) async {
+    if (!member!.followedAnimes.contains(anime)) {
       await followAnime(anime, loadMemberData: false);
     }
 
-    final Response response = await HttpRequest().put(
+    final Response response = await HttpRequest.instance.put(
       '/v1/members/follow-all-episodes',
       member!.token,
-      jsonEncode(<String, String>{'uuid': anime.uuid}),
+      jsonEncode(<String, String>{'uuid': anime}),
     );
 
     if (response.statusCode == HttpStatus.unauthorized) {
@@ -383,51 +385,45 @@ class MemberController {
   }
 
   Future<void> followEpisode(
-    final AnimeDto? animeDto,
-    final EpisodeMappingDto episode, {
+    final String anime,
+    final String episode, {
     final bool refreshAfterFollow = true,
   }) async {
-    if (member!.followedEpisodes.contains(episode.uuid)) {
+    if (member!.followedEpisodes.contains(episode)) {
       return;
     }
 
-    final AnimeDto? anime = animeDto ?? episode.anime;
-
-    if (anime == null) {
-      return;
-    }
-
-    if (!member!.followedAnimes.contains(anime.uuid)) {
+    if (!member!.followedAnimes.contains(anime)) {
       await followAnime(anime, loadMemberData: false);
     }
 
-    final Response response = await HttpRequest().put(
+    final Response response = await HttpRequest.instance.put(
       '/v1/members/episodes',
       member!.token,
-      jsonEncode(<String, String>{'uuid': episode.uuid}),
+      jsonEncode(<String, String>{'uuid': episode}),
     );
 
     if (response.statusCode == HttpStatus.unauthorized) {
       await login();
-      return followEpisode(animeDto, episode);
+      return followEpisode(anime, episode);
     }
 
     if (response.statusCode != HttpStatus.ok) {
       throw const HttpException('Failed to follow episode');
     }
 
-    member!.followedEpisodes.add(episode.uuid);
+    member!.followedEpisodes.add(episode);
 
     if (refreshAfterFollow) {
       await refresh();
     }
   }
 
-  Future<void> unfollowEpisode(final EpisodeMappingDto episode) async {
-    final Response response = await HttpRequest().delete(
+  Future<void> unfollowEpisode(final String episode) async {
+    final Response response = await HttpRequest.instance.delete(
       '/v1/members/episodes',
       member!.token,
-      jsonEncode(<String, String>{'uuid': episode.uuid}),
+      jsonEncode(<String, String>{'uuid': episode}),
     );
 
     if (response.statusCode == HttpStatus.unauthorized) {
@@ -439,7 +435,7 @@ class MemberController {
       throw const HttpException('Failed to unfollow episode');
     }
 
-    member!.followedEpisodes.remove(episode.uuid);
+    member!.followedEpisodes.remove(episode);
     await refresh();
   }
 }

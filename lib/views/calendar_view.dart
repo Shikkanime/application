@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:application/components/animes/calendar/calendar_anime_component.dart';
 import 'package:application/components/animes/calendar/calendar_anime_loader_component.dart';
 import 'package:application/controllers/animes/anime_weekly_controller.dart';
@@ -17,10 +15,6 @@ class CalendarView extends StatelessWidget {
     final List<WeekDayDto> releases,
   ) {
     final int currentDay = AnimeWeeklyController.instance.selectedDay;
-    final int maxElementsPerRow = max(
-      1,
-      (MediaQuery.sizeOf(context).width * 3 / 900).floor(),
-    );
 
     if (releases.isEmpty) {
       return wb.WidgetBuilder.instance.buildRowWidgets(
@@ -28,7 +22,9 @@ class CalendarView extends StatelessWidget {
           12,
           (final int index) => const CalendarAnimeLoaderComponent(),
         ),
-        maxElementsPerRow: maxElementsPerRow,
+        maxElementsPerRow: AnimeWeeklyController.instance.maxElementsPerRow(
+          context,
+        ),
       );
     }
 
@@ -102,7 +98,9 @@ class CalendarView extends StatelessWidget {
             release: release,
           ),
         ),
-        maxElementsPerRow: maxElementsPerRow,
+        maxElementsPerRow: AnimeWeeklyController.instance.maxElementsPerRow(
+          context,
+        ),
       ),
     ];
   }

@@ -13,6 +13,7 @@ import 'package:application/controllers/sort_controller.dart';
 import 'package:application/controllers/vibration_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/anime_platform_dto.dart';
+import 'package:application/dtos/enums/image_type.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/dtos/platform_dto.dart';
 import 'package:application/dtos/season_dto.dart';
@@ -87,7 +88,9 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
         actions: <Widget>[
           ElevatedAsyncButton(
             onPressed: () async {
-              await MemberController.instance.followAllEpisodes(widget.anime);
+              await MemberController.instance.followAllEpisodes(
+                widget.anime.uuid,
+              );
 
               VibrationController.instance.vibrate(
                 pattern: <int>[0, 50, 125, 50, 125, 50],
@@ -129,12 +132,12 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                       children: <Widget>[
                         ImageComponent(
                           uuid: widget.anime.uuid,
+                          type: ImageType.banner,
                           version:
                               widget.anime.lastUpdateDateTime
                                   .toDateTime()
                                   ?.millisecondsSinceEpoch
                                   .toString(),
-                          type: 'banner',
                           height: MediaQuery.sizeOf(context).height * 0.25,
                           fit: BoxFit.cover,
                           borderRadius: const BorderRadius.all(
@@ -170,7 +173,10 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                         Flex(
                           direction: Axis.horizontal,
                           children: <Widget>[
-                            WatchlistButton(anime: widget.anime),
+                            WatchlistButton(
+                              anime: widget.anime.uuid,
+                              isAnime: true,
+                            ),
                           ],
                         ),
                       ],
@@ -293,7 +299,7 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                                   child: Text(
                                     AppLocalizations.of(
                                       context,
-                                    )!.season(season.number),
+                                    )!.season(season.number.toString()),
                                   ),
                                 ),
                             ],
@@ -361,11 +367,13 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                 onPressed: () async {
                   for (final String uuid in _selectedEpisodes) {
                     await MemberController.instance.followEpisode(
-                      widget.anime,
-                      AnimeDetailsController.instance.items.firstWhere(
-                        (final EpisodeMappingDto episode) =>
-                            episode.uuid == uuid,
-                      ),
+                      widget.anime.uuid,
+                      AnimeDetailsController.instance.items
+                          .firstWhere(
+                            (final EpisodeMappingDto episode) =>
+                                episode.uuid == uuid,
+                          )
+                          .uuid,
                       refreshAfterFollow: false,
                     );
                   }

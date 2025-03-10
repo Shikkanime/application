@@ -7,6 +7,7 @@ import 'package:application/components/watch_button.dart';
 import 'package:application/components/watchlist_button.dart';
 import 'package:application/controllers/animes/anime_controller.dart';
 import 'package:application/controllers/animes/anime_weekly_controller.dart';
+import 'package:application/dtos/enums/image_type.dart';
 import 'package:application/dtos/week_day_release_dto.dart';
 import 'package:application/l10n/app_localizations.dart';
 import 'package:application/utils/analytics.dart';
@@ -62,11 +63,11 @@ class CalendarAnimeComponent extends StatelessWidget {
           Stack(
             children: <Widget>[
               ImageComponent(
-                fit: BoxFit.cover,
                 uuid:
                     isReleased
                         ? release.mappings!.first.uuid
                         : release.anime.uuid,
+                type: ImageType.banner,
                 version:
                     (isReleased
                             ? release.mappings!.first.lastUpdateDateTime
@@ -74,11 +75,11 @@ class CalendarAnimeComponent extends StatelessWidget {
                         .toDateTime()
                         ?.millisecondsSinceEpoch
                         .toString(),
-                type: isReleased ? 'image' : 'banner',
                 borderRadius: const BorderRadius.all(
                   Radius.circular(Constant.borderRadius),
                 ),
-                height: 185,
+                placeholderHeight: AnimeWeeklyController.instance
+                    .placeholderHeight(context),
               ),
               ...PlatformComponent.toPlatformsRow(release.platforms),
               if (isReleased && !isMultipleReleased)
@@ -86,7 +87,7 @@ class CalendarAnimeComponent extends StatelessWidget {
                   bottom: Constant.cornerPadding,
                   right: Constant.cornerPadding,
                   child: EpisodeDuration(
-                    episode: release.mappings!.first,
+                    duration: release.mappings!.first.duration,
                     cornerPadding: Constant.cornerPadding,
                   ),
                 ),
@@ -121,7 +122,7 @@ class CalendarAnimeComponent extends StatelessWidget {
                             )!.episodeType(release.episodeType!.toLowerCase()),
                             isMultipleReleased
                                 ? '${release.minNumber} - ${release.maxNumber}'
-                                : release.number!,
+                                : release.number!.toString(),
                           ),
                           style: Theme.of(context).textTheme.bodyMedium,
                           overflow: TextOverflow.ellipsis,
@@ -136,20 +137,21 @@ class CalendarAnimeComponent extends StatelessWidget {
                           if ((!isReleased || isMultipleReleased) &&
                               !AnimeWeeklyController.instance.memberMode)
                             WatchlistButton(
-                              anime: release.anime,
+                              anime: release.anime.uuid,
+                              isAnime: true,
                               simple: true,
                               style: Theme.of(context).getCardButtonStyle(),
                             ),
                           if (isReleased && !isMultipleReleased) ...<Widget>[
                             WatchlistButton(
-                              anime: release.anime,
-                              episode: release.mappings!.first,
-                              isCalendar: true,
+                              anime: release.anime.uuid,
+                              episode: release.mappings!.first.uuid,
+                              isEpisode: true,
                               simple: true,
                               style: Theme.of(context).getCardButtonStyle(),
                             ),
                             WatchButton(
-                              url: release.mappings?.first.variants?.first.url,
+                              url: release.mappings!.first.variants!.first.url,
                               simple: true,
                             ),
                           ],

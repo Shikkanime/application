@@ -1,17 +1,22 @@
 import 'package:application/components/card_component.dart';
 import 'package:application/components/generic_loader.dart';
+import 'package:application/controllers/animes/anime_weekly_controller.dart';
 import 'package:flutter/material.dart';
 
 class CalendarAnimeLoaderComponent extends StatelessWidget {
   const CalendarAnimeLoaderComponent({super.key});
 
   @override
-  Widget build(final BuildContext context) => const CustomCard(
+  Widget build(final BuildContext context) => CustomCard(
     child: Column(
       spacing: 8,
       children: <Widget>[
-        SizedBox(width: double.infinity, height: 185, child: GenericLoader()),
-        IntrinsicHeight(
+        SizedBox(
+          width: double.infinity,
+          height: AnimeWeeklyController.instance.placeholderHeight(context),
+          child: const GenericLoader(),
+        ),
+        const IntrinsicHeight(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
