@@ -138,7 +138,10 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                                   .toDateTime()
                                   ?.millisecondsSinceEpoch
                                   .toString(),
-                          height: MediaQuery.sizeOf(context).height * 0.25,
+                          height:
+                              MediaQuery.sizeOf(context).width > 900
+                                  ? 300
+                                  : null,
                           fit: BoxFit.cover,
                           borderRadius: const BorderRadius.all(
                             Radius.circular(Constant.borderRadius),
