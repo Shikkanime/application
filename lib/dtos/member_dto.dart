@@ -14,7 +14,7 @@ sealed class MemberDto with _$MemberDto {
     required final List<String> followedEpisodes,
     required final int totalDuration,
     required final int totalUnseenDuration,
-    required final bool hasProfilePicture,
+    required final String? attachmentLastUpdateDateTime,
   }) = _MemberDto;
 
   factory MemberDto.fromJson(final Map<String, dynamic> json) =>

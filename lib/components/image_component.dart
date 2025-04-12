@@ -52,6 +52,8 @@ class ImageComponent extends StatelessWidget {
                 width: width,
                 height: placeholderHeight ?? height,
               ),
+      fadeInDuration: Duration.zero,
+      fadeOutDuration: Duration.zero,
     ),
   );
 }

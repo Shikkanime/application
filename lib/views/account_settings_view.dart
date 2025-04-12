@@ -151,7 +151,7 @@ class AccountSettingsView extends StatelessWidget {
                                   title: appLocalizations.notificationsType(
                                     type.name,
                                   ),
-                                  tooltip: appLocalizations
+                                  subtitle: appLocalizations
                                       .notificationsSubtitles(type.name),
                                   trailing:
                                       snapshot.data == type
@@ -318,7 +318,8 @@ class SettingsOption extends StatelessWidget {
           ),
       ],
     ),
-    subtitle: subtitle != null ? Text(subtitle!) : null,
+    subtitle:
+        (subtitle != null && subtitle!.isNotEmpty) ? Text(subtitle!) : null,
     trailing: trailing,
     onTap: onTap,
   );

@@ -41,8 +41,8 @@
 
   "settings": "Paramètres",
   "notifications": "Notifications",
-  "notificationsType": "{type, select, all{Toutes les notifications} watchlist{Watchlist} none{Aucune} other{Autre}}",
-  "notificationsSubtitles": "{type, select, all{Recevoir des notifications pour tous les animés} watchlist{Recevoir des notifications pour les animés de votre watchlist} none{Désactiver les notifications} other{Recevoir des notifications pour les animés que vous suivez}}",
+  "notificationsType": "{type, select, all{Toutes} watchlist{Watchlist} none{Aucune} other{Autre}}",
+  "notificationsSubtitles": "{type, select, all{Recevoir des notifications pour tous les animés} watchlist{Recevoir des notifications pour les animés de votre watchlist} none{} other{Recevoir des notifications pour les animés que vous suivez}}",
   "defaultSort": "Tri par défaut",
   "sortType": "{type, select, oldest{Les plus anciens} newest{Les plus récents} other{Autre}}",
 

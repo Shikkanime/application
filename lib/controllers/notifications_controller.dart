@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/shared_preferences_controller.dart';
+import 'package:application/dtos/enums/config_property_key.dart';
 import 'package:application/dtos/member_dto.dart';
 import 'package:application/utils/constant.dart';
 import 'package:application/views/request_notification_view.dart';
@@ -14,7 +15,6 @@ enum NotificationsType { all, watchlist, none }
 class NotificationsController {
   static final NotificationsController instance = NotificationsController();
 
-  static const String _keyNotificationsType = 'notificationsType';
   static const String _topicGlobal = 'global';
 
   final StreamController<NotificationsType> streamController =
@@ -26,7 +26,7 @@ class NotificationsController {
 
   NotificationsType get notificationsType =>
       NotificationsType.values[SharedPreferencesController.instance.getInt(
-            _keyNotificationsType,
+            ConfigPropertyKey.notificationsType,
           ) ??
           0];
 
@@ -39,11 +39,8 @@ class NotificationsController {
     _messaging = FirebaseMessaging.instance;
     await _createNotificationChannel();
 
-    // TODO(Ziedelth): Remove this line later
-    await _messaging?.unsubscribeFromTopic('dev');
-
     if (SharedPreferencesController.instance.containsKey(
-      _keyNotificationsType,
+      ConfigPropertyKey.notificationsType,
     )) {
       debugPrint('Notifications type already set');
       return;
@@ -97,7 +94,7 @@ class NotificationsController {
     }
 
     await SharedPreferencesController.instance.setInt(
-      _keyNotificationsType,
+      ConfigPropertyKey.notificationsType,
       type.index,
     );
 
@@ -137,7 +134,7 @@ class NotificationsController {
 
   Future<void> _setAndIgnore(final NotificationsType type) async {
     await SharedPreferencesController.instance.setInt(
-      _keyNotificationsType,
+      ConfigPropertyKey.notificationsType,
       type.index,
     );
     streamController.add(type);

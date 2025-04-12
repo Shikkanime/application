@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:application/controllers/animes/followed_anime_controller.dart';
 import 'package:application/controllers/animes/missed_anime_controller.dart';
 import 'package:application/controllers/episodes/followed_episode_controller.dart';
 import 'package:application/controllers/shared_preferences_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
+import 'package:application/dtos/enums/config_property_key.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/dtos/member_dto.dart';
 import 'package:application/dtos/missed_anime_dto.dart';
@@ -17,9 +17,11 @@ import 'package:application/utils/analytics.dart';
 import 'package:application/utils/http_request.dart';
 import 'package:application/views/crop_view.dart';
 import 'package:crop_your_image/crop_your_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class MemberController {
   static MemberController instance = MemberController();
@@ -27,14 +29,13 @@ class MemberController {
       StreamController<MemberDto>.broadcast();
   String? identifier;
   MemberDto? member;
-  int imageVersion = 0;
 
   Future<void> init({final bool afterDelete = false}) async {
     identifier =
-        SharedPreferencesController.instance.getString('identifier') ??
+        SharedPreferencesController.instance.getString(
+          ConfigPropertyKey.identifier,
+        ) ??
         await register();
-    imageVersion =
-        SharedPreferencesController.instance.getInt('imageVersion') ?? 0;
 
     try {
       await login();
@@ -44,11 +45,12 @@ class MemberController {
       if (!afterDelete) {
         // Move the current identifier to old identifier
         final String? oldIdentifier = identifier;
-        await SharedPreferencesController.instance.remove('identifier');
-        await SharedPreferencesController.instance.remove('imageVersion');
+        await SharedPreferencesController.instance.remove(
+          ConfigPropertyKey.identifier,
+        );
 
         await SharedPreferencesController.instance.setString(
-          'oldIdentifier',
+          ConfigPropertyKey.oldIdentifier,
           oldIdentifier!,
         );
         await init(afterDelete: true);
@@ -76,17 +78,41 @@ class MemberController {
                 as Map<String, dynamic>)['identifier']
             as String;
     await SharedPreferencesController.instance.setString(
-      'identifier',
+      ConfigPropertyKey.identifier,
       identifier,
     );
     Analytics.instance.logSignUp();
     return identifier;
   }
 
+  String get _device {
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+        return 'android';
+      case TargetPlatform.iOS:
+        return 'ios';
+      case TargetPlatform.macOS:
+        return 'macos';
+      case TargetPlatform.windows:
+        return 'windows';
+      case TargetPlatform.linux:
+        return 'linux';
+      case TargetPlatform.fuchsia:
+        return 'fuchsia';
+    }
+  }
+
   Future<Response> testLogin(final String identifier) async {
+    final PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
     final Response response = await HttpRequest.instance.post(
-      '/v1/members/login',
-      body: identifier,
+      '/v2/members/login',
+      body: jsonEncode(<String, String>{
+        'identifier': identifier,
+        'appVersion': '${packageInfo.version}+${packageInfo.buildNumber}',
+        'device': _device,
+        'locale': Platform.localeName,
+      }),
     );
 
     if (response.statusCode == HttpStatus.notFound) {
@@ -108,7 +134,7 @@ class MemberController {
     if (identifier != null) {
       this.identifier = identifier;
       await SharedPreferencesController.instance.setString(
-        'identifier',
+        ConfigPropertyKey.identifier,
         identifier,
       );
     }
@@ -228,12 +254,9 @@ class MemberController {
   }
 
   Future<void> increaseImageVersion() async {
-    imageVersion++;
-    await SharedPreferencesController.instance.setInt(
-      'imageVersion',
-      imageVersion,
+    member = member!.copyWith(
+      attachmentLastUpdateDateTime: DateTime.now().toIso8601String(),
     );
-    member = member!.copyWith(hasProfilePicture: true);
     streamController.add(member!);
   }
 

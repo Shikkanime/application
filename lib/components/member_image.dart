@@ -1,7 +1,7 @@
 import 'package:application/components/image_component.dart';
-import 'package:application/controllers/member_controller.dart';
 import 'package:application/dtos/enums/image_type.dart';
 import 'package:application/dtos/member_dto.dart';
+import 'package:application/utils/extensions.dart';
 import 'package:flutter/material.dart';
 
 class MemberImage extends StatelessWidget {
@@ -40,11 +40,15 @@ class MemberImage extends StatelessWidget {
               : null,
       padding: hasBorder ? const EdgeInsets.all(1) : null,
       child:
-          member!.hasProfilePicture
+          member!.attachmentLastUpdateDateTime != null
               ? ImageComponent(
                 uuid: member!.uuid,
                 type: ImageType.memberProfile,
-                version: MemberController.instance.imageVersion.toString(),
+                version:
+                    member!.attachmentLastUpdateDateTime!
+                        .toDateTime()!
+                        .millisecondsSinceEpoch
+                        .toString(),
                 borderRadius: const BorderRadius.all(Radius.circular(360)),
                 width: hasBorder && width != null ? width! - 6 : width,
                 height: hasBorder && height != null ? height! - 6 : height,

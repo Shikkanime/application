@@ -21,7 +21,7 @@ _MemberDto _$MemberDtoFromJson(Map<String, dynamic> json) => _MemberDto(
           .toList(),
   totalDuration: (json['totalDuration'] as num).toInt(),
   totalUnseenDuration: (json['totalUnseenDuration'] as num).toInt(),
-  hasProfilePicture: json['hasProfilePicture'] as bool,
+  attachmentLastUpdateDateTime: json['attachmentLastUpdateDateTime'] as String?,
 );
 
 Map<String, dynamic> _$MemberDtoToJson(_MemberDto instance) =>
@@ -34,5 +34,5 @@ Map<String, dynamic> _$MemberDtoToJson(_MemberDto instance) =>
       'followedEpisodes': instance.followedEpisodes,
       'totalDuration': instance.totalDuration,
       'totalUnseenDuration': instance.totalUnseenDuration,
-      'hasProfilePicture': instance.hasProfilePicture,
+      'attachmentLastUpdateDateTime': instance.attachmentLastUpdateDateTime,
     };

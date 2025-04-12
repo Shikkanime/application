@@ -361,9 +361,9 @@ class _DrawerButtonState extends State<DrawerButton> {
         }
       },
       child: SizedBox(
-        width: 105,
-        height: 85,
-        child: Container(
+        width: 85,
+        height: 65,
+        child: DecoratedBox(
           decoration:
               isHoverActive || widget.isActive
                   ? BoxDecoration(
@@ -375,8 +375,7 @@ class _DrawerButtonState extends State<DrawerButton> {
                       Radius.circular(Constant.borderRadius),
                     ),
                   )
-                  : null,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  : const BoxDecoration(),
           child: Column(
             spacing: 8,
             mainAxisSize: MainAxisSize.min,
@@ -387,7 +386,16 @@ class _DrawerButtonState extends State<DrawerButton> {
                 widget.activeIcon!
               else
                 widget.icon,
-              Text(widget.label),
+              Text(
+                widget.label,
+                style: TextStyle(
+                  color:
+                      widget.isActive
+                          ? Theme.of(context).colorScheme.primary
+                          : null,
+                  fontSize: 12,
+                ),
+              ),
             ],
           ),
         ),

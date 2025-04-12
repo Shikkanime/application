@@ -192,11 +192,11 @@
   "@notifications": {
     "description": "Text for the button or tab leading to notification settings."
   },
-  "notificationsType": "{type, select, all{All notifications} watchlist{Watchlist} none{None} other{Other}}",
+  "notificationsType": "{type, select, all{All} watchlist{Watchlist} none{None} other{Other}}",
   "@notificationsType": {
     "description": "Text describing the different types of notifications available."
   },
-  "notificationsSubtitles": "{type, select, all{Receive notifications for all anime} watchlist{Receive notifications for anime in your watchlist} none{Disable notifications} other{Receive notifications for anime you follow}}",
+  "notificationsSubtitles": "{type, select, all{Receive notifications for all anime} watchlist{Receive notifications for anime in your watchlist} none{} other{Receive notifications for anime you follow}}",
   "@notificationsSubtitles": {
     "description": "Subtitles to describe notification types in more detail."
   },
