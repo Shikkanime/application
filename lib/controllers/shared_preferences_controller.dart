@@ -1,3 +1,4 @@
+import 'package:application/dtos/enums/config_property_key.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesController {
@@ -9,17 +10,27 @@ class SharedPreferencesController {
     _sharedPreferences = await SharedPreferences.getInstance();
   }
 
-  bool containsKey(final String key) => _sharedPreferences.containsKey(key);
+  bool containsKey(final ConfigPropertyKey key) =>
+      _sharedPreferences.containsKey(key.name);
 
-  int? getInt(final String key) => _sharedPreferences.getInt(key);
+  int? getInt(final ConfigPropertyKey key) =>
+      _sharedPreferences.getInt(key.name);
 
-  Future<bool> setInt(final String key, final int value) =>
-      _sharedPreferences.setInt(key, value);
+  Future<bool> setInt(final ConfigPropertyKey key, final int value) =>
+      _sharedPreferences.setInt(key.name, value);
 
-  String? getString(final String key) => _sharedPreferences.getString(key);
+  String? getString(final ConfigPropertyKey key) =>
+      _sharedPreferences.getString(key.name);
 
-  Future<bool> setString(final String key, final String value) =>
-      _sharedPreferences.setString(key, value);
+  Future<bool> setString(final ConfigPropertyKey key, final String value) =>
+      _sharedPreferences.setString(key.name, value);
 
-  Future<bool> remove(final String key) => _sharedPreferences.remove(key);
+  bool getBool(final ConfigPropertyKey key) =>
+      _sharedPreferences.getBool(key.name) ?? false;
+
+  Future<bool> setBool(final ConfigPropertyKey key, final bool value) =>
+      _sharedPreferences.setBool(key.name, value);
+
+  Future<bool> remove(final ConfigPropertyKey key) =>
+      _sharedPreferences.remove(key.name);
 }

@@ -57,7 +57,9 @@ class HttpRequest {
     final String? token,
     final Object? body,
   }) async {
-    final Map<String, String> headers = <String, String>{};
+    final Map<String, String> headers = <String, String>{
+      'Content-Type': 'application/json',
+    };
 
     if (token != null) {
       headers['Authorization'] = 'Bearer $token';

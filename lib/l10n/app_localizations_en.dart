@@ -150,7 +150,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String notificationsType(String type) {
     String _temp0 = intl.Intl.selectLogic(type, {
-      'all': 'All notifications',
+      'all': 'All',
       'watchlist': 'Watchlist',
       'none': 'None',
       'other': 'Other',
@@ -163,7 +163,7 @@ class AppLocalizationsEn extends AppLocalizations {
     String _temp0 = intl.Intl.selectLogic(type, {
       'all': 'Receive notifications for all anime',
       'watchlist': 'Receive notifications for anime in your watchlist',
-      'none': 'Disable notifications',
+      'none': '',
       'other': 'Receive notifications for anime you follow',
     });
     return '$_temp0';

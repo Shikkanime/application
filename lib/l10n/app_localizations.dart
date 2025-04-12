@@ -329,13 +329,13 @@ abstract class AppLocalizations {
   /// Text describing the different types of notifications available.
   ///
   /// In en, this message translates to:
-  /// **'{type, select, all{All notifications} watchlist{Watchlist} none{None} other{Other}}'**
+  /// **'{type, select, all{All} watchlist{Watchlist} none{None} other{Other}}'**
   String notificationsType(String type);
 
   /// Subtitles to describe notification types in more detail.
   ///
   /// In en, this message translates to:
-  /// **'{type, select, all{Receive notifications for all anime} watchlist{Receive notifications for anime in your watchlist} none{Disable notifications} other{Receive notifications for anime you follow}}'**
+  /// **'{type, select, all{Receive notifications for all anime} watchlist{Receive notifications for anime in your watchlist} none{} other{Receive notifications for anime you follow}}'**
   String notificationsSubtitles(String type);
 
   /// Text for the button or field to choose a default sort.
