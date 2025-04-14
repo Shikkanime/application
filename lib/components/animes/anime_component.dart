@@ -78,7 +78,7 @@ class AnimeComponent extends StatelessWidget {
               WatchlistButton(
                 anime: anime.uuid,
                 isAnime: true,
-                style: Theme.of(context).getCardButtonStyle(),
+                style: Theme.of(context).cardButtonStyle,
               ),
             ],
           ),

@@ -13,11 +13,7 @@ class NoInternet extends StatelessWidget {
         spacing: 20,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Image(
-            image: Theme.of(context).getIconImage()!,
-            width: 128,
-            height: 128,
-          ),
+          Image(image: Theme.of(context).iconImage!, width: 128, height: 128),
           Text(
             AppLocalizations.of(context)!.noInternet,
             style: Theme.of(context).textTheme.bodyLarge,

@@ -11,7 +11,7 @@ class WatchButton extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => ElevatedButton(
-    style: Theme.of(context).getCardButtonStyle(),
+    style: Theme.of(context).cardButtonStyle,
     onPressed:
         () => launchUrl(
           Uri.parse(url),
