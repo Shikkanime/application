@@ -23,15 +23,13 @@ class _ElevatedAsyncButtonState extends State<ElevatedAsyncButton> {
   Widget build(final BuildContext context) => ElevatedButton(
     style: widget.style ?? Theme.of(context).elevatedButtonTheme.style,
     onPressed:
-        !_isRunning
+        widget.onPressed != null && !_isRunning
             ? () async {
               setState(() {
                 _isRunning = true;
               });
 
-              if (widget.onPressed != null) {
-                await widget.onPressed!();
-              }
+              await widget.onPressed!();
 
               setState(() {
                 _isRunning = false;
