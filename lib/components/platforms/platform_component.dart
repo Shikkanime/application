@@ -21,6 +21,11 @@ class PlatformComponent extends StatelessWidget {
       placeholder:
           (final BuildContext context, final String url) =>
               Container(color: Colors.grey, width: 16, height: 16),
+      errorWidget:
+          (final BuildContext context, final String url, final dynamic error) =>
+              Container(color: Colors.grey, width: 16, height: 16),
+      fadeInDuration: Duration.zero,
+      fadeOutDuration: Duration.zero,
     ),
   );
 

@@ -31,6 +31,10 @@ class _ElevatedAsyncButtonState extends State<ElevatedAsyncButton> {
 
               await widget.onPressed!();
 
+              if (!mounted) {
+                return;
+              }
+
               setState(() {
                 _isRunning = false;
               });
