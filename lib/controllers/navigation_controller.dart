@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:application/components/elevated_async_button.dart';
 import 'package:application/components/member_image.dart';
 import 'package:application/components/pill.dart';
 import 'package:application/controllers/animes/anime_controller.dart';
@@ -201,22 +200,6 @@ class NavigationController {
   List<SubNavigationItem> _getSubNavigationItems(final BuildContext context) =>
       <SubNavigationItem>[
         SubNavigationItem(
-          title: AppLocalizations.of(context)!.watchlist,
-          isActive: _currentIndex == 2,
-          elevated: true,
-          child: Icon(
-            AnimeWeeklyController.instance.memberMode
-                ? Icons.filter_alt
-                : Icons.filter_alt_off,
-          ),
-          onTap: () async {
-            AnimeWeeklyController.instance.memberMode =
-                !AnimeWeeklyController.instance.memberMode;
-            streamController.add(_currentIndex);
-            await AnimeWeeklyController.instance.init();
-          },
-        ),
-        SubNavigationItem(
           title: AppLocalizations.of(context)!.search,
           isActive: true,
           child: const Icon(Icons.search),
@@ -265,20 +248,10 @@ class NavigationController {
   List<Widget> getAppbarNavigationItems(final BuildContext context) =>
       _getSubNavigationItems(context)
           .where((final SubNavigationItem e) => e.isActive)
-          .map<Widget>((final SubNavigationItem e) {
-            if (e.elevated) {
-              return ElevatedAsyncButton(
-                onPressed: e.onTap,
-                child: Row(
-                  spacing: 8,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[e.child, Text(e.title)],
-                ),
-              );
-            }
-
-            return IconButton(onPressed: e.onTap, icon: e.child);
-          })
+          .map<Widget>(
+            (final SubNavigationItem e) =>
+                IconButton(onPressed: e.onTap, icon: e.child),
+          )
           .toList();
 }
 
@@ -295,14 +268,12 @@ class SubNavigationItem {
     required this.title,
     required this.child,
     required this.isActive,
-    this.elevated = false,
     this.onTap,
   });
 
   final String title;
   final Widget child;
   final bool isActive;
-  final bool elevated;
   final Future<void> Function()? onTap;
 }
 
