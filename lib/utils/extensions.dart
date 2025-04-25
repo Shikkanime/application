@@ -16,6 +16,8 @@ extension ExtensionsThemeData on ThemeData {
   static final Map<Brightness, ButtonStyle> _map = <Brightness, ButtonStyle>{};
   static final Map<Brightness, AssetImage> _mapImage =
       <Brightness, AssetImage>{};
+  static final Map<Brightness, Color> _mapOppositeTextColor =
+      <Brightness, Color>{};
 
   void addInputDecorationTheme(final ButtonStyle buttonStyle) {
     _map[brightness] = buttonStyle;
@@ -25,8 +27,13 @@ extension ExtensionsThemeData on ThemeData {
     _mapImage[brightness] = image;
   }
 
-  ButtonStyle? getCardButtonStyle() => _map[brightness];
-  AssetImage? getIconImage() => _mapImage[brightness];
+  void addOppositeTextColor(final Color color) {
+    _mapOppositeTextColor[brightness] = color;
+  }
+
+  ButtonStyle? get cardButtonStyle => _map[brightness];
+  AssetImage? get iconImage => _mapImage[brightness];
+  Color? get oppositeTextColor => _mapOppositeTextColor[brightness];
 }
 
 extension StringExtensions on String? {

@@ -1,6 +1,7 @@
 import 'package:application/components/lang_type_component.dart';
 import 'package:application/controllers/animes/anime_search_controller.dart';
 import 'package:application/l10n/app_localizations.dart';
+import 'package:application/utils/extensions.dart';
 import 'package:flutter/material.dart';
 
 class AdvancedSearchCard extends StatelessWidget {
@@ -80,18 +81,14 @@ class AdvancedSearchCard extends StatelessWidget {
           ),
           for (final SearchType type in SearchType.values)
             ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor:
-                    AnimeSearchController.instance.searchType == type
-                        ? Theme.of(
-                          context,
-                        ).textTheme.bodyLarge?.color?.withValues(alpha: 0.1)
-                        : Theme.of(context)
-                            .elevatedButtonTheme
-                            .style
-                            ?.backgroundColor
-                            ?.resolve(<WidgetState>{}),
-              ),
+              style:
+                  AnimeSearchController.instance.searchType == type
+                      ? Theme.of(context).elevatedButtonTheme.style?.copyWith(
+                        backgroundColor: WidgetStateProperty.all(
+                          Theme.of(context).colorScheme.primary,
+                        ),
+                      )
+                      : null,
               onPressed: () {
                 if (AnimeSearchController.instance.searchType == type) {
                   AnimeSearchController.instance.searchType = null;
@@ -105,7 +102,10 @@ class AdvancedSearchCard extends StatelessWidget {
               },
               child: LangTypeComponent(
                 langType: type.name.toUpperCase(),
-                color: Theme.of(context).textTheme.bodyLarge?.color,
+                color:
+                    AnimeSearchController.instance.searchType == type
+                        ? Theme.of(context).oppositeTextColor
+                        : Theme.of(context).textTheme.bodyLarge?.color,
               ),
             ),
         ],

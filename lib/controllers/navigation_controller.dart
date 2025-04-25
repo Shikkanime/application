@@ -367,9 +367,7 @@ class _DrawerButtonState extends State<DrawerButton> {
           decoration:
               isHoverActive || widget.isActive
                   ? BoxDecoration(
-                    color: Theme.of(context)
-                        .getCardButtonStyle()
-                        ?.backgroundColor
+                    color: Theme.of(context).cardButtonStyle?.backgroundColor
                         ?.resolve(<WidgetState>{}),
                     borderRadius: const BorderRadius.all(
                       Radius.circular(Constant.borderRadius),

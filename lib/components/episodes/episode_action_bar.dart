@@ -30,7 +30,7 @@ class EpisodeActionBar extends StatelessWidget {
           episode: episode,
           isEpisode: true,
           simple: simple,
-          style: Theme.of(context).getCardButtonStyle(),
+          style: Theme.of(context).cardButtonStyle,
         ),
       WatchButton(url: url, simple: simple),
     ],
