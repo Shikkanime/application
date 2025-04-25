@@ -135,7 +135,7 @@ class CalendarAnimeComponent extends StatelessWidget {
                         direction: Axis.horizontal,
                         children: <Widget>[
                           if ((!isReleased || isMultipleReleased) &&
-                              !AnimeWeeklyController.instance.memberMode)
+                              !AnimeWeeklyController.instance.isWatchlist)
                             WatchlistButton(
                               anime: release.anime.uuid,
                               isAnime: true,

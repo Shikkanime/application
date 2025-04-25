@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:application/controllers/animes/anime_search_controller.dart';
 import 'package:application/controllers/generic_controller.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/dtos/week_day_dto.dart';
@@ -10,9 +11,12 @@ class AnimeWeeklyController extends GenericController<WeekDayDto> {
   AnimeWeeklyController() : super(addScrollListener: false);
 
   static final AnimeWeeklyController instance = AnimeWeeklyController();
-  bool memberMode = false;
+
   bool _isRetry = false;
   int selectedDay = DateTime.now().weekday - 1;
+
+  bool isWatchlist = false;
+  SearchType? searchType;
 
   int maxElementsPerRow(final BuildContext context) =>
       max(1, (MediaQuery.sizeOf(context).width * 0.00333).floor());
@@ -23,10 +27,10 @@ class AnimeWeeklyController extends GenericController<WeekDayDto> {
   @override
   Future<Iterable<WeekDayDto>> fetchItems() async {
     final List<dynamic> json = await HttpRequest.instance.get<List<dynamic>>(
-      '/v1/animes/weekly',
-      token: memberMode ? MemberController.instance.member?.token : null,
+      '/v1/animes/weekly${searchType != null ? '?searchTypes=${searchType!.name.toUpperCase()}' : ''}',
+      token: isWatchlist ? MemberController.instance.member?.token : null,
       onUnauthorized:
-          memberMode
+          isWatchlist
               ? () async {
                 if (_isRetry) {
                   return;

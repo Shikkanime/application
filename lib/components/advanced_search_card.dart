@@ -44,72 +44,106 @@ class AdvancedSearchCard extends StatelessWidget {
   final ScrollController scrollController;
 
   @override
-  Widget build(final BuildContext context) => Scrollbar(
-    controller: scrollController,
-    child: SingleChildScrollView(
-      controller: scrollController,
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        spacing: 8,
-        children: <Widget>[
-          ElevatedButton(
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder:
-                    (final BuildContext context) => AlertDialog(
-                      title: Text(AppLocalizations.of(context)!.advancedSearch),
-                      content: Wrap(
-                        alignment: WrapAlignment.center,
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: <Widget>[
-                          for (final String letter in _letters)
-                            ActionChip(
-                              label: Text(letter),
-                              onPressed: () {
-                                AnimeSearchController.instance.search(letter);
-                                controller.text = letter;
-                              },
-                            ),
-                        ],
-                      ),
-                    ),
-              );
-            },
-            child: const Icon(Icons.tune),
-          ),
-          for (final SearchType type in SearchType.values)
-            ElevatedButton(
-              style:
-                  AnimeSearchController.instance.searchType == type
-                      ? Theme.of(context).elevatedButtonTheme.style?.copyWith(
-                        backgroundColor: WidgetStateProperty.all(
-                          Theme.of(context).colorScheme.primary,
-                        ),
-                      )
-                      : null,
-              onPressed: () {
-                if (AnimeSearchController.instance.searchType == type) {
-                  AnimeSearchController.instance.searchType = null;
-                } else {
-                  AnimeSearchController.instance.searchType = type;
-                }
+  Widget build(final BuildContext context) {
+    const double spacing = 8;
+    final AnimeSearchController animeSearchController =
+        AnimeSearchController.instance;
 
-                AnimeSearchController.instance.search(
-                  AnimeSearchController.instance.query,
-                );
-              },
-              child: LangTypeComponent(
-                langType: type.name.toUpperCase(),
-                color:
-                    AnimeSearchController.instance.searchType == type
-                        ? Theme.of(context).oppositeTextColor
-                        : Theme.of(context).textTheme.bodyLarge?.color,
-              ),
-            ),
-        ],
+    return Scrollbar(
+      controller: scrollController,
+      child: SingleChildScrollView(
+        controller: scrollController,
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          spacing: spacing,
+          children: <Widget>[
+            _buildAdvancedSearchButton(context),
+            ..._buildSearchTypeButtons(context, animeSearchController),
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
+
+  Widget _buildAdvancedSearchButton(final BuildContext context) =>
+      ElevatedButton(
+        onPressed: () => _showAdvancedSearchDialog(context),
+        child: const Icon(Icons.tune),
+      );
+
+  void _showAdvancedSearchDialog(final BuildContext context) {
+    showDialog(
+      context: context,
+      builder:
+          (final BuildContext dialogContext) => AlertDialog(
+            title: Text(AppLocalizations.of(context)!.advancedSearch),
+            content: Wrap(
+              alignment: WrapAlignment.center,
+              spacing: 8,
+              runSpacing: 8,
+              children: <Widget>[
+                for (final String letter in _letters)
+                  ActionChip(
+                    label: Text(letter),
+                    onPressed: () {
+                      AnimeSearchController.instance.search(letter);
+                      controller.text = letter;
+                    },
+                  ),
+              ],
+            ),
+          ),
+    );
+  }
+
+  List<Widget> _buildSearchTypeButtons(
+    final BuildContext context,
+    final AnimeSearchController searchController,
+  ) => <Widget>[
+    for (final SearchType type in SearchType.values)
+      ElevatedButton(
+        style: _getButtonStyle(context, type, searchController),
+        onPressed: () => _handleSearchTypePressed(type, searchController),
+        child: LangTypeComponent(
+          langType: type.name.toUpperCase(),
+          color: _getTextColor(context, type, searchController),
+        ),
+      ),
+  ];
+
+  ButtonStyle? _getButtonStyle(
+    final BuildContext context,
+    final SearchType type,
+    final AnimeSearchController searchController,
+  ) {
+    if (searchController.searchType == type) {
+      return Theme.of(context).elevatedButtonTheme.style?.copyWith(
+        backgroundColor: WidgetStateProperty.all(
+          Theme.of(context).colorScheme.primary,
+        ),
+      );
+    }
+    return null;
+  }
+
+  Color? _getTextColor(
+    final BuildContext context,
+    final SearchType type,
+    final AnimeSearchController searchController,
+  ) =>
+      searchController.searchType == type
+          ? Theme.of(context).oppositeTextColor
+          : Theme.of(context).textTheme.bodyLarge?.color;
+
+  void _handleSearchTypePressed(
+    final SearchType type,
+    final AnimeSearchController searchController,
+  ) {
+    if (searchController.searchType == type) {
+      searchController.searchType = null;
+    } else {
+      searchController.searchType = type;
+    }
+    searchController.search(searchController.query);
+  }
 }
