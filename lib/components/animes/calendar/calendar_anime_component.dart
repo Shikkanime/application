@@ -140,7 +140,7 @@ class CalendarAnimeComponent extends StatelessWidget {
                               anime: release.anime.uuid,
                               isAnime: true,
                               simple: true,
-                              style: Theme.of(context).getCardButtonStyle(),
+                              style: Theme.of(context).cardButtonStyle,
                             ),
                           if (isReleased && !isMultipleReleased) ...<Widget>[
                             WatchlistButton(
@@ -148,7 +148,7 @@ class CalendarAnimeComponent extends StatelessWidget {
                               episode: release.mappings!.first.uuid,
                               isEpisode: true,
                               simple: true,
-                              style: Theme.of(context).getCardButtonStyle(),
+                              style: Theme.of(context).cardButtonStyle,
                             ),
                             WatchButton(
                               url: release.mappings!.first.variants!.first.url,
