@@ -130,7 +130,7 @@ class MyApp extends StatelessWidget {
           textTheme: TextTheme(
             bodyLarge: TextStyle(
               color: textColor,
-              fontSize: 18,
+              fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
             bodyMedium: const TextStyle(color: Colors.grey),
