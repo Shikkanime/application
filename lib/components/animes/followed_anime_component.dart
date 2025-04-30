@@ -4,7 +4,6 @@ import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/enums/image_type.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
-import 'package:application/utils/extensions.dart';
 import 'package:application/views/anime_details_view.dart';
 import 'package:flutter/material.dart';
 
@@ -41,11 +40,6 @@ class FollowedAnimeComponent extends StatelessWidget {
                 ImageComponent(
                   uuid: anime.uuid,
                   type: ImageType.thumbnail,
-                  version:
-                      anime.lastUpdateDateTime
-                          .toDateTime()
-                          ?.millisecondsSinceEpoch
-                          .toString(),
                   // height: 640 / _ratio,
                   borderRadius: const BorderRadius.all(
                     Radius.circular(Constant.borderRadius),

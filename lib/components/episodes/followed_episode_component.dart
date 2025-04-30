@@ -40,7 +40,6 @@ class FollowedEpisodeComponent extends StatelessWidget {
           children: <Widget>[
             EpisodeImage(
               uuid: episode.uuid,
-              lastUpdateDateTime: episode.lastUpdateDateTime,
               platforms: episode.platforms,
               borderRadius: const BorderRadius.all(
                 Radius.circular(Constant.borderRadius),

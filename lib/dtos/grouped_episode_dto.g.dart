@@ -14,7 +14,6 @@ _GroupedEpisodeDto _$GroupedEpisodeDtoFromJson(Map<String, dynamic> json) =>
               .map((e) => PlatformDto.fromJson(e as Map<String, dynamic>))
               .toList(),
       releaseDateTime: json['releaseDateTime'] as String,
-      lastUpdateDateTime: json['lastUpdateDateTime'] as String,
       season: json['season'] as String,
       episodeType: json['episodeType'] as String,
       number: json['number'] as String,
@@ -33,7 +32,6 @@ Map<String, dynamic> _$GroupedEpisodeDtoToJson(_GroupedEpisodeDto instance) =>
       'anime': instance.anime,
       'platforms': instance.platforms,
       'releaseDateTime': instance.releaseDateTime,
-      'lastUpdateDateTime': instance.lastUpdateDateTime,
       'season': instance.season,
       'episodeType': instance.episodeType,
       'number': instance.number,

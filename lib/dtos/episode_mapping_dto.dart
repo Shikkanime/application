@@ -12,7 +12,6 @@ sealed class EpisodeMappingDto with _$EpisodeMappingDto {
     required final String uuid,
     required final AnimeDto? anime,
     required final String releaseDateTime,
-    required final String lastUpdateDateTime,
     required final int season,
     required final String episodeType,
     required final int number,

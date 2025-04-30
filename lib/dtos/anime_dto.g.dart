@@ -13,7 +13,6 @@ _AnimeDto _$AnimeDtoFromJson(Map<String, dynamic> json) => _AnimeDto(
   shortName: json['shortName'] as String,
   slug: json['slug'] as String,
   releaseDateTime: json['releaseDateTime'] as String,
-  lastUpdateDateTime: json['lastUpdateDateTime'] as String?,
   description: json['description'] as String?,
   langTypes:
       (json['langTypes'] as List<dynamic>?)?.map((e) => e as String).toList(),
@@ -34,7 +33,6 @@ Map<String, dynamic> _$AnimeDtoToJson(_AnimeDto instance) => <String, dynamic>{
   'shortName': instance.shortName,
   'slug': instance.slug,
   'releaseDateTime': instance.releaseDateTime,
-  'lastUpdateDateTime': instance.lastUpdateDateTime,
   'description': instance.description,
   'langTypes': instance.langTypes,
   'seasons': instance.seasons,

@@ -36,7 +36,6 @@ class GroupedEpisodeComponent extends StatelessWidget {
       children: <Widget>[
         EpisodeImage(
           uuid: episode.mappings.first,
-          lastUpdateDateTime: episode.lastUpdateDateTime,
           platforms: episode.platforms,
           duration: episode.duration,
           borderRadius: const BorderRadius.all(

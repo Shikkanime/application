@@ -68,13 +68,6 @@ class CalendarAnimeComponent extends StatelessWidget {
                         ? release.mappings!.first.uuid
                         : release.anime.uuid,
                 type: ImageType.banner,
-                version:
-                    (isReleased
-                            ? release.mappings!.first.lastUpdateDateTime
-                            : release.anime.lastUpdateDateTime)
-                        .toDateTime()
-                        ?.millisecondsSinceEpoch
-                        .toString(),
                 borderRadius: const BorderRadius.all(
                   Radius.circular(Constant.borderRadius),
                 ),
