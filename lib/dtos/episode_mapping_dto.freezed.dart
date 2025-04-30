@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$EpisodeMappingDto {
 
- String get uuid; AnimeDto? get anime; String get releaseDateTime; String get lastUpdateDateTime; int get season; String get episodeType; int get number; int get duration; String? get title; String? get description; List<EpisodeVariantDto>? get variants; List<PlatformDto>? get platforms; List<String>? get langTypes;
+ String get uuid; AnimeDto? get anime; String get releaseDateTime; int get season; String get episodeType; int get number; int get duration; String? get title; String? get description; List<EpisodeVariantDto>? get variants; List<PlatformDto>? get platforms; List<String>? get langTypes;
 /// Create a copy of EpisodeMappingDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,16 @@ $EpisodeMappingDtoCopyWith<EpisodeMappingDto> get copyWith => _$EpisodeMappingDt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is EpisodeMappingDto&&(identical(other.uuid, uuid) || other.uuid == uuid)&&(identical(other.anime, anime) || other.anime == anime)&&(identical(other.releaseDateTime, releaseDateTime) || other.releaseDateTime == releaseDateTime)&&(identical(other.lastUpdateDateTime, lastUpdateDateTime) || other.lastUpdateDateTime == lastUpdateDateTime)&&(identical(other.season, season) || other.season == season)&&(identical(other.episodeType, episodeType) || other.episodeType == episodeType)&&(identical(other.number, number) || other.number == number)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other.variants, variants)&&const DeepCollectionEquality().equals(other.platforms, platforms)&&const DeepCollectionEquality().equals(other.langTypes, langTypes));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is EpisodeMappingDto&&(identical(other.uuid, uuid) || other.uuid == uuid)&&(identical(other.anime, anime) || other.anime == anime)&&(identical(other.releaseDateTime, releaseDateTime) || other.releaseDateTime == releaseDateTime)&&(identical(other.season, season) || other.season == season)&&(identical(other.episodeType, episodeType) || other.episodeType == episodeType)&&(identical(other.number, number) || other.number == number)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other.variants, variants)&&const DeepCollectionEquality().equals(other.platforms, platforms)&&const DeepCollectionEquality().equals(other.langTypes, langTypes));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,uuid,anime,releaseDateTime,lastUpdateDateTime,season,episodeType,number,duration,title,description,const DeepCollectionEquality().hash(variants),const DeepCollectionEquality().hash(platforms),const DeepCollectionEquality().hash(langTypes));
+int get hashCode => Object.hash(runtimeType,uuid,anime,releaseDateTime,season,episodeType,number,duration,title,description,const DeepCollectionEquality().hash(variants),const DeepCollectionEquality().hash(platforms),const DeepCollectionEquality().hash(langTypes));
 
 @override
 String toString() {
-  return 'EpisodeMappingDto(uuid: $uuid, anime: $anime, releaseDateTime: $releaseDateTime, lastUpdateDateTime: $lastUpdateDateTime, season: $season, episodeType: $episodeType, number: $number, duration: $duration, title: $title, description: $description, variants: $variants, platforms: $platforms, langTypes: $langTypes)';
+  return 'EpisodeMappingDto(uuid: $uuid, anime: $anime, releaseDateTime: $releaseDateTime, season: $season, episodeType: $episodeType, number: $number, duration: $duration, title: $title, description: $description, variants: $variants, platforms: $platforms, langTypes: $langTypes)';
 }
 
 
@@ -49,7 +49,7 @@ abstract mixin class $EpisodeMappingDtoCopyWith<$Res>  {
   factory $EpisodeMappingDtoCopyWith(EpisodeMappingDto value, $Res Function(EpisodeMappingDto) _then) = _$EpisodeMappingDtoCopyWithImpl;
 @useResult
 $Res call({
- String uuid, AnimeDto? anime, String releaseDateTime, String lastUpdateDateTime, int season, String episodeType, int number, int duration, String? title, String? description, List<EpisodeVariantDto>? variants, List<PlatformDto>? platforms, List<String>? langTypes
+ String uuid, AnimeDto? anime, String releaseDateTime, int season, String episodeType, int number, int duration, String? title, String? description, List<EpisodeVariantDto>? variants, List<PlatformDto>? platforms, List<String>? langTypes
 });
 
 
@@ -66,12 +66,11 @@ class _$EpisodeMappingDtoCopyWithImpl<$Res>
 
 /// Create a copy of EpisodeMappingDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? uuid = null,Object? anime = freezed,Object? releaseDateTime = null,Object? lastUpdateDateTime = null,Object? season = null,Object? episodeType = null,Object? number = null,Object? duration = null,Object? title = freezed,Object? description = freezed,Object? variants = freezed,Object? platforms = freezed,Object? langTypes = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? uuid = null,Object? anime = freezed,Object? releaseDateTime = null,Object? season = null,Object? episodeType = null,Object? number = null,Object? duration = null,Object? title = freezed,Object? description = freezed,Object? variants = freezed,Object? platforms = freezed,Object? langTypes = freezed,}) {
   return _then(_self.copyWith(
 uuid: null == uuid ? _self.uuid : uuid // ignore: cast_nullable_to_non_nullable
 as String,anime: freezed == anime ? _self.anime : anime // ignore: cast_nullable_to_non_nullable
 as AnimeDto?,releaseDateTime: null == releaseDateTime ? _self.releaseDateTime : releaseDateTime // ignore: cast_nullable_to_non_nullable
-as String,lastUpdateDateTime: null == lastUpdateDateTime ? _self.lastUpdateDateTime : lastUpdateDateTime // ignore: cast_nullable_to_non_nullable
 as String,season: null == season ? _self.season : season // ignore: cast_nullable_to_non_nullable
 as int,episodeType: null == episodeType ? _self.episodeType : episodeType // ignore: cast_nullable_to_non_nullable
 as String,number: null == number ? _self.number : number // ignore: cast_nullable_to_non_nullable
@@ -104,13 +103,12 @@ $AnimeDtoCopyWith<$Res>? get anime {
 @JsonSerializable()
 
 class _EpisodeMappingDto implements EpisodeMappingDto {
-  const _EpisodeMappingDto({required this.uuid, required this.anime, required this.releaseDateTime, required this.lastUpdateDateTime, required this.season, required this.episodeType, required this.number, required this.duration, required this.title, required this.description, required final  List<EpisodeVariantDto>? variants, required final  List<PlatformDto>? platforms, required final  List<String>? langTypes}): _variants = variants,_platforms = platforms,_langTypes = langTypes;
+  const _EpisodeMappingDto({required this.uuid, required this.anime, required this.releaseDateTime, required this.season, required this.episodeType, required this.number, required this.duration, required this.title, required this.description, required final  List<EpisodeVariantDto>? variants, required final  List<PlatformDto>? platforms, required final  List<String>? langTypes}): _variants = variants,_platforms = platforms,_langTypes = langTypes;
   factory _EpisodeMappingDto.fromJson(Map<String, dynamic> json) => _$EpisodeMappingDtoFromJson(json);
 
 @override final  String uuid;
 @override final  AnimeDto? anime;
 @override final  String releaseDateTime;
-@override final  String lastUpdateDateTime;
 @override final  int season;
 @override final  String episodeType;
 @override final  int number;
@@ -158,16 +156,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EpisodeMappingDto&&(identical(other.uuid, uuid) || other.uuid == uuid)&&(identical(other.anime, anime) || other.anime == anime)&&(identical(other.releaseDateTime, releaseDateTime) || other.releaseDateTime == releaseDateTime)&&(identical(other.lastUpdateDateTime, lastUpdateDateTime) || other.lastUpdateDateTime == lastUpdateDateTime)&&(identical(other.season, season) || other.season == season)&&(identical(other.episodeType, episodeType) || other.episodeType == episodeType)&&(identical(other.number, number) || other.number == number)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other._variants, _variants)&&const DeepCollectionEquality().equals(other._platforms, _platforms)&&const DeepCollectionEquality().equals(other._langTypes, _langTypes));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EpisodeMappingDto&&(identical(other.uuid, uuid) || other.uuid == uuid)&&(identical(other.anime, anime) || other.anime == anime)&&(identical(other.releaseDateTime, releaseDateTime) || other.releaseDateTime == releaseDateTime)&&(identical(other.season, season) || other.season == season)&&(identical(other.episodeType, episodeType) || other.episodeType == episodeType)&&(identical(other.number, number) || other.number == number)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other._variants, _variants)&&const DeepCollectionEquality().equals(other._platforms, _platforms)&&const DeepCollectionEquality().equals(other._langTypes, _langTypes));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,uuid,anime,releaseDateTime,lastUpdateDateTime,season,episodeType,number,duration,title,description,const DeepCollectionEquality().hash(_variants),const DeepCollectionEquality().hash(_platforms),const DeepCollectionEquality().hash(_langTypes));
+int get hashCode => Object.hash(runtimeType,uuid,anime,releaseDateTime,season,episodeType,number,duration,title,description,const DeepCollectionEquality().hash(_variants),const DeepCollectionEquality().hash(_platforms),const DeepCollectionEquality().hash(_langTypes));
 
 @override
 String toString() {
-  return 'EpisodeMappingDto(uuid: $uuid, anime: $anime, releaseDateTime: $releaseDateTime, lastUpdateDateTime: $lastUpdateDateTime, season: $season, episodeType: $episodeType, number: $number, duration: $duration, title: $title, description: $description, variants: $variants, platforms: $platforms, langTypes: $langTypes)';
+  return 'EpisodeMappingDto(uuid: $uuid, anime: $anime, releaseDateTime: $releaseDateTime, season: $season, episodeType: $episodeType, number: $number, duration: $duration, title: $title, description: $description, variants: $variants, platforms: $platforms, langTypes: $langTypes)';
 }
 
 
@@ -178,7 +176,7 @@ abstract mixin class _$EpisodeMappingDtoCopyWith<$Res> implements $EpisodeMappin
   factory _$EpisodeMappingDtoCopyWith(_EpisodeMappingDto value, $Res Function(_EpisodeMappingDto) _then) = __$EpisodeMappingDtoCopyWithImpl;
 @override @useResult
 $Res call({
- String uuid, AnimeDto? anime, String releaseDateTime, String lastUpdateDateTime, int season, String episodeType, int number, int duration, String? title, String? description, List<EpisodeVariantDto>? variants, List<PlatformDto>? platforms, List<String>? langTypes
+ String uuid, AnimeDto? anime, String releaseDateTime, int season, String episodeType, int number, int duration, String? title, String? description, List<EpisodeVariantDto>? variants, List<PlatformDto>? platforms, List<String>? langTypes
 });
 
 
@@ -195,12 +193,11 @@ class __$EpisodeMappingDtoCopyWithImpl<$Res>
 
 /// Create a copy of EpisodeMappingDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? uuid = null,Object? anime = freezed,Object? releaseDateTime = null,Object? lastUpdateDateTime = null,Object? season = null,Object? episodeType = null,Object? number = null,Object? duration = null,Object? title = freezed,Object? description = freezed,Object? variants = freezed,Object? platforms = freezed,Object? langTypes = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? uuid = null,Object? anime = freezed,Object? releaseDateTime = null,Object? season = null,Object? episodeType = null,Object? number = null,Object? duration = null,Object? title = freezed,Object? description = freezed,Object? variants = freezed,Object? platforms = freezed,Object? langTypes = freezed,}) {
   return _then(_EpisodeMappingDto(
 uuid: null == uuid ? _self.uuid : uuid // ignore: cast_nullable_to_non_nullable
 as String,anime: freezed == anime ? _self.anime : anime // ignore: cast_nullable_to_non_nullable
 as AnimeDto?,releaseDateTime: null == releaseDateTime ? _self.releaseDateTime : releaseDateTime // ignore: cast_nullable_to_non_nullable
-as String,lastUpdateDateTime: null == lastUpdateDateTime ? _self.lastUpdateDateTime : lastUpdateDateTime // ignore: cast_nullable_to_non_nullable
 as String,season: null == season ? _self.season : season // ignore: cast_nullable_to_non_nullable
 as int,episodeType: null == episodeType ? _self.episodeType : episodeType // ignore: cast_nullable_to_non_nullable
 as String,number: null == number ? _self.number : number // ignore: cast_nullable_to_non_nullable

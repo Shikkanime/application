@@ -15,7 +15,6 @@ sealed class AnimeDto with _$AnimeDto {
     required final String shortName,
     required final String slug,
     required final String releaseDateTime,
-    required final String? lastUpdateDateTime,
     required final String? description,
     required final List<String>? langTypes,
     required final List<SeasonDto>? seasons,

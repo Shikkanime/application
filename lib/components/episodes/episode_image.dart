@@ -4,13 +4,11 @@ import 'package:application/components/platforms/platform_component.dart';
 import 'package:application/dtos/enums/image_type.dart';
 import 'package:application/dtos/platform_dto.dart';
 import 'package:application/utils/constant.dart';
-import 'package:application/utils/extensions.dart';
 import 'package:flutter/material.dart';
 
 class EpisodeImage extends StatelessWidget {
   const EpisodeImage({
     required this.uuid,
-    required this.lastUpdateDateTime,
     required this.borderRadius,
     super.key,
     this.fit = BoxFit.fill,
@@ -22,7 +20,6 @@ class EpisodeImage extends StatelessWidget {
   });
 
   final String uuid;
-  final String lastUpdateDateTime;
   final List<PlatformDto>? platforms;
   final int? duration;
   final BorderRadius borderRadius;
@@ -37,8 +34,6 @@ class EpisodeImage extends StatelessWidget {
       ImageComponent(
         uuid: uuid,
         type: ImageType.banner,
-        version:
-            lastUpdateDateTime.toDateTime()?.millisecondsSinceEpoch.toString(),
         fit: fit,
         borderRadius: borderRadius,
         width: width,

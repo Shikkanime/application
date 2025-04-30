@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AnimeDto {
 
- String get uuid; String get countryCode; String get name; String get shortName; String get slug; String get releaseDateTime; String? get lastUpdateDateTime; String? get description; List<String>? get langTypes; List<SeasonDto>? get seasons; List<AnimePlatformDto>? get platformIds;
+ String get uuid; String get countryCode; String get name; String get shortName; String get slug; String get releaseDateTime; String? get description; List<String>? get langTypes; List<SeasonDto>? get seasons; List<AnimePlatformDto>? get platformIds;
 /// Create a copy of AnimeDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,16 @@ $AnimeDtoCopyWith<AnimeDto> get copyWith => _$AnimeDtoCopyWithImpl<AnimeDto>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AnimeDto&&(identical(other.uuid, uuid) || other.uuid == uuid)&&(identical(other.countryCode, countryCode) || other.countryCode == countryCode)&&(identical(other.name, name) || other.name == name)&&(identical(other.shortName, shortName) || other.shortName == shortName)&&(identical(other.slug, slug) || other.slug == slug)&&(identical(other.releaseDateTime, releaseDateTime) || other.releaseDateTime == releaseDateTime)&&(identical(other.lastUpdateDateTime, lastUpdateDateTime) || other.lastUpdateDateTime == lastUpdateDateTime)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other.langTypes, langTypes)&&const DeepCollectionEquality().equals(other.seasons, seasons)&&const DeepCollectionEquality().equals(other.platformIds, platformIds));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AnimeDto&&(identical(other.uuid, uuid) || other.uuid == uuid)&&(identical(other.countryCode, countryCode) || other.countryCode == countryCode)&&(identical(other.name, name) || other.name == name)&&(identical(other.shortName, shortName) || other.shortName == shortName)&&(identical(other.slug, slug) || other.slug == slug)&&(identical(other.releaseDateTime, releaseDateTime) || other.releaseDateTime == releaseDateTime)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other.langTypes, langTypes)&&const DeepCollectionEquality().equals(other.seasons, seasons)&&const DeepCollectionEquality().equals(other.platformIds, platformIds));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,uuid,countryCode,name,shortName,slug,releaseDateTime,lastUpdateDateTime,description,const DeepCollectionEquality().hash(langTypes),const DeepCollectionEquality().hash(seasons),const DeepCollectionEquality().hash(platformIds));
+int get hashCode => Object.hash(runtimeType,uuid,countryCode,name,shortName,slug,releaseDateTime,description,const DeepCollectionEquality().hash(langTypes),const DeepCollectionEquality().hash(seasons),const DeepCollectionEquality().hash(platformIds));
 
 @override
 String toString() {
-  return 'AnimeDto(uuid: $uuid, countryCode: $countryCode, name: $name, shortName: $shortName, slug: $slug, releaseDateTime: $releaseDateTime, lastUpdateDateTime: $lastUpdateDateTime, description: $description, langTypes: $langTypes, seasons: $seasons, platformIds: $platformIds)';
+  return 'AnimeDto(uuid: $uuid, countryCode: $countryCode, name: $name, shortName: $shortName, slug: $slug, releaseDateTime: $releaseDateTime, description: $description, langTypes: $langTypes, seasons: $seasons, platformIds: $platformIds)';
 }
 
 
@@ -49,7 +49,7 @@ abstract mixin class $AnimeDtoCopyWith<$Res>  {
   factory $AnimeDtoCopyWith(AnimeDto value, $Res Function(AnimeDto) _then) = _$AnimeDtoCopyWithImpl;
 @useResult
 $Res call({
- String uuid, String countryCode, String name, String shortName, String slug, String releaseDateTime, String? lastUpdateDateTime, String? description, List<String>? langTypes, List<SeasonDto>? seasons, List<AnimePlatformDto>? platformIds
+ String uuid, String countryCode, String name, String shortName, String slug, String releaseDateTime, String? description, List<String>? langTypes, List<SeasonDto>? seasons, List<AnimePlatformDto>? platformIds
 });
 
 
@@ -66,7 +66,7 @@ class _$AnimeDtoCopyWithImpl<$Res>
 
 /// Create a copy of AnimeDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? uuid = null,Object? countryCode = null,Object? name = null,Object? shortName = null,Object? slug = null,Object? releaseDateTime = null,Object? lastUpdateDateTime = freezed,Object? description = freezed,Object? langTypes = freezed,Object? seasons = freezed,Object? platformIds = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? uuid = null,Object? countryCode = null,Object? name = null,Object? shortName = null,Object? slug = null,Object? releaseDateTime = null,Object? description = freezed,Object? langTypes = freezed,Object? seasons = freezed,Object? platformIds = freezed,}) {
   return _then(_self.copyWith(
 uuid: null == uuid ? _self.uuid : uuid // ignore: cast_nullable_to_non_nullable
 as String,countryCode: null == countryCode ? _self.countryCode : countryCode // ignore: cast_nullable_to_non_nullable
@@ -74,8 +74,7 @@ as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non
 as String,shortName: null == shortName ? _self.shortName : shortName // ignore: cast_nullable_to_non_nullable
 as String,slug: null == slug ? _self.slug : slug // ignore: cast_nullable_to_non_nullable
 as String,releaseDateTime: null == releaseDateTime ? _self.releaseDateTime : releaseDateTime // ignore: cast_nullable_to_non_nullable
-as String,lastUpdateDateTime: freezed == lastUpdateDateTime ? _self.lastUpdateDateTime : lastUpdateDateTime // ignore: cast_nullable_to_non_nullable
-as String?,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String?,langTypes: freezed == langTypes ? _self.langTypes : langTypes // ignore: cast_nullable_to_non_nullable
 as List<String>?,seasons: freezed == seasons ? _self.seasons : seasons // ignore: cast_nullable_to_non_nullable
 as List<SeasonDto>?,platformIds: freezed == platformIds ? _self.platformIds : platformIds // ignore: cast_nullable_to_non_nullable
@@ -90,7 +89,7 @@ as List<AnimePlatformDto>?,
 @JsonSerializable()
 
 class _AnimeDto implements AnimeDto {
-  const _AnimeDto({required this.uuid, required this.countryCode, required this.name, required this.shortName, required this.slug, required this.releaseDateTime, required this.lastUpdateDateTime, required this.description, required final  List<String>? langTypes, required final  List<SeasonDto>? seasons, required final  List<AnimePlatformDto>? platformIds}): _langTypes = langTypes,_seasons = seasons,_platformIds = platformIds;
+  const _AnimeDto({required this.uuid, required this.countryCode, required this.name, required this.shortName, required this.slug, required this.releaseDateTime, required this.description, required final  List<String>? langTypes, required final  List<SeasonDto>? seasons, required final  List<AnimePlatformDto>? platformIds}): _langTypes = langTypes,_seasons = seasons,_platformIds = platformIds;
   factory _AnimeDto.fromJson(Map<String, dynamic> json) => _$AnimeDtoFromJson(json);
 
 @override final  String uuid;
@@ -99,7 +98,6 @@ class _AnimeDto implements AnimeDto {
 @override final  String shortName;
 @override final  String slug;
 @override final  String releaseDateTime;
-@override final  String? lastUpdateDateTime;
 @override final  String? description;
  final  List<String>? _langTypes;
 @override List<String>? get langTypes {
@@ -142,16 +140,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AnimeDto&&(identical(other.uuid, uuid) || other.uuid == uuid)&&(identical(other.countryCode, countryCode) || other.countryCode == countryCode)&&(identical(other.name, name) || other.name == name)&&(identical(other.shortName, shortName) || other.shortName == shortName)&&(identical(other.slug, slug) || other.slug == slug)&&(identical(other.releaseDateTime, releaseDateTime) || other.releaseDateTime == releaseDateTime)&&(identical(other.lastUpdateDateTime, lastUpdateDateTime) || other.lastUpdateDateTime == lastUpdateDateTime)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other._langTypes, _langTypes)&&const DeepCollectionEquality().equals(other._seasons, _seasons)&&const DeepCollectionEquality().equals(other._platformIds, _platformIds));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AnimeDto&&(identical(other.uuid, uuid) || other.uuid == uuid)&&(identical(other.countryCode, countryCode) || other.countryCode == countryCode)&&(identical(other.name, name) || other.name == name)&&(identical(other.shortName, shortName) || other.shortName == shortName)&&(identical(other.slug, slug) || other.slug == slug)&&(identical(other.releaseDateTime, releaseDateTime) || other.releaseDateTime == releaseDateTime)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other._langTypes, _langTypes)&&const DeepCollectionEquality().equals(other._seasons, _seasons)&&const DeepCollectionEquality().equals(other._platformIds, _platformIds));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,uuid,countryCode,name,shortName,slug,releaseDateTime,lastUpdateDateTime,description,const DeepCollectionEquality().hash(_langTypes),const DeepCollectionEquality().hash(_seasons),const DeepCollectionEquality().hash(_platformIds));
+int get hashCode => Object.hash(runtimeType,uuid,countryCode,name,shortName,slug,releaseDateTime,description,const DeepCollectionEquality().hash(_langTypes),const DeepCollectionEquality().hash(_seasons),const DeepCollectionEquality().hash(_platformIds));
 
 @override
 String toString() {
-  return 'AnimeDto(uuid: $uuid, countryCode: $countryCode, name: $name, shortName: $shortName, slug: $slug, releaseDateTime: $releaseDateTime, lastUpdateDateTime: $lastUpdateDateTime, description: $description, langTypes: $langTypes, seasons: $seasons, platformIds: $platformIds)';
+  return 'AnimeDto(uuid: $uuid, countryCode: $countryCode, name: $name, shortName: $shortName, slug: $slug, releaseDateTime: $releaseDateTime, description: $description, langTypes: $langTypes, seasons: $seasons, platformIds: $platformIds)';
 }
 
 
@@ -162,7 +160,7 @@ abstract mixin class _$AnimeDtoCopyWith<$Res> implements $AnimeDtoCopyWith<$Res>
   factory _$AnimeDtoCopyWith(_AnimeDto value, $Res Function(_AnimeDto) _then) = __$AnimeDtoCopyWithImpl;
 @override @useResult
 $Res call({
- String uuid, String countryCode, String name, String shortName, String slug, String releaseDateTime, String? lastUpdateDateTime, String? description, List<String>? langTypes, List<SeasonDto>? seasons, List<AnimePlatformDto>? platformIds
+ String uuid, String countryCode, String name, String shortName, String slug, String releaseDateTime, String? description, List<String>? langTypes, List<SeasonDto>? seasons, List<AnimePlatformDto>? platformIds
 });
 
 
@@ -179,7 +177,7 @@ class __$AnimeDtoCopyWithImpl<$Res>
 
 /// Create a copy of AnimeDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? uuid = null,Object? countryCode = null,Object? name = null,Object? shortName = null,Object? slug = null,Object? releaseDateTime = null,Object? lastUpdateDateTime = freezed,Object? description = freezed,Object? langTypes = freezed,Object? seasons = freezed,Object? platformIds = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? uuid = null,Object? countryCode = null,Object? name = null,Object? shortName = null,Object? slug = null,Object? releaseDateTime = null,Object? description = freezed,Object? langTypes = freezed,Object? seasons = freezed,Object? platformIds = freezed,}) {
   return _then(_AnimeDto(
 uuid: null == uuid ? _self.uuid : uuid // ignore: cast_nullable_to_non_nullable
 as String,countryCode: null == countryCode ? _self.countryCode : countryCode // ignore: cast_nullable_to_non_nullable
@@ -187,8 +185,7 @@ as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non
 as String,shortName: null == shortName ? _self.shortName : shortName // ignore: cast_nullable_to_non_nullable
 as String,slug: null == slug ? _self.slug : slug // ignore: cast_nullable_to_non_nullable
 as String,releaseDateTime: null == releaseDateTime ? _self.releaseDateTime : releaseDateTime // ignore: cast_nullable_to_non_nullable
-as String,lastUpdateDateTime: freezed == lastUpdateDateTime ? _self.lastUpdateDateTime : lastUpdateDateTime // ignore: cast_nullable_to_non_nullable
-as String?,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String?,langTypes: freezed == langTypes ? _self._langTypes : langTypes // ignore: cast_nullable_to_non_nullable
 as List<String>?,seasons: freezed == seasons ? _self._seasons : seasons // ignore: cast_nullable_to_non_nullable
 as List<SeasonDto>?,platformIds: freezed == platformIds ? _self._platformIds : platformIds // ignore: cast_nullable_to_non_nullable

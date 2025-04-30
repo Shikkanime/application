@@ -35,7 +35,6 @@ class AnimeEpisodeComponent extends StatelessWidget {
           Expanded(
             child: EpisodeImage(
               uuid: episode.uuid,
-              lastUpdateDateTime: episode.lastUpdateDateTime,
               platforms: episode.platforms,
               duration: episode.duration,
               borderRadius: const BorderRadius.all(

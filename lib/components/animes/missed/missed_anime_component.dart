@@ -5,7 +5,6 @@ import 'package:application/controllers/animes/anime_controller.dart';
 import 'package:application/dtos/enums/image_type.dart';
 import 'package:application/dtos/missed_anime_dto.dart';
 import 'package:application/utils/analytics.dart';
-import 'package:application/utils/extensions.dart';
 import 'package:application/views/anime_details_view.dart';
 import 'package:flutter/material.dart';
 
@@ -43,11 +42,6 @@ class MissedAnimeComponent extends StatelessWidget {
                 ImageComponent(
                   uuid: missedAnime.anime.uuid,
                   type: ImageType.thumbnail,
-                  version:
-                      missedAnime.anime.lastUpdateDateTime
-                          .toDateTime()
-                          ?.millisecondsSinceEpoch
-                          .toString(),
                   fit: BoxFit.cover,
                   borderRadius: const BorderRadius.all(Radius.circular(360)),
                 ),

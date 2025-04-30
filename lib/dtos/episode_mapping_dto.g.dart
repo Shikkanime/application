@@ -15,7 +15,6 @@ _EpisodeMappingDto _$EpisodeMappingDtoFromJson(
           ? null
           : AnimeDto.fromJson(json['anime'] as Map<String, dynamic>),
   releaseDateTime: json['releaseDateTime'] as String,
-  lastUpdateDateTime: json['lastUpdateDateTime'] as String,
   season: (json['season'] as num).toInt(),
   episodeType: json['episodeType'] as String,
   number: (json['number'] as num).toInt(),
@@ -39,7 +38,6 @@ Map<String, dynamic> _$EpisodeMappingDtoToJson(_EpisodeMappingDto instance) =>
       'uuid': instance.uuid,
       'anime': instance.anime,
       'releaseDateTime': instance.releaseDateTime,
-      'lastUpdateDateTime': instance.lastUpdateDateTime,
       'season': instance.season,
       'episodeType': instance.episodeType,
       'number': instance.number,

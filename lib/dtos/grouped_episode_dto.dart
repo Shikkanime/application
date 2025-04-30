@@ -11,7 +11,6 @@ sealed class GroupedEpisodeDto with _$GroupedEpisodeDto {
     required final AnimeDto anime,
     required final List<PlatformDto> platforms,
     required final String releaseDateTime,
-    required final String lastUpdateDateTime,
     required final String season,
     required final String episodeType,
     required final String number,
