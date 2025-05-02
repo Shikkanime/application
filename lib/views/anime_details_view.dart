@@ -105,10 +105,15 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
             ),
           ),
           IconButton(
-            onPressed: () {
+            onPressed: () async {
               Analytics.instance.logShare('anime', widget.anime.uuid, 'appBar');
-
-              Share.share('${Constant.baseUrl}/animes/${widget.anime.slug}');
+              await SharePlus.instance.share(
+                ShareParams(
+                  uri: Uri.parse(
+                    '${Constant.baseUrl}/animes/${widget.anime.slug}',
+                  ),
+                ),
+              );
             },
             icon: const Icon(Icons.share),
           ),

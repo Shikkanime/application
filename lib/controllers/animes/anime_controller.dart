@@ -96,8 +96,11 @@ class AnimeController extends GenericController<AnimeDto> {
         );
       } else if (value == 1) {
         Analytics.instance.logShare('anime', anime.uuid, 'onLongPress');
-
-        await Share.share('${Constant.baseUrl}/animes/${anime.slug}');
+        await SharePlus.instance.share(
+          ShareParams(
+            uri: Uri.parse('${Constant.baseUrl}/animes/${anime.slug}'),
+          ),
+        );
       }
     });
   }
