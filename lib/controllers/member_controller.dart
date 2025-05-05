@@ -106,13 +106,13 @@ class MemberController {
     final PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
     final Response response = await HttpRequest.instance.post(
-      '/v2/members/login',
-      body: jsonEncode(<String, String>{
-        'identifier': identifier,
-        'appVersion': '${packageInfo.version}+${packageInfo.buildNumber}',
-        'device': _device,
-        'locale': Platform.localeName,
-      }),
+      '/v1/members/login',
+      headers: <String, String>{
+        'X-App-Version': '${packageInfo.version}+${packageInfo.buildNumber}',
+        'X-Device': _device,
+        'X-Locale': Platform.localeName,
+      },
+      body: identifier,
     );
 
     if (response.statusCode == HttpStatus.notFound) {
