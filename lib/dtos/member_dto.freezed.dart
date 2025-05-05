@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MemberDto {
 
- String get uuid; String get token; String get creationDateTime; String? get email; List<String> get followedAnimes; List<String> get followedEpisodes; int get totalDuration; int get totalUnseenDuration; String? get attachmentLastUpdateDateTime;
+ String get uuid; String get token; String get creationDateTime; String? get email; List<String> get followedAnimes; List<String> get followedEpisodes; int get totalDuration; int get totalUnseenDuration; String? get attachmentLastUpdateDateTime; MemberNotificationSettingsDto? get notificationSettings;
 /// Create a copy of MemberDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,16 @@ $MemberDtoCopyWith<MemberDto> get copyWith => _$MemberDtoCopyWithImpl<MemberDto>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MemberDto&&(identical(other.uuid, uuid) || other.uuid == uuid)&&(identical(other.token, token) || other.token == token)&&(identical(other.creationDateTime, creationDateTime) || other.creationDateTime == creationDateTime)&&(identical(other.email, email) || other.email == email)&&const DeepCollectionEquality().equals(other.followedAnimes, followedAnimes)&&const DeepCollectionEquality().equals(other.followedEpisodes, followedEpisodes)&&(identical(other.totalDuration, totalDuration) || other.totalDuration == totalDuration)&&(identical(other.totalUnseenDuration, totalUnseenDuration) || other.totalUnseenDuration == totalUnseenDuration)&&(identical(other.attachmentLastUpdateDateTime, attachmentLastUpdateDateTime) || other.attachmentLastUpdateDateTime == attachmentLastUpdateDateTime));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MemberDto&&(identical(other.uuid, uuid) || other.uuid == uuid)&&(identical(other.token, token) || other.token == token)&&(identical(other.creationDateTime, creationDateTime) || other.creationDateTime == creationDateTime)&&(identical(other.email, email) || other.email == email)&&const DeepCollectionEquality().equals(other.followedAnimes, followedAnimes)&&const DeepCollectionEquality().equals(other.followedEpisodes, followedEpisodes)&&(identical(other.totalDuration, totalDuration) || other.totalDuration == totalDuration)&&(identical(other.totalUnseenDuration, totalUnseenDuration) || other.totalUnseenDuration == totalUnseenDuration)&&(identical(other.attachmentLastUpdateDateTime, attachmentLastUpdateDateTime) || other.attachmentLastUpdateDateTime == attachmentLastUpdateDateTime)&&(identical(other.notificationSettings, notificationSettings) || other.notificationSettings == notificationSettings));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,uuid,token,creationDateTime,email,const DeepCollectionEquality().hash(followedAnimes),const DeepCollectionEquality().hash(followedEpisodes),totalDuration,totalUnseenDuration,attachmentLastUpdateDateTime);
+int get hashCode => Object.hash(runtimeType,uuid,token,creationDateTime,email,const DeepCollectionEquality().hash(followedAnimes),const DeepCollectionEquality().hash(followedEpisodes),totalDuration,totalUnseenDuration,attachmentLastUpdateDateTime,notificationSettings);
 
 @override
 String toString() {
-  return 'MemberDto(uuid: $uuid, token: $token, creationDateTime: $creationDateTime, email: $email, followedAnimes: $followedAnimes, followedEpisodes: $followedEpisodes, totalDuration: $totalDuration, totalUnseenDuration: $totalUnseenDuration, attachmentLastUpdateDateTime: $attachmentLastUpdateDateTime)';
+  return 'MemberDto(uuid: $uuid, token: $token, creationDateTime: $creationDateTime, email: $email, followedAnimes: $followedAnimes, followedEpisodes: $followedEpisodes, totalDuration: $totalDuration, totalUnseenDuration: $totalUnseenDuration, attachmentLastUpdateDateTime: $attachmentLastUpdateDateTime, notificationSettings: $notificationSettings)';
 }
 
 
@@ -49,11 +49,11 @@ abstract mixin class $MemberDtoCopyWith<$Res>  {
   factory $MemberDtoCopyWith(MemberDto value, $Res Function(MemberDto) _then) = _$MemberDtoCopyWithImpl;
 @useResult
 $Res call({
- String uuid, String token, String creationDateTime, String? email, List<String> followedAnimes, List<String> followedEpisodes, int totalDuration, int totalUnseenDuration, String? attachmentLastUpdateDateTime
+ String uuid, String token, String creationDateTime, String? email, List<String> followedAnimes, List<String> followedEpisodes, int totalDuration, int totalUnseenDuration, String? attachmentLastUpdateDateTime, MemberNotificationSettingsDto? notificationSettings
 });
 
 
-
+$MemberNotificationSettingsDtoCopyWith<$Res>? get notificationSettings;
 
 }
 /// @nodoc
@@ -66,7 +66,7 @@ class _$MemberDtoCopyWithImpl<$Res>
 
 /// Create a copy of MemberDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? uuid = null,Object? token = null,Object? creationDateTime = null,Object? email = freezed,Object? followedAnimes = null,Object? followedEpisodes = null,Object? totalDuration = null,Object? totalUnseenDuration = null,Object? attachmentLastUpdateDateTime = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? uuid = null,Object? token = null,Object? creationDateTime = null,Object? email = freezed,Object? followedAnimes = null,Object? followedEpisodes = null,Object? totalDuration = null,Object? totalUnseenDuration = null,Object? attachmentLastUpdateDateTime = freezed,Object? notificationSettings = freezed,}) {
   return _then(_self.copyWith(
 uuid: null == uuid ? _self.uuid : uuid // ignore: cast_nullable_to_non_nullable
 as String,token: null == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
@@ -77,10 +77,23 @@ as List<String>,followedEpisodes: null == followedEpisodes ? _self.followedEpiso
 as List<String>,totalDuration: null == totalDuration ? _self.totalDuration : totalDuration // ignore: cast_nullable_to_non_nullable
 as int,totalUnseenDuration: null == totalUnseenDuration ? _self.totalUnseenDuration : totalUnseenDuration // ignore: cast_nullable_to_non_nullable
 as int,attachmentLastUpdateDateTime: freezed == attachmentLastUpdateDateTime ? _self.attachmentLastUpdateDateTime : attachmentLastUpdateDateTime // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,notificationSettings: freezed == notificationSettings ? _self.notificationSettings : notificationSettings // ignore: cast_nullable_to_non_nullable
+as MemberNotificationSettingsDto?,
   ));
 }
+/// Create a copy of MemberDto
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$MemberNotificationSettingsDtoCopyWith<$Res>? get notificationSettings {
+    if (_self.notificationSettings == null) {
+    return null;
+  }
 
+  return $MemberNotificationSettingsDtoCopyWith<$Res>(_self.notificationSettings!, (value) {
+    return _then(_self.copyWith(notificationSettings: value));
+  });
+}
 }
 
 
@@ -88,7 +101,7 @@ as String?,
 @JsonSerializable()
 
 class _MemberDto implements MemberDto {
-  const _MemberDto({required this.uuid, required this.token, required this.creationDateTime, required this.email, required this.followedAnimes, required this.followedEpisodes, required this.totalDuration, required this.totalUnseenDuration, required this.attachmentLastUpdateDateTime});
+  const _MemberDto({required this.uuid, required this.token, required this.creationDateTime, required this.email, required this.followedAnimes, required this.followedEpisodes, required this.totalDuration, required this.totalUnseenDuration, required this.attachmentLastUpdateDateTime, required this.notificationSettings});
   factory _MemberDto.fromJson(Map<String, dynamic> json) => _$MemberDtoFromJson(json);
 
 @override final  String uuid;
@@ -100,6 +113,7 @@ class _MemberDto implements MemberDto {
 @override final  int totalDuration;
 @override final  int totalUnseenDuration;
 @override final  String? attachmentLastUpdateDateTime;
+@override final  MemberNotificationSettingsDto? notificationSettings;
 
 /// Create a copy of MemberDto
 /// with the given fields replaced by the non-null parameter values.
@@ -114,16 +128,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MemberDto&&(identical(other.uuid, uuid) || other.uuid == uuid)&&(identical(other.token, token) || other.token == token)&&(identical(other.creationDateTime, creationDateTime) || other.creationDateTime == creationDateTime)&&(identical(other.email, email) || other.email == email)&&const DeepCollectionEquality().equals(other.followedAnimes, followedAnimes)&&const DeepCollectionEquality().equals(other.followedEpisodes, followedEpisodes)&&(identical(other.totalDuration, totalDuration) || other.totalDuration == totalDuration)&&(identical(other.totalUnseenDuration, totalUnseenDuration) || other.totalUnseenDuration == totalUnseenDuration)&&(identical(other.attachmentLastUpdateDateTime, attachmentLastUpdateDateTime) || other.attachmentLastUpdateDateTime == attachmentLastUpdateDateTime));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MemberDto&&(identical(other.uuid, uuid) || other.uuid == uuid)&&(identical(other.token, token) || other.token == token)&&(identical(other.creationDateTime, creationDateTime) || other.creationDateTime == creationDateTime)&&(identical(other.email, email) || other.email == email)&&const DeepCollectionEquality().equals(other.followedAnimes, followedAnimes)&&const DeepCollectionEquality().equals(other.followedEpisodes, followedEpisodes)&&(identical(other.totalDuration, totalDuration) || other.totalDuration == totalDuration)&&(identical(other.totalUnseenDuration, totalUnseenDuration) || other.totalUnseenDuration == totalUnseenDuration)&&(identical(other.attachmentLastUpdateDateTime, attachmentLastUpdateDateTime) || other.attachmentLastUpdateDateTime == attachmentLastUpdateDateTime)&&(identical(other.notificationSettings, notificationSettings) || other.notificationSettings == notificationSettings));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,uuid,token,creationDateTime,email,const DeepCollectionEquality().hash(followedAnimes),const DeepCollectionEquality().hash(followedEpisodes),totalDuration,totalUnseenDuration,attachmentLastUpdateDateTime);
+int get hashCode => Object.hash(runtimeType,uuid,token,creationDateTime,email,const DeepCollectionEquality().hash(followedAnimes),const DeepCollectionEquality().hash(followedEpisodes),totalDuration,totalUnseenDuration,attachmentLastUpdateDateTime,notificationSettings);
 
 @override
 String toString() {
-  return 'MemberDto(uuid: $uuid, token: $token, creationDateTime: $creationDateTime, email: $email, followedAnimes: $followedAnimes, followedEpisodes: $followedEpisodes, totalDuration: $totalDuration, totalUnseenDuration: $totalUnseenDuration, attachmentLastUpdateDateTime: $attachmentLastUpdateDateTime)';
+  return 'MemberDto(uuid: $uuid, token: $token, creationDateTime: $creationDateTime, email: $email, followedAnimes: $followedAnimes, followedEpisodes: $followedEpisodes, totalDuration: $totalDuration, totalUnseenDuration: $totalUnseenDuration, attachmentLastUpdateDateTime: $attachmentLastUpdateDateTime, notificationSettings: $notificationSettings)';
 }
 
 
@@ -134,11 +148,11 @@ abstract mixin class _$MemberDtoCopyWith<$Res> implements $MemberDtoCopyWith<$Re
   factory _$MemberDtoCopyWith(_MemberDto value, $Res Function(_MemberDto) _then) = __$MemberDtoCopyWithImpl;
 @override @useResult
 $Res call({
- String uuid, String token, String creationDateTime, String? email, List<String> followedAnimes, List<String> followedEpisodes, int totalDuration, int totalUnseenDuration, String? attachmentLastUpdateDateTime
+ String uuid, String token, String creationDateTime, String? email, List<String> followedAnimes, List<String> followedEpisodes, int totalDuration, int totalUnseenDuration, String? attachmentLastUpdateDateTime, MemberNotificationSettingsDto? notificationSettings
 });
 
 
-
+@override $MemberNotificationSettingsDtoCopyWith<$Res>? get notificationSettings;
 
 }
 /// @nodoc
@@ -151,7 +165,7 @@ class __$MemberDtoCopyWithImpl<$Res>
 
 /// Create a copy of MemberDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? uuid = null,Object? token = null,Object? creationDateTime = null,Object? email = freezed,Object? followedAnimes = null,Object? followedEpisodes = null,Object? totalDuration = null,Object? totalUnseenDuration = null,Object? attachmentLastUpdateDateTime = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? uuid = null,Object? token = null,Object? creationDateTime = null,Object? email = freezed,Object? followedAnimes = null,Object? followedEpisodes = null,Object? totalDuration = null,Object? totalUnseenDuration = null,Object? attachmentLastUpdateDateTime = freezed,Object? notificationSettings = freezed,}) {
   return _then(_MemberDto(
 uuid: null == uuid ? _self.uuid : uuid // ignore: cast_nullable_to_non_nullable
 as String,token: null == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
@@ -162,11 +176,24 @@ as List<String>,followedEpisodes: null == followedEpisodes ? _self.followedEpiso
 as List<String>,totalDuration: null == totalDuration ? _self.totalDuration : totalDuration // ignore: cast_nullable_to_non_nullable
 as int,totalUnseenDuration: null == totalUnseenDuration ? _self.totalUnseenDuration : totalUnseenDuration // ignore: cast_nullable_to_non_nullable
 as int,attachmentLastUpdateDateTime: freezed == attachmentLastUpdateDateTime ? _self.attachmentLastUpdateDateTime : attachmentLastUpdateDateTime // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,notificationSettings: freezed == notificationSettings ? _self.notificationSettings : notificationSettings // ignore: cast_nullable_to_non_nullable
+as MemberNotificationSettingsDto?,
   ));
 }
 
+/// Create a copy of MemberDto
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$MemberNotificationSettingsDtoCopyWith<$Res>? get notificationSettings {
+    if (_self.notificationSettings == null) {
+    return null;
+  }
 
+  return $MemberNotificationSettingsDtoCopyWith<$Res>(_self.notificationSettings!, (value) {
+    return _then(_self.copyWith(notificationSettings: value));
+  });
+}
 }
 
 // dart format on

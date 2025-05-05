@@ -169,6 +169,11 @@ class MyApp extends StatelessWidget {
             style: IconButton.styleFrom(foregroundColor: primary),
           ),
           dialogTheme: DialogTheme(backgroundColor: canvasColor),
+          switchTheme: SwitchThemeData(
+            thumbColor: WidgetStateProperty.all<Color>(primary),
+            trackColor: WidgetStateProperty.all<Color>(scaffoldBackground),
+            trackOutlineColor: WidgetStateProperty.all<Color>(primary),
+          ),
         )
         ..addInputDecorationTheme(
           ElevatedButton.styleFrom(

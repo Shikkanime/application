@@ -16,7 +16,7 @@ import 'package:application/l10n/app_localizations.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
 import 'package:application/utils/extensions.dart';
-import 'package:application/views/account_settings_view.dart';
+import 'package:application/views/account_settings/account_settings_view.dart';
 import 'package:application/views/search_view.dart';
 import 'package:flutter/material.dart';
 

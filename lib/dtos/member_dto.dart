@@ -1,3 +1,4 @@
+import 'package:application/dtos/member_notification_settings_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'member_dto.freezed.dart';
@@ -15,6 +16,7 @@ sealed class MemberDto with _$MemberDto {
     required final int totalDuration,
     required final int totalUnseenDuration,
     required final String? attachmentLastUpdateDateTime,
+    required final MemberNotificationSettingsDto? notificationSettings,
   }) = _MemberDto;
 
   factory MemberDto.fromJson(final Map<String, dynamic> json) =>
