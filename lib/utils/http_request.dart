@@ -15,11 +15,9 @@ class HttpRequest {
     final String? token,
     final VoidCallback? onUnauthorized,
   }) async {
-    final Map<String, String> headers = <String, String>{};
-
-    if (token != null) {
-      headers['Authorization'] = 'Bearer $token';
-    }
+    final Map<String, String> headers = <String, String>{
+      if (token != null) 'Authorization': 'Bearer $token',
+    };
 
     final http.Response response = await http
         .get(Uri.parse(Constant.apiUrl + endpoint), headers: headers)
@@ -55,20 +53,19 @@ class HttpRequest {
   Future<http.Response> post<Response>(
     final String endpoint, {
     final String? token,
+    final Map<String, String>? headers,
     final Object? body,
   }) async {
-    final Map<String, String> headers = <String, String>{
+    final Map<String, String> requestHeaders = <String, String>{
       'Content-Type': 'application/json',
+      if (token != null) 'Authorization': 'Bearer $token',
+      if (headers != null) ...headers,
     };
-
-    if (token != null) {
-      headers['Authorization'] = 'Bearer $token';
-    }
 
     return http
         .post(
           Uri.parse(Constant.apiUrl + endpoint),
-          headers: headers,
+          headers: requestHeaders,
           body: body,
         )
         .timeout(_timeout);
