@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:application/controllers/animes/missed_anime_controller.dart';
 import 'package:application/controllers/episodes/episode_controller.dart';
 import 'package:application/controllers/member_controller.dart';
@@ -8,20 +10,91 @@ import 'package:application/controllers/review_controller.dart';
 import 'package:application/controllers/shared_preferences_controller.dart';
 import 'package:application/controllers/sort_controller.dart';
 import 'package:application/controllers/update_controller.dart';
+import 'package:application/dtos/enums/config_property_key.dart';
 import 'package:application/firebase_options.dart';
 import 'package:application/l10n/app_localizations.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
 import 'package:application/utils/extensions.dart';
+import 'package:application/utils/http_request.dart';
 import 'package:application/views/account_view.dart';
 import 'package:application/views/calendar_view.dart';
 import 'package:application/views/home_view.dart';
 import 'package:application/views/no_internet.dart';
 import 'package:application/views/simulcast_view.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart';
+
+// Background message handler - must be a top-level function
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(final RemoteMessage message) async {
+  // Ensure Firebase is initialized
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  debugPrint('Handling a background message: ${message.messageId}');
+  await sendPingToServer();
+}
+
+// Send ping to server with user identifier
+Future<void> sendPingToServer() async {
+  // Initialize SharedPreferences if needed
+  await SharedPreferencesController.instance.init();
+
+  final String? identifier = SharedPreferencesController.instance.getString(
+    ConfigPropertyKey.identifier,
+  );
+
+  if (identifier == null) {
+    debugPrint('Cannot send ping: identifier is null');
+    return;
+  }
+
+  // Check if we've already sent a ping today
+  final String? lastPingTimestampStr = SharedPreferencesController.instance.getString(
+    ConfigPropertyKey.lastPingTimestamp,
+  );
+
+  if (lastPingTimestampStr != null) {
+    final DateTime lastPingTimestamp = DateTime.parse(lastPingTimestampStr);
+    final DateTime now = DateTime.now();
+
+    // Check if the last ping was sent today
+    if (lastPingTimestamp.year == now.year && 
+        lastPingTimestamp.month == now.month && 
+        lastPingTimestamp.day == now.day) {
+      debugPrint('Already sent a ping today at ${lastPingTimestamp.toIso8601String()}');
+      return;
+    }
+  }
+
+  try {
+    final Response response = await HttpRequest.instance.post(
+      '/v1/members/ping',
+      body: identifier,
+    );
+
+    if (response.statusCode != HttpStatus.ok) {
+      debugPrint('Failed to send ping: ${response.statusCode}');
+      return;
+    }
+
+    debugPrint('Ping sent successfully');
+
+    // Store the current timestamp as the last successful ping
+    await SharedPreferencesController.instance.setString(
+      ConfigPropertyKey.lastPingTimestamp,
+      DateTime.now().toIso8601String(),
+    );
+  } on Exception catch (e) {
+    debugPrint('Error sending ping: $e');
+  }
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,6 +109,9 @@ Future<void> main() async {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
+
+      // Register the background handler
+      FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     }
 
     final int start = DateTime.now().millisecondsSinceEpoch;

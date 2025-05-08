@@ -4,6 +4,7 @@ import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/shared_preferences_controller.dart';
 import 'package:application/dtos/enums/config_property_key.dart';
 import 'package:application/dtos/member_dto.dart';
+import 'package:application/main.dart';
 import 'package:application/utils/constant.dart';
 import 'package:application/views/request_notification_view.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -38,6 +39,19 @@ class NotificationsController {
 
     _messaging = FirebaseMessaging.instance;
     await _createNotificationChannel();
+
+    // Set up foreground message handler
+    FirebaseMessaging.onMessage.listen((final RemoteMessage message) {
+      debugPrint('Got a message whilst in the foreground!');
+      debugPrint('Message data: ${message.data}');
+
+      if (message.notification != null) {
+        debugPrint('Message also contained a notification: ${message.notification}');
+      }
+
+      // Send ping to server using the top-level function
+      sendPingToServer();
+    });
 
     if (SharedPreferencesController.instance.containsKey(
       ConfigPropertyKey.notificationsType,
