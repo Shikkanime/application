@@ -2,6 +2,7 @@ import 'package:application/dtos/enums/image_type.dart';
 import 'package:application/utils/constant.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class ImageComponent extends StatelessWidget {
   const ImageComponent({
@@ -15,6 +16,7 @@ class ImageComponent extends StatelessWidget {
     this.placeholderHeight,
     this.height,
     this.placeholder,
+    this.cacheDuration = const Duration(days: 7),
   });
 
   final String uuid;
@@ -26,6 +28,7 @@ class ImageComponent extends StatelessWidget {
   final double? placeholderHeight;
   final double? height;
   final Widget? placeholder;
+  final Duration cacheDuration;
 
   @override
   Widget build(final BuildContext context) => ClipRRect(
@@ -46,7 +49,7 @@ class ImageComponent extends StatelessWidget {
                 height: placeholderHeight ?? height,
               ),
       errorWidget:
-          (final BuildContext context, final String url, final dynamic error) =>
+          (final BuildContext context, final String url, final Object error) =>
               Container(
                 color: Colors.grey,
                 width: width,
@@ -54,6 +57,9 @@ class ImageComponent extends StatelessWidget {
               ),
       fadeInDuration: Duration.zero,
       fadeOutDuration: Duration.zero,
+      cacheManager: CacheManager(
+        Config('cacheKey', stalePeriod: cacheDuration),
+      ),
     ),
   );
 }
