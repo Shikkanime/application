@@ -56,6 +56,7 @@ class MemberImage extends StatelessWidget {
                   padding: EdgeInsets.all(24),
                   child: CircularProgressIndicator(strokeWidth: 2),
                 ),
+                cacheDuration: const Duration(days: 30),
               )
               : ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(360)),
