@@ -22,6 +22,12 @@ _MemberDto _$MemberDtoFromJson(Map<String, dynamic> json) => _MemberDto(
   totalDuration: (json['totalDuration'] as num).toInt(),
   totalUnseenDuration: (json['totalUnseenDuration'] as num).toInt(),
   attachmentLastUpdateDateTime: json['attachmentLastUpdateDateTime'] as String?,
+  notificationSettings:
+      json['notificationSettings'] == null
+          ? null
+          : MemberNotificationSettingsDto.fromJson(
+            json['notificationSettings'] as Map<String, dynamic>,
+          ),
 );
 
 Map<String, dynamic> _$MemberDtoToJson(_MemberDto instance) =>
@@ -35,4 +41,5 @@ Map<String, dynamic> _$MemberDtoToJson(_MemberDto instance) =>
       'totalDuration': instance.totalDuration,
       'totalUnseenDuration': instance.totalUnseenDuration,
       'attachmentLastUpdateDateTime': instance.attachmentLastUpdateDateTime,
+      'notificationSettings': instance.notificationSettings,
     };
