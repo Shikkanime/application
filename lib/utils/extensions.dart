@@ -12,6 +12,22 @@ extension ExtensionsIterable<T> on Iterable<T> {
   }
 }
 
+extension ExtensionsWidgetIterable<Widget> on Iterable<Widget> {
+  List<Widget> joinTo(final Widget separator) {
+    final List<Widget> result = <Widget>[];
+
+    for (int i = 0; i < length; i++) {
+      result.add(elementAt(i));
+
+      if (i != length - 1) {
+        result.add(separator);
+      }
+    }
+
+    return result;
+  }
+}
+
 extension ExtensionsThemeData on ThemeData {
   static final Map<Brightness, ButtonStyle> _map = <Brightness, ButtonStyle>{};
   static final Map<Brightness, AssetImage> _mapImage =
