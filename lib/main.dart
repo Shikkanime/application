@@ -168,7 +168,7 @@ class MyApp extends StatelessWidget {
           iconButtonTheme: IconButtonThemeData(
             style: IconButton.styleFrom(foregroundColor: primary),
           ),
-          dialogTheme: DialogTheme(backgroundColor: canvasColor),
+          dialogTheme: DialogThemeData(backgroundColor: canvasColor),
         )
         ..addInputDecorationTheme(
           ElevatedButton.styleFrom(
