@@ -22,7 +22,6 @@ class MissedAnimesRow extends StatelessWidget {
           }
 
           return CustomCard(
-            margin: 12,
             child: Scrollbar(
               controller: MissedAnimeController.instance.scrollController,
               child: Column(

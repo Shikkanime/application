@@ -1,18 +1,14 @@
 import 'dart:math';
 
-import 'package:application/components/account_card.dart';
-import 'package:application/components/animes/followed_anime_component.dart';
+import 'package:application/components/animes/followed_animes_row.dart';
 import 'package:application/components/card_component.dart';
-import 'package:application/components/episodes/followed_episode_component.dart';
+import 'package:application/components/episodes/followed_episodes_row.dart';
 import 'package:application/components/member_image.dart';
 import 'package:application/components/pill.dart';
-import 'package:application/controllers/animes/followed_anime_controller.dart';
-import 'package:application/controllers/episodes/followed_episode_controller.dart';
 import 'package:application/controllers/member_controller.dart';
-import 'package:application/dtos/anime_dto.dart';
-import 'package:application/dtos/episode_mapping_dto.dart';
 import 'package:application/dtos/member_dto.dart';
 import 'package:application/l10n/app_localizations.dart';
+import 'package:application/utils/extensions.dart';
 import 'package:application/views/associate_email.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -52,7 +48,7 @@ class AccountView extends StatelessWidget {
     return SingleChildScrollView(
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
+          padding: const EdgeInsets.only(top: 4, left: 8, right: 8, bottom: 8),
           child: StreamBuilder<MemberDto>(
             stream: MemberController.instance.streamController.stream,
             initialData: MemberController.instance.member,
@@ -63,192 +59,244 @@ class AccountView extends StatelessWidget {
               final MemberDto? member = snapshot.data;
 
               return Column(
-                spacing: 16,
+                spacing: 8,
                 children: <Widget>[
-                  Row(
-                    spacing: 16,
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: () {
-                          MemberController.instance.changeImage(context);
-                        },
-                        child: Stack(
-                          children: <Widget>[
-                            SizedBox(
-                              width: 80,
-                              height: 80,
-                              child: MemberImage(member: member),
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: DecoratedBox(
-                                decoration: BoxDecoration(
-                                  color:
-                                      Theme.of(
-                                        context,
-                                      ).textTheme.titleLarge!.color,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(4),
-                                  child: Icon(
-                                    Icons.edit,
-                                    size: 15,
-                                    color: Theme.of(context).canvasColor,
-                                  ),
-                                ),
+                  CustomCard(
+                    padding: false,
+                    child: Row(
+                      spacing: 16,
+                      children: <Widget>[
+                        GestureDetector(
+                          onTap: () {
+                            MemberController.instance.changeImage(context);
+                          },
+                          child: Stack(
+                            children: <Widget>[
+                              SizedBox(
+                                width: 80,
+                                height: 80,
+                                child: MemberImage(member: member),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Flex(
-                              spacing: 8,
-                              direction: Axis.horizontal,
-                              children: <Widget>[
-                                Text(
-                                  appLocalizations!.anonymousAccount,
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
+                              Positioned(
+                                bottom: 0,
+                                right: 0,
+                                child: DecoratedBox(
+                                  decoration: BoxDecoration(
                                     color:
                                         Theme.of(
                                           context,
                                         ).textTheme.titleLarge!.color,
+                                    shape: BoxShape.circle,
                                   ),
-                                ),
-                                GestureDetector(
-                                  child: const Icon(
-                                    Icons.info_outline,
-                                    color: Colors.grey,
-                                    size: 20,
-                                  ),
-                                  onTap: () {
-                                    showDialog(
-                                      context: context,
-                                      builder:
-                                          (
-                                            final BuildContext context,
-                                          ) => AlertDialog(
-                                            title: Text(
-                                              appLocalizations
-                                                  .anonymousWarningTitle,
-                                            ),
-                                            content: SingleChildScrollView(
-                                              child: Column(
-                                                spacing: 16,
-                                                mainAxisSize: MainAxisSize.min,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: <Widget>[
-                                                  Text(
-                                                    appLocalizations
-                                                        .anonymousWarningContent1,
-                                                  ),
-                                                  Text(
-                                                    appLocalizations
-                                                        .anonymousWarningContent2,
-                                                  ),
-                                                  Text(
-                                                    appLocalizations
-                                                        .anonymousWarningContent3,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            actions: <Widget>[
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Text(
-                                                  appLocalizations.ok,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
-                            Text(
-                              appLocalizations.accountCreatedAt(
-                                DateFormat(
-                                  AppLocalizations.of(
-                                    context,
-                                  )!.accountDateFormat,
-                                  WidgetsBinding
-                                      .instance
-                                      .platformDispatcher
-                                      .locale
-                                      .toString(),
-                                ).format(
-                                  DateTime.parse(
-                                    member?.creationDateTime ?? '',
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4),
+                                    child: Icon(
+                                      Icons.edit,
+                                      size: 15,
+                                      color: Theme.of(context).canvasColor,
+                                    ),
                                   ),
                                 ),
                               ),
-                              style: const TextStyle(fontSize: 14),
-                              maxLines: 2,
-                            ),
-                            if (member?.email == null)
-                              Stack(
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Flex(
+                                spacing: 8,
+                                direction: Axis.horizontal,
                                 children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      top: 8,
-                                      right: 8,
-                                    ),
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute<void>(
-                                            builder:
-                                                (final BuildContext context) =>
-                                                    const AssociateEmail(),
-                                          ),
-                                        );
-                                      },
-                                      child: Text(
-                                        appLocalizations.associateEmail,
-                                      ),
+                                  Text(
+                                    appLocalizations!.anonymousAccount,
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color:
+                                          Theme.of(
+                                            context,
+                                          ).textTheme.titleLarge!.color,
                                     ),
                                   ),
-                                  const Positioned(
-                                    top: 0,
-                                    right: 0,
-                                    child: Pill(text: '! '),
+                                  GestureDetector(
+                                    child: const Icon(
+                                      Icons.info_outline,
+                                      color: Colors.grey,
+                                      size: 20,
+                                    ),
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder:
+                                            (
+                                              final BuildContext context,
+                                            ) => AlertDialog(
+                                              title: Text(
+                                                appLocalizations
+                                                    .anonymousWarningTitle,
+                                              ),
+                                              content: SingleChildScrollView(
+                                                child: Column(
+                                                  spacing: 16,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      appLocalizations
+                                                          .anonymousWarningContent1,
+                                                    ),
+                                                    Text(
+                                                      appLocalizations
+                                                          .anonymousWarningContent2,
+                                                    ),
+                                                    Text(
+                                                      appLocalizations
+                                                          .anonymousWarningContent3,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text(
+                                                    appLocalizations.ok,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                      );
+                                    },
                                   ),
                                 ],
                               ),
-                          ],
+                              Text(
+                                appLocalizations.accountCreatedAt(
+                                  DateFormat(
+                                    AppLocalizations.of(
+                                      context,
+                                    )!.accountDateFormat,
+                                    WidgetsBinding
+                                        .instance
+                                        .platformDispatcher
+                                        .locale
+                                        .toString(),
+                                  ).format(
+                                    DateTime.parse(
+                                      member?.creationDateTime ?? '',
+                                    ),
+                                  ),
+                                ),
+                                style: const TextStyle(fontSize: 14),
+                                maxLines: 2,
+                              ),
+                              if (member?.email == null)
+                                Stack(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        top: 8,
+                                        right: 8,
+                                      ),
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute<void>(
+                                              builder:
+                                                  (
+                                                    final BuildContext context,
+                                                  ) => const AssociateEmail(),
+                                            ),
+                                          );
+                                        },
+                                        style:
+                                            Theme.of(context).cardButtonStyle,
+                                        child: Text(
+                                          appLocalizations.associateEmail,
+                                        ),
+                                      ),
+                                    ),
+                                    const Positioned(
+                                      top: 0,
+                                      right: 0,
+                                      child: Pill(text: '! '),
+                                    ),
+                                  ],
+                                ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   Row(
                     spacing: 16,
                     children: <Widget>[
                       Expanded(
-                        child: AccountCard(
-                          label: appLocalizations.animesAdded,
-                          value: NumberFormat.decimalPattern().format(
-                            member?.followedAnimes.length ?? 0,
+                        child: CustomCard(
+                          padding: false,
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                NumberFormat.decimalPattern().format(
+                                  member?.followedAnimes.length ?? 0,
+                                ),
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(
+                                        context,
+                                      ).textTheme.titleLarge!.color,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                appLocalizations.animesAdded,
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(
+                                        context,
+                                      ).textTheme.titleLarge!.color,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
                       Expanded(
-                        child: AccountCard(
-                          label: appLocalizations.episodesWatched,
-                          // 2376 -> 2 376
-                          value: NumberFormat.decimalPattern().format(
-                            member?.followedEpisodes.length ?? 0,
+                        child: CustomCard(
+                          padding: false,
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                NumberFormat.decimalPattern().format(
+                                  member?.followedEpisodes.length ?? 0,
+                                ),
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(
+                                        context,
+                                      ).textTheme.titleLarge!.color,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                appLocalizations.episodesWatched,
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(
+                                        context,
+                                      ).textTheme.titleLarge!.color,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -257,28 +305,53 @@ class AccountView extends StatelessWidget {
                   Row(
                     children: <Widget>[
                       Expanded(
-                        child: AccountCard(
-                          label: appLocalizations.watchTime,
-                          value: buildTotalDuration(
-                            context,
-                            member?.totalDuration ?? 0,
-                          ),
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8),
-                              child: LinearProgressIndicator(
-                                value:
-                                    (member?.totalDuration ?? 0) /
-                                    max(
-                                      1,
-                                      ((member?.totalDuration ?? 0) +
-                                              (member?.totalUnseenDuration ??
-                                                  0))
-                                          .toDouble(),
-                                    ),
+                        child: CustomCard(
+                          padding: false,
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                buildTotalDuration(
+                                  context,
+                                  member?.totalDuration ?? 0,
+                                ),
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(
+                                        context,
+                                      ).textTheme.titleLarge!.color,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                          ],
+                              Text(
+                                appLocalizations.watchTime,
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(
+                                        context,
+                                      ).textTheme.titleLarge!.color,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 8,
+                                  left: 16,
+                                  right: 16,
+                                ),
+                                child: LinearProgressIndicator(
+                                  value:
+                                      (member?.totalDuration ?? 0) /
+                                      max(
+                                        1,
+                                        ((member?.totalDuration ?? 0) +
+                                                (member?.totalUnseenDuration ??
+                                                    0))
+                                            .toDouble(),
+                                      ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -293,166 +366,4 @@ class AccountView extends StatelessWidget {
       ),
     );
   }
-}
-
-class FollowedAnimesRow extends StatelessWidget {
-  const FollowedAnimesRow({super.key});
-
-  @override
-  Widget build(final BuildContext context) => CustomCard(
-    padding: false,
-    margin: 12,
-    child: Scrollbar(
-      controller: FollowedAnimeController.instance.scrollController,
-      child: StreamBuilder<List<AnimeDto>>(
-        stream: FollowedAnimeController.instance.streamController.stream,
-        initialData: FollowedAnimeController.instance.items,
-        builder:
-            (
-              final BuildContext context,
-              final AsyncSnapshot<List<AnimeDto>> snapshot,
-            ) => Column(
-              spacing: 8,
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Flex(
-                  direction: Axis.horizontal,
-                  children: <Widget>[
-                    Text(AppLocalizations.of(context)!.yourRecentlyAddedAnime1),
-                    Text(
-                      AppLocalizations.of(context)!.yourRecentlyAddedAnime2,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                if (snapshot.data!.isEmpty)
-                  SizedBox(
-                    height: 50,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Expanded(
-                          child: Text(
-                            AppLocalizations.of(context)!.noFollowedAnime,
-                            style: Theme.of(context).textTheme.titleSmall,
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                else
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(
-                        child: SizedBox(
-                          height: 175,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            addAutomaticKeepAlives: false,
-                            addRepaintBoundaries: false,
-                            itemCount: snapshot.data!.length,
-                            controller:
-                                FollowedAnimeController
-                                    .instance
-                                    .scrollController,
-                            itemBuilder:
-                                (final BuildContext context, final int index) =>
-                                    FollowedAnimeComponent(
-                                      anime: snapshot.data![index],
-                                    ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-              ],
-            ),
-      ),
-    ),
-  );
-}
-
-class FollowedEpisodesRow extends StatelessWidget {
-  const FollowedEpisodesRow({super.key});
-
-  @override
-  Widget build(final BuildContext context) => CustomCard(
-    padding: false,
-    margin: 12,
-    child: Scrollbar(
-      controller: FollowedEpisodeController.instance.scrollController,
-      child: StreamBuilder<List<EpisodeMappingDto>>(
-        stream: FollowedEpisodeController.instance.streamController.stream,
-        initialData: FollowedEpisodeController.instance.items,
-        builder:
-            (
-              final BuildContext context,
-              final AsyncSnapshot<List<EpisodeMappingDto>> snapshot,
-            ) => Column(
-              spacing: 8,
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Flex(
-                  direction: Axis.horizontal,
-                  children: <Widget>[
-                    Text(
-                      AppLocalizations.of(context)!.yourRecentlyViewedEpisodes1,
-                    ),
-                    Text(
-                      AppLocalizations.of(context)!.yourRecentlyViewedEpisodes2,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                if (snapshot.data!.isEmpty)
-                  SizedBox(
-                    height: 50,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Expanded(
-                          child: Text(
-                            AppLocalizations.of(context)!.noWatchedEpisode,
-                            style: Theme.of(context).textTheme.titleSmall,
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                else
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(
-                        child: SizedBox(
-                          height: 132,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            addAutomaticKeepAlives: false,
-                            addRepaintBoundaries: false,
-                            itemCount: snapshot.data!.length,
-                            controller:
-                                FollowedEpisodeController
-                                    .instance
-                                    .scrollController,
-                            itemBuilder:
-                                (final BuildContext context, final int index) =>
-                                    FollowedEpisodeComponent(
-                                      episode: snapshot.data![index],
-                                    ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-              ],
-            ),
-      ),
-    ),
-  );
 }
