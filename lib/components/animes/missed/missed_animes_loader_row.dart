@@ -8,7 +8,6 @@ class MissedAnimesLoaderRow extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => CustomCard(
-    margin: 12,
     child: Column(
       spacing: 8,
       mainAxisSize: MainAxisSize.min,
