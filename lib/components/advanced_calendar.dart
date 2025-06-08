@@ -16,14 +16,11 @@ class AdvancedCalendar extends StatelessWidget {
     final AnimeWeeklyController controller = AnimeWeeklyController.instance;
     final ThemeData theme = Theme.of(context);
 
-    ButtonStyle? getActiveButtonStyle(final bool isActive) =>
-        isActive
-            ? theme.elevatedButtonTheme.style?.copyWith(
-              backgroundColor: WidgetStateProperty.all(
-                theme.colorScheme.primary,
-              ),
-            )
-            : null;
+    ButtonStyle? getActiveButtonStyle(final bool isActive) => isActive
+        ? theme.elevatedButtonTheme.style?.copyWith(
+            backgroundColor: WidgetStateProperty.all(theme.colorScheme.primary),
+          )
+        : null;
 
     Color? getTextColor(final bool isActive) =>
         isActive ? theme.oppositeTextColor : theme.textTheme.bodyLarge?.color;
@@ -66,8 +63,9 @@ class AdvancedCalendar extends StatelessWidget {
               ElevatedAsyncButton(
                 style: getActiveButtonStyle(controller.searchType == type),
                 onPressed: () async {
-                  controller.searchType =
-                      controller.searchType == type ? null : type;
+                  controller.searchType = controller.searchType == type
+                      ? null
+                      : type;
                   await controller.init();
                 },
                 child: LangTypeComponent(

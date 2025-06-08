@@ -9,21 +9,22 @@ part of 'grouped_episode_dto.dart';
 _GroupedEpisodeDto _$GroupedEpisodeDtoFromJson(Map<String, dynamic> json) =>
     _GroupedEpisodeDto(
       anime: AnimeDto.fromJson(json['anime'] as Map<String, dynamic>),
-      platforms:
-          (json['platforms'] as List<dynamic>)
-              .map((e) => PlatformDto.fromJson(e as Map<String, dynamic>))
-              .toList(),
+      platforms: (json['platforms'] as List<dynamic>)
+          .map((e) => PlatformDto.fromJson(e as Map<String, dynamic>))
+          .toList(),
       releaseDateTime: json['releaseDateTime'] as String,
       season: json['season'] as String,
       episodeType: json['episodeType'] as String,
       number: json['number'] as String,
-      langTypes:
-          (json['langTypes'] as List<dynamic>).map((e) => e as String).toList(),
+      langTypes: (json['langTypes'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
       title: json['title'] as String?,
       description: json['description'] as String?,
       duration: (json['duration'] as num?)?.toInt(),
-      mappings:
-          (json['mappings'] as List<dynamic>).map((e) => e as String).toList(),
+      mappings: (json['mappings'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
       urls: (json['urls'] as List<dynamic>).map((e) => e as String).toList(),
     );
 

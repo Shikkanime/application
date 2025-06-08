@@ -25,9 +25,8 @@ class FollowedAnimeComponent extends StatelessWidget {
 
           Navigator.of(context).push(
             MaterialPageRoute<void>(
-              builder:
-                  (final BuildContext context) =>
-                      AnimeDetailsView(anime: anime),
+              builder: (final BuildContext context) =>
+                  AnimeDetailsView(anime: anime),
             ),
           );
         },

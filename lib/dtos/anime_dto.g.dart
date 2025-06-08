@@ -14,16 +14,15 @@ _AnimeDto _$AnimeDtoFromJson(Map<String, dynamic> json) => _AnimeDto(
   slug: json['slug'] as String,
   releaseDateTime: json['releaseDateTime'] as String,
   description: json['description'] as String?,
-  langTypes:
-      (json['langTypes'] as List<dynamic>?)?.map((e) => e as String).toList(),
-  seasons:
-      (json['seasons'] as List<dynamic>?)
-          ?.map((e) => SeasonDto.fromJson(e as Map<String, dynamic>))
-          .toList(),
-  platformIds:
-      (json['platformIds'] as List<dynamic>?)
-          ?.map((e) => AnimePlatformDto.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  langTypes: (json['langTypes'] as List<dynamic>?)
+      ?.map((e) => e as String)
+      .toList(),
+  seasons: (json['seasons'] as List<dynamic>?)
+      ?.map((e) => SeasonDto.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  platformIds: (json['platformIds'] as List<dynamic>?)
+      ?.map((e) => AnimePlatformDto.fromJson(e as Map<String, dynamic>))
+      .toList(),
 );
 
 Map<String, dynamic> _$AnimeDtoToJson(_AnimeDto instance) => <String, dynamic>{

@@ -9,11 +9,13 @@ class MissedAnimesRow extends StatelessWidget {
   const MissedAnimesRow({super.key});
 
   @override
-  Widget build(final BuildContext context) =>
-      StreamBuilder<List<MissedAnimeDto>>(
-        stream: MissedAnimeController.instance.streamController.stream,
-        initialData: MissedAnimeController.instance.items,
-        builder: (
+  Widget build(
+    final BuildContext context,
+  ) => StreamBuilder<List<MissedAnimeDto>>(
+    stream: MissedAnimeController.instance.streamController.stream,
+    initialData: MissedAnimeController.instance.items,
+    builder:
+        (
           final BuildContext context,
           final AsyncSnapshot<List<MissedAnimeDto>> snapshot,
         ) {
@@ -69,5 +71,5 @@ class MissedAnimesRow extends StatelessWidget {
             ),
           );
         },
-      );
+  );
 }

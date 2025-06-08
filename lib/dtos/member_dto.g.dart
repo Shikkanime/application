@@ -11,14 +11,12 @@ _MemberDto _$MemberDtoFromJson(Map<String, dynamic> json) => _MemberDto(
   token: json['token'] as String,
   creationDateTime: json['creationDateTime'] as String,
   email: json['email'] as String?,
-  followedAnimes:
-      (json['followedAnimes'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-  followedEpisodes:
-      (json['followedEpisodes'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
+  followedAnimes: (json['followedAnimes'] as List<dynamic>)
+      .map((e) => e as String)
+      .toList(),
+  followedEpisodes: (json['followedEpisodes'] as List<dynamic>)
+      .map((e) => e as String)
+      .toList(),
   totalDuration: (json['totalDuration'] as num).toInt(),
   totalUnseenDuration: (json['totalUnseenDuration'] as num).toInt(),
   attachmentLastUpdateDateTime: json['attachmentLastUpdateDateTime'] as String?,

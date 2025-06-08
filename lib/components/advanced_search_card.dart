@@ -74,25 +74,24 @@ class AdvancedSearchCard extends StatelessWidget {
   void _showAdvancedSearchDialog(final BuildContext context) {
     showDialog(
       context: context,
-      builder:
-          (final BuildContext dialogContext) => AlertDialog(
-            title: Text(AppLocalizations.of(context)!.advancedSearch),
-            content: Wrap(
-              alignment: WrapAlignment.center,
-              spacing: 8,
-              runSpacing: 8,
-              children: <Widget>[
-                for (final String letter in _letters)
-                  ActionChip(
-                    label: Text(letter),
-                    onPressed: () {
-                      AnimeSearchController.instance.search(letter);
-                      controller.text = letter;
-                    },
-                  ),
-              ],
-            ),
-          ),
+      builder: (final BuildContext dialogContext) => AlertDialog(
+        title: Text(AppLocalizations.of(context)!.advancedSearch),
+        content: Wrap(
+          alignment: WrapAlignment.center,
+          spacing: 8,
+          runSpacing: 8,
+          children: <Widget>[
+            for (final String letter in _letters)
+              ActionChip(
+                label: Text(letter),
+                onPressed: () {
+                  AnimeSearchController.instance.search(letter);
+                  controller.text = letter;
+                },
+              ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -130,10 +129,9 @@ class AdvancedSearchCard extends StatelessWidget {
     final BuildContext context,
     final SearchType type,
     final AnimeSearchController searchController,
-  ) =>
-      searchController.searchType == type
-          ? Theme.of(context).oppositeTextColor
-          : Theme.of(context).textTheme.bodyLarge?.color;
+  ) => searchController.searchType == type
+      ? Theme.of(context).oppositeTextColor
+      : Theme.of(context).textTheme.bodyLarge?.color;
 
   void _handleSearchTypePressed(
     final SearchType type,

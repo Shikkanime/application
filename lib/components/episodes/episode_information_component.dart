@@ -21,14 +21,18 @@ class EpisodeInformation extends StatelessWidget {
   Widget build(final BuildContext context) => Text(
     showSeason
         ? AppLocalizations.of(context)!.fullInformation(
-          season,
-          AppLocalizations.of(context)!.episodeType(episodeType.toLowerCase()),
-          number,
-        )
+            season,
+            AppLocalizations.of(
+              context,
+            )!.episodeType(episodeType.toLowerCase()),
+            number,
+          )
         : AppLocalizations.of(context)!.minInformation(
-          AppLocalizations.of(context)!.episodeType(episodeType.toLowerCase()),
-          number,
-        ),
+            AppLocalizations.of(
+              context,
+            )!.episodeType(episodeType.toLowerCase()),
+            number,
+          ),
     style: style ?? Theme.of(context).textTheme.bodyMedium,
     overflow: TextOverflow.ellipsis,
   );

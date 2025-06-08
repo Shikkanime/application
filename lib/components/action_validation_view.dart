@@ -67,20 +67,18 @@ class _ActionValidationViewState extends State<ActionValidationView> {
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
                       labelText: AppLocalizations.of(context)!.code,
-                      errorText:
-                          _isCodeInError
-                              ? AppLocalizations.of(context)!.invalidCode
-                              : null,
+                      errorText: _isCodeInError
+                          ? AppLocalizations.of(context)!.invalidCode
+                          : null,
                     ),
                     controller: _codeController,
                     onChanged: (final String value) {
                       // Make it uppercase, keep only letters and numbers
                       setState(() {
                         _codeController
-                          ..text =
-                              value
-                                  .replaceAll(RegExp('[^A-Za-z0-9]'), '')
-                                  .toUpperCase()
+                          ..text = value
+                              .replaceAll(RegExp('[^A-Za-z0-9]'), '')
+                              .toUpperCase()
                           ..selection = TextSelection.fromPosition(
                             TextPosition(offset: _codeController.text.length),
                           );
@@ -99,10 +97,9 @@ class _ActionValidationViewState extends State<ActionValidationView> {
               textAlign: TextAlign.left,
             ),
             ElevatedAsyncButton(
-              onPressed:
-                  _actionUuid == null
-                      ? null
-                      : () async => validateActionInternal(context),
+              onPressed: _actionUuid == null
+                  ? null
+                  : () async => validateActionInternal(context),
               child: Text(AppLocalizations.of(context)!.save),
             ),
           ],
@@ -200,18 +197,17 @@ class _ActionValidationViewState extends State<ActionValidationView> {
 
         await showDialog(
           context: context,
-          builder:
-              (final BuildContext context) => AlertDialog(
-                content: Text(widget.successMessage),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(AppLocalizations.of(context)!.ok),
-                  ),
-                ],
+          builder: (final BuildContext context) => AlertDialog(
+            content: Text(widget.successMessage),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(AppLocalizations.of(context)!.ok),
               ),
+            ],
+          ),
         );
       }
     } on Exception catch (e) {

@@ -21,8 +21,8 @@ class AnimeController extends GenericController<AnimeDto> {
 
   int get _limit =>
       wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
-          ? 6
-          : 24;
+      ? 6
+      : 24;
 
   int maxElementsPerRow(final BuildContext context) =>
       max(2, (MediaQuery.sizeOf(context).width * 0.005).floor());

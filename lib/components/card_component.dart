@@ -35,8 +35,9 @@ class CustomCard extends StatelessWidget {
         onLongPress: onLongPress,
         child: DecoratedBox(
           decoration: BoxDecoration(
-            border:
-                isSelected ? Border.all(color: selectedColor, width: 2) : null,
+            border: isSelected
+                ? Border.all(color: selectedColor, width: 2)
+                : null,
             borderRadius: const BorderRadius.all(
               Radius.circular(Constant.borderRadius + 8),
             ),
@@ -48,35 +49,34 @@ class CustomCard extends StatelessWidget {
     );
 
     return RepaintBoundary(
-      child:
-          isSelected
-              ? Stack(
-                children: <Widget>[
-                  mainComponent,
-                  Positioned(
-                    top: 0,
-                    right: 2.5,
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: selectedColor,
-                        border: Border.all(color: selectedColor, width: 2),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(Constant.borderRadius),
-                        ),
+      child: isSelected
+          ? Stack(
+              children: <Widget>[
+                mainComponent,
+                Positioned(
+                  top: 0,
+                  right: 2.5,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: selectedColor,
+                      border: Border.all(color: selectedColor, width: 2),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(Constant.borderRadius),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(4),
-                        child: Icon(
-                          Icons.check,
-                          color: Theme.of(context).canvasColor,
-                          size: 16,
-                        ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Icon(
+                        Icons.check,
+                        color: Theme.of(context).canvasColor,
+                        size: 16,
                       ),
                     ),
                   ),
-                ],
-              )
-              : mainComponent,
+                ),
+              ],
+            )
+          : mainComponent,
     );
   }
 }

@@ -94,21 +94,25 @@ class _SearchViewState extends State<SearchView> {
       child: StreamBuilder<List<AnimeDto>>(
         stream: AnimeSearchController.instance.streamController.stream,
         initialData: AnimeSearchController.instance.items,
-        builder: (
-          final BuildContext context,
-          final AsyncSnapshot<List<AnimeDto>> snapshot,
-        ) {
-          final List<Widget> list = _buildAnimeList(context, snapshot.data!);
+        builder:
+            (
+              final BuildContext context,
+              final AsyncSnapshot<List<AnimeDto>> snapshot,
+            ) {
+              final List<Widget> list = _buildAnimeList(
+                context,
+                snapshot.data!,
+              );
 
-          return ListView.builder(
-            addAutomaticKeepAlives: false,
-            addRepaintBoundaries: false,
-            controller: AnimeSearchController.instance.scrollController,
-            itemCount: list.length,
-            itemBuilder:
-                (final BuildContext context, final int index) => list[index],
-          );
-        },
+              return ListView.builder(
+                addAutomaticKeepAlives: false,
+                addRepaintBoundaries: false,
+                controller: AnimeSearchController.instance.scrollController,
+                itemCount: list.length,
+                itemBuilder: (final BuildContext context, final int index) =>
+                    list[index],
+              );
+            },
       ),
     ),
   );

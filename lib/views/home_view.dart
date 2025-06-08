@@ -49,28 +49,32 @@ class HomeView extends StatelessWidget {
       StreamBuilder<List<GroupedEpisodeDto>>(
         stream: EpisodeController.instance.streamController.stream,
         initialData: EpisodeController.instance.items,
-        builder: (
-          final BuildContext context,
-          final AsyncSnapshot<List<GroupedEpisodeDto>> snapshot,
-        ) {
-          final List<Widget> list = _buildEpisodeList(context, snapshot.data!);
+        builder:
+            (
+              final BuildContext context,
+              final AsyncSnapshot<List<GroupedEpisodeDto>> snapshot,
+            ) {
+              final List<Widget> list = _buildEpisodeList(
+                context,
+                snapshot.data!,
+              );
 
-          return RefreshIndicator.adaptive(
-            onRefresh: () async {
-              await Future.wait(<Future<void>>[
-                MissedAnimeController.instance.init(),
-                EpisodeController.instance.init(),
-              ]);
+              return RefreshIndicator.adaptive(
+                onRefresh: () async {
+                  await Future.wait(<Future<void>>[
+                    MissedAnimeController.instance.init(),
+                    EpisodeController.instance.init(),
+                  ]);
+                },
+                child: ListView.builder(
+                  addAutomaticKeepAlives: false,
+                  addRepaintBoundaries: false,
+                  controller: EpisodeController.instance.scrollController,
+                  itemCount: list.length,
+                  itemBuilder: (final BuildContext context, final int index) =>
+                      list[index],
+                ),
+              );
             },
-            child: ListView.builder(
-              addAutomaticKeepAlives: false,
-              addRepaintBoundaries: false,
-              controller: EpisodeController.instance.scrollController,
-              itemCount: list.length,
-              itemBuilder:
-                  (final BuildContext context, final int index) => list[index],
-            ),
-          );
-        },
       );
 }

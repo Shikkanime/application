@@ -6,32 +6,29 @@ part of 'episode_mapping_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_EpisodeMappingDto _$EpisodeMappingDtoFromJson(
-  Map<String, dynamic> json,
-) => _EpisodeMappingDto(
-  uuid: json['uuid'] as String,
-  anime:
-      json['anime'] == null
+_EpisodeMappingDto _$EpisodeMappingDtoFromJson(Map<String, dynamic> json) =>
+    _EpisodeMappingDto(
+      uuid: json['uuid'] as String,
+      anime: json['anime'] == null
           ? null
           : AnimeDto.fromJson(json['anime'] as Map<String, dynamic>),
-  releaseDateTime: json['releaseDateTime'] as String,
-  season: (json['season'] as num).toInt(),
-  episodeType: json['episodeType'] as String,
-  number: (json['number'] as num).toInt(),
-  duration: (json['duration'] as num).toInt(),
-  title: json['title'] as String?,
-  description: json['description'] as String?,
-  variants:
-      (json['variants'] as List<dynamic>?)
+      releaseDateTime: json['releaseDateTime'] as String,
+      season: (json['season'] as num).toInt(),
+      episodeType: json['episodeType'] as String,
+      number: (json['number'] as num).toInt(),
+      duration: (json['duration'] as num).toInt(),
+      title: json['title'] as String?,
+      description: json['description'] as String?,
+      variants: (json['variants'] as List<dynamic>?)
           ?.map((e) => EpisodeVariantDto.fromJson(e as Map<String, dynamic>))
           .toList(),
-  platforms:
-      (json['platforms'] as List<dynamic>?)
+      platforms: (json['platforms'] as List<dynamic>?)
           ?.map((e) => PlatformDto.fromJson(e as Map<String, dynamic>))
           .toList(),
-  langTypes:
-      (json['langTypes'] as List<dynamic>?)?.map((e) => e as String).toList(),
-);
+      langTypes: (json['langTypes'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+    );
 
 Map<String, dynamic> _$EpisodeMappingDtoToJson(_EpisodeMappingDto instance) =>
     <String, dynamic>{

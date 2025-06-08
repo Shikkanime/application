@@ -159,28 +159,25 @@ class MemberController {
       totalUnseenDuration: refreshedMember.totalUnseenDuration,
     );
 
-    final List<MissedAnimeDto> missedAnimes =
-        refreshedMember.missedAnimes.data
-            .map(
-              (final dynamic e) =>
-                  MissedAnimeDto.fromJson(e as Map<String, dynamic>),
-            )
-            .toList();
+    final List<MissedAnimeDto> missedAnimes = refreshedMember.missedAnimes.data
+        .map(
+          (final dynamic e) =>
+              MissedAnimeDto.fromJson(e as Map<String, dynamic>),
+        )
+        .toList();
 
-    final List<AnimeDto> followedAnimes =
-        refreshedMember.followedAnimes.data
-            .map(
-              (final dynamic e) => AnimeDto.fromJson(e as Map<String, dynamic>),
-            )
-            .toList();
+    final List<AnimeDto> followedAnimes = refreshedMember.followedAnimes.data
+        .map((final dynamic e) => AnimeDto.fromJson(e as Map<String, dynamic>))
+        .toList();
 
-    final List<EpisodeMappingDto> followedEpisodes =
-        refreshedMember.followedEpisodes.data
-            .map(
-              (final dynamic e) =>
-                  EpisodeMappingDto.fromJson(e as Map<String, dynamic>),
-            )
-            .toList();
+    final List<EpisodeMappingDto> followedEpisodes = refreshedMember
+        .followedEpisodes
+        .data
+        .map(
+          (final dynamic e) =>
+              EpisodeMappingDto.fromJson(e as Map<String, dynamic>),
+        )
+        .toList();
 
     streamController.add(member!);
     MissedAnimeController.instance.setItems(missedAnimes);
@@ -203,21 +200,18 @@ class MemberController {
     if (!allowedFormats.contains(result.path.split('.').last)) {
       await showDialog(
         context: context,
-        builder:
-            (final BuildContext context) => AlertDialog(
-              title: Text(AppLocalizations.of(context)!.invalidImageFormat),
-              content: Text(
-                AppLocalizations.of(context)!.invalidImageExtension,
-              ),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text(AppLocalizations.of(context)!.ok),
-                ),
-              ],
+        builder: (final BuildContext context) => AlertDialog(
+          title: Text(AppLocalizations.of(context)!.invalidImageFormat),
+          content: Text(AppLocalizations.of(context)!.invalidImageExtension),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(AppLocalizations.of(context)!.ok),
             ),
+          ],
+        ),
       );
 
       return;
@@ -227,9 +221,8 @@ class MemberController {
 
     await Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder:
-            (final BuildContext context) =>
-                CropView(bytes: bytes, controller: controller),
+        builder: (final BuildContext context) =>
+            CropView(bytes: bytes, controller: controller),
       ),
     );
   }

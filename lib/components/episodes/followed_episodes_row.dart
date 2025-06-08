@@ -65,10 +65,9 @@ class FollowedEpisodesRow extends StatelessWidget {
                             addAutomaticKeepAlives: false,
                             addRepaintBoundaries: false,
                             itemCount: snapshot.data!.length,
-                            controller:
-                                FollowedEpisodeController
-                                    .instance
-                                    .scrollController,
+                            controller: FollowedEpisodeController
+                                .instance
+                                .scrollController,
                             itemBuilder:
                                 (final BuildContext context, final int index) =>
                                     FollowedEpisodeComponent(

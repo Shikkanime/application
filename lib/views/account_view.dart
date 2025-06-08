@@ -52,10 +52,7 @@ class AccountView extends StatelessWidget {
           child: StreamBuilder<MemberDto>(
             stream: MemberController.instance.streamController.stream,
             initialData: MemberController.instance.member,
-            builder: (
-              final BuildContext context,
-              final AsyncSnapshot<MemberDto> snapshot,
-            ) {
+            builder: (final BuildContext context, final AsyncSnapshot<MemberDto> snapshot) {
               final MemberDto? member = snapshot.data;
 
               return Column(
@@ -82,10 +79,9 @@ class AccountView extends StatelessWidget {
                                 right: 0,
                                 child: DecoratedBox(
                                   decoration: BoxDecoration(
-                                    color:
-                                        Theme.of(
-                                          context,
-                                        ).textTheme.titleLarge!.color,
+                                    color: Theme.of(
+                                      context,
+                                    ).textTheme.titleLarge!.color,
                                     shape: BoxShape.circle,
                                   ),
                                   child: Padding(
@@ -114,10 +110,9 @@ class AccountView extends StatelessWidget {
                                     style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
-                                      color:
-                                          Theme.of(
-                                            context,
-                                          ).textTheme.titleLarge!.color,
+                                      color: Theme.of(
+                                        context,
+                                      ).textTheme.titleLarge!.color,
                                     ),
                                   ),
                                   GestureDetector(
@@ -129,10 +124,8 @@ class AccountView extends StatelessWidget {
                                     onTap: () {
                                       showDialog(
                                         context: context,
-                                        builder:
-                                            (
-                                              final BuildContext context,
-                                            ) => AlertDialog(
+                                        builder: (final BuildContext context) =>
+                                            AlertDialog(
                                               title: Text(
                                                 appLocalizations
                                                     .anonymousWarningTitle,
@@ -215,8 +208,9 @@ class AccountView extends StatelessWidget {
                                             ),
                                           );
                                         },
-                                        style:
-                                            Theme.of(context).cardButtonStyle,
+                                        style: Theme.of(
+                                          context,
+                                        ).cardButtonStyle,
                                         child: Text(
                                           appLocalizations.associateEmail,
                                         ),
@@ -248,10 +242,9 @@ class AccountView extends StatelessWidget {
                                   member?.followedAnimes.length ?? 0,
                                 ),
                                 style: TextStyle(
-                                  color:
-                                      Theme.of(
-                                        context,
-                                      ).textTheme.titleLarge!.color,
+                                  color: Theme.of(
+                                    context,
+                                  ).textTheme.titleLarge!.color,
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -259,10 +252,9 @@ class AccountView extends StatelessWidget {
                               Text(
                                 appLocalizations.animesAdded,
                                 style: TextStyle(
-                                  color:
-                                      Theme.of(
-                                        context,
-                                      ).textTheme.titleLarge!.color,
+                                  color: Theme.of(
+                                    context,
+                                  ).textTheme.titleLarge!.color,
                                 ),
                               ),
                             ],
@@ -279,10 +271,9 @@ class AccountView extends StatelessWidget {
                                   member?.followedEpisodes.length ?? 0,
                                 ),
                                 style: TextStyle(
-                                  color:
-                                      Theme.of(
-                                        context,
-                                      ).textTheme.titleLarge!.color,
+                                  color: Theme.of(
+                                    context,
+                                  ).textTheme.titleLarge!.color,
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -290,10 +281,9 @@ class AccountView extends StatelessWidget {
                               Text(
                                 appLocalizations.episodesWatched,
                                 style: TextStyle(
-                                  color:
-                                      Theme.of(
-                                        context,
-                                      ).textTheme.titleLarge!.color,
+                                  color: Theme.of(
+                                    context,
+                                  ).textTheme.titleLarge!.color,
                                 ),
                               ),
                             ],
@@ -315,10 +305,9 @@ class AccountView extends StatelessWidget {
                                   member?.totalDuration ?? 0,
                                 ),
                                 style: TextStyle(
-                                  color:
-                                      Theme.of(
-                                        context,
-                                      ).textTheme.titleLarge!.color,
+                                  color: Theme.of(
+                                    context,
+                                  ).textTheme.titleLarge!.color,
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -326,10 +315,9 @@ class AccountView extends StatelessWidget {
                               Text(
                                 appLocalizations.watchTime,
                                 style: TextStyle(
-                                  color:
-                                      Theme.of(
-                                        context,
-                                      ).textTheme.titleLarge!.color,
+                                  color: Theme.of(
+                                    context,
+                                  ).textTheme.titleLarge!.color,
                                 ),
                               ),
                               Padding(

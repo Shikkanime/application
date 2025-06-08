@@ -18,8 +18,8 @@ class AnimeSearchController extends GenericController<AnimeDto> {
 
   int get _limit =>
       wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
-          ? 6
-          : 24;
+      ? 6
+      : 24;
 
   void search(final String query) {
     this.query = query;

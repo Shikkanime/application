@@ -43,28 +43,29 @@ class SimulcastView extends StatelessWidget {
   Widget build(final BuildContext context) => StreamBuilder<List<AnimeDto>>(
     stream: AnimeController.instance.streamController.stream,
     initialData: AnimeController.instance.items,
-    builder: (
-      final BuildContext context,
-      final AsyncSnapshot<List<AnimeDto>> snapshot,
-    ) {
-      final List<Widget> list = _buildAnimeList(context, snapshot.data!);
+    builder:
+        (
+          final BuildContext context,
+          final AsyncSnapshot<List<AnimeDto>> snapshot,
+        ) {
+          final List<Widget> list = _buildAnimeList(context, snapshot.data!);
 
-      return RefreshIndicator.adaptive(
-        onRefresh: () async {
-          await Future.wait(<Future<void>>[
-            SimulcastController.instance.init(),
-            AnimeController.instance.init(),
-          ]);
+          return RefreshIndicator.adaptive(
+            onRefresh: () async {
+              await Future.wait(<Future<void>>[
+                SimulcastController.instance.init(),
+                AnimeController.instance.init(),
+              ]);
+            },
+            child: ListView.builder(
+              addAutomaticKeepAlives: false,
+              addRepaintBoundaries: false,
+              controller: AnimeController.instance.scrollController,
+              itemCount: list.length,
+              itemBuilder: (final BuildContext context, final int index) =>
+                  list[index],
+            ),
+          );
         },
-        child: ListView.builder(
-          addAutomaticKeepAlives: false,
-          addRepaintBoundaries: false,
-          controller: AnimeController.instance.scrollController,
-          itemCount: list.length,
-          itemBuilder:
-              (final BuildContext context, final int index) => list[index],
-        ),
-      );
-    },
   );
 }

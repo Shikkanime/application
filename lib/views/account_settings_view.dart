@@ -26,10 +26,7 @@ class AccountSettingsView extends StatelessWidget {
       body: StreamBuilder<MemberDto>(
         stream: MemberController.instance.streamController.stream,
         initialData: MemberController.instance.member,
-        builder: (
-          final BuildContext context,
-          final AsyncSnapshot<MemberDto> snapshot,
-        ) {
+        builder: (final BuildContext context, final AsyncSnapshot<MemberDto> snapshot) {
           final MemberDto? memberDto = snapshot.data;
 
           return SingleChildScrollView(
@@ -52,9 +49,8 @@ class AccountSettingsView extends StatelessWidget {
                         onTap: () {
                           Navigator.of(context).push(
                             MaterialPageRoute<void>(
-                              builder:
-                                  (final BuildContext context) =>
-                                      const EditIdentifier(),
+                              builder: (final BuildContext context) =>
+                                  const EditIdentifier(),
                             ),
                           );
                         },
@@ -95,30 +91,27 @@ class AccountSettingsView extends StatelessWidget {
                     SettingsOption(
                       title: appLocalizations.email,
                       subtitle: memberDto?.email ?? appLocalizations.noEmail,
-                      trailing:
-                          memberDto?.email == null
-                              ? GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute<void>(
-                                      builder:
-                                          (final BuildContext context) =>
-                                              const AssociateEmail(),
-                                    ),
-                                  );
-                                },
-                                child: const Icon(Icons.edit),
-                              )
-                              : null,
+                      trailing: memberDto?.email == null
+                          ? GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute<void>(
+                                    builder: (final BuildContext context) =>
+                                        const AssociateEmail(),
+                                  ),
+                                );
+                              },
+                              child: const Icon(Icons.edit),
+                            )
+                          : null,
                     ),
                     SettingsOption(
                       title: appLocalizations.forgotIdentifier,
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute<void>(
-                            builder:
-                                (final BuildContext context) =>
-                                    const ForgotIdentifier(),
+                            builder: (final BuildContext context) =>
+                                const ForgotIdentifier(),
                           ),
                         );
                       },
@@ -130,11 +123,10 @@ class AccountSettingsView extends StatelessWidget {
                   title: appLocalizations.notifications,
                   options: <Widget>[
                     StreamBuilder<NotificationsType>(
-                      stream:
-                          NotificationsController
-                              .instance
-                              .streamController
-                              .stream,
+                      stream: NotificationsController
+                          .instance
+                          .streamController
+                          .stream,
                       initialData:
                           NotificationsController.instance.notificationsType,
                       builder:
@@ -153,10 +145,9 @@ class AccountSettingsView extends StatelessWidget {
                                   ),
                                   subtitle: appLocalizations
                                       .notificationsSubtitles(type.name),
-                                  trailing:
-                                      snapshot.data == type
-                                          ? const Icon(Icons.check)
-                                          : null,
+                                  trailing: snapshot.data == type
+                                      ? const Icon(Icons.check)
+                                      : null,
                                   onTap: () async {
                                     final bool response =
                                         await NotificationsController.instance
@@ -227,10 +218,9 @@ class AccountSettingsView extends StatelessWidget {
                               for (final SortType type in SortType.values)
                                 SettingsOption(
                                   title: appLocalizations.sortType(type.name),
-                                  trailing:
-                                      snapshot.data == type
-                                          ? const Icon(Icons.check)
-                                          : null,
+                                  trailing: snapshot.data == type
+                                      ? const Icon(Icons.check)
+                                      : null,
                                   onTap: () {
                                     SortController.instance.setSortType(type);
                                   },
@@ -318,8 +308,9 @@ class SettingsOption extends StatelessWidget {
           ),
       ],
     ),
-    subtitle:
-        (subtitle != null && subtitle!.isNotEmpty) ? Text(subtitle!) : null,
+    subtitle: (subtitle != null && subtitle!.isNotEmpty)
+        ? Text(subtitle!)
+        : null,
     trailing: trailing,
     onTap: onTap,
   );

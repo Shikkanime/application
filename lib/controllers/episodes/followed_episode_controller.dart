@@ -11,8 +11,8 @@ class FollowedEpisodeController extends GenericController<EpisodeMappingDto> {
 
   int get _limit =>
       wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
-          ? 9
-          : 16;
+      ? 9
+      : 16;
 
   void setItems(final List<EpisodeMappingDto> items) {
     this.items.clear();

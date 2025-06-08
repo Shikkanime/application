@@ -52,8 +52,8 @@ class NotificationsController {
 
     await Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder:
-            (final BuildContext context) => const RequestNotificationView(),
+        builder: (final BuildContext context) =>
+            const RequestNotificationView(),
       ),
     );
 
@@ -63,8 +63,8 @@ class NotificationsController {
       return;
     }
 
-    final NotificationSettings? settings =
-        await _messaging?.requestPermission();
+    final NotificationSettings? settings = await _messaging
+        ?.requestPermission();
 
     if (settings?.authorizationStatus != AuthorizationStatus.authorized) {
       debugPrint('Notifications are not authorized');
