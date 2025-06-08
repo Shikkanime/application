@@ -30,36 +30,41 @@ class PatchController {
         content: StreamBuilder<PatchDownloadStatus>(
           stream: streamController.stream,
           initialData: PatchDownloadStatus.downloading,
-          builder: (
-            final BuildContext context,
-            final AsyncSnapshot<PatchDownloadStatus> snapshot,
-          ) {
-            final PatchDownloadStatus? status = snapshot.data;
-            return Row(
-              spacing: 16,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                if (status == PatchDownloadStatus.downloading) ...<Widget>[
-                  const CircularProgressIndicator(),
-                  Expanded(
-                    child: Text(AppLocalizations.of(context)!.downloadingPatch),
-                  ),
-                ],
-                if (status == PatchDownloadStatus.downloaded) ...<Widget>[
-                  const Icon(Icons.check),
-                  Expanded(
-                    child: Text(AppLocalizations.of(context)!.patchDownloaded),
-                  ),
-                ],
-                if (status == PatchDownloadStatus.failed) ...<Widget>[
-                  const Icon(Icons.error),
-                  Expanded(
-                    child: Text(AppLocalizations.of(context)!.patchFailed),
-                  ),
-                ],
-              ],
-            );
-          },
+          builder:
+              (
+                final BuildContext context,
+                final AsyncSnapshot<PatchDownloadStatus> snapshot,
+              ) {
+                final PatchDownloadStatus? status = snapshot.data;
+                return Row(
+                  spacing: 16,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    if (status == PatchDownloadStatus.downloading) ...<Widget>[
+                      const CircularProgressIndicator(),
+                      Expanded(
+                        child: Text(
+                          AppLocalizations.of(context)!.downloadingPatch,
+                        ),
+                      ),
+                    ],
+                    if (status == PatchDownloadStatus.downloaded) ...<Widget>[
+                      const Icon(Icons.check),
+                      Expanded(
+                        child: Text(
+                          AppLocalizations.of(context)!.patchDownloaded,
+                        ),
+                      ),
+                    ],
+                    if (status == PatchDownloadStatus.failed) ...<Widget>[
+                      const Icon(Icons.error),
+                      Expanded(
+                        child: Text(AppLocalizations.of(context)!.patchFailed),
+                      ),
+                    ],
+                  ],
+                );
+              },
         ),
       ),
     );

@@ -70,13 +70,10 @@ class _CalendarViewState extends State<CalendarView> {
     final int currentDay,
   ) => releases.firstWhere(
     (final WeekDayDto weekDay) => currentDay == releases.indexOf(weekDay),
-    orElse:
-        () => WeekDayDto(
-          dayOfWeek: AppLocalizations.of(
-            context,
-          )!.weekDays(currentDay.toString()),
-          releases: <WeekDayReleaseDto>[],
-        ),
+    orElse: () => WeekDayDto(
+      dayOfWeek: AppLocalizations.of(context)!.weekDays(currentDay.toString()),
+      releases: <WeekDayReleaseDto>[],
+    ),
   );
 
   Padding _buildDaysNavigationBar(
@@ -159,25 +156,26 @@ class _CalendarViewState extends State<CalendarView> {
   Widget build(final BuildContext context) => StreamBuilder<List<WeekDayDto>>(
     stream: AnimeWeeklyController.instance.streamController.stream,
     initialData: AnimeWeeklyController.instance.items,
-    builder: (
-      final BuildContext context,
-      final AsyncSnapshot<List<WeekDayDto>> snapshot,
-    ) {
-      final List<Widget> list = _buildList(context, snapshot.data!);
+    builder:
+        (
+          final BuildContext context,
+          final AsyncSnapshot<List<WeekDayDto>> snapshot,
+        ) {
+          final List<Widget> list = _buildList(context, snapshot.data!);
 
-      return RefreshIndicator.adaptive(
-        onRefresh: () async {
-          await AnimeWeeklyController.instance.init();
+          return RefreshIndicator.adaptive(
+            onRefresh: () async {
+              await AnimeWeeklyController.instance.init();
+            },
+            child: ListView.builder(
+              addAutomaticKeepAlives: false,
+              addRepaintBoundaries: false,
+              controller: AnimeWeeklyController.instance.scrollController,
+              itemCount: list.length,
+              itemBuilder: (final BuildContext context, final int index) =>
+                  list[index],
+            ),
+          );
         },
-        child: ListView.builder(
-          addAutomaticKeepAlives: false,
-          addRepaintBoundaries: false,
-          controller: AnimeWeeklyController.instance.scrollController,
-          itemCount: list.length,
-          itemBuilder:
-              (final BuildContext context, final int index) => list[index],
-        ),
-      );
-    },
   );
 }

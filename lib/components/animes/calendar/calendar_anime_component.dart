@@ -26,10 +26,9 @@ class CalendarAnimeComponent extends StatelessWidget {
     final BuildContext context,
     final String releaseDateTime,
   ) {
-    final DateTime parsed =
-        DateFormat(
-          'yyyy-MM-ddTHH:mm:ssZ',
-        ).parse(releaseDateTime, true).toLocal();
+    final DateTime parsed = DateFormat(
+      'yyyy-MM-ddTHH:mm:ssZ',
+    ).parse(releaseDateTime, true).toLocal();
 
     return DateFormat(
       AppLocalizations.of(context)!.calendarTimeFormat,
@@ -48,9 +47,8 @@ class CalendarAnimeComponent extends StatelessWidget {
 
         Navigator.of(context).push(
           MaterialPageRoute<void>(
-            builder:
-                (final BuildContext context) =>
-                    AnimeDetailsView(anime: release.anime),
+            builder: (final BuildContext context) =>
+                AnimeDetailsView(anime: release.anime),
           ),
         );
       },
@@ -63,10 +61,9 @@ class CalendarAnimeComponent extends StatelessWidget {
           Stack(
             children: <Widget>[
               ImageComponent(
-                uuid:
-                    isReleased
-                        ? release.mappings!.first.uuid
-                        : release.anime.uuid,
+                uuid: isReleased
+                    ? release.mappings!.first.uuid
+                    : release.anime.uuid,
                 type: ImageType.banner,
                 borderRadius: const BorderRadius.all(
                   Radius.circular(Constant.borderRadius),

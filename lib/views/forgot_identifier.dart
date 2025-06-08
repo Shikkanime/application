@@ -13,11 +13,11 @@ class ForgotIdentifier extends StatelessWidget {
     successMessage: AppLocalizations.of(context)!.yourNewIdentifierHasBeenSent,
     requestAction: MemberController.instance.forgotIdentifier,
     validateAction: MemberController.instance.validateAction,
-    isEmailInvalid:
-        (final String email) =>
-            MemberController.instance.member!.email!.isNotEmpty &&
-            email == MemberController.instance.member?.email,
-    conflictEmailMessage:
-        AppLocalizations.of(context)!.emailAlreadyAssociatedWithYourAccount,
+    isEmailInvalid: (final String email) =>
+        MemberController.instance.member!.email!.isNotEmpty &&
+        email == MemberController.instance.member?.email,
+    conflictEmailMessage: AppLocalizations.of(
+      context,
+    )!.emailAlreadyAssociatedWithYourAccount,
   );
 }

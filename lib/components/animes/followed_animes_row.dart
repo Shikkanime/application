@@ -63,10 +63,9 @@ class FollowedAnimesRow extends StatelessWidget {
                             addAutomaticKeepAlives: false,
                             addRepaintBoundaries: false,
                             itemCount: snapshot.data!.length,
-                            controller:
-                                FollowedAnimeController
-                                    .instance
-                                    .scrollController,
+                            controller: FollowedAnimeController
+                                .instance
+                                .scrollController,
                             itemBuilder:
                                 (final BuildContext context, final int index) =>
                                     FollowedAnimeComponent(

@@ -12,8 +12,8 @@ class EpisodeController extends GenericController<GroupedEpisodeDto> {
 
   int get _limit =>
       wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
-          ? 4
-          : 16;
+      ? 4
+      : 16;
 
   int maxElementsPerRow(final BuildContext context) =>
       max(1, (MediaQuery.sizeOf(context).width * 0.0025).floor());

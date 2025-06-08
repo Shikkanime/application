@@ -40,14 +40,13 @@ class ImageComponent extends StatelessWidget {
       fit: fit,
       width: width,
       height: height,
-      placeholder:
-          (final BuildContext context, final String url) =>
-              placeholder ??
-              Container(
-                color: Colors.grey,
-                width: width,
-                height: placeholderHeight ?? height,
-              ),
+      placeholder: (final BuildContext context, final String url) =>
+          placeholder ??
+          Container(
+            color: Colors.grey,
+            width: width,
+            height: placeholderHeight ?? height,
+          ),
       errorWidget:
           (final BuildContext context, final String url, final Object error) =>
               Container(

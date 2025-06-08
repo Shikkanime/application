@@ -29,18 +29,17 @@ class AnimeWeeklyController extends GenericController<WeekDayDto> {
     final List<dynamic> json = await HttpRequest.instance.get<List<dynamic>>(
       '/v1/animes/weekly${searchType != null ? '?searchTypes=${searchType!.name.toUpperCase()}' : ''}',
       token: isWatchlist ? MemberController.instance.member?.token : null,
-      onUnauthorized:
-          isWatchlist
-              ? () async {
-                if (_isRetry) {
-                  return;
-                }
-
-                _isRetry = true;
-                await MemberController.instance.login();
-                await fetchItems();
+      onUnauthorized: isWatchlist
+          ? () async {
+              if (_isRetry) {
+                return;
               }
-              : null,
+
+              _isRetry = true;
+              await MemberController.instance.login();
+              await fetchItems();
+            }
+          : null,
     );
 
     _isRetry = false;

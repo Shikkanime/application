@@ -52,9 +52,8 @@ class _RequestNotificationViewState extends State<RequestNotificationView> {
               CustomCard(
                 child: Column(
                   children: <Widget>[
-                    for (final NotificationsType type in NotificationsType
-                        .values
-                        .where(
+                    for (final NotificationsType type
+                        in NotificationsType.values.where(
                           (final NotificationsType type) =>
                               type != NotificationsType.none,
                         ))
@@ -69,10 +68,9 @@ class _RequestNotificationViewState extends State<RequestNotificationView> {
                             context,
                           )!.notificationsSubtitles(type.name),
                         ),
-                        trailing:
-                            _selectedType == type
-                                ? const Icon(Icons.check)
-                                : null,
+                        trailing: _selectedType == type
+                            ? const Icon(Icons.check)
+                            : null,
                         onTap: () {
                           setState(() {
                             _selectedType = type;

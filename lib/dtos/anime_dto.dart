@@ -28,9 +28,9 @@ sealed class AnimeDto with _$AnimeDto {
 extension AnimeDtoExtension on AnimeDto {
   List<PlatformDto> get platforms =>
       platformIds != null && platformIds!.isNotEmpty
-          ? platformIds!
-              .map((final AnimePlatformDto e) => e.platform)
-              .toSet()
-              .toList()
-          : <PlatformDto>[];
+      ? platformIds!
+            .map((final AnimePlatformDto e) => e.platform)
+            .toSet()
+            .toList()
+      : <PlatformDto>[];
 }

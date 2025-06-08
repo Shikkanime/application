@@ -12,9 +12,9 @@ class MissedAnimeController extends GenericController<MissedAnimeDto> {
 
   int get _limit =>
       Constant.isAndroidOrIOS &&
-              wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
-          ? 9
-          : 24;
+          wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
+      ? 9
+      : 24;
 
   void setItems(final List<MissedAnimeDto> items) {
     this.items.clear();

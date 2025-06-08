@@ -20,9 +20,8 @@ class MissedAnimeComponent extends StatelessWidget {
 
       Navigator.of(context).push(
         MaterialPageRoute<void>(
-          builder:
-              (final BuildContext context) =>
-                  AnimeDetailsView(anime: missedAnime.anime),
+          builder: (final BuildContext context) =>
+              AnimeDetailsView(anime: missedAnime.anime),
         ),
       );
     },
@@ -49,10 +48,9 @@ class MissedAnimeComponent extends StatelessWidget {
                   top: 0,
                   right: 0,
                   child: Pill(
-                    text:
-                        missedAnime.episodeMissed >= 10
-                            ? '9+'
-                            : missedAnime.episodeMissed.toString(),
+                    text: missedAnime.episodeMissed >= 10
+                        ? '9+'
+                        : missedAnime.episodeMissed.toString(),
                   ),
                 ),
               ],

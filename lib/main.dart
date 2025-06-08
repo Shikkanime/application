@@ -242,67 +242,62 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: Constant.isAndroidOrIOS ? const ApplicationAppBar() : null,
-      body:
-          Constant.isAndroidOrIOS
-              ? pageView
-              : Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).canvasColor,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      child: StreamBuilder<int>(
-                        stream:
-                            NavigationController
-                                .instance
-                                .streamController
-                                .stream,
-                        initialData: NavigationController.instance.currentIndex,
-                        builder:
-                            (
-                              final BuildContext context,
-                              final AsyncSnapshot<int> snapshot,
-                            ) => Column(
-                              spacing: 8,
-                              children: NavigationController.instance
-                                  .getDrawerItems(context),
-                            ),
-                      ),
+      body: Constant.isAndroidOrIOS
+          ? pageView
+          : Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).canvasColor,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    child: StreamBuilder<int>(
+                      stream:
+                          NavigationController.instance.streamController.stream,
+                      initialData: NavigationController.instance.currentIndex,
+                      builder:
+                          (
+                            final BuildContext context,
+                            final AsyncSnapshot<int> snapshot,
+                          ) => Column(
+                            spacing: 8,
+                            children: NavigationController.instance
+                                .getDrawerItems(context),
+                          ),
                     ),
                   ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: pageView,
-                    ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: pageView,
                   ),
-                ],
-              ),
-      bottomNavigationBar:
-          Constant.isAndroidOrIOS
-              ? StreamBuilder<int>(
-                stream: NavigationController.instance.streamController.stream,
-                builder:
-                    (
-                      final BuildContext context,
-                      final AsyncSnapshot<int> snapshot,
-                    ) => BottomNavigationBar(
-                      showUnselectedLabels: true,
-                      currentIndex: NavigationController.instance.currentIndex,
-                      items: NavigationController.instance
-                          .getBottomNavigationBarItems(context),
-                      onTap: (final int index) {
-                        NavigationController.instance.setIndex(
-                          index,
-                          NavigationSource.bottomNavigationBar,
-                        );
-                      },
-                    ),
-              )
-              : null,
+                ),
+              ],
+            ),
+      bottomNavigationBar: Constant.isAndroidOrIOS
+          ? StreamBuilder<int>(
+              stream: NavigationController.instance.streamController.stream,
+              builder:
+                  (
+                    final BuildContext context,
+                    final AsyncSnapshot<int> snapshot,
+                  ) => BottomNavigationBar(
+                    showUnselectedLabels: true,
+                    currentIndex: NavigationController.instance.currentIndex,
+                    items: NavigationController.instance
+                        .getBottomNavigationBarItems(context),
+                    onTap: (final int index) {
+                      NavigationController.instance.setIndex(
+                        index,
+                        NavigationSource.bottomNavigationBar,
+                      );
+                    },
+                  ),
+            )
+          : null,
     );
   }
 }
@@ -314,28 +309,27 @@ class ApplicationAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(final BuildContext context) => StreamBuilder<int>(
     stream: NavigationController.instance.streamController.stream,
     initialData: NavigationController.instance.currentIndex,
-    builder:
-        (final BuildContext context, final AsyncSnapshot<int> snapshot) =>
-            AppBar(
-              elevation: 0,
-              centerTitle: false,
-              title: GestureDetector(
-                onTap: () {
-                  NavigationController.instance.setIndex(
-                    0,
-                    NavigationSource.appBar,
-                  );
-                },
-                child: Image(
-                  image: Theme.of(context).iconImage!,
-                  width: 36,
-                  height: 36,
-                ),
-              ),
-              actions: NavigationController.instance.getAppbarNavigationItems(
-                context,
-              ),
+    builder: (final BuildContext context, final AsyncSnapshot<int> snapshot) =>
+        AppBar(
+          elevation: 0,
+          centerTitle: false,
+          title: GestureDetector(
+            onTap: () {
+              NavigationController.instance.setIndex(
+                0,
+                NavigationSource.appBar,
+              );
+            },
+            child: Image(
+              image: Theme.of(context).iconImage!,
+              width: 36,
+              height: 36,
             ),
+          ),
+          actions: NavigationController.instance.getAppbarNavigationItems(
+            context,
+          ),
+        ),
   );
 
   @override

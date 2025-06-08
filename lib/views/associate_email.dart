@@ -13,9 +13,8 @@ class AssociateEmail extends StatelessWidget {
     successMessage: AppLocalizations.of(context)!.yourEmailHasBeenAssociated,
     requestAction: MemberController.instance.associateEmail,
     validateAction: MemberController.instance.validateAction,
-    isEmailInvalid:
-        (final String email) =>
-            email == MemberController.instance.member?.email,
+    isEmailInvalid: (final String email) =>
+        email == MemberController.instance.member?.email,
     postValidation: MemberController.instance.login,
   );
 }

@@ -22,24 +22,23 @@ class _ElevatedAsyncButtonState extends State<ElevatedAsyncButton> {
   @override
   Widget build(final BuildContext context) => ElevatedButton(
     style: widget.style ?? Theme.of(context).elevatedButtonTheme.style,
-    onPressed:
-        widget.onPressed != null && !_isRunning
-            ? () async {
-              setState(() {
-                _isRunning = true;
-              });
+    onPressed: widget.onPressed != null && !_isRunning
+        ? () async {
+            setState(() {
+              _isRunning = true;
+            });
 
-              await widget.onPressed!();
+            await widget.onPressed!();
 
-              if (!mounted) {
-                return;
-              }
-
-              setState(() {
-                _isRunning = false;
-              });
+            if (!mounted) {
+              return;
             }
-            : null,
+
+            setState(() {
+              _isRunning = false;
+            });
+          }
+        : null,
     child: widget.child,
   );
 }

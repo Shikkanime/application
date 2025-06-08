@@ -12,11 +12,10 @@ class WatchButton extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => ElevatedButton(
     style: Theme.of(context).cardButtonStyle,
-    onPressed:
-        () => launchUrl(
-          Uri.parse(url),
-          mode: LaunchMode.externalNonBrowserApplication,
-        ),
+    onPressed: () => launchUrl(
+      Uri.parse(url),
+      mode: LaunchMode.externalNonBrowserApplication,
+    ),
     child: Flex(
       spacing: 8,
       direction: Axis.horizontal,

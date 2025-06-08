@@ -32,10 +32,9 @@ class _EditIdentifierState extends State<EditIdentifier> {
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
                 labelText: AppLocalizations.of(context)!.identifier,
-                errorText:
-                    _isInvalidIdentiferError
-                        ? AppLocalizations.of(context)!.invalidIdentifier
-                        : null,
+                errorText: _isInvalidIdentiferError
+                    ? AppLocalizations.of(context)!.invalidIdentifier
+                    : null,
               ),
               controller: _controller,
             ),

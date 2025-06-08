@@ -26,46 +26,43 @@ class MemberImage extends StatelessWidget {
     );
 
     return Container(
-      decoration:
-          hasBorder
-              ? BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.fromBorderSide(
-                  BorderSide(
-                    color: Theme.of(context).textTheme.titleLarge!.color!,
-                    width: 2,
-                  ),
-                ),
-              )
-              : null,
-      padding: hasBorder ? const EdgeInsets.all(1) : null,
-      child:
-          member!.attachmentLastUpdateDateTime != null
-              ? ImageComponent(
-                uuid: member!.uuid,
-                type: ImageType.memberProfile,
-                version:
-                    member!.attachmentLastUpdateDateTime!
-                        .toDateTime()!
-                        .millisecondsSinceEpoch
-                        .toString(),
-                borderRadius: const BorderRadius.all(Radius.circular(360)),
-                width: hasBorder && width != null ? width! - 6 : width,
-                height: hasBorder && height != null ? height! - 6 : height,
-                placeholder: const Padding(
-                  padding: EdgeInsets.all(24),
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                ),
-                cacheDuration: const Duration(days: 30),
-              )
-              : ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(360)),
-                child: SizedBox(
-                  width: hasBorder && width != null ? width! - 6 : width,
-                  height: hasBorder && height != null ? height! - 6 : height,
-                  child: defaultMemberImage,
+      decoration: hasBorder
+          ? BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.fromBorderSide(
+                BorderSide(
+                  color: Theme.of(context).textTheme.titleLarge!.color!,
+                  width: 2,
                 ),
               ),
+            )
+          : null,
+      padding: hasBorder ? const EdgeInsets.all(1) : null,
+      child: member!.attachmentLastUpdateDateTime != null
+          ? ImageComponent(
+              uuid: member!.uuid,
+              type: ImageType.memberProfile,
+              version: member!.attachmentLastUpdateDateTime!
+                  .toDateTime()!
+                  .millisecondsSinceEpoch
+                  .toString(),
+              borderRadius: const BorderRadius.all(Radius.circular(360)),
+              width: hasBorder && width != null ? width! - 6 : width,
+              height: hasBorder && height != null ? height! - 6 : height,
+              placeholder: const Padding(
+                padding: EdgeInsets.all(24),
+                child: CircularProgressIndicator(strokeWidth: 2),
+              ),
+              cacheDuration: const Duration(days: 30),
+            )
+          : ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(360)),
+              child: SizedBox(
+                width: hasBorder && width != null ? width! - 6 : width,
+                height: hasBorder && height != null ? height! - 6 : height,
+                child: defaultMemberImage,
+              ),
+            ),
     );
   }
 }

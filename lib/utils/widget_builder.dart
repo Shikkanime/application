@@ -36,10 +36,9 @@ class WidgetBuilder {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: List<Widget>.generate(
             maxElementsPerRow,
-            (final int j) =>
-                i + j < toSeparateList.length
-                    ? Expanded(child: toSeparateList.elementAt(i + j))
-                    : const Spacer(),
+            (final int j) => i + j < toSeparateList.length
+                ? Expanded(child: toSeparateList.elementAt(i + j))
+                : const Spacer(),
           ),
         ),
       );

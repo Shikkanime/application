@@ -103,42 +103,42 @@ class NavigationController {
       icon: StreamBuilder<List<MissedAnimeDto>>(
         stream: MissedAnimeController.instance.streamController.stream,
         initialData: MissedAnimeController.instance.items,
-        builder: (
-          final BuildContext context,
-          final AsyncSnapshot<List<MissedAnimeDto>> snapshot,
-        ) {
-          final Icon icon = Icon(
-            _currentIndex == 0 ? Icons.home : Icons.home_outlined,
-          );
+        builder:
+            (
+              final BuildContext context,
+              final AsyncSnapshot<List<MissedAnimeDto>> snapshot,
+            ) {
+              final Icon icon = Icon(
+                _currentIndex == 0 ? Icons.home : Icons.home_outlined,
+              );
 
-          if (snapshot.data!.isEmpty) {
-            return icon;
-          }
+              if (snapshot.data!.isEmpty) {
+                return icon;
+              }
 
-          final int totalEpisodeMissed = snapshot.data!
-              .map((final MissedAnimeDto e) => e.episodeMissed)
-              .reduce((final int a, final int b) => a + b);
+              final int totalEpisodeMissed = snapshot.data!
+                  .map((final MissedAnimeDto e) => e.episodeMissed)
+                  .reduce((final int a, final int b) => a + b);
 
-          return Stack(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 12, right: 12, top: 8),
-                child: icon,
-              ),
-              if (snapshot.data!.isNotEmpty)
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  child: Pill(
-                    text:
-                        totalEpisodeMissed >= 10
+              return Stack(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12, right: 12, top: 8),
+                    child: icon,
+                  ),
+                  if (snapshot.data!.isNotEmpty)
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: Pill(
+                        text: totalEpisodeMissed >= 10
                             ? '9+'
                             : totalEpisodeMissed.toString(),
-                  ),
-                ),
-            ],
-          );
-        },
+                      ),
+                    ),
+                ],
+              );
+            },
       ),
       title: AppLocalizations.of(context)!.home,
     ),
@@ -156,29 +156,38 @@ class NavigationController {
       icon: StreamBuilder<MemberDto>(
         stream: MemberController.instance.streamController.stream,
         initialData: MemberController.instance.member,
-        builder: (
-          final BuildContext context,
-          final AsyncSnapshot<MemberDto> snapshot,
-        ) {
-          final MemberImage memberImage = MemberImage(
-            member: snapshot.data,
-            width: 32,
-            height: 32,
-            hasBorder: _currentIndex == 3,
-          );
-
-          return snapshot.data?.email != null
-              ? memberImage
-              : Stack(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12, right: 8, top: 8),
-                    child: memberImage,
-                  ),
-                  const Positioned(top: 0, right: 0, child: Pill(text: '!')),
-                ],
+        builder:
+            (
+              final BuildContext context,
+              final AsyncSnapshot<MemberDto> snapshot,
+            ) {
+              final MemberImage memberImage = MemberImage(
+                member: snapshot.data,
+                width: 32,
+                height: 32,
+                hasBorder: _currentIndex == 3,
               );
-        },
+
+              return snapshot.data?.email != null
+                  ? memberImage
+                  : Stack(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 12,
+                            right: 8,
+                            top: 8,
+                          ),
+                          child: memberImage,
+                        ),
+                        const Positioned(
+                          top: 0,
+                          right: 0,
+                          child: Pill(text: '!'),
+                        ),
+                      ],
+                    );
+            },
       ),
       title: AppLocalizations.of(context)!.myAccount,
     ),
@@ -186,16 +195,15 @@ class NavigationController {
 
   List<BottomNavigationBarItem> getBottomNavigationBarItems(
     final BuildContext context,
-  ) =>
-      getMainNavigationItems(context)
-          .map(
-            (final NavigationItem e) => BottomNavigationBarItem(
-              icon: e.nonActiveIcon ?? e.icon,
-              activeIcon: e.icon,
-              label: e.title,
-            ),
-          )
-          .toList();
+  ) => getMainNavigationItems(context)
+      .map(
+        (final NavigationItem e) => BottomNavigationBarItem(
+          icon: e.nonActiveIcon ?? e.icon,
+          activeIcon: e.icon,
+          label: e.title,
+        ),
+      )
+      .toList();
 
   List<SubNavigationItem> _getSubNavigationItems(final BuildContext context) =>
       <SubNavigationItem>[
@@ -218,8 +226,8 @@ class NavigationController {
           onTap: () async {
             await Navigator.of(context).push(
               MaterialPageRoute<void>(
-                builder:
-                    (final BuildContext context) => const AccountSettingsView(),
+                builder: (final BuildContext context) =>
+                    const AccountSettingsView(),
               ),
             );
           },
@@ -335,16 +343,16 @@ class _DrawerButtonState extends State<DrawerButton> {
         width: 85,
         height: 65,
         child: DecoratedBox(
-          decoration:
-              isHoverActive || widget.isActive
-                  ? BoxDecoration(
-                    color: Theme.of(context).cardButtonStyle?.backgroundColor
-                        ?.resolve(<WidgetState>{}),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(Constant.borderRadius),
-                    ),
-                  )
-                  : const BoxDecoration(),
+          decoration: isHoverActive || widget.isActive
+              ? BoxDecoration(
+                  color: Theme.of(
+                    context,
+                  ).cardButtonStyle?.backgroundColor?.resolve(<WidgetState>{}),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(Constant.borderRadius),
+                  ),
+                )
+              : const BoxDecoration(),
           child: Column(
             spacing: 8,
             mainAxisSize: MainAxisSize.min,
@@ -358,10 +366,9 @@ class _DrawerButtonState extends State<DrawerButton> {
               Text(
                 widget.label,
                 style: TextStyle(
-                  color:
-                      widget.isActive
-                          ? Theme.of(context).colorScheme.primary
-                          : null,
+                  color: widget.isActive
+                      ? Theme.of(context).colorScheme.primary
+                      : null,
                   fontSize: 12,
                 ),
               ),

@@ -18,9 +18,8 @@ class PlatformComponent extends StatelessWidget {
       fit: BoxFit.cover,
       width: 16,
       height: 16,
-      placeholder:
-          (final BuildContext context, final String url) =>
-              Container(color: Colors.grey, width: 16, height: 16),
+      placeholder: (final BuildContext context, final String url) =>
+          Container(color: Colors.grey, width: 16, height: 16),
       errorWidget:
           (final BuildContext context, final String url, final dynamic error) =>
               Container(color: Colors.grey, width: 16, height: 16),

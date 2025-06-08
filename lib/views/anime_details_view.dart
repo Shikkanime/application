@@ -77,8 +77,8 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
 
     final List<SeasonDto>? seasons =
         SortController.instance.sortType == SortType.oldest
-            ? widget.anime.seasons
-            : widget.anime.seasons?.reversed.toList();
+        ? widget.anime.seasons
+        : widget.anime.seasons?.reversed.toList();
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -137,10 +137,9 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                         ImageComponent(
                           uuid: widget.anime.uuid,
                           type: ImageType.banner,
-                          height:
-                              MediaQuery.sizeOf(context).width > 900
-                                  ? 300
-                                  : null,
+                          height: MediaQuery.sizeOf(context).width > 900
+                              ? 300
+                              : null,
                           fit: BoxFit.cover,
                           borderRadius: const BorderRadius.all(
                             Radius.circular(Constant.borderRadius),
@@ -233,9 +232,8 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                                       if (url != null) {
                                         launchUrl(
                                           Uri.parse(url),
-                                          mode:
-                                              LaunchMode
-                                                  .externalNonBrowserApplication,
+                                          mode: LaunchMode
+                                              .externalNonBrowserApplication,
                                         );
                                       }
                                     },
@@ -264,10 +262,9 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                         Expanded(
                           child: Text.rich(
                             span,
-                            overflow:
-                                _showMore
-                                    ? TextOverflow.visible
-                                    : TextOverflow.ellipsis,
+                            overflow: _showMore
+                                ? TextOverflow.visible
+                                : TextOverflow.ellipsis,
                             maxLines: _showMore ? null : 4,
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
@@ -363,35 +360,34 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
           ),
         ),
       ),
-      floatingActionButton:
-          _selectedEpisodes.isNotEmpty
-              ? FloatingActionButton(
-                onPressed: () async {
-                  for (final String uuid in _selectedEpisodes) {
-                    await MemberController.instance.followEpisode(
-                      widget.anime.uuid,
-                      AnimeDetailsController.instance.items
-                          .firstWhere(
-                            (final EpisodeMappingDto episode) =>
-                                episode.uuid == uuid,
-                          )
-                          .uuid,
-                      refreshAfterFollow: false,
-                    );
-                  }
-
-                  await MemberController.instance.refresh();
-
-                  VibrationController.instance.vibrate(
-                    pattern: <int>[0, 50, 125, 50, 125, 50],
+      floatingActionButton: _selectedEpisodes.isNotEmpty
+          ? FloatingActionButton(
+              onPressed: () async {
+                for (final String uuid in _selectedEpisodes) {
+                  await MemberController.instance.followEpisode(
+                    widget.anime.uuid,
+                    AnimeDetailsController.instance.items
+                        .firstWhere(
+                          (final EpisodeMappingDto episode) =>
+                              episode.uuid == uuid,
+                        )
+                        .uuid,
+                    refreshAfterFollow: false,
                   );
+                }
 
-                  setState(_selectedEpisodes.clear);
-                },
-                tooltip: AppLocalizations.of(context)!.markAsWatched,
-                child: const Icon(Icons.bookmarks),
-              )
-              : null,
+                await MemberController.instance.refresh();
+
+                VibrationController.instance.vibrate(
+                  pattern: <int>[0, 50, 125, 50, 125, 50],
+                );
+
+                setState(_selectedEpisodes.clear);
+              },
+              tooltip: AppLocalizations.of(context)!.markAsWatched,
+              child: const Icon(Icons.bookmarks),
+            )
+          : null,
     );
   }
 

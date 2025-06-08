@@ -15,8 +15,8 @@ class AnimeDetailsController extends GenericController<EpisodeMappingDto> {
 
   int get _limit =>
       wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
-          ? 4
-          : 24;
+      ? 4
+      : 24;
 
   @override
   Future<Iterable<EpisodeMappingDto>> fetchItems() async {

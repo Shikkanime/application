@@ -25,9 +25,8 @@ class MissedAnimesLoaderRow extends StatelessWidget {
                   addAutomaticKeepAlives: false,
                   addRepaintBoundaries: false,
                   itemCount: 12,
-                  itemBuilder:
-                      (final BuildContext context, final int index) =>
-                          const MissedAnimeLoaderComponent(),
+                  itemBuilder: (final BuildContext context, final int index) =>
+                      const MissedAnimeLoaderComponent(),
                 ),
               ),
             ),
