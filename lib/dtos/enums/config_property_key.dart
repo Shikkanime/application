@@ -4,4 +4,5 @@ enum ConfigPropertyKey {
   oldIdentifier,
   reviewAppLaunched,
   sortType,
+  lastApiCallNotification,
 }
