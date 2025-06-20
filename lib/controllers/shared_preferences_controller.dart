@@ -5,9 +5,15 @@ class SharedPreferencesController {
   static final SharedPreferencesController instance =
       SharedPreferencesController();
   late final SharedPreferences _sharedPreferences;
+  bool _isInitialized = false;
 
   Future<void> init() async {
+    if (_isInitialized) {
+      return;
+    }
+
     _sharedPreferences = await SharedPreferences.getInstance();
+    _isInitialized = true;
   }
 
   bool containsKey(final ConfigPropertyKey key) =>

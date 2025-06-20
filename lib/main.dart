@@ -8,6 +8,7 @@ import 'package:application/controllers/review_controller.dart';
 import 'package:application/controllers/shared_preferences_controller.dart';
 import 'package:application/controllers/sort_controller.dart';
 import 'package:application/controllers/update_controller.dart';
+import 'package:application/dtos/enums/config_property_key.dart';
 import 'package:application/firebase_options.dart';
 import 'package:application/l10n/app_localizations.dart';
 import 'package:application/utils/analytics.dart';
@@ -19,9 +20,59 @@ import 'package:application/views/home_view.dart';
 import 'package:application/views/no_internet.dart';
 import 'package:application/views/simulcast_view.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart';
+
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(
+  final RemoteMessage message,
+) async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await SharedPreferencesController.instance.init();
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final String? lastApiCallNotification = SharedPreferencesController.instance
+      .getString(ConfigPropertyKey.lastApiCallNotification);
+
+  final DateTime now = DateTime.now();
+  final DateTime today = DateTime(now.year, now.month, now.day);
+
+  if (lastApiCallNotification != null) {
+    final DateTime lastApiCallNotificationDate = DateTime.parse(
+      lastApiCallNotification,
+    );
+
+    final DateTime lastCallDay = DateTime(
+      lastApiCallNotificationDate.year,
+      lastApiCallNotificationDate.month,
+      lastApiCallNotificationDate.day,
+    );
+
+    if (lastCallDay.isAtSameMomentAs(today)) {
+      return;
+    }
+  }
+
+  try {
+    final Response response = await MemberController.instance.testLogin(
+      SharedPreferencesController.instance.getString(
+        ConfigPropertyKey.identifier,
+      )!,
+    );
+
+    if (response.statusCode != 200) {
+      return;
+    }
+
+    await SharedPreferencesController.instance.setString(
+      ConfigPropertyKey.lastApiCallNotification,
+      now.toIso8601String(),
+    );
+  } on Exception catch (_) {}
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,6 +87,11 @@ Future<void> main() async {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
+
+      FirebaseMessaging.onBackgroundMessage(
+        _firebaseMessagingBackgroundHandler,
+      );
+      FirebaseMessaging.onMessage.listen(_firebaseMessagingBackgroundHandler);
     }
 
     final int start = DateTime.now().millisecondsSinceEpoch;
