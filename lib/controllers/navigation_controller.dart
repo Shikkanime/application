@@ -316,28 +316,19 @@ class _DrawerButtonState extends State<DrawerButton> {
         return;
       }
 
-      setState(() {
-        isHoverActive = true;
-      });
+      setState(() => isHoverActive = true);
     },
     onExit: (final _) {
       if (widget.isActive) {
         return;
       }
 
-      setState(() {
-        isHoverActive = false;
-      });
+      setState(() => isHoverActive = false);
     },
     child: GestureDetector(
       onTap: () {
-        if (widget.onTap != null) {
-          widget.onTap!();
-
-          setState(() {
-            isHoverActive = false;
-          });
-        }
+        widget.onTap?.call();
+        setState(() => isHoverActive = false);
       },
       child: SizedBox(
         width: 85,

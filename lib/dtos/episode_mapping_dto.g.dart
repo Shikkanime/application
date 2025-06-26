@@ -22,8 +22,8 @@ _EpisodeMappingDto _$EpisodeMappingDtoFromJson(Map<String, dynamic> json) =>
       variants: (json['variants'] as List<dynamic>?)
           ?.map((e) => EpisodeVariantDto.fromJson(e as Map<String, dynamic>))
           .toList(),
-      platforms: (json['platforms'] as List<dynamic>?)
-          ?.map((e) => PlatformDto.fromJson(e as Map<String, dynamic>))
+      platforms: (json['platforms'] as List<dynamic>)
+          .map((e) => PlatformDto.fromJson(e as Map<String, dynamic>))
           .toList(),
       langTypes: (json['langTypes'] as List<dynamic>?)
           ?.map((e) => e as String)

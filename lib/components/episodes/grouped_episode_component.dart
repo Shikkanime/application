@@ -54,8 +54,9 @@ class GroupedEpisodeComponent extends StatelessWidget {
           episodeType: episode.episodeType,
           number: episode.number,
         ),
-        for (final String langType in episode.langTypes)
-          LangTypeComponent(langType: langType),
+        ...episode.langTypes.map(
+          (final String langType) => LangTypeComponent(langType: langType),
+        ),
         const SizedBox(height: 8),
         EpisodeActionBar(
           anime: episode.anime.uuid,

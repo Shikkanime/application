@@ -62,9 +62,9 @@ class AnimeComponent extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           maxLines: 2,
         ),
-        if (anime.langTypes != null)
-          for (final String langType in anime.langTypes!)
-            LangTypeComponent(langType: langType),
+        ...?anime.langTypes?.map(
+          (final String langType) => LangTypeComponent(langType: langType),
+        ),
         if (showWatchlist) ...<Widget>[
           const SizedBox(height: 8),
           Flex(

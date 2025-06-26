@@ -24,9 +24,9 @@ class FollowedStreamBuilder extends StatelessWidget {
           final MemberDto? memberDto = snapshot.data;
 
           final bool containsAnime =
-              anime != null && memberDto!.followedAnimes.contains(anime);
+              memberDto?.followedAnimes.contains(anime) ?? false;
           final bool containsEpisode =
-              episode != null && memberDto!.followedEpisodes.contains(episode);
+              memberDto?.followedEpisodes.contains(episode) ?? false;
 
           return builder(context, containsAnime, containsEpisode);
         },

@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$EpisodeMappingDto {
 
- String get uuid; AnimeDto? get anime; String get releaseDateTime; int get season; String get episodeType; int get number; int get duration; String? get title; String? get description; List<EpisodeVariantDto>? get variants; List<PlatformDto>? get platforms; List<String>? get langTypes;
+ String get uuid; AnimeDto? get anime; String get releaseDateTime; int get season; String get episodeType; int get number; int get duration; String? get title; String? get description; List<EpisodeVariantDto>? get variants; List<PlatformDto> get platforms; List<String>? get langTypes;
 /// Create a copy of EpisodeMappingDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -49,7 +49,7 @@ abstract mixin class $EpisodeMappingDtoCopyWith<$Res>  {
   factory $EpisodeMappingDtoCopyWith(EpisodeMappingDto value, $Res Function(EpisodeMappingDto) _then) = _$EpisodeMappingDtoCopyWithImpl;
 @useResult
 $Res call({
- String uuid, AnimeDto? anime, String releaseDateTime, int season, String episodeType, int number, int duration, String? title, String? description, List<EpisodeVariantDto>? variants, List<PlatformDto>? platforms, List<String>? langTypes
+ String uuid, AnimeDto? anime, String releaseDateTime, int season, String episodeType, int number, int duration, String? title, String? description, List<EpisodeVariantDto>? variants, List<PlatformDto> platforms, List<String>? langTypes
 });
 
 
@@ -66,7 +66,7 @@ class _$EpisodeMappingDtoCopyWithImpl<$Res>
 
 /// Create a copy of EpisodeMappingDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? uuid = null,Object? anime = freezed,Object? releaseDateTime = null,Object? season = null,Object? episodeType = null,Object? number = null,Object? duration = null,Object? title = freezed,Object? description = freezed,Object? variants = freezed,Object? platforms = freezed,Object? langTypes = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? uuid = null,Object? anime = freezed,Object? releaseDateTime = null,Object? season = null,Object? episodeType = null,Object? number = null,Object? duration = null,Object? title = freezed,Object? description = freezed,Object? variants = freezed,Object? platforms = null,Object? langTypes = freezed,}) {
   return _then(_self.copyWith(
 uuid: null == uuid ? _self.uuid : uuid // ignore: cast_nullable_to_non_nullable
 as String,anime: freezed == anime ? _self.anime : anime // ignore: cast_nullable_to_non_nullable
@@ -78,8 +78,8 @@ as int,duration: null == duration ? _self.duration : duration // ignore: cast_nu
 as int,title: freezed == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String?,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String?,variants: freezed == variants ? _self.variants : variants // ignore: cast_nullable_to_non_nullable
-as List<EpisodeVariantDto>?,platforms: freezed == platforms ? _self.platforms : platforms // ignore: cast_nullable_to_non_nullable
-as List<PlatformDto>?,langTypes: freezed == langTypes ? _self.langTypes : langTypes // ignore: cast_nullable_to_non_nullable
+as List<EpisodeVariantDto>?,platforms: null == platforms ? _self.platforms : platforms // ignore: cast_nullable_to_non_nullable
+as List<PlatformDto>,langTypes: freezed == langTypes ? _self.langTypes : langTypes // ignore: cast_nullable_to_non_nullable
 as List<String>?,
   ));
 }
@@ -103,7 +103,7 @@ $AnimeDtoCopyWith<$Res>? get anime {
 @JsonSerializable()
 
 class _EpisodeMappingDto implements EpisodeMappingDto {
-  const _EpisodeMappingDto({required this.uuid, required this.anime, required this.releaseDateTime, required this.season, required this.episodeType, required this.number, required this.duration, required this.title, required this.description, required final  List<EpisodeVariantDto>? variants, required final  List<PlatformDto>? platforms, required final  List<String>? langTypes}): _variants = variants,_platforms = platforms,_langTypes = langTypes;
+  const _EpisodeMappingDto({required this.uuid, required this.anime, required this.releaseDateTime, required this.season, required this.episodeType, required this.number, required this.duration, required this.title, required this.description, required final  List<EpisodeVariantDto>? variants, required final  List<PlatformDto> platforms, required final  List<String>? langTypes}): _variants = variants,_platforms = platforms,_langTypes = langTypes;
   factory _EpisodeMappingDto.fromJson(Map<String, dynamic> json) => _$EpisodeMappingDtoFromJson(json);
 
 @override final  String uuid;
@@ -124,13 +124,11 @@ class _EpisodeMappingDto implements EpisodeMappingDto {
   return EqualUnmodifiableListView(value);
 }
 
- final  List<PlatformDto>? _platforms;
-@override List<PlatformDto>? get platforms {
-  final value = _platforms;
-  if (value == null) return null;
+ final  List<PlatformDto> _platforms;
+@override List<PlatformDto> get platforms {
   if (_platforms is EqualUnmodifiableListView) return _platforms;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(value);
+  return EqualUnmodifiableListView(_platforms);
 }
 
  final  List<String>? _langTypes;
@@ -176,7 +174,7 @@ abstract mixin class _$EpisodeMappingDtoCopyWith<$Res> implements $EpisodeMappin
   factory _$EpisodeMappingDtoCopyWith(_EpisodeMappingDto value, $Res Function(_EpisodeMappingDto) _then) = __$EpisodeMappingDtoCopyWithImpl;
 @override @useResult
 $Res call({
- String uuid, AnimeDto? anime, String releaseDateTime, int season, String episodeType, int number, int duration, String? title, String? description, List<EpisodeVariantDto>? variants, List<PlatformDto>? platforms, List<String>? langTypes
+ String uuid, AnimeDto? anime, String releaseDateTime, int season, String episodeType, int number, int duration, String? title, String? description, List<EpisodeVariantDto>? variants, List<PlatformDto> platforms, List<String>? langTypes
 });
 
 
@@ -193,7 +191,7 @@ class __$EpisodeMappingDtoCopyWithImpl<$Res>
 
 /// Create a copy of EpisodeMappingDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? uuid = null,Object? anime = freezed,Object? releaseDateTime = null,Object? season = null,Object? episodeType = null,Object? number = null,Object? duration = null,Object? title = freezed,Object? description = freezed,Object? variants = freezed,Object? platforms = freezed,Object? langTypes = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? uuid = null,Object? anime = freezed,Object? releaseDateTime = null,Object? season = null,Object? episodeType = null,Object? number = null,Object? duration = null,Object? title = freezed,Object? description = freezed,Object? variants = freezed,Object? platforms = null,Object? langTypes = freezed,}) {
   return _then(_EpisodeMappingDto(
 uuid: null == uuid ? _self.uuid : uuid // ignore: cast_nullable_to_non_nullable
 as String,anime: freezed == anime ? _self.anime : anime // ignore: cast_nullable_to_non_nullable
@@ -205,8 +203,8 @@ as int,duration: null == duration ? _self.duration : duration // ignore: cast_nu
 as int,title: freezed == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String?,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String?,variants: freezed == variants ? _self._variants : variants // ignore: cast_nullable_to_non_nullable
-as List<EpisodeVariantDto>?,platforms: freezed == platforms ? _self._platforms : platforms // ignore: cast_nullable_to_non_nullable
-as List<PlatformDto>?,langTypes: freezed == langTypes ? _self._langTypes : langTypes // ignore: cast_nullable_to_non_nullable
+as List<EpisodeVariantDto>?,platforms: null == platforms ? _self._platforms : platforms // ignore: cast_nullable_to_non_nullable
+as List<PlatformDto>,langTypes: freezed == langTypes ? _self._langTypes : langTypes // ignore: cast_nullable_to_non_nullable
 as List<String>?,
   ));
 }

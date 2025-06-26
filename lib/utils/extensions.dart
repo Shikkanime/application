@@ -1,15 +1,8 @@
 import 'package:flutter/material.dart';
 
 extension ExtensionsIterable<T> on Iterable<T> {
-  Iterable<R> mapIndexed<R>(final R Function(int index, T e) f) {
-    final List<R> result = <R>[];
-
-    for (int i = 0; i < length; i++) {
-      result.add(f(i, elementAt(i)));
-    }
-
-    return result;
-  }
+  Iterable<R> mapIndexed<R>(final R Function(int index, T e) f) =>
+      List<R>.generate(length, (final int i) => f(i, elementAt(i)));
 }
 
 extension ExtensionsThemeData on ThemeData {

@@ -51,33 +51,30 @@ class _RequestNotificationViewState extends State<RequestNotificationView> {
               const SizedBox(height: 32),
               CustomCard(
                 child: Column(
-                  children: <Widget>[
-                    for (final NotificationsType type
-                        in NotificationsType.values.where(
-                          (final NotificationsType type) =>
-                              type != NotificationsType.none,
-                        ))
-                      ListTile(
-                        title: Text(
-                          AppLocalizations.of(
-                            context,
-                          )!.notificationsType(type.name),
+                  children: NotificationsType.values
+                      .where(
+                        (final NotificationsType type) =>
+                            type != NotificationsType.none,
+                      )
+                      .map(
+                        (final NotificationsType type) => ListTile(
+                          title: Text(
+                            AppLocalizations.of(
+                              context,
+                            )!.notificationsType(type.name),
+                          ),
+                          subtitle: Text(
+                            AppLocalizations.of(
+                              context,
+                            )!.notificationsSubtitles(type.name),
+                          ),
+                          trailing: _selectedType == type
+                              ? const Icon(Icons.check)
+                              : null,
+                          onTap: () => setState(() => _selectedType = type),
                         ),
-                        subtitle: Text(
-                          AppLocalizations.of(
-                            context,
-                          )!.notificationsSubtitles(type.name),
-                        ),
-                        trailing: _selectedType == type
-                            ? const Icon(Icons.check)
-                            : null,
-                        onTap: () {
-                          setState(() {
-                            _selectedType = type;
-                          });
-                        },
-                      ),
-                  ],
+                      )
+                      .toList(),
                 ),
               ),
               const SizedBox(height: 64),

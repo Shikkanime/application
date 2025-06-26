@@ -87,7 +87,7 @@ class _ActionValidationViewState extends State<ActionValidationView> {
                   ),
                 ),
                 ElevatedAsyncButton(
-                  onPressed: _actionUuid != null ? null : askCode,
+                  onPressed: _actionUuid == null ? askCode : null,
                   child: Text(AppLocalizations.of(context)!.sendCode),
                 ),
               ],
@@ -133,8 +133,7 @@ class _ActionValidationViewState extends State<ActionValidationView> {
       return;
     }
 
-    if (widget.isEmailInvalid != null &&
-        widget.isEmailInvalid!(_emailController.text)) {
+    if (widget.isEmailInvalid?.call(_emailController.text) ?? false) {
       vibrate();
       updateState(conflictEmail: true);
       return;
@@ -187,10 +186,7 @@ class _ActionValidationViewState extends State<ActionValidationView> {
 
     try {
       await widget.validateAction(_actionUuid!, _codeController.text);
-
-      if (widget.postValidation != null) {
-        await widget.postValidation!();
-      }
+      await widget.postValidation?.call();
 
       if (context.mounted) {
         Navigator.of(context).pop();

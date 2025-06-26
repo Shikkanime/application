@@ -80,16 +80,17 @@ class AdvancedSearchCard extends StatelessWidget {
           alignment: WrapAlignment.center,
           spacing: 8,
           runSpacing: 8,
-          children: <Widget>[
-            for (final String letter in _letters)
-              ActionChip(
-                label: Text(letter),
-                onPressed: () {
-                  AnimeSearchController.instance.search(letter);
-                  controller.text = letter;
-                },
-              ),
-          ],
+          children: _letters
+              .map(
+                (final String letter) => ActionChip(
+                  label: Text(letter),
+                  onPressed: () {
+                    AnimeSearchController.instance.search(letter);
+                    controller.text = letter;
+                  },
+                ),
+              )
+              .toList(),
         ),
       ),
     );
@@ -98,17 +99,18 @@ class AdvancedSearchCard extends StatelessWidget {
   List<Widget> _buildSearchTypeButtons(
     final BuildContext context,
     final AnimeSearchController searchController,
-  ) => <Widget>[
-    for (final SearchType type in SearchType.values)
-      ElevatedButton(
-        style: _getButtonStyle(context, type, searchController),
-        onPressed: () => _handleSearchTypePressed(type, searchController),
-        child: LangTypeComponent(
-          langType: type.name.toUpperCase(),
-          color: _getTextColor(context, type, searchController),
+  ) => SearchType.values
+      .map(
+        (final SearchType type) => ElevatedButton(
+          style: _getButtonStyle(context, type, searchController),
+          onPressed: () => _handleSearchTypePressed(type, searchController),
+          child: LangTypeComponent(
+            langType: type.name.toUpperCase(),
+            color: _getTextColor(context, type, searchController),
+          ),
         ),
-      ),
-  ];
+      )
+      .toList();
 
   ButtonStyle? _getButtonStyle(
     final BuildContext context,
@@ -122,6 +124,7 @@ class AdvancedSearchCard extends StatelessWidget {
         ),
       );
     }
+
     return null;
   }
 
@@ -137,11 +140,8 @@ class AdvancedSearchCard extends StatelessWidget {
     final SearchType type,
     final AnimeSearchController searchController,
   ) {
-    if (searchController.searchType == type) {
-      searchController.searchType = null;
-    } else {
-      searchController.searchType = type;
-    }
-    searchController.search(searchController.query);
+    searchController
+      ..searchType = searchController.searchType == type ? null : type
+      ..search(searchController.query);
   }
 }

@@ -58,9 +58,8 @@ class AdvancedCalendar extends StatelessWidget {
                 ],
               ),
             ),
-
-            for (final SearchType type in SearchType.values)
-              ElevatedAsyncButton(
+            ...SearchType.values.map(
+              (final SearchType type) => ElevatedAsyncButton(
                 style: getActiveButtonStyle(controller.searchType == type),
                 onPressed: () async {
                   controller.searchType = controller.searchType == type
@@ -73,6 +72,7 @@ class AdvancedCalendar extends StatelessWidget {
                   color: getTextColor(controller.searchType == type),
                 ),
               ),
+            ),
           ],
         ),
       ),
