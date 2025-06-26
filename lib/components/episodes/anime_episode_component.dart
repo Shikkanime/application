@@ -60,9 +60,10 @@ class AnimeEpisodeComponent extends StatelessWidget {
                   number: episode.number.toString(),
                   showSeason: false,
                 ),
-                if (episode.langTypes != null)
-                  for (final String langType in episode.langTypes!)
-                    LangTypeComponent(langType: langType),
+                ...?episode.langTypes?.map(
+                  (final String langType) =>
+                      LangTypeComponent(langType: langType),
+                ),
                 const Spacer(),
                 EpisodeActionBar(
                   anime: episode.anime!.uuid,

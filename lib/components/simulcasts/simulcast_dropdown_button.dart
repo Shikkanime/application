@@ -32,18 +32,20 @@ class SimulcastDropdownButton extends StatelessWidget {
                 ElevatedDropdownButton<SimulcastDto>(
                   globalKey: GlobalKey(),
                   value: AnimeController.instance.selectedSimulcast,
-                  items: <ElevatedPopupMenuItem<SimulcastDto>>[
-                    for (final SimulcastDto simulcast
-                        in SimulcastController.instance.items)
-                      ElevatedPopupMenuItem<SimulcastDto>(
-                        value: simulcast,
-                        child: Text(
-                          AppLocalizations.of(
-                            context,
-                          )!.simulcastSeason(simulcast.season, simulcast.year),
-                        ),
-                      ),
-                  ],
+                  items: SimulcastController.instance.items
+                      .map(
+                        (final SimulcastDto simulcast) =>
+                            ElevatedPopupMenuItem<SimulcastDto>(
+                              value: simulcast,
+                              child: Text(
+                                AppLocalizations.of(context)!.simulcastSeason(
+                                  simulcast.season,
+                                  simulcast.year,
+                                ),
+                              ),
+                            ),
+                      )
+                      .toList(),
                   onChanged: (final SimulcastDto value) {
                     Analytics.instance.logSelectContent(
                       'simulcast',

@@ -59,7 +59,7 @@ class HttpRequest {
     final Map<String, String> requestHeaders = <String, String>{
       'Content-Type': 'application/json',
       if (token != null) 'Authorization': 'Bearer $token',
-      if (headers != null) ...headers,
+      ...?headers,
     };
 
     return http

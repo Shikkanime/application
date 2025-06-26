@@ -40,28 +40,12 @@ class WatchlistButton extends StatelessWidget {
             style: style,
             onPressed: () async {
               if (!isLiked) {
-                if (isAnime && anime != null) {
-                  await MemberController.instance.followAnime(anime!);
-                }
-
-                if (isEpisode && anime != null && episode != null) {
-                  await MemberController.instance.followEpisode(
-                    anime!,
-                    episode!,
-                  );
-                }
-
+                await _followContent();
                 VibrationController.instance.vibrate(
                   pattern: <int>[0, 50, 125, 50, 125, 50],
                 );
               } else {
-                if (isAnime && anime != null) {
-                  await MemberController.instance.unfollowAnime(anime!);
-                }
-
-                if (isEpisode && episode != null) {
-                  await MemberController.instance.unfollowEpisode(episode!);
-                }
+                await _unfollowContent();
               }
             },
             child: Flex(
@@ -80,4 +64,24 @@ class WatchlistButton extends StatelessWidget {
     anime: anime,
     episode: episode,
   );
+
+  Future<void> _followContent() async {
+    if (isAnime && anime != null) {
+      await MemberController.instance.followAnime(anime!);
+    }
+
+    if (isEpisode && anime != null && episode != null) {
+      await MemberController.instance.followEpisode(anime!, episode!);
+    }
+  }
+
+  Future<void> _unfollowContent() async {
+    if (isAnime && anime != null) {
+      await MemberController.instance.unfollowAnime(anime!);
+    }
+
+    if (isEpisode && episode != null) {
+      await MemberController.instance.unfollowEpisode(episode!);
+    }
+  }
 }

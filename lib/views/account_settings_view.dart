@@ -136,66 +136,71 @@ class AccountSettingsView extends StatelessWidget {
                           ) => Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              for (final NotificationsType type
-                                  in NotificationsType.values)
-                                SettingsOption(
-                                  title: appLocalizations.notificationsType(
-                                    type.name,
-                                  ),
-                                  subtitle: appLocalizations
-                                      .notificationsSubtitles(type.name),
-                                  trailing: snapshot.data == type
-                                      ? const Icon(Icons.check)
-                                      : null,
-                                  onTap: () async {
-                                    final bool response =
-                                        await NotificationsController.instance
-                                            .setNotificationsType(type);
+                            children: NotificationsType.values
+                                .map(
+                                  (
+                                    final NotificationsType type,
+                                  ) => SettingsOption(
+                                    title: appLocalizations.notificationsType(
+                                      type.name,
+                                    ),
+                                    subtitle: appLocalizations
+                                        .notificationsSubtitles(type.name),
+                                    trailing: snapshot.data == type
+                                        ? const Icon(Icons.check)
+                                        : null,
+                                    onTap: () async {
+                                      final bool response =
+                                          await NotificationsController.instance
+                                              .setNotificationsType(type);
 
-                                    if (response || !context.mounted) {
-                                      return;
-                                    }
+                                      if (response || !context.mounted) {
+                                        return;
+                                      }
 
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        behavior: SnackBarBehavior.floating,
-                                        content: Row(
-                                          spacing: 8,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            const Icon(Icons.error),
-                                            Expanded(
-                                              child: Column(
-                                                spacing: 4,
-                                                mainAxisSize: MainAxisSize.min,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: <Widget>[
-                                                  Text(
-                                                    AppLocalizations.of(
-                                                      context,
-                                                    )!.notificationNotAuthorized,
-                                                  ),
-                                                  Text(
-                                                    AppLocalizations.of(
-                                                      context,
-                                                    )!.notificationNotAuthorizedSubtitle,
-                                                    maxLines: 2,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                  ),
-                                                ],
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        SnackBar(
+                                          behavior: SnackBarBehavior.floating,
+                                          content: Row(
+                                            spacing: 8,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: <Widget>[
+                                              const Icon(Icons.error),
+                                              Expanded(
+                                                child: Column(
+                                                  spacing: 4,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      AppLocalizations.of(
+                                                        context,
+                                                      )!.notificationNotAuthorized,
+                                                    ),
+                                                    Text(
+                                                      AppLocalizations.of(
+                                                        context,
+                                                      )!.notificationNotAuthorizedSubtitle,
+                                                      maxLines: 2,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                            ],
+                                      );
+                                    },
+                                  ),
+                                )
+                                .toList(),
                           ),
                     ),
                   ],
@@ -214,18 +219,19 @@ class AccountSettingsView extends StatelessWidget {
                           ) => Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              for (final SortType type in SortType.values)
-                                SettingsOption(
-                                  title: appLocalizations.sortType(type.name),
-                                  trailing: snapshot.data == type
-                                      ? const Icon(Icons.check)
-                                      : null,
-                                  onTap: () {
-                                    SortController.instance.setSortType(type);
-                                  },
-                                ),
-                            ],
+                            children: SortType.values
+                                .map(
+                                  (final SortType type) => SettingsOption(
+                                    title: appLocalizations.sortType(type.name),
+                                    trailing: snapshot.data == type
+                                        ? const Icon(Icons.check)
+                                        : null,
+                                    onTap: () {
+                                      SortController.instance.setSortType(type);
+                                    },
+                                  ),
+                                )
+                                .toList(),
                           ),
                     ),
                   ],
@@ -308,9 +314,7 @@ class SettingsOption extends StatelessWidget {
           ),
       ],
     ),
-    subtitle: (subtitle != null && subtitle!.isNotEmpty)
-        ? Text(subtitle!)
-        : null,
+    subtitle: subtitle?.isNotEmpty ?? false ? Text(subtitle!) : null,
     trailing: trailing,
     onTap: onTap,
   );

@@ -19,7 +19,7 @@ sealed class EpisodeMappingDto with _$EpisodeMappingDto {
     required final String? title,
     required final String? description,
     required final List<EpisodeVariantDto>? variants,
-    required final List<PlatformDto>? platforms,
+    required final List<PlatformDto> platforms,
     required final List<String>? langTypes,
   }) = _EpisodeMappingDto;
 

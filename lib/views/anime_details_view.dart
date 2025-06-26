@@ -164,10 +164,10 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
                               ),
-                              if (widget.anime.langTypes != null)
-                                for (final String langType
-                                    in widget.anime.langTypes!)
-                                  LangTypeComponent(langType: langType),
+                              ...?widget.anime.langTypes?.map(
+                                (final String langType) =>
+                                    LangTypeComponent(langType: langType),
+                              ),
                             ],
                           ),
                         ),
@@ -194,63 +194,60 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                             controller: scrollController,
                             child: Row(
                               spacing: 16,
-                              children: <Widget>[
-                                for (final PlatformDto platform
-                                    in widget.anime.platforms)
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      final AnimePlatformDto? animePlatform =
-                                          widget.anime.platformIds?.firstWhere(
-                                            (final AnimePlatformDto e) =>
-                                                e.platform.id == platform.id,
+                              children: widget.anime.platforms
+                                  .map(
+                                    (
+                                      final PlatformDto platform,
+                                    ) => ElevatedButton(
+                                      onPressed: () {
+                                        final AnimePlatformDto? animePlatform =
+                                            widget.anime.platformIds
+                                                ?.firstWhere(
+                                                  (final AnimePlatformDto e) =>
+                                                      e.platform.id ==
+                                                      platform.id,
+                                                );
+
+                                        if (animePlatform == null) {
+                                          return;
+                                        }
+
+                                        final String? url = <String, String>{
+                                          'CRUN':
+                                              'https://www.crunchyroll.com/series/${animePlatform.platformId}',
+                                          'ANIM':
+                                              'https://animationdigitalnetwork.com/video/${animePlatform.platformId}',
+                                          'NETF':
+                                              'https://www.netflix.com/title/${animePlatform.platformId}',
+                                          'PRIM':
+                                              'https://www.primevideo.com/detail/${animePlatform.platformId}',
+                                          'DISN':
+                                              'https://www.disneyplus.com/browse/entity-${animePlatform.platformId}',
+                                        }[platform.id];
+
+                                        if (url != null) {
+                                          launchUrl(
+                                            Uri.parse(url),
+                                            mode: LaunchMode
+                                                .externalNonBrowserApplication,
                                           );
-
-                                      if (animePlatform == null) {
-                                        return;
-                                      }
-
-                                      String? url;
-
-                                      switch (platform.id) {
-                                        case 'CRUN':
-                                          url =
-                                              'https://www.crunchyroll.com/series/${animePlatform.platformId}';
-                                        case 'ANIM':
-                                          url =
-                                              'https://animationdigitalnetwork.com/video/${animePlatform.platformId}';
-                                        case 'NETF':
-                                          url =
-                                              'https://www.netflix.com/title/${animePlatform.platformId}';
-                                        case 'PRIM':
-                                          url =
-                                              'https://www.primevideo.com/detail/${animePlatform.platformId}';
-                                        case 'DISN':
-                                          url =
-                                              'https://www.disneyplus.com/browse/entity-${animePlatform.platformId}';
-                                      }
-
-                                      if (url != null) {
-                                        launchUrl(
-                                          Uri.parse(url),
-                                          mode: LaunchMode
-                                              .externalNonBrowserApplication,
-                                        );
-                                      }
-                                    },
-                                    child: Flex(
-                                      spacing: 8,
-                                      mainAxisSize: MainAxisSize.min,
-                                      direction: Axis.horizontal,
-                                      children: <Widget>[
-                                        PlatformComponent(platform: platform),
-                                        Text(
-                                          platform.name,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ],
+                                        }
+                                      },
+                                      child: Flex(
+                                        spacing: 8,
+                                        mainAxisSize: MainAxisSize.min,
+                                        direction: Axis.horizontal,
+                                        children: <Widget>[
+                                          PlatformComponent(platform: platform),
+                                          Text(
+                                            platform.name,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                              ],
+                                  )
+                                  .toList(),
                             ),
                           ),
                         ),
@@ -291,17 +288,19 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                           ElevatedDropdownButton<SeasonDto>(
                             globalKey: GlobalKey(),
                             value: AnimeDetailsController.instance.season,
-                            items: <ElevatedPopupMenuItem<SeasonDto>>[
-                              for (final SeasonDto season in seasons)
-                                ElevatedPopupMenuItem<SeasonDto>(
-                                  value: season,
-                                  child: Text(
-                                    AppLocalizations.of(
-                                      context,
-                                    )!.season(season.number.toString()),
-                                  ),
-                                ),
-                            ],
+                            items: seasons
+                                .map(
+                                  (final SeasonDto season) =>
+                                      ElevatedPopupMenuItem<SeasonDto>(
+                                        value: season,
+                                        child: Text(
+                                          AppLocalizations.of(
+                                            context,
+                                          )!.season(season.number.toString()),
+                                        ),
+                                      ),
+                                )
+                                .toList(),
                             onChanged: (final SeasonDto value) {
                               setState(() {
                                 AnimeDetailsController.instance.season = value;
@@ -313,17 +312,19 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                         ElevatedDropdownButton<SortType>(
                           globalKey: GlobalKey(),
                           value: SortController.instance.sortType,
-                          items: <ElevatedPopupMenuItem<SortType>>[
-                            for (final SortType sortType in SortType.values)
-                              ElevatedPopupMenuItem<SortType>(
-                                value: sortType,
-                                child: Text(
-                                  AppLocalizations.of(
-                                    context,
-                                  )!.sortType(sortType.name),
-                                ),
-                              ),
-                          ],
+                          items: SortType.values
+                              .map(
+                                (final SortType sortType) =>
+                                    ElevatedPopupMenuItem<SortType>(
+                                      value: sortType,
+                                      child: Text(
+                                        AppLocalizations.of(
+                                          context,
+                                        )!.sortType(sortType.name),
+                                      ),
+                                    ),
+                              )
+                              .toList(),
                           onChanged: (final SortType value) {
                             setState(() {
                               SortController.instance.setSortType(value);
@@ -363,18 +364,20 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
       floatingActionButton: _selectedEpisodes.isNotEmpty
           ? FloatingActionButton(
               onPressed: () async {
-                for (final String uuid in _selectedEpisodes) {
-                  await MemberController.instance.followEpisode(
-                    widget.anime.uuid,
-                    AnimeDetailsController.instance.items
-                        .firstWhere(
-                          (final EpisodeMappingDto episode) =>
-                              episode.uuid == uuid,
-                        )
-                        .uuid,
-                    refreshAfterFollow: false,
-                  );
-                }
+                await Future.wait(
+                  _selectedEpisodes.map((final String uuid) async {
+                    await MemberController.instance.followEpisode(
+                      widget.anime.uuid,
+                      AnimeDetailsController.instance.items
+                          .firstWhere(
+                            (final EpisodeMappingDto episode) =>
+                                episode.uuid == uuid,
+                          )
+                          .uuid,
+                      refreshAfterFollow: false,
+                    );
+                  }),
+                );
 
                 await MemberController.instance.refresh();
 

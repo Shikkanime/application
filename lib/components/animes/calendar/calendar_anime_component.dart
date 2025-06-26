@@ -37,8 +37,7 @@ class CalendarAnimeComponent extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    final bool isReleased =
-        release.mappings != null && release.mappings!.isNotEmpty;
+    final bool isReleased = release.mappings?.isNotEmpty ?? false;
     final bool isMultipleReleased = isReleased && release.mappings!.length > 1;
 
     return CustomCard(
@@ -117,8 +116,10 @@ class CalendarAnimeComponent extends StatelessWidget {
                           style: Theme.of(context).textTheme.bodyMedium,
                           overflow: TextOverflow.ellipsis,
                         ),
-                      for (final String langType in release.langTypes)
-                        LangTypeComponent(langType: langType),
+                      ...release.langTypes.map(
+                        (final String langType) =>
+                            LangTypeComponent(langType: langType),
+                      ),
                       const SizedBox(height: 8),
                       Flex(
                         spacing: 8,

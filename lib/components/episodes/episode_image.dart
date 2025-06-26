@@ -10,17 +10,17 @@ class EpisodeImage extends StatelessWidget {
   const EpisodeImage({
     required this.uuid,
     required this.borderRadius,
+    required this.platforms,
     super.key,
     this.fit = BoxFit.fill,
     this.width = double.infinity,
     this.height,
     this.placeholderHeight,
     this.duration,
-    this.platforms,
   });
 
   final String uuid;
-  final List<PlatformDto>? platforms;
+  final List<PlatformDto> platforms;
   final int? duration;
   final BorderRadius borderRadius;
   final BoxFit fit;
@@ -40,8 +40,7 @@ class EpisodeImage extends StatelessWidget {
         height: height,
         placeholderHeight: placeholderHeight,
       ),
-      if (platforms != null && platforms!.isNotEmpty)
-        ...PlatformComponent.toPlatformsRow(platforms!),
+      ...PlatformComponent.toPlatformsRow(platforms),
       if (duration != null)
         Positioned(
           bottom: Constant.cornerPadding,

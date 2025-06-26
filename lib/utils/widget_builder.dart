@@ -19,31 +19,27 @@ class WidgetBuilder {
     final Iterable<Widget> toSeparateList, {
     final int maxElementsPerRow = 2,
   }) {
-    final List<Widget> widgets = <Widget>[];
-
     if (maxElementsPerRow < 1) {
       throw Exception('maxElementsPerRow must be greater than 0');
     }
 
     if (maxElementsPerRow == 1) {
-      widgets.addAll(toSeparateList);
-      return widgets;
+      return toSeparateList.toList();
     }
 
-    for (int i = 0; i < toSeparateList.length; i += maxElementsPerRow) {
-      widgets.add(
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: List<Widget>.generate(
-            maxElementsPerRow,
-            (final int j) => i + j < toSeparateList.length
-                ? Expanded(child: toSeparateList.elementAt(i + j))
-                : const Spacer(),
-          ),
+    return List<Widget>.generate(
+      (toSeparateList.length / maxElementsPerRow).ceil(),
+      (final int i) => Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: List<Widget>.generate(
+          maxElementsPerRow,
+          (final int j) => i * maxElementsPerRow + j < toSeparateList.length
+              ? Expanded(
+                  child: toSeparateList.elementAt(i * maxElementsPerRow + j),
+                )
+              : const Spacer(),
         ),
-      );
-    }
-
-    return widgets;
+      ),
+    );
   }
 }
