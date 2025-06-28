@@ -37,31 +37,28 @@ class _SearchViewState extends State<SearchView> {
   List<Widget> _buildAnimeList(
     final BuildContext context,
     final List<AnimeDto> animes,
-  ) {
-    if (animes.isEmpty) {
-      return wb.WidgetBuilder.instance.buildRowWidgets(
+  ) => <Widget>[
+    Padding(
+      padding: const EdgeInsets.only(left: 8, right: 8, bottom: 4),
+      child: AdvancedSearchCard(
+        controller: _controller,
+        scrollController: _scrollController,
+      ),
+    ),
+    if (animes.isEmpty)
+      ...wb.WidgetBuilder.instance.buildRowWidgets(
         List<AnimeLoaderComponent>.generate(
           12,
           (final int index) => const AnimeLoaderComponent(),
         ),
         maxElementsPerRow: AnimeController.instance.maxElementsPerRow(context),
-      );
-    }
-
-    return <Widget>[
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: AdvancedSearchCard(
-          controller: _controller,
-          scrollController: _scrollController,
-        ),
-      ),
+      )
+    else
       ...wb.WidgetBuilder.instance.buildRowWidgets(
         animes.map((final AnimeDto anime) => AnimeComponent(anime: anime)),
         maxElementsPerRow: AnimeController.instance.maxElementsPerRow(context),
       ),
-    ];
-  }
+  ];
 
   @override
   Widget build(final BuildContext context) => Scaffold(
