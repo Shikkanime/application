@@ -19,6 +19,7 @@ sealed class AnimeDto with _$AnimeDto {
     required final List<String>? langTypes,
     required final List<SeasonDto>? seasons,
     required final List<AnimePlatformDto>? platformIds,
+    required final bool inWatchlist,
   }) = _AnimeDto;
 
   factory AnimeDto.fromJson(final Map<String, dynamic> json) =>

@@ -23,6 +23,7 @@ _AnimeDto _$AnimeDtoFromJson(Map<String, dynamic> json) => _AnimeDto(
   platformIds: (json['platformIds'] as List<dynamic>?)
       ?.map((e) => AnimePlatformDto.fromJson(e as Map<String, dynamic>))
       .toList(),
+  inWatchlist: json['inWatchlist'] as bool,
 );
 
 Map<String, dynamic> _$AnimeDtoToJson(_AnimeDto instance) => <String, dynamic>{
@@ -36,4 +37,5 @@ Map<String, dynamic> _$AnimeDtoToJson(_AnimeDto instance) => <String, dynamic>{
   'langTypes': instance.langTypes,
   'seasons': instance.seasons,
   'platformIds': instance.platformIds,
+  'inWatchlist': instance.inWatchlist,
 };

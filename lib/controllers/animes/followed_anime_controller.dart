@@ -25,7 +25,7 @@ class FollowedAnimeController extends GenericController<AnimeDto> {
   @override
   Future<Iterable<AnimeDto>> fetchItems() async {
     final PageableDto pageableDto = await HttpRequest.instance.getPage(
-      '/v1/animes?page=$page&limit=$_limit',
+      '/v1/members/animes?page=$page&limit=$_limit',
       token: MemberController.instance.member?.token,
       onUnauthorized: () async {
         if (_isRetry) {

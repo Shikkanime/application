@@ -20,6 +20,7 @@ sealed class GroupedEpisodeDto with _$GroupedEpisodeDto {
     required final int? duration,
     required final List<String> mappings,
     required final List<String> urls,
+    required final bool inWatchlist,
   }) = _GroupedEpisodeDto;
 
   factory GroupedEpisodeDto.fromJson(final Map<String, dynamic> json) =>

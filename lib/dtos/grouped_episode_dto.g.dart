@@ -26,6 +26,7 @@ _GroupedEpisodeDto _$GroupedEpisodeDtoFromJson(Map<String, dynamic> json) =>
           .map((e) => e as String)
           .toList(),
       urls: (json['urls'] as List<dynamic>).map((e) => e as String).toList(),
+      inWatchlist: json['inWatchlist'] as bool,
     );
 
 Map<String, dynamic> _$GroupedEpisodeDtoToJson(_GroupedEpisodeDto instance) =>
@@ -42,4 +43,5 @@ Map<String, dynamic> _$GroupedEpisodeDtoToJson(_GroupedEpisodeDto instance) =>
       'duration': instance.duration,
       'mappings': instance.mappings,
       'urls': instance.urls,
+      'inWatchlist': instance.inWatchlist,
     };

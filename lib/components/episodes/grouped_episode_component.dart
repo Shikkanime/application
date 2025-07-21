@@ -62,7 +62,11 @@ class GroupedEpisodeComponent extends StatelessWidget {
           anime: episode.anime.uuid,
           episode: episode.mappings.length == 1 ? episode.mappings.first : null,
           url: episode.urls.first,
-          showWatchlist: episode.mappings.length == 1,
+          showWatchlistButton: episode.mappings.length == 1,
+          inWatchlist: episode.inWatchlist,
+          onFollowed: (final bool followed) {
+            EpisodeController.instance.markAs(episode, followed);
+          },
         ),
       ],
     ),

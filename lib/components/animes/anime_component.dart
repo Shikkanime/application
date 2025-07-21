@@ -74,6 +74,9 @@ class AnimeComponent extends StatelessWidget {
                 anime: anime.uuid,
                 isAnime: true,
                 style: Theme.of(context).cardButtonStyle,
+                onFollowed: (final bool followed) {
+                  AnimeController.instance.markAs(anime, followed);
+                },
               ),
             ],
           ),

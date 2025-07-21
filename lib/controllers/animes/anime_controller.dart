@@ -30,6 +30,23 @@ class AnimeController extends GenericController<AnimeDto> {
   double placeholderHeight(final BuildContext context) =>
       MediaQuery.sizeOf(context).width * 1.1 / maxElementsPerRow(context);
 
+  void markAs(final AnimeDto anime, final bool inWatchlist) {
+    final int index = items.indexWhere(
+      (final AnimeDto e) => e == anime,
+    );
+
+    if (index == -1) {
+      return;
+    }
+
+    debugPrint(
+      'Marking anime ${anime.uuid} as ${inWatchlist ? 'in' : 'not in'} watchlist',
+    );
+
+    items[index] = anime.copyWith(inWatchlist: inWatchlist);
+    streamController.add(items);
+  }
+
   @override
   Future<Iterable<AnimeDto>> fetchItems() async {
     if (selectedSimulcast == null) {
@@ -37,6 +54,8 @@ class AnimeController extends GenericController<AnimeDto> {
     }
 
     final PageableDto pageableDto = await HttpRequest.instance.getPage(
+      token: MemberController.instance.member?.token,
+      headers: <String, String>{'X-Non-Followed': 'true'},
       '/v1/animes?simulcast=${selectedSimulcast?.uuid}&sort=name&page=$page&limit=$_limit',
     );
 

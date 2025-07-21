@@ -11,18 +11,22 @@ class WatchlistButton extends StatelessWidget {
     super.key,
     this.anime,
     this.episode,
-    this.simple = false,
     this.isAnime = false,
     this.isEpisode = false,
+    this.inWatchlist = false,
+    this.simple = false,
     this.style,
+    this.onFollowed,
   });
 
   final String? anime;
   final String? episode;
   final bool isAnime;
   final bool isEpisode;
+  final bool inWatchlist;
   final bool simple;
   final ButtonStyle? style;
+  final void Function(bool)? onFollowed;
 
   @override
   Widget build(final BuildContext context) => FollowedStreamBuilder(
@@ -33,8 +37,8 @@ class WatchlistButton extends StatelessWidget {
           final bool episodeInWatchlist,
         ) {
           final bool isLiked =
-              (isAnime && animeInWatchlist) ||
-              (isEpisode && episodeInWatchlist);
+              (isAnime && (animeInWatchlist || inWatchlist)) ||
+              (isEpisode && (episodeInWatchlist || inWatchlist));
 
           return ElevatedAsyncButton(
             style: style,
@@ -47,6 +51,8 @@ class WatchlistButton extends StatelessWidget {
               } else {
                 await _unfollowContent();
               }
+
+              onFollowed?.call(!isLiked);
             },
             child: Flex(
               spacing: 8,
