@@ -17,7 +17,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_cache_manager: ^3.4.1
-  flutter_local_notifications: ^19.3.0
+  flutter_local_notifications: ^19.4.1
   flutter_localizations:
     sdk: flutter
   freezed_annotation: ^3.0.0
