@@ -14,6 +14,7 @@ import 'package:application/l10n/app_localizations.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
 import 'package:application/utils/extensions.dart';
+import 'package:application/utils/notification_throttler.dart';
 import 'package:application/views/account_view.dart';
 import 'package:application/views/calendar_view.dart';
 import 'package:application/views/home_view.dart';
@@ -31,45 +32,29 @@ Future<void> _firebaseMessagingBackgroundHandler(
   final RemoteMessage message,
 ) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await SharedPreferencesController.instance.init();
   WidgetsFlutterBinding.ensureInitialized();
+  await SharedPreferencesController.instance.init();
 
-  final String? lastApiCallNotification = SharedPreferencesController.instance
-      .getString(ConfigPropertyKey.lastApiCallNotification);
-
-  final DateTime now = DateTime.now();
-  final DateTime today = DateTime(now.year, now.month, now.day);
-
-  if (lastApiCallNotification != null) {
-    final DateTime lastApiCallNotificationDate = DateTime.parse(
-      lastApiCallNotification,
-    );
-
-    final DateTime lastCallDay = DateTime(
-      lastApiCallNotificationDate.year,
-      lastApiCallNotificationDate.month,
-      lastApiCallNotificationDate.day,
-    );
-
-    if (lastCallDay.isAtSameMomentAs(today)) {
-      return;
-    }
+  if (NotificationThrottler.isCallThrottled()) {
+    return;
   }
 
   try {
-    final Response response = await MemberController.instance.testLogin(
-      SharedPreferencesController.instance.getString(
-        ConfigPropertyKey.identifier,
-      )!,
+    final String? identifier = SharedPreferencesController.instance.getString(
+      ConfigPropertyKey.identifier,
     );
-
+    if (identifier == null) {
+      return;
+    }
+    final Response response = await MemberController.instance.testLogin(
+      identifier,
+    );
     if (response.statusCode != 200) {
       return;
     }
-
     await SharedPreferencesController.instance.setString(
       ConfigPropertyKey.lastApiCallNotification,
-      now.toIso8601String(),
+      DateTime.now().toIso8601String(),
     );
   } on Exception catch (_) {}
 }
