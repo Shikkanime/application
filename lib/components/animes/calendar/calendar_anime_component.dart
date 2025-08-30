@@ -35,6 +35,27 @@ class CalendarAnimeComponent extends StatelessWidget {
     ).format(parsed);
   }
 
+  String _formatReleaseNumber({
+    required final bool isMultipleReleased,
+    final int? number,
+    final int? minNumber,
+    final int? maxNumber,
+  }) {
+    if (isMultipleReleased) {
+      final bool hasRange =
+          minNumber != null && maxNumber != null && minNumber != maxNumber;
+
+      if (hasRange) {
+        return '$minNumber - $maxNumber';
+      }
+
+      final int? single = minNumber ?? maxNumber;
+      return single?.toString() ?? '';
+    }
+
+    return number?.toString() ?? '';
+  }
+
   @override
   Widget build(final BuildContext context) {
     final bool isReleased = release.mappings?.isNotEmpty ?? false;
@@ -109,9 +130,12 @@ class CalendarAnimeComponent extends StatelessWidget {
                             AppLocalizations.of(
                               context,
                             )!.episodeType(release.episodeType!.toLowerCase()),
-                            isMultipleReleased
-                                ? '${release.minNumber} - ${release.maxNumber}'
-                                : release.number!.toString(),
+                            _formatReleaseNumber(
+                              isMultipleReleased: isMultipleReleased,
+                              minNumber: release.minNumber,
+                              maxNumber: release.maxNumber,
+                              number: release.number,
+                            ),
                           ),
                           style: Theme.of(context).textTheme.bodyMedium,
                           overflow: TextOverflow.ellipsis,
