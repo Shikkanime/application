@@ -10,6 +10,13 @@ class Constant {
   static const String defaultText = '＞︿＜';
   static const double cornerPadding = 7.5;
 
+  /// Nombre maximum d'envois au serveur par jour déclenchés via notifications.
+  ///
+  /// 1 = au plus un envoi par jour (par défaut)
+  /// 2 = au plus deux envois par jour, espacés d'environ 12 heures
+  /// 3 ou plus = envois répartis uniformément sur 24h
+  static const int maxServerSendsPerDay = 1;
+
   static bool get isAndroidOrIOS =>
       defaultTargetPlatform == TargetPlatform.android ||
       defaultTargetPlatform == TargetPlatform.iOS;
