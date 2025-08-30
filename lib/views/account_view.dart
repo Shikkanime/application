@@ -230,7 +230,7 @@ class AccountView extends StatelessWidget {
                     ),
                   ),
                   Row(
-                    spacing: 16,
+                    spacing: 8,
                     children: <Widget>[
                       Expanded(
                         child: CustomCard(
