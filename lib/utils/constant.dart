@@ -15,7 +15,7 @@ class Constant {
   /// 1 = au plus un envoi par jour (par défaut)
   /// 2 = au plus deux envois par jour, espacés d'environ 12 heures
   /// 3 ou plus = envois répartis uniformément sur 24h
-  static const int maxServerSendsPerDay = 1;
+  static const int maxServerSendsPerDay = 2;
 
   static bool get isAndroidOrIOS =>
       defaultTargetPlatform == TargetPlatform.android ||
