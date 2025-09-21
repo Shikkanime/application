@@ -1,11 +1,12 @@
 import 'package:application/components/watch_button.dart';
 import 'package:application/components/watchlist_button.dart';
+import 'package:application/dtos/episode_source_dto.dart';
 import 'package:application/utils/extensions.dart';
 import 'package:flutter/material.dart';
 
 class EpisodeActionBar extends StatelessWidget {
   const EpisodeActionBar({
-    required this.url,
+    required this.sources,
     super.key,
     this.anime,
     this.episode,
@@ -13,9 +14,9 @@ class EpisodeActionBar extends StatelessWidget {
     this.showWatchlist = true,
   });
 
+  final List<EpisodeSourceDto> sources;
   final String? anime;
   final String? episode;
-  final String url;
   final bool simple;
   final bool showWatchlist;
 
@@ -32,7 +33,7 @@ class EpisodeActionBar extends StatelessWidget {
           simple: simple,
           style: Theme.of(context).cardButtonStyle,
         ),
-      WatchButton(url: url, simple: simple),
+      WatchButton(sources: sources, simple: simple),
     ],
   );
 }

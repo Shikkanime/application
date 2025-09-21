@@ -416,5 +416,30 @@
   "later": "Later",
   "@later": {
       "description": "Text for the button to postpone an action."
-  }
+  },
+  "platformPreferences": "Playback Settings",
+  "@platformPreferences": {
+    "description": "Title for the platform preferences dialog or settings option."
+  },
+  "rememberMyChoice": "Remember my choice",
+  "@rememberMyChoice": {
+    "description": "Checkbox label to remember the user's selection."
+  },
+  "dragToReorder": "Drag to reorder",
+  "@dragToReorder": {
+    "description": "Instruction text for reorderable lists."
+  },
+  "continueLabel": "Continue",
+  "@continueLabel": {
+    "description": "Text for a button to continue the action."
+  },
+  "platformPreferencesDescription": "Sort your streaming services (like Netflix, Disney+, etc.) by placing your favorite one first.\n\nThis way, when you play an episode, we'll always suggest that service first and can even open it for you automatically.",
+  "@platformPreferencesDescription": {
+    "description": "Detailed description explaining the screen to reorder preferred platforms."
+  },
+  "reorderPlatforms": "Service Priority",
+  "@reorderPlatforms": {
+    "description": "Settings option label to reorder platforms used when watching episodes."
+  },
+  "reorderPlatformsDescription": "Put your favorite service at the top of the list. We'll prioritize it when you go to watch an episode"
 }

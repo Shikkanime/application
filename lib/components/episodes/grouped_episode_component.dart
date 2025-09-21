@@ -4,6 +4,7 @@ import 'package:application/components/episodes/episode_image.dart';
 import 'package:application/components/episodes/episode_information_component.dart';
 import 'package:application/components/lang_type_component.dart';
 import 'package:application/controllers/episodes/episode_controller.dart';
+import 'package:application/dtos/episode_source_dto.dart';
 import 'package:application/dtos/grouped_episode_dto.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
@@ -35,7 +36,10 @@ class GroupedEpisodeComponent extends StatelessWidget {
       children: <Widget>[
         EpisodeImage(
           uuid: episode.mappings.first,
-          platforms: episode.platforms,
+          platforms: episode.sources
+              .map((final EpisodeSourceDto source) => source.platform)
+              .toSet()
+              .toList(),
           duration: episode.duration,
           borderRadius: const BorderRadius.all(
             Radius.circular(Constant.borderRadius),
@@ -54,14 +58,18 @@ class GroupedEpisodeComponent extends StatelessWidget {
           episodeType: episode.episodeType,
           number: episode.number,
         ),
-        ...episode.langTypes.map(
-          (final String langType) => LangTypeComponent(langType: langType),
-        ),
+        ...episode.sources
+            .map((final EpisodeSourceDto source) => source.langType)
+            .toSet()
+            .toList()
+            .map(
+              (final String langType) => LangTypeComponent(langType: langType),
+            ),
         const SizedBox(height: 8),
         EpisodeActionBar(
+          sources: episode.sources,
           anime: episode.anime.uuid,
           episode: episode.mappings.length == 1 ? episode.mappings.first : null,
-          url: episode.urls.first,
           showWatchlist: episode.mappings.length == 1,
         ),
       ],

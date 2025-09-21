@@ -4,6 +4,7 @@ import 'package:application/components/episodes/episode_image.dart';
 import 'package:application/components/episodes/episode_information_component.dart';
 import 'package:application/components/lang_type_component.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
+import 'package:application/dtos/episode_source_dto.dart';
 import 'package:application/utils/constant.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +36,10 @@ class AnimeEpisodeComponent extends StatelessWidget {
           Expanded(
             child: EpisodeImage(
               uuid: episode.uuid,
-              platforms: episode.platforms,
+              platforms: episode.sources
+                  .map((final EpisodeSourceDto source) => source.platform)
+                  .toSet()
+                  .toList(),
               duration: episode.duration,
               borderRadius: const BorderRadius.all(
                 Radius.circular(Constant.borderRadius),
@@ -60,15 +64,18 @@ class AnimeEpisodeComponent extends StatelessWidget {
                   number: episode.number.toString(),
                   showSeason: false,
                 ),
-                ...?episode.langTypes?.map(
-                  (final String langType) =>
-                      LangTypeComponent(langType: langType),
-                ),
+                ...episode.sources
+                    .map((final EpisodeSourceDto source) => source.langType)
+                    .toSet()
+                    .map(
+                      (final String langType) =>
+                          LangTypeComponent(langType: langType),
+                    ),
                 const Spacer(),
                 EpisodeActionBar(
+                  sources: episode.sources,
                   anime: episode.anime!.uuid,
                   episode: episode.uuid,
-                  url: episode.variants!.first.url,
                   simple: true,
                 ),
               ],

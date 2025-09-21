@@ -1,21 +1,19 @@
+import 'package:application/controllers/platforms_controller.dart';
+import 'package:application/dtos/episode_source_dto.dart';
 import 'package:application/l10n/app_localizations.dart';
 import 'package:application/utils/extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class WatchButton extends StatelessWidget {
-  const WatchButton({required this.url, super.key, this.simple = false});
+  const WatchButton({required this.sources, super.key, this.simple = false});
 
-  final String url;
+  final List<EpisodeSourceDto> sources;
   final bool simple;
 
   @override
   Widget build(final BuildContext context) => ElevatedButton(
     style: Theme.of(context).cardButtonStyle,
-    onPressed: () => launchUrl(
-      Uri.parse(url),
-      mode: LaunchMode.externalNonBrowserApplication,
-    ),
+    onPressed: () => PlatformsController.instance.handleWatch(context, sources),
     child: Flex(
       spacing: 8,
       direction: Axis.horizontal,

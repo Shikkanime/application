@@ -643,6 +643,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Later'**
   String get later;
+
+  /// Title for the platform preferences dialog or settings option.
+  ///
+  /// In en, this message translates to:
+  /// **'Playback Settings'**
+  String get platformPreferences;
+
+  /// Checkbox label to remember the user's selection.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember my choice'**
+  String get rememberMyChoice;
+
+  /// Instruction text for reorderable lists.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag to reorder'**
+  String get dragToReorder;
+
+  /// Text for a button to continue the action.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continueLabel;
+
+  /// Detailed description explaining the screen to reorder preferred platforms.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort your streaming services (like Netflix, Disney+, etc.) by placing your favorite one first.\n\nThis way, when you play an episode, we\'ll always suggest that service first and can even open it for you automatically.'**
+  String get platformPreferencesDescription;
+
+  /// Settings option label to reorder platforms used when watching episodes.
+  ///
+  /// In en, this message translates to:
+  /// **'Service Priority'**
+  String get reorderPlatforms;
+
+  /// No description provided for @reorderPlatformsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Put your favorite service at the top of the list. We\'ll prioritize it when you go to watch an episode'**
+  String get reorderPlatformsDescription;
 }
 
 class _AppLocalizationsDelegate

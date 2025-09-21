@@ -105,5 +105,12 @@
   "enableNotifications": "Activer les notifications",
   "notificationsDescription": "Recevez des mises à jour lorsque un nouvel épisode est disponible. Vous pouvez désactiver les notifications à tout moment dans les paramètres",
   "activate": "Activer",
-  "later": "Plus tard"
+  "later": "Plus tard",
+  "platformPreferences": "Préférences de lecture",
+  "rememberMyChoice": "Se souvenir de mon choix",
+  "dragToReorder": "Glissez pour réorganiser",
+  "continueLabel": "Continuer",
+  "platformPreferencesDescription": "Classez vos services de streaming (Netflix, Disney+, etc.) en plaçant votre préféré en premier.\n\nAinsi, quand vous lancerez un épisode, nous vous proposerons toujours ce service en priorité et pourrons même l'ouvrir automatiquement pour vous.",
+  "reorderPlatforms": "Ordre des services",
+  "reorderPlatformsDescription": "Mettez votre service favori en haut de la liste. Nous le lancerons en priorité lorsque vous regarderez un épisode"
 }

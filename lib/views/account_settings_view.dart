@@ -1,6 +1,7 @@
 import 'package:application/components/card_component.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/notifications_controller.dart';
+import 'package:application/controllers/platforms_controller.dart';
 import 'package:application/controllers/sort_controller.dart';
 import 'package:application/controllers/vibration_controller.dart';
 import 'package:application/dtos/member_dto.dart';
@@ -233,6 +234,30 @@ class AccountSettingsView extends StatelessWidget {
                                 )
                                 .toList(),
                           ),
+                    ),
+                  ],
+                ),
+                SettingsCategory(
+                  icon: Icons.live_tv_outlined,
+                  title: appLocalizations.platformPreferences,
+                  options: <Widget>[
+                    SettingsOption(
+                      title: appLocalizations.reorderPlatforms,
+                      subtitle: appLocalizations.reorderPlatformsDescription,
+                      onTap: () async {
+                        await PlatformsController.instance.init();
+
+                        if (!context.mounted) {
+                          return;
+                        }
+
+                        await PlatformsController.instance
+                            .managePlatformPreferences(
+                              context,
+                              PlatformsController.instance.items,
+                              isForSettings: true,
+                            );
+                      },
                     ),
                   ],
                 ),

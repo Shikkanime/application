@@ -166,7 +166,7 @@ class CalendarAnimeComponent extends StatelessWidget {
                               style: Theme.of(context).cardButtonStyle,
                             ),
                             WatchButton(
-                              url: release.mappings!.first.variants!.first.url,
+                              sources: release.mappings!.first.sources,
                               simple: true,
                             ),
                           ],
