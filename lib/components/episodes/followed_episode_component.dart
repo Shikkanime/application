@@ -1,6 +1,7 @@
 import 'package:application/components/episodes/episode_image.dart';
 import 'package:application/components/episodes/episode_information_component.dart';
 import 'package:application/dtos/episode_mapping_dto.dart';
+import 'package:application/dtos/episode_source_dto.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
 import 'package:application/views/anime_details_view.dart';
@@ -39,7 +40,10 @@ class FollowedEpisodeComponent extends StatelessWidget {
           children: <Widget>[
             EpisodeImage(
               uuid: episode.uuid,
-              platforms: episode.platforms,
+              platforms: episode.sources
+                  .map((final EpisodeSourceDto source) => source.platform)
+                  .toSet()
+                  .toList(),
               borderRadius: const BorderRadius.all(
                 Radius.circular(Constant.borderRadius),
               ),

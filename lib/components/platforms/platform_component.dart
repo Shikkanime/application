@@ -5,9 +5,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class PlatformComponent extends StatelessWidget {
-  const PlatformComponent({required this.platform, super.key});
+  const PlatformComponent({
+    required this.platform,
+    this.width = 16,
+    this.height = 16,
+    super.key,
+  });
 
   final PlatformDto platform;
+  final double width;
+  final double height;
 
   @override
   Widget build(final BuildContext context) => ClipRRect(
@@ -16,13 +23,13 @@ class PlatformComponent extends StatelessWidget {
       imageUrl: '${Constant.baseUrl}/assets/img/platforms/${platform.image}',
       filterQuality: FilterQuality.high,
       fit: BoxFit.cover,
-      width: 16,
-      height: 16,
+      width: width,
+      height: height,
       placeholder: (final BuildContext context, final String url) =>
-          Container(color: Colors.grey, width: 16, height: 16),
+          Container(color: Colors.grey, width: width, height: height),
       errorWidget:
           (final BuildContext context, final String url, final dynamic error) =>
-              Container(color: Colors.grey, width: 16, height: 16),
+              Container(color: Colors.grey, width: width, height: height),
       fadeInDuration: Duration.zero,
       fadeOutDuration: Duration.zero,
     ),

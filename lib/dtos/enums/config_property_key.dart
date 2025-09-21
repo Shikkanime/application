@@ -5,4 +5,6 @@ enum ConfigPropertyKey {
   reviewAppLaunched,
   sortType,
   lastApiCallNotification,
+  platformOrder,
+  rememberPlatformChoice,
 }

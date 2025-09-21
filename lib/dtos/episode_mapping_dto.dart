@@ -1,6 +1,5 @@
 import 'package:application/dtos/anime_dto.dart';
-import 'package:application/dtos/episode_variant_dto.dart';
-import 'package:application/dtos/platform_dto.dart';
+import 'package:application/dtos/episode_source_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'episode_mapping_dto.freezed.dart';
@@ -18,9 +17,7 @@ sealed class EpisodeMappingDto with _$EpisodeMappingDto {
     required final int duration,
     required final String? title,
     required final String? description,
-    required final List<EpisodeVariantDto>? variants,
-    required final List<PlatformDto> platforms,
-    required final List<String>? langTypes,
+    required final List<EpisodeSourceDto> sources,
   }) = _EpisodeMappingDto;
 
   factory EpisodeMappingDto.fromJson(final Map<String, dynamic> json) =>

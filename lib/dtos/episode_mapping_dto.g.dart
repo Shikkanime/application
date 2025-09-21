@@ -19,14 +19,8 @@ _EpisodeMappingDto _$EpisodeMappingDtoFromJson(Map<String, dynamic> json) =>
       duration: (json['duration'] as num).toInt(),
       title: json['title'] as String?,
       description: json['description'] as String?,
-      variants: (json['variants'] as List<dynamic>?)
-          ?.map((e) => EpisodeVariantDto.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      platforms: (json['platforms'] as List<dynamic>)
-          .map((e) => PlatformDto.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      langTypes: (json['langTypes'] as List<dynamic>?)
-          ?.map((e) => e as String)
+      sources: (json['sources'] as List<dynamic>)
+          .map((e) => EpisodeSourceDto.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -41,7 +35,5 @@ Map<String, dynamic> _$EpisodeMappingDtoToJson(_EpisodeMappingDto instance) =>
       'duration': instance.duration,
       'title': instance.title,
       'description': instance.description,
-      'variants': instance.variants,
-      'platforms': instance.platforms,
-      'langTypes': instance.langTypes,
+      'sources': instance.sources,
     };
