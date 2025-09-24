@@ -176,9 +176,6 @@ class PlatformsController extends GenericController<PlatformDto> {
   }
 
   Future<void> _launch(final String url) async {
-    await launchUrl(
-      Uri.parse(url),
-      mode: LaunchMode.externalNonBrowserApplication,
-    );
+    await launchUrl(Uri.parse(url));
   }
 }
