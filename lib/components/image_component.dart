@@ -1,64 +1,64 @@
+import 'package:application/components/cached_image.dart';
 import 'package:application/dtos/enums/image_type.dart';
 import 'package:application/utils/constant.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class ImageComponent extends StatelessWidget {
   const ImageComponent({
-    required this.uuid,
-    required this.type,
     super.key,
+    this.uuid,
+    this.type,
+    this.imageUrl,
     this.fit = BoxFit.fill,
     this.version,
     this.borderRadius = BorderRadius.zero,
     this.width = double.infinity,
-    this.placeholderHeight,
     this.height,
-    this.placeholder,
-    this.cacheDuration = const Duration(days: 7),
+    this.placeholderWidget,
+    this.placeholderHeight,
   });
 
-  final String uuid;
+  final String? uuid;
+  final ImageType? type;
+  final String? imageUrl;
+
   final BoxFit fit;
-  final ImageType type;
   final String? version;
   final BorderRadius borderRadius;
   final double? width;
-  final double? placeholderHeight;
   final double? height;
-  final Widget? placeholder;
-  final Duration cacheDuration;
+  final Widget? placeholderWidget;
+  final double? placeholderHeight;
 
   @override
-  Widget build(final BuildContext context) => ClipRRect(
-    borderRadius: borderRadius,
-    child: CachedNetworkImage(
-      imageUrl:
-          '${Constant.apiUrl}/v1/attachments?uuid=$uuid&type=${type.value}${version != null ? '&v=$version' : ''}',
-      filterQuality: FilterQuality.high,
-      fit: fit,
-      width: width,
-      height: height,
-      placeholder: (final BuildContext context, final String url) =>
-          placeholder ??
-          Container(
-            color: Colors.grey,
-            width: width,
-            height: placeholderHeight ?? height,
-          ),
-      errorWidget:
-          (final BuildContext context, final String url, final Object error) =>
-              Container(
-                color: Colors.grey,
-                width: width,
-                height: placeholderHeight ?? height,
-              ),
-      fadeInDuration: Duration.zero,
-      fadeOutDuration: Duration.zero,
-      cacheManager: CacheManager(
-        Config('cacheKey', stalePeriod: cacheDuration),
+  Widget build(final BuildContext context) {
+    assert((uuid != null && type != null) || imageUrl != null,
+        'Either uuid and type or url must be provided');
+
+    return ClipRRect(
+      borderRadius: borderRadius,
+      child: CachedImage(
+        imageUrl: imageUrl ?? buildImageUrl,
+        filterQuality: FilterQuality.high,
+        fit: fit,
+        width: width,
+        height: height,
+        placeholderWidget:
+            placeholderWidget ??
+            Container(
+              color: Colors.grey,
+              width: width,
+              height: placeholderHeight ?? height,
+            ),
+        errorWidget: Container(
+          color: Colors.grey,
+          width: width,
+          height: placeholderHeight ?? height,
+        ),
       ),
-    ),
-  );
+    );
+  }
+
+  String get buildImageUrl =>
+      '${Constant.apiUrl}/v1/attachments?uuid=$uuid&type=${type?.value}${version != null ? '&v=$version' : ''}';
 }

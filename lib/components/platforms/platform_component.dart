@@ -1,7 +1,7 @@
+import 'package:application/components/image_component.dart';
 import 'package:application/dtos/platform_dto.dart';
 import 'package:application/utils/constant.dart';
 import 'package:application/utils/extensions.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class PlatformComponent extends StatelessWidget {
@@ -17,21 +17,16 @@ class PlatformComponent extends StatelessWidget {
   final double height;
 
   @override
-  Widget build(final BuildContext context) => ClipRRect(
+  Widget build(final BuildContext context) => ImageComponent(
+    imageUrl: '${Constant.baseUrl}/assets/img/platforms/${platform.image}',
     borderRadius: const BorderRadius.all(Radius.circular(360)),
-    child: CachedNetworkImage(
-      imageUrl: '${Constant.baseUrl}/assets/img/platforms/${platform.image}',
-      filterQuality: FilterQuality.high,
-      fit: BoxFit.cover,
+    fit: BoxFit.cover,
+    width: width,
+    height: height,
+    placeholderWidget: Container(
+      color: Colors.grey,
       width: width,
       height: height,
-      placeholder: (final BuildContext context, final String url) =>
-          Container(color: Colors.grey, width: width, height: height),
-      errorWidget:
-          (final BuildContext context, final String url, final dynamic error) =>
-              Container(color: Colors.grey, width: width, height: height),
-      fadeInDuration: Duration.zero,
-      fadeOutDuration: Duration.zero,
     ),
   );
 

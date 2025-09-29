@@ -20,9 +20,16 @@ class MemberImage extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    final DecoratedBox defaultMemberImage = DecoratedBox(
-      decoration: BoxDecoration(color: Theme.of(context).canvasColor),
-      child: const Icon(Icons.person, size: 24),
+    final ClipRRect placeholderWidget = ClipRRect(
+      borderRadius: const BorderRadius.all(Radius.circular(360)),
+      child: SizedBox(
+        width: hasBorder && width != null ? width! - 6 : width,
+        height: hasBorder && height != null ? height! - 6 : height,
+        child: DecoratedBox(
+          decoration: BoxDecoration(color: Theme.of(context).canvasColor),
+          child: const Icon(Icons.person, size: 24),
+        ),
+      ),
     );
 
     return Container(
@@ -49,20 +56,9 @@ class MemberImage extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(360)),
               width: hasBorder && width != null ? width! - 6 : width,
               height: hasBorder && height != null ? height! - 6 : height,
-              placeholder: const Padding(
-                padding: EdgeInsets.all(24),
-                child: CircularProgressIndicator(strokeWidth: 2),
-              ),
-              cacheDuration: const Duration(days: 30),
+              placeholderWidget: placeholderWidget,
             )
-          : ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(360)),
-              child: SizedBox(
-                width: hasBorder && width != null ? width! - 6 : width,
-                height: hasBorder && height != null ? height! - 6 : height,
-                child: defaultMemberImage,
-              ),
-            ),
+          : placeholderWidget,
     );
   }
 }
