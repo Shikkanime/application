@@ -11,16 +11,15 @@ class CalendarAnimeLoaderComponent extends StatelessWidget {
     child: Column(
       spacing: 8,
       children: <Widget>[
-        SizedBox(
+        GenericLoader(
           width: double.infinity,
           height: AnimeWeeklyController.instance.placeholderHeight(context),
-          child: const GenericLoader(),
         ),
         const IntrinsicHeight(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              SizedBox(width: 50, height: 15, child: GenericLoader()),
+              GenericLoader(width: 50, height: 15),
               SizedBox(height: 16),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 4),
@@ -31,11 +30,11 @@ class CalendarAnimeLoaderComponent extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    SizedBox(width: 175, height: 20, child: GenericLoader()),
+                    GenericLoader(width: 175, height: 20),
                     SizedBox(height: 8),
-                    SizedBox(width: 100, height: 15, child: GenericLoader()),
+                    GenericLoader(width: 100, height: 15),
                     SizedBox(height: 14),
-                    SizedBox(width: 75, height: 25, child: GenericLoader()),
+                    GenericLoader(width: 75, height: 25),
                   ],
                 ),
               ),

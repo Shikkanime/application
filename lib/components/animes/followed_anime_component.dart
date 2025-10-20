@@ -39,7 +39,6 @@ class FollowedAnimeComponent extends StatelessWidget {
                 ImageComponent(
                   uuid: anime.uuid,
                   type: ImageType.thumbnail,
-                  // height: 640 / _ratio,
                   borderRadius: const BorderRadius.all(
                     Radius.circular(Constant.borderRadius),
                   ),

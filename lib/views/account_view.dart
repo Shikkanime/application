@@ -118,7 +118,6 @@ class AccountView extends StatelessWidget {
                                   GestureDetector(
                                     child: const Icon(
                                       Icons.info_outline,
-                                      color: Colors.grey,
                                       size: 20,
                                     ),
                                     onTap: () {

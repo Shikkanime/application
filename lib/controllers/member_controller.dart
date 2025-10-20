@@ -29,6 +29,7 @@ class MemberController {
       StreamController<MemberDto>.broadcast();
   String? identifier;
   MemberDto? member;
+  bool isImageUploadLoading = false;
 
   Future<void> init({final bool afterDelete = false}) async {
     identifier =
@@ -228,6 +229,9 @@ class MemberController {
   }
 
   Future<void> updateImage(final Uint8List image) async {
+    isImageUploadLoading = true;
+    streamController.add(member!);
+
     final Response response = await HttpRequest.instance.postMultipart(
       '/v1/members/image',
       member!.token,
@@ -243,10 +247,7 @@ class MemberController {
       throw HttpException('Failed to change image ${response.body}');
     }
 
-    await increaseImageVersion();
-  }
-
-  Future<void> increaseImageVersion() async {
+    isImageUploadLoading = false;
     member = member!.copyWith(
       attachmentLastUpdateDateTime: DateTime.now().toIso8601String(),
     );

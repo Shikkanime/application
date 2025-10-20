@@ -19,7 +19,7 @@ class AnimeController extends GenericController<AnimeDto> {
 
   SimulcastDto? selectedSimulcast;
 
-  int get _limit =>
+  int get limit =>
       wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
       ? 6
       : 24;
@@ -31,17 +31,20 @@ class AnimeController extends GenericController<AnimeDto> {
       MediaQuery.sizeOf(context).width * 1.1 / maxElementsPerRow(context);
 
   @override
-  Future<Iterable<AnimeDto>> fetchItems() async {
+  Future<Pair<Iterable<AnimeDto>, int>> fetchItems() async {
     if (selectedSimulcast == null) {
-      return <AnimeDto>[];
+      return Pair<Iterable<AnimeDto>, int>(<AnimeDto>[], 0);
     }
 
     final PageableDto pageableDto = await HttpRequest.instance.getPage(
-      '/v1/animes?simulcast=${selectedSimulcast?.uuid}&sort=name&page=$page&limit=$_limit',
+      '/v1/animes?simulcast=${selectedSimulcast?.uuid}&sort=name&page=$page&limit=$limit',
     );
 
-    return pageableDto.data.map(
-      (final dynamic e) => AnimeDto.fromJson(e as Map<String, dynamic>),
+    return Pair<Iterable<AnimeDto>, int>(
+      pageableDto.data.map(
+        (final dynamic e) => AnimeDto.fromJson(e as Map<String, dynamic>),
+      ),
+      pageableDto.total,
     );
   }
 

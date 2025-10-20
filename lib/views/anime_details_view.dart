@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:application/components/elevated_async_button.dart';
 import 'package:application/components/elevated_dropdown_button.dart';
 import 'package:application/components/episodes/anime_episode_component.dart';
+import 'package:application/components/episodes/anime_episode_loader_component.dart';
 import 'package:application/components/image_component.dart';
 import 'package:application/components/lang_type_component.dart';
 import 'package:application/components/platforms/platform_component.dart';
@@ -99,7 +100,7 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
               spacing: 8,
               direction: Axis.horizontal,
               children: <Widget>[
-                const Icon(Icons.checklist),
+                const Icon(Icons.bookmark_add_outlined),
                 Text(AppLocalizations.of(context)!.markWatched),
               ],
             ),
@@ -397,25 +398,48 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
   List<Widget> _buildEpisodeList(
     final BuildContext context,
     final List<EpisodeMappingDto> episodes,
-  ) => wb.WidgetBuilder.instance.buildRowWidgets(
-    episodes.map(
-      (final EpisodeMappingDto episode) => AnimeEpisodeComponent(
-        episode: episode,
-        onDoubleAndLongPress: () {
-          setState(() {
-            if (_selectedEpisodes.contains(episode.uuid)) {
-              _selectedEpisodes.remove(episode.uuid);
-            } else {
-              _selectedEpisodes.add(episode.uuid);
-            }
-          });
-        },
-        isSelected: _selectedEpisodes.contains(episode.uuid),
-      ),
-    ),
-    maxElementsPerRow: max(
+  ) {
+    final int maxElementsPerRow = max(
       1,
       (MediaQuery.sizeOf(context).width * 2 / 900).floor(),
-    ),
-  );
+    );
+
+    final List<Widget> loaders = List<AnimeEpisodeLoaderComponent>.generate(
+      AnimeDetailsController.instance.limit,
+      (final int index) => const AnimeEpisodeLoaderComponent(),
+    );
+
+    final List<Widget> itemsToGrid = <Widget>[];
+
+    if (episodes.isEmpty) {
+      itemsToGrid.addAll(loaders);
+    } else {
+      itemsToGrid.addAll(
+        episodes.map(
+          (final EpisodeMappingDto episode) => AnimeEpisodeComponent(
+            episode: episode,
+            onDoubleAndLongPress: () {
+              setState(() {
+                if (_selectedEpisodes.contains(episode.uuid)) {
+                  _selectedEpisodes.remove(episode.uuid);
+                } else {
+                  _selectedEpisodes.add(episode.uuid);
+                }
+              });
+            },
+            isSelected: _selectedEpisodes.contains(episode.uuid),
+          ),
+        ),
+      );
+
+      if (AnimeDetailsController.instance.isLoading) {
+        itemsToGrid.addAll(loaders);
+      }
+    }
+
+    return wb.WidgetBuilder.instance.buildRowWidgets(
+      itemsToGrid,
+      maxElementsPerRow: maxElementsPerRow,
+    );
+  }
 }

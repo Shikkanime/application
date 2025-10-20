@@ -3,7 +3,6 @@ import 'package:application/components/followed_stream_builder.dart';
 import 'package:application/controllers/member_controller.dart';
 import 'package:application/controllers/vibration_controller.dart';
 import 'package:application/l10n/app_localizations.dart';
-import 'package:application/utils/constant.dart';
 import 'package:flutter/material.dart';
 
 class WatchlistButton extends StatelessWidget {
@@ -23,6 +22,21 @@ class WatchlistButton extends StatelessWidget {
   final bool isEpisode;
   final bool simple;
   final ButtonStyle? style;
+
+  String? _buildStatusLabel({
+    required final bool isAnime,
+    required final bool isEpisode,
+    required final bool isLiked,
+    required final AppLocalizations l10n,
+  }) {
+    if (isAnime) {
+      return l10n.watchlist;
+    }
+    if (isEpisode) {
+      return isLiked ? l10n.unwatched : l10n.watched;
+    }
+    return null;
+  }
 
   @override
   Widget build(final BuildContext context) => FollowedStreamBuilder(
@@ -48,16 +62,31 @@ class WatchlistButton extends StatelessWidget {
                 await _unfollowContent();
               }
             },
-            child: Flex(
-              spacing: 8,
-              direction: Axis.horizontal,
-              children: <Widget>[
-                Icon(
-                  isLiked ? Icons.bookmark : Icons.bookmark_border,
-                  color: isLiked ? Constant.watchlistBookmarkColor : null,
-                ),
-                if (!simple) Text(AppLocalizations.of(context)!.watchlist),
-              ],
+            child: Builder(
+              builder: (final BuildContext context) {
+                final String? label = _buildStatusLabel(
+                  isAnime: isAnime,
+                  isEpisode: isEpisode,
+                  isLiked: isLiked,
+                  l10n: AppLocalizations.of(context)!,
+                );
+
+                return Flex(
+                  spacing: 8,
+                  direction: Axis.horizontal,
+                  children: <Widget>[
+                    Icon(
+                      isLiked
+                          ? Icons.bookmark_remove
+                          : Icons.bookmark_add_outlined,
+                      color: isLiked
+                          ? Theme.of(context).colorScheme.primary
+                          : null,
+                    ),
+                    if (!simple && label != null) Text(label),
+                  ],
+                );
+              },
             ),
           );
         },

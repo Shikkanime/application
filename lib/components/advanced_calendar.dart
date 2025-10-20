@@ -30,50 +30,53 @@ class AdvancedCalendar extends StatelessWidget {
       child: SingleChildScrollView(
         controller: scrollController,
         scrollDirection: Axis.horizontal,
-        child: Row(
-          spacing: 8,
-          children: <Widget>[
-            ElevatedAsyncButton(
-              style: getActiveButtonStyle(controller.isWatchlist),
-              onPressed: () async {
-                controller.isWatchlist = !controller.isWatchlist;
-                await controller.init();
-              },
-              child: Row(
-                spacing: 8,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Icon(
-                    controller.isWatchlist
-                        ? Icons.filter_alt
-                        : Icons.filter_alt_off,
-                    color: getTextColor(controller.isWatchlist),
-                  ),
-                  Text(
-                    AppLocalizations.of(context)!.watchlist,
-                    style: TextStyle(
-                      color: getTextColor(controller.isWatchlist),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            ...SearchType.values.map(
-              (final SearchType type) => ElevatedAsyncButton(
-                style: getActiveButtonStyle(controller.searchType == type),
+        child: IntrinsicHeight(
+          child: Row(
+            spacing: 8,
+            children: <Widget>[
+              ElevatedAsyncButton(
+                style: getActiveButtonStyle(controller.isWatchlist),
                 onPressed: () async {
-                  controller.searchType = controller.searchType == type
-                      ? null
-                      : type;
+                  controller.isWatchlist = !controller.isWatchlist;
                   await controller.init();
                 },
-                child: LangTypeComponent(
-                  langType: type.name.toUpperCase(),
-                  color: getTextColor(controller.searchType == type),
+                child: Row(
+                  spacing: 8,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Icon(
+                      controller.isWatchlist
+                          ? Icons.filter_alt
+                          : Icons.filter_alt_off,
+                      color: getTextColor(controller.isWatchlist),
+                    ),
+                    Text(
+                      AppLocalizations.of(context)!.watchlist,
+                      style: TextStyle(
+                        color: getTextColor(controller.isWatchlist),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-          ],
+              const VerticalDivider(thickness: 0.5),
+              ...SearchType.values.map(
+                (final SearchType type) => ElevatedAsyncButton(
+                  style: getActiveButtonStyle(controller.searchType == type),
+                  onPressed: () async {
+                    controller.searchType = controller.searchType == type
+                        ? null
+                        : type;
+                    await controller.init();
+                  },
+                  child: LangTypeComponent(
+                    langType: type.name.toUpperCase(),
+                    color: getTextColor(controller.searchType == type),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

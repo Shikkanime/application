@@ -1,6 +1,7 @@
 import 'package:application/components/animes/missed/missed_anime_loader_component.dart';
 import 'package:application/components/card_component.dart';
 import 'package:application/components/generic_loader.dart';
+import 'package:application/controllers/animes/missed_anime_controller.dart';
 import 'package:flutter/material.dart';
 
 class MissedAnimesLoaderRow extends StatelessWidget {
@@ -13,7 +14,7 @@ class MissedAnimesLoaderRow extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const SizedBox(width: 150, height: 14, child: GenericLoader()),
+        const GenericLoader(width: 150, height: 14),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -24,7 +25,7 @@ class MissedAnimesLoaderRow extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   addAutomaticKeepAlives: false,
                   addRepaintBoundaries: false,
-                  itemCount: 12,
+                  itemCount: MissedAnimeController.instance.limit,
                   itemBuilder: (final BuildContext context, final int index) =>
                       const MissedAnimeLoaderComponent(),
                 ),

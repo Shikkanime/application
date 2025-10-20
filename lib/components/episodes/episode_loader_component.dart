@@ -13,24 +13,23 @@ class EpisodeLoaderComponent extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          SizedBox(
+          GenericLoader(
             width: double.infinity,
             height: EpisodeController.instance.placeholderHeight(context),
-            child: const GenericLoader(),
           ),
           const SizedBox(height: 16),
-          const SizedBox(width: 200, height: 20, child: GenericLoader()),
+          const GenericLoader(width: 200, height: 20),
           const SizedBox(height: 8),
-          const SizedBox(width: 150, height: 15, child: GenericLoader()),
+          const GenericLoader(width: 150, height: 15),
           const SizedBox(height: 8),
-          const SizedBox(width: 100, height: 15, child: GenericLoader()),
+          const GenericLoader(width: 100, height: 15),
           const SizedBox(height: 14),
           const Flex(
             direction: Axis.horizontal,
             spacing: 8,
             children: <Widget>[
-              SizedBox(width: 125, height: 25, child: GenericLoader()),
-              SizedBox(width: 125, height: 25, child: GenericLoader()),
+              GenericLoader(width: 125, height: 25),
+              GenericLoader(width: 125, height: 25),
             ],
           ),
         ],

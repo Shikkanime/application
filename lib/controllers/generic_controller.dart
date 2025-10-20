@@ -53,35 +53,43 @@ abstract class GenericController<T> {
   }
 
   Future<void> nextPage() async {
-    if (isLoading) {
+    if (isLoading || !canLoadMore) {
       return;
     }
 
     isLoading = true;
-    final int start = DateTime.now().millisecondsSinceEpoch;
+    streamController.add(items);
+
+    final Stopwatch stopwatch = Stopwatch()..start();
     debugPrint('$runtimeType - Loading page $page...');
 
     try {
-      final Iterable<T> newItems = await fetchItems();
-      items.addAll(newItems);
-
-      streamController.add(items);
-      canLoadMore = newItems.isNotEmpty;
+      final Pair<Iterable<T>, int> newItems = await fetchItems();
+      items.addAll(newItems.first);
+      canLoadMore = newItems.second > items.length;
+      page++;
     } on Exception catch (e) {
       debugPrint(e.toString());
     } finally {
+      stopwatch.stop();
       debugPrint(
-        '$runtimeType - Page $page loaded in ${DateTime.now().millisecondsSinceEpoch - start}ms',
+        '$runtimeType - Page loaded in ${stopwatch.elapsedMilliseconds}ms',
       );
-
       isLoading = false;
-      page++;
+      streamController.add(items);
     }
   }
 
-  Future<Iterable<T>> fetchItems();
+  Future<Pair<Iterable<T>, int>> fetchItems();
 
   void dispose() {
     scrollController.removeListener(_scrollListener);
   }
+}
+
+class Pair<A, B> {
+  Pair(this.first, this.second);
+
+  final A first;
+  final B second;
 }

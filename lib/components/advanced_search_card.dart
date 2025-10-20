@@ -54,12 +54,15 @@ class AdvancedSearchCard extends StatelessWidget {
       child: SingleChildScrollView(
         controller: scrollController,
         scrollDirection: Axis.horizontal,
-        child: Row(
-          spacing: spacing,
-          children: <Widget>[
-            _buildAdvancedSearchButton(context),
-            ..._buildSearchTypeButtons(context, animeSearchController),
-          ],
+        child: IntrinsicHeight(
+          child: Row(
+            spacing: spacing,
+            children: <Widget>[
+              _buildAdvancedSearchButton(context),
+              const VerticalDivider(thickness: 0.5),
+              ..._buildSearchTypeButtons(context, animeSearchController),
+            ],
+          ),
         ),
       ),
     );
@@ -134,7 +137,7 @@ class AdvancedSearchCard extends StatelessWidget {
     final AnimeSearchController searchController,
   ) => searchController.searchType == type
       ? Theme.of(context).oppositeTextColor
-      : Theme.of(context).textTheme.bodyLarge?.color;
+      : Theme.of(context).colorScheme.primary;
 
   void _handleSearchTypePressed(
     final SearchType type,

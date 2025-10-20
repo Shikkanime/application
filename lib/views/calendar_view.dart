@@ -81,7 +81,7 @@ class _CalendarViewState extends State<CalendarView> {
     final List<WeekDayDto> releases,
     final WeekDayDto currentWeekDay,
   ) => Padding(
-    padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
+    padding: const EdgeInsets.all(8),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -113,15 +113,13 @@ class _CalendarViewState extends State<CalendarView> {
       padding: const EdgeInsets.all(8),
       child: Column(
         children: <Widget>[
-          const Icon(
-            Icons.sentiment_very_dissatisfied,
-            size: 48,
-            color: Colors.grey,
-          ),
+          const Icon(Icons.sentiment_very_dissatisfied, size: 48),
           const SizedBox(height: 8),
           Text(
             AppLocalizations.of(context)!.oops,
-            style: const TextStyle(color: Colors.grey, fontSize: 24),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
           Text(
             AppLocalizations.of(context)!.noAnimeToday,

@@ -44,9 +44,7 @@ class _RequestNotificationViewState extends State<RequestNotificationView> {
               Text(
                 AppLocalizations.of(context)!.notificationsDescription,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Theme.of(context).textTheme.bodyLarge?.color,
-                ),
+                style: TextStyle(color: Theme.of(context).colorScheme.primary),
               ),
               const SizedBox(height: 32),
               CustomCard(

@@ -15,26 +15,37 @@ class SimulcastView extends StatelessWidget {
     final BuildContext context,
     final List<AnimeDto> animes,
   ) {
+    final int maxElementsPerRow = AnimeController.instance.maxElementsPerRow(
+      context,
+    );
+
+    final List<Widget> loaders = List<AnimeLoaderComponent>.generate(
+      AnimeController.instance.limit,
+      (final int index) => const AnimeLoaderComponent(),
+    );
+
+    final Widget header;
+    final List<Widget> itemsToGrid = <Widget>[];
+
     if (animes.isEmpty) {
-      return <Widget>[
-        const SimulcastLoaderButton(),
-        ...wb.WidgetBuilder.instance.buildRowWidgets(
-          List<AnimeLoaderComponent>.generate(
-            12,
-            (final int index) => const AnimeLoaderComponent(),
-          ),
-          maxElementsPerRow: AnimeController.instance.maxElementsPerRow(
-            context,
-          ),
-        ),
-      ];
+      header = const SimulcastLoaderButton();
+      itemsToGrid.addAll(loaders);
+    } else {
+      header = const SimulcastDropdownButton();
+      itemsToGrid.addAll(
+        animes.map((final AnimeDto anime) => AnimeComponent(anime: anime)),
+      );
+
+      if (AnimeController.instance.isLoading) {
+        itemsToGrid.addAll(loaders);
+      }
     }
 
     return <Widget>[
-      const SimulcastDropdownButton(),
+      header,
       ...wb.WidgetBuilder.instance.buildRowWidgets(
-        animes.map((final AnimeDto anime) => AnimeComponent(anime: anime)),
-        maxElementsPerRow: AnimeController.instance.maxElementsPerRow(context),
+        itemsToGrid,
+        maxElementsPerRow: maxElementsPerRow,
       ),
     ];
   }

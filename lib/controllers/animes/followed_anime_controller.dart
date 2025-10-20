@@ -9,7 +9,7 @@ class FollowedAnimeController extends GenericController<AnimeDto> {
   static final FollowedAnimeController instance = FollowedAnimeController();
   bool _isRetry = false;
 
-  int get _limit =>
+  int get limit =>
       wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
       ? 9
       : 24;
@@ -23,9 +23,9 @@ class FollowedAnimeController extends GenericController<AnimeDto> {
   }
 
   @override
-  Future<Iterable<AnimeDto>> fetchItems() async {
+  Future<Pair<Iterable<AnimeDto>, int>> fetchItems() async {
     final PageableDto pageableDto = await HttpRequest.instance.getPage(
-      '/v1/animes?page=$page&limit=$_limit',
+      '/v1/animes?page=$page&limit=$limit',
       token: MemberController.instance.member?.token,
       onUnauthorized: () async {
         if (_isRetry) {
@@ -40,15 +40,18 @@ class FollowedAnimeController extends GenericController<AnimeDto> {
 
     _isRetry = false;
 
-    return pageableDto.data.map(
-      (final dynamic e) => AnimeDto.fromJson(e as Map<String, dynamic>),
+    return Pair<Iterable<AnimeDto>, int>(
+      pageableDto.data.map(
+        (final dynamic e) => AnimeDto.fromJson(e as Map<String, dynamic>),
+      ),
+      pageableDto.total,
     );
   }
 
   @override
   void dispose() {
-    if (items.length > _limit) {
-      items.removeRange(_limit, items.length);
+    if (items.length > limit) {
+      items.removeRange(limit, items.length);
     }
 
     page = 1;

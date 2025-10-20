@@ -10,7 +10,7 @@ class MissedAnimeController extends GenericController<MissedAnimeDto> {
   static final MissedAnimeController instance = MissedAnimeController();
   bool _isRetry = false;
 
-  int get _limit =>
+  int get limit =>
       Constant.isAndroidOrIOS &&
           wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
       ? 9
@@ -25,9 +25,9 @@ class MissedAnimeController extends GenericController<MissedAnimeDto> {
   }
 
   @override
-  Future<Iterable<MissedAnimeDto>> fetchItems() async {
+  Future<Pair<Iterable<MissedAnimeDto>, int>> fetchItems() async {
     final PageableDto pageableDto = await HttpRequest.instance.getPage(
-      '/v1/animes/missed?page=$page&limit=$_limit',
+      '/v1/animes/missed?page=$page&limit=$limit',
       token: MemberController.instance.member!.token,
       onUnauthorized: () async {
         if (_isRetry) {
@@ -42,8 +42,11 @@ class MissedAnimeController extends GenericController<MissedAnimeDto> {
 
     _isRetry = false;
 
-    return pageableDto.data.map(
-      (final dynamic e) => MissedAnimeDto.fromJson(e as Map<String, dynamic>),
+    return Pair<Iterable<MissedAnimeDto>, int>(
+      pageableDto.data.map(
+        (final dynamic e) => MissedAnimeDto.fromJson(e as Map<String, dynamic>),
+      ),
+      pageableDto.total,
     );
   }
 }

@@ -293,14 +293,10 @@ class SettingsCategory extends StatelessWidget {
           spacing: 8,
           direction: Axis.horizontal,
           children: <Widget>[
-            Icon(icon, color: Colors.grey),
+            Icon(icon),
             Text(
               title,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Colors.grey,
-              ),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -335,7 +331,7 @@ class SettingsOption extends StatelessWidget {
         if (tooltip != null)
           Tooltip(
             message: tooltip,
-            child: const Icon(Icons.info_outline, size: 20, color: Colors.grey),
+            child: const Icon(Icons.info_outline, size: 20),
           ),
       ],
     ),

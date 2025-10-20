@@ -1,7 +1,8 @@
+import 'package:application/components/cached_network_image.dart';
+import 'package:application/components/generic_loader.dart';
 import 'package:application/dtos/platform_dto.dart';
 import 'package:application/utils/constant.dart';
 import 'package:application/utils/extensions.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class PlatformComponent extends StatelessWidget {
@@ -25,13 +26,8 @@ class PlatformComponent extends StatelessWidget {
       fit: BoxFit.cover,
       width: width,
       height: height,
-      placeholder: (final BuildContext context, final String url) =>
-          Container(color: Colors.grey, width: width, height: height),
-      errorWidget:
-          (final BuildContext context, final String url, final dynamic error) =>
-              Container(color: Colors.grey, width: width, height: height),
-      fadeInDuration: Duration.zero,
-      fadeOutDuration: Duration.zero,
+      placeholderWidget: GenericLoader(width: width, height: height),
+      errorWidget: GenericLoader(width: width, height: height),
     ),
   );
 
