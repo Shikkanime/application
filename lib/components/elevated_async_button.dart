@@ -19,25 +19,27 @@ class ElevatedAsyncButton extends StatefulWidget {
 class _ElevatedAsyncButtonState extends State<ElevatedAsyncButton> {
   bool _isRunning = false;
 
+  Future<void> _handleOnPressed() async {
+    setState(() {
+      _isRunning = true;
+    });
+
+    try {
+      await widget.onPressed!();
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isRunning = false;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(final BuildContext context) => ElevatedButton(
     style: widget.style ?? Theme.of(context).elevatedButtonTheme.style,
     onPressed: widget.onPressed != null && !_isRunning
-        ? () async {
-            setState(() {
-              _isRunning = true;
-            });
-
-            await widget.onPressed!();
-
-            if (!mounted) {
-              return;
-            }
-
-            setState(() {
-              _isRunning = false;
-            });
-          }
+        ? _handleOnPressed
         : null,
     child: widget.child,
   );

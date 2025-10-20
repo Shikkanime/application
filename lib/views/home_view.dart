@@ -15,31 +15,40 @@ class HomeView extends StatelessWidget {
     final BuildContext context,
     final List<GroupedEpisodeDto> episodes,
   ) {
-    if (episodes.isEmpty) {
-      return <Widget>[
-        const MissedAnimesLoaderRow(),
-        ...wb.WidgetBuilder.instance.buildRowWidgets(
-          List<EpisodeLoaderComponent>.generate(
-            12,
-            (final int index) => const EpisodeLoaderComponent(),
-          ),
-          maxElementsPerRow: EpisodeController.instance.maxElementsPerRow(
-            context,
-          ),
-        ),
-      ];
-    }
+    final int maxElementsPerRow = EpisodeController.instance.maxElementsPerRow(
+      context,
+    );
 
-    return <Widget>[
-      const MissedAnimesRow(),
-      ...wb.WidgetBuilder.instance.buildRowWidgets(
+    final List<Widget> loaders = List<EpisodeLoaderComponent>.generate(
+      EpisodeController.instance.limit,
+      (final int index) => const EpisodeLoaderComponent(),
+    );
+
+    final Widget header;
+    final List<Widget> itemsToGrid = <Widget>[];
+
+    if (episodes.isEmpty) {
+      header = const MissedAnimesLoaderRow();
+      itemsToGrid.addAll(loaders);
+    } else {
+      header = const MissedAnimesRow();
+      itemsToGrid.addAll(
         episodes.map(
           (final GroupedEpisodeDto episode) =>
               GroupedEpisodeComponent(episode: episode),
         ),
-        maxElementsPerRow: EpisodeController.instance.maxElementsPerRow(
-          context,
-        ),
+      );
+
+      if (EpisodeController.instance.isLoading) {
+        itemsToGrid.addAll(loaders);
+      }
+    }
+
+    return <Widget>[
+      header,
+      ...wb.WidgetBuilder.instance.buildRowWidgets(
+        itemsToGrid,
+        maxElementsPerRow: maxElementsPerRow,
       ),
     ];
   }

@@ -19,13 +19,13 @@ class AnimeWeeklyController extends GenericController<WeekDayDto> {
   SearchType? searchType;
 
   int maxElementsPerRow(final BuildContext context) =>
-      max(1, (MediaQuery.sizeOf(context).width * 0.00333).floor());
+      max(1, (MediaQuery.sizeOf(context).width * 0.0025).floor());
 
   double placeholderHeight(final BuildContext context) =>
       MediaQuery.sizeOf(context).width * 0.46 / maxElementsPerRow(context);
 
   @override
-  Future<Iterable<WeekDayDto>> fetchItems() async {
+  Future<Pair<Iterable<WeekDayDto>, int>> fetchItems() async {
     final List<dynamic> json = await HttpRequest.instance.get<List<dynamic>>(
       '/v1/animes/weekly${searchType != null ? '?searchTypes=${searchType!.name.toUpperCase()}' : ''}',
       token: isWatchlist ? MemberController.instance.member?.token : null,
@@ -44,8 +44,11 @@ class AnimeWeeklyController extends GenericController<WeekDayDto> {
 
     _isRetry = false;
 
-    return json.map(
-      (final dynamic e) => WeekDayDto.fromJson(e as Map<String, dynamic>),
+    return Pair<Iterable<WeekDayDto>, int>(
+      json.map(
+        (final dynamic e) => WeekDayDto.fromJson(e as Map<String, dynamic>),
+      ),
+      json.length,
     );
   }
 

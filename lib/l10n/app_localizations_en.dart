@@ -85,7 +85,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get voice => 'Dubbing';
 
   @override
-  String get markWatched => 'All seen';
+  String get markWatched => 'All watched';
+
+  @override
+  String get watched => 'Watched';
+
+  @override
+  String get unwatched => 'Unwatched';
 
   @override
   String get share => 'Share';
@@ -168,9 +174,6 @@ class AppLocalizationsEn extends AppLocalizations {
     });
     return '$_temp0';
   }
-
-  @override
-  String get defaultSort => 'Default sort';
 
   @override
   String sortType(String type) {
@@ -317,7 +320,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get days => 'd';
 
   @override
-  String get watch => 'Watch';
+  String get play => 'Play';
 
   @override
   String get notificationNotAuthorized => 'Notifications are not authorized';

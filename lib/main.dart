@@ -113,6 +113,7 @@ class MyApp extends StatelessWidget {
       primary: Colors.black,
       canvasColor: Colors.white,
       textColor: Colors.black,
+      greyColor: Colors.grey[800]!,
       snackBarBackground: Colors.white,
       elevatedButtonBackground: const Color(0xfff6f6f6),
       elevatedButtonShadowColor: Colors.grey[300]!,
@@ -123,10 +124,11 @@ class MyApp extends StatelessWidget {
       brightness: Brightness.dark,
       scaffoldBackground: Colors.black,
       primary: Colors.white,
-      canvasColor: const Color(0xff121212),
+      canvasColor: const Color(0xff161616),
       textColor: Colors.white,
+      greyColor: Colors.grey[400]!,
       snackBarBackground: Colors.grey[900]!,
-      elevatedButtonBackground: const Color(0xff1f1f1f),
+      elevatedButtonBackground: const Color(0xff282828),
       elevatedButtonShadowColor: Colors.grey[900]!,
       iconImage: const AssetImage('assets/light_icon.png'),
       oppositeTextColor: Colors.black,
@@ -141,6 +143,7 @@ class MyApp extends StatelessWidget {
     required final Color primary,
     required final Color canvasColor,
     required final Color textColor,
+    required final Color greyColor,
     required final Color snackBarBackground,
     required final Color elevatedButtonBackground,
     required final Color elevatedButtonShadowColor,
@@ -161,7 +164,7 @@ class MyApp extends StatelessWidget {
           ),
           bottomNavigationBarTheme: BottomNavigationBarThemeData(
             selectedItemColor: primary,
-            unselectedItemColor: Colors.grey,
+            unselectedItemColor: greyColor,
           ),
           floatingActionButtonTheme: FloatingActionButtonThemeData(
             backgroundColor: primary,
@@ -174,9 +177,10 @@ class MyApp extends StatelessWidget {
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
-            bodyMedium: const TextStyle(color: Colors.grey),
-            bodySmall: const TextStyle(color: Colors.grey, fontSize: 11),
+            bodyMedium: TextStyle(color: greyColor),
+            bodySmall: TextStyle(color: greyColor, fontSize: 11),
           ),
+          iconTheme: IconThemeData(color: greyColor),
           snackBarTheme: SnackBarThemeData(
             backgroundColor: snackBarBackground,
             contentTextStyle: TextStyle(color: textColor),
@@ -210,6 +214,11 @@ class MyApp extends StatelessWidget {
             style: IconButton.styleFrom(foregroundColor: primary),
           ),
           dialogTheme: DialogThemeData(backgroundColor: canvasColor),
+          bottomSheetTheme: BottomSheetThemeData(
+            surfaceTintColor: canvasColor,
+            backgroundColor: canvasColor,
+          ),
+          dividerTheme: DividerThemeData(color: primary),
         )
         ..addInputDecorationTheme(
           ElevatedButton.styleFrom(

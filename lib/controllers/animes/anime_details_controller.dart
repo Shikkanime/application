@@ -13,19 +13,19 @@ class AnimeDetailsController extends GenericController<EpisodeMappingDto> {
   AnimeDto? anime;
   SeasonDto? season;
 
-  int get _limit =>
+  int get limit =>
       wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
       ? 4
       : 24;
 
   @override
-  Future<Iterable<EpisodeMappingDto>> fetchItems() async {
+  Future<Pair<Iterable<EpisodeMappingDto>, int>> fetchItems() async {
     final Map<String, dynamic> query = <String, Object?>{
       'anime': anime?.uuid,
       if (season != null) 'season': season!.number,
       ...SortController.instance.sortType.value,
       'page': page,
-      'limit': _limit,
+      'limit': limit,
     };
 
     final String queryString = query.entries
@@ -36,9 +36,12 @@ class AnimeDetailsController extends GenericController<EpisodeMappingDto> {
       '/v1/episode-mappings?$queryString',
     );
 
-    return pageableDto.data.map(
-      (final dynamic e) =>
-          EpisodeMappingDto.fromJson(e as Map<String, dynamic>),
+    return Pair<Iterable<EpisodeMappingDto>, int>(
+      pageableDto.data.map(
+        (final dynamic e) =>
+            EpisodeMappingDto.fromJson(e as Map<String, dynamic>),
+      ),
+      pageableDto.total,
     );
   }
 }

@@ -16,7 +16,7 @@ class AnimeSearchController extends GenericController<AnimeDto> {
   String query = '';
   SearchType? searchType;
 
-  int get _limit =>
+  int get limit =>
       wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
       ? 6
       : 24;
@@ -33,13 +33,13 @@ class AnimeSearchController extends GenericController<AnimeDto> {
   }
 
   @override
-  Future<Iterable<AnimeDto>> fetchItems() async {
+  Future<Pair<Iterable<AnimeDto>, int>> fetchItems() async {
     final Map<String, Object> queryMap = <String, Object>{
       'country': 'FR',
       if (searchType != null) 'searchTypes': searchType!.name.toUpperCase(),
       if (query.isNotEmpty) 'name': Uri.encodeComponent(query),
       'page': page,
-      'limit': _limit,
+      'limit': limit,
       if (query.isEmpty) 'sort': 'name',
     };
 
@@ -55,8 +55,11 @@ class AnimeSearchController extends GenericController<AnimeDto> {
 
     Analytics.instance.logSearch(query, queryMap);
 
-    return pageableDto.data.map(
-      (final dynamic e) => AnimeDto.fromJson(e as Map<String, dynamic>),
+    return Pair<Iterable<AnimeDto>, int>(
+      pageableDto.data.map(
+        (final dynamic e) => AnimeDto.fromJson(e as Map<String, dynamic>),
+      ),
+      pageableDto.total,
     );
   }
 }

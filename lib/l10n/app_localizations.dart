@@ -98,13 +98,13 @@ abstract class AppLocalizations {
     Locale('fr'),
   ];
 
-  /// Text for the button or tab leading to the home page.
+  /// No description provided for @home.
   ///
   /// In en, this message translates to:
   /// **'Home'**
   String get home;
 
-  /// Text for the button or tab leading to the catalog page.
+  /// No description provided for @catalog.
   ///
   /// In en, this message translates to:
   /// **'Catalog'**
@@ -116,43 +116,43 @@ abstract class AppLocalizations {
   /// **'jm'**
   String get calendarTimeFormat;
 
-  /// Text for the button or tab leading to the calendar page.
+  /// No description provided for @calendar.
   ///
   /// In en, this message translates to:
   /// **'Calendar'**
   String get calendar;
 
-  /// Text for the button or tab leading to the user account page.
+  /// No description provided for @myAccount.
   ///
   /// In en, this message translates to:
   /// **'Account'**
   String get myAccount;
 
-  /// Text for the field or button to perform a search.
+  /// No description provided for @search.
   ///
   /// In en, this message translates to:
   /// **'Search'**
   String get search;
 
-  /// Text for the button or field to access advanced search.
+  /// No description provided for @advancedSearch.
   ///
   /// In en, this message translates to:
   /// **'Advanced Search'**
   String get advancedSearch;
 
-  /// Text for the button or field to sort results or the list.
+  /// No description provided for @sort.
   ///
   /// In en, this message translates to:
   /// **'Sort'**
   String get sort;
 
-  /// First part of the phrase 'What you might have missed'.
+  /// No description provided for @whatYouMightHaveMissed1.
   ///
   /// In en, this message translates to:
   /// **'What you might have '**
   String get whatYouMightHaveMissed1;
 
-  /// Second part of the phrase 'What you might have missed'.
+  /// No description provided for @whatYouMightHaveMissed2.
   ///
   /// In en, this message translates to:
   /// **'missed'**
@@ -188,295 +188,301 @@ abstract class AppLocalizations {
   /// **'{episodeType} {number}'**
   String minInformation(String episodeType, String number);
 
-  /// Text to indicate the availability of subtitles.
+  /// No description provided for @subtitles.
   ///
   /// In en, this message translates to:
   /// **'Subtitles'**
   String get subtitles;
 
-  /// Text to indicate the availability of dubbing.
+  /// No description provided for @voice.
   ///
   /// In en, this message translates to:
   /// **'Dubbing'**
   String get voice;
 
-  /// Text for the button to mark an episode as watched.
+  /// No description provided for @markWatched.
   ///
   /// In en, this message translates to:
-  /// **'All seen'**
+  /// **'All watched'**
   String get markWatched;
 
-  /// Text for the button to share content.
+  /// No description provided for @watched.
+  ///
+  /// In en, this message translates to:
+  /// **'Watched'**
+  String get watched;
+
+  /// No description provided for @unwatched.
+  ///
+  /// In en, this message translates to:
+  /// **'Unwatched'**
+  String get unwatched;
+
+  /// No description provided for @share.
   ///
   /// In en, this message translates to:
   /// **'Share'**
   String get share;
 
-  /// Text for the button to display more information.
+  /// No description provided for @showMore.
   ///
   /// In en, this message translates to:
   /// **'...more'**
   String get showMore;
 
-  /// Text for the button to display less information.
+  /// No description provided for @showLess.
   ///
   /// In en, this message translates to:
   /// **'...less'**
   String get showLess;
 
-  /// Text indicating that the user is using an anonymous account.
+  /// No description provided for @anonymousAccount.
   ///
   /// In en, this message translates to:
   /// **'Anonymous account'**
   String get anonymousAccount;
 
-  /// Text for the button to associate an email address with an account.
+  /// No description provided for @associateEmail.
   ///
   /// In en, this message translates to:
   /// **'Associate an email address'**
   String get associateEmail;
 
-  /// Text for the field where the user must enter a verification code.
+  /// No description provided for @code.
   ///
   /// In en, this message translates to:
   /// **'Code'**
   String get code;
 
-  /// Text for the button to send a verification code.
+  /// No description provided for @sendCode.
   ///
   /// In en, this message translates to:
   /// **'Send code'**
   String get sendCode;
 
-  /// Text to designate the user account section.
+  /// No description provided for @account.
   ///
   /// In en, this message translates to:
   /// **'Account'**
   String get account;
 
-  /// Text to designate an email address.
+  /// No description provided for @email.
   ///
   /// In en, this message translates to:
   /// **'Email address'**
   String get email;
 
-  /// Text to designate the unique identifier of an account.
+  /// No description provided for @identifier.
   ///
   /// In en, this message translates to:
   /// **'Identifier'**
   String get identifier;
 
-  /// Subtitle explaining that it's important to save the identifier to recover one's data.
+  /// No description provided for @identifierSubtitle.
   ///
   /// In en, this message translates to:
   /// **'Please save it to recover your data'**
   String get identifierSubtitle;
 
-  /// Text indicating that there is no identifier.
+  /// No description provided for @noIdentifier.
   ///
   /// In en, this message translates to:
   /// **'No identifier'**
   String get noIdentifier;
 
-  /// Message displayed when the identifier is copied to the clipboard.
+  /// No description provided for @identifierCopied.
   ///
   /// In en, this message translates to:
   /// **'Identifier copied to clipboard'**
   String get identifierCopied;
 
-  /// Text inviting the user to enter a new identifier.
+  /// No description provided for @enterNewIdentifier.
   ///
   /// In en, this message translates to:
   /// **'Please enter a new identifier'**
   String get enterNewIdentifier;
 
-  /// Text for a button to recover a forgotten identifier.
+  /// No description provided for @forgotIdentifier.
   ///
   /// In en, this message translates to:
   /// **'Forgot identifier?'**
   String get forgotIdentifier;
 
-  /// Text for a button to cancel an action.
+  /// No description provided for @cancel.
   ///
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancel;
 
-  /// Text for a button to save information.
+  /// No description provided for @save.
   ///
   /// In en, this message translates to:
   /// **'Save'**
   String get save;
 
-  /// Text for a confirmation or acceptance button.
+  /// No description provided for @ok.
   ///
   /// In en, this message translates to:
   /// **'OK'**
   String get ok;
 
-  /// Text for the button or tab leading to the application settings.
+  /// No description provided for @settings.
   ///
   /// In en, this message translates to:
   /// **'Settings'**
   String get settings;
 
-  /// Text for the button or tab leading to notification settings.
+  /// No description provided for @notifications.
   ///
   /// In en, this message translates to:
   /// **'Notifications'**
   String get notifications;
 
-  /// Text describing the different types of notifications available.
+  /// No description provided for @notificationsType.
   ///
   /// In en, this message translates to:
   /// **'{type, select, all{All} watchlist{Watchlist} none{None} other{Other}}'**
   String notificationsType(String type);
 
-  /// Subtitles to describe notification types in more detail.
+  /// No description provided for @notificationsSubtitles.
   ///
   /// In en, this message translates to:
   /// **'{type, select, all{Receive notifications for all anime} watchlist{Receive notifications for anime in your watchlist} none{} other{Receive notifications for anime you follow}}'**
   String notificationsSubtitles(String type);
 
-  /// Text for the button or field to choose a default sort.
-  ///
-  /// In en, this message translates to:
-  /// **'Default sort'**
-  String get defaultSort;
-
-  /// Text to describe different sorting options (by oldest or newest).
+  /// No description provided for @sortType.
   ///
   /// In en, this message translates to:
   /// **'{type, select, oldest{Oldest} newest{Newest} other{Other}}'**
   String sortType(String type);
 
-  /// Title for a dialog box warning the user about data backup.
+  /// No description provided for @anonymousWarningTitle.
   ///
   /// In en, this message translates to:
   /// **'Data Backup Warning'**
   String get anonymousWarningTitle;
 
-  /// First paragraph of the warning message explaining the importance of the identifier for data backup.
+  /// No description provided for @anonymousWarningContent1.
   ///
   /// In en, this message translates to:
   /// **'We save your data anonymously on our servers. Each account is associated with a unique identifier. Please note that if you lose this identifier, you risk losing access to all your data.'**
   String get anonymousWarningContent1;
 
-  /// Second paragraph of the warning message explaining where to find the unique identifier.
+  /// No description provided for @anonymousWarningContent2.
   ///
   /// In en, this message translates to:
   /// **'You can find your unique identifier in the \"Account\" section of the application settings.'**
   String get anonymousWarningContent2;
 
-  /// Third paragraph of the warning message advising to associate an email address for data security.
+  /// No description provided for @anonymousWarningContent3.
   ///
   /// In en, this message translates to:
   /// **'To avoid any data loss, we strongly recommend associating an email address. This will allow you to easily recover your data if needed and secure your account against accidental loss.'**
   String get anonymousWarningContent3;
 
-  /// Text displayed when something doesn't go as planned.
+  /// No description provided for @oops.
   ///
   /// In en, this message translates to:
   /// **'Oops'**
   String get oops;
 
-  /// Message informing the user that no anime is available today.
+  /// No description provided for @noAnimeToday.
   ///
   /// In en, this message translates to:
   /// **'There are no anime available today.'**
   String get noAnimeToday;
 
-  /// Message informing the user that there is no Internet connection.
+  /// No description provided for @noInternet.
   ///
   /// In en, this message translates to:
   /// **'No Internet connection'**
   String get noInternet;
 
-  /// Message indicating that no email address is associated with the account.
+  /// No description provided for @noEmail.
   ///
   /// In en, this message translates to:
   /// **'No email address associated'**
   String get noEmail;
 
-  /// Text for a button to retry a failed action.
+  /// No description provided for @tryAgain.
   ///
   /// In en, this message translates to:
   /// **'Try again'**
   String get tryAgain;
 
-  /// Message indicating that the entered email address is invalid.
+  /// No description provided for @invalidEmail.
   ///
   /// In en, this message translates to:
   /// **'Invalid email address'**
   String get invalidEmail;
 
-  /// Message indicating that an email address is already used by another account.
+  /// No description provided for @conflictEmail.
   ///
   /// In en, this message translates to:
   /// **'This email address is already associated with another account'**
   String get conflictEmail;
 
-  /// Message indicating that the verification code is invalid.
+  /// No description provided for @invalidCode.
   ///
   /// In en, this message translates to:
   /// **'Invalid code'**
   String get invalidCode;
 
-  /// Message indicating that the entered identifier is invalid.
+  /// No description provided for @invalidIdentifier.
   ///
   /// In en, this message translates to:
   /// **'Invalid identifier'**
   String get invalidIdentifier;
 
-  /// Text explaining the benefits of associating an email address with the account.
+  /// No description provided for @emailContent.
   ///
   /// In en, this message translates to:
   /// **'By associating an email address with your account, you\'ll be able to recover your data if you lose your identifier. Additionally, you can secure your account against accidental loss.'**
   String get emailContent;
 
-  /// Warning inviting the user to check their spam folder if the email is not received.
+  /// No description provided for @emailSpamWarning.
   ///
   /// In en, this message translates to:
   /// **'Please check your spam folder if you don\'t receive the email in your inbox. If you still don\'t receive it after a few minutes, please try again.'**
   String get emailSpamWarning;
 
-  /// Message indicating the consequences of not associating an email address with the account.
+  /// No description provided for @emailNotAssociated.
   ///
   /// In en, this message translates to:
   /// **'If you haven\'t associated an email address with your account, you won\'t be able to recover your data if you lose your identifier.'**
   String get emailNotAssociated;
 
-  /// Message indicating that the entered email address is already associated with this account.
+  /// No description provided for @emailAlreadyAssociatedWithYourAccount.
   ///
   /// In en, this message translates to:
   /// **'This email address is already associated with your account.'**
   String get emailAlreadyAssociatedWithYourAccount;
 
-  /// Message confirming that the email address has been associated with the account.
+  /// No description provided for @yourEmailHasBeenAssociated.
   ///
   /// In en, this message translates to:
   /// **'Your email address has been successfully associated with your account.'**
   String get yourEmailHasBeenAssociated;
 
-  /// Message confirming that the new identifier has been sent by email.
+  /// No description provided for @yourNewIdentifierHasBeenSent.
   ///
   /// In en, this message translates to:
   /// **'Your new identifier has been sent to your email address.'**
   String get yourNewIdentifierHasBeenSent;
 
-  /// Text indicating the number of animes added by the user.
+  /// No description provided for @animesAdded.
   ///
   /// In en, this message translates to:
   /// **'Animes added'**
   String get animesAdded;
 
-  /// Text indicating the number of episodes watched by the user.
+  /// No description provided for @episodesWatched.
   ///
   /// In en, this message translates to:
   /// **'Episodes watched'**
   String get episodesWatched;
 
-  /// Text indicating the total viewing duration of animes by the user.
+  /// No description provided for @watchTime.
   ///
   /// In en, this message translates to:
   /// **'Watch time'**
@@ -494,61 +500,61 @@ abstract class AppLocalizations {
   /// **'Account created on {date}'**
   String accountCreatedAt(String date);
 
-  /// Text for the button or option to crop an image.
+  /// No description provided for @crop.
   ///
   /// In en, this message translates to:
   /// **'Crop'**
   String get crop;
 
-  /// Message indicating that the provided image format is invalid.
+  /// No description provided for @invalidImageFormat.
   ///
   /// In en, this message translates to:
   /// **'Invalid image format'**
   String get invalidImageFormat;
 
-  /// Message indicating that only jpg, jpeg, and png image formats are accepted.
+  /// No description provided for @invalidImageExtension.
   ///
   /// In en, this message translates to:
   /// **'Only .jpg, .jpeg, and .png files are allowed'**
   String get invalidImageExtension;
 
-  /// First part of the phrase 'Your recently added anime'.
+  /// No description provided for @yourRecentlyAddedAnime1.
   ///
   /// In en, this message translates to:
   /// **'Your recently '**
   String get yourRecentlyAddedAnime1;
 
-  /// Second part of the phrase 'Your recently added anime'.
+  /// No description provided for @yourRecentlyAddedAnime2.
   ///
   /// In en, this message translates to:
   /// **'added anime'**
   String get yourRecentlyAddedAnime2;
 
-  /// Message informing the user that they haven't added any anime to their watchlist yet.
+  /// No description provided for @noFollowedAnime.
   ///
   /// In en, this message translates to:
   /// **'You haven\'t added any anime to your watchlist yet'**
   String get noFollowedAnime;
 
-  /// First part of the phrase 'Your recently viewed episodes'.
+  /// No description provided for @yourRecentlyViewedEpisodes1.
   ///
   /// In en, this message translates to:
   /// **'Your recently '**
   String get yourRecentlyViewedEpisodes1;
 
-  /// Second part of the phrase 'Your recently viewed episodes'.
+  /// No description provided for @yourRecentlyViewedEpisodes2.
   ///
   /// In en, this message translates to:
   /// **'viewed episodes'**
   String get yourRecentlyViewedEpisodes2;
 
-  /// Message informing the user that they haven't watched any episodes yet.
+  /// No description provided for @noWatchedEpisode.
   ///
   /// In en, this message translates to:
   /// **'You haven\'t watched any episodes yet'**
   String get noWatchedEpisode;
 
-  /// Text for the user's watchlist, which includes the anime they want to follow.
+  /// No description provided for @watchlist.
   ///
   /// In en, this message translates to:
   /// **'Watchlist'**
@@ -560,121 +566,121 @@ abstract class AppLocalizations {
   /// **'{day, select, 0{Monday} 1{Tuesday} 2{Wednesday} 3{Thursday} 4{Friday} 5{Saturday} 6{Sunday} other{}}'**
   String weekDays(String day);
 
-  /// Abbreviation for days.
+  /// No description provided for @days.
   ///
   /// In en, this message translates to:
   /// **'d'**
   String get days;
 
-  /// Text for the button to watch an episode.
+  /// No description provided for @play.
   ///
   /// In en, this message translates to:
-  /// **'Watch'**
-  String get watch;
+  /// **'Play'**
+  String get play;
 
-  /// Message indicating that notifications are not authorized.
+  /// No description provided for @notificationNotAuthorized.
   ///
   /// In en, this message translates to:
   /// **'Notifications are not authorized'**
   String get notificationNotAuthorized;
 
-  /// Subtitle indicating where to enable notifications.
+  /// No description provided for @notificationNotAuthorizedSubtitle.
   ///
   /// In en, this message translates to:
   /// **'Please enable them in your app settings'**
   String get notificationNotAuthorizedSubtitle;
 
-  /// Message indicating that a patch is being downloaded.
+  /// No description provided for @downloadingPatch.
   ///
   /// In en, this message translates to:
   /// **'Downloading patch...'**
   String get downloadingPatch;
 
-  /// Message indicating that the patch has been downloaded and needs to be applied.
+  /// No description provided for @patchDownloaded.
   ///
   /// In en, this message translates to:
   /// **'Patch downloaded! Restart the application to apply the changes.'**
   String get patchDownloaded;
 
-  /// Message indicating that the patch failed to download.
+  /// No description provided for @patchFailed.
   ///
   /// In en, this message translates to:
   /// **'Patch failed to download. Please try again later.'**
   String get patchFailed;
 
-  /// Text to indicate where to watch an anime.
+  /// No description provided for @watchOn.
   ///
   /// In en, this message translates to:
   /// **'Watch on:'**
   String get watchOn;
 
-  /// Text for the button to mark an episode as watched.
+  /// No description provided for @markAsWatched.
   ///
   /// In en, this message translates to:
   /// **'Mark as watched'**
   String get markAsWatched;
 
-  /// Default text to display when there is no description available.
+  /// No description provided for @defaultDescription.
   ///
   /// In en, this message translates to:
   /// **'No description yet...'**
   String get defaultDescription;
 
-  /// Text for the button to enable notifications.
+  /// No description provided for @enableNotifications.
   ///
   /// In en, this message translates to:
   /// **'Turn on notifications'**
   String get enableNotifications;
 
-  /// Description of the notification feature.
+  /// No description provided for @notificationsDescription.
   ///
   /// In en, this message translates to:
   /// **'Receive updates when a new episode is available. You can disable notifications at any time in the settings.'**
   String get notificationsDescription;
 
-  /// Text for the button to activate a feature.
+  /// No description provided for @activate.
   ///
   /// In en, this message translates to:
   /// **'Turn on'**
   String get activate;
 
-  /// Text for the button to postpone an action.
+  /// No description provided for @later.
   ///
   /// In en, this message translates to:
   /// **'Later'**
   String get later;
 
-  /// Title for the platform preferences dialog or settings option.
+  /// No description provided for @platformPreferences.
   ///
   /// In en, this message translates to:
   /// **'Playback Settings'**
   String get platformPreferences;
 
-  /// Checkbox label to remember the user's selection.
+  /// No description provided for @rememberMyChoice.
   ///
   /// In en, this message translates to:
   /// **'Remember my choice'**
   String get rememberMyChoice;
 
-  /// Instruction text for reorderable lists.
+  /// No description provided for @dragToReorder.
   ///
   /// In en, this message translates to:
   /// **'Drag to reorder'**
   String get dragToReorder;
 
-  /// Text for a button to continue the action.
+  /// No description provided for @continueLabel.
   ///
   /// In en, this message translates to:
   /// **'Continue'**
   String get continueLabel;
 
-  /// Detailed description explaining the screen to reorder preferred platforms.
+  /// No description provided for @platformPreferencesDescription.
   ///
   /// In en, this message translates to:
   /// **'Sort your streaming services (like Netflix, Disney+, etc.) by placing your favorite one first.\n\nThis way, when you play an episode, we\'ll always suggest that service first and can even open it for you automatically.'**
   String get platformPreferencesDescription;
 
-  /// Settings option label to reorder platforms used when watching episodes.
+  /// No description provided for @reorderPlatforms.
   ///
   /// In en, this message translates to:
   /// **'Service Priority'**

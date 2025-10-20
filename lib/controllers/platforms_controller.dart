@@ -17,7 +17,7 @@ class PlatformsController extends GenericController<PlatformDto> {
   static const int _unrankedIndex = 1 << 20;
 
   @override
-  Future<Iterable<PlatformDto>> fetchItems() async {
+  Future<Pair<Iterable<PlatformDto>, int>> fetchItems() async {
     final List<dynamic> data = await HttpRequest.instance.get<List<dynamic>>(
       '/v1/platforms',
     );
@@ -28,7 +28,7 @@ class PlatformsController extends GenericController<PlatformDto> {
         )
         .toList();
 
-    return platforms;
+    return Pair<Iterable<PlatformDto>, int>(platforms, platforms.length);
   }
 
   Future<List<PlatformDto>> managePlatformPreferences(

@@ -37,28 +37,44 @@ class _SearchViewState extends State<SearchView> {
   List<Widget> _buildAnimeList(
     final BuildContext context,
     final List<AnimeDto> animes,
-  ) => <Widget>[
-    Padding(
-      padding: const EdgeInsets.only(left: 8, right: 8, bottom: 4),
-      child: AdvancedSearchCard(
-        controller: _controller,
-        scrollController: _scrollController,
-      ),
-    ),
-    if (animes.isEmpty)
-      ...wb.WidgetBuilder.instance.buildRowWidgets(
-        List<AnimeLoaderComponent>.generate(
-          12,
-          (final int index) => const AnimeLoaderComponent(),
-        ),
-        maxElementsPerRow: AnimeController.instance.maxElementsPerRow(context),
-      )
-    else
-      ...wb.WidgetBuilder.instance.buildRowWidgets(
+  ) {
+    final int maxElementsPerRow = AnimeController.instance.maxElementsPerRow(
+      context,
+    );
+
+    final List<Widget> loaders = List<AnimeLoaderComponent>.generate(
+      AnimeSearchController.instance.limit,
+      (final int index) => const AnimeLoaderComponent(),
+    );
+
+    final List<Widget> itemsToGrid = <Widget>[];
+
+    if (animes.isEmpty) {
+      itemsToGrid.addAll(loaders);
+    } else {
+      itemsToGrid.addAll(
         animes.map((final AnimeDto anime) => AnimeComponent(anime: anime)),
-        maxElementsPerRow: AnimeController.instance.maxElementsPerRow(context),
+      );
+
+      if (AnimeSearchController.instance.isLoading) {
+        itemsToGrid.addAll(loaders);
+      }
+    }
+
+    return <Widget>[
+      Padding(
+        padding: const EdgeInsets.only(left: 8, right: 8, bottom: 4),
+        child: AdvancedSearchCard(
+          controller: _controller,
+          scrollController: _scrollController,
+        ),
       ),
-  ];
+      ...wb.WidgetBuilder.instance.buildRowWidgets(
+        itemsToGrid,
+        maxElementsPerRow: maxElementsPerRow,
+      ),
+    ];
+  }
 
   @override
   Widget build(final BuildContext context) => Scaffold(

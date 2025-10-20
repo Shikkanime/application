@@ -1,4 +1,5 @@
 import 'package:application/components/animes/missed/missed_anime_component.dart';
+import 'package:application/components/animes/missed/missed_anime_loader_component.dart';
 import 'package:application/components/card_component.dart';
 import 'package:application/controllers/animes/missed_anime_controller.dart';
 import 'package:application/dtos/missed_anime_dto.dart';
@@ -7,6 +8,21 @@ import 'package:flutter/material.dart';
 
 class MissedAnimesRow extends StatelessWidget {
   const MissedAnimesRow({super.key});
+
+  List<Widget> _buildAnimeList(
+    final BuildContext context,
+    final List<MissedAnimeDto> missedAnimes,
+  ) => <Widget>[
+    ...missedAnimes.map(
+      (final MissedAnimeDto missedAnime) =>
+          MissedAnimeComponent(missedAnime: missedAnime),
+    ),
+    if (MissedAnimeController.instance.isLoading)
+      ...List<MissedAnimeLoaderComponent>.generate(
+        MissedAnimeController.instance.limit,
+        (final int index) => const MissedAnimeLoaderComponent(),
+      ),
+  ];
 
   @override
   Widget build(
@@ -22,6 +38,8 @@ class MissedAnimesRow extends StatelessWidget {
           if (snapshot.data!.isEmpty) {
             return const SizedBox.shrink();
           }
+
+          final List<Widget> list = _buildAnimeList(context, snapshot.data!);
 
           return CustomCard(
             child: Scrollbar(
@@ -55,12 +73,10 @@ class MissedAnimesRow extends StatelessWidget {
                             addRepaintBoundaries: false,
                             controller:
                                 MissedAnimeController.instance.scrollController,
-                            itemCount: snapshot.data!.length,
+                            itemCount: list.length,
                             itemBuilder:
                                 (final BuildContext context, final int index) =>
-                                    MissedAnimeComponent(
-                                      missedAnime: snapshot.data![index],
-                                    ),
+                                    list[index],
                           ),
                         ),
                       ),

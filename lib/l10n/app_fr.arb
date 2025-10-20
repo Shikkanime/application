@@ -19,6 +19,8 @@
   "voice": "Doublage",
 
   "markWatched": "Tout vu",
+  "watched": "Vu",
+  "unwatched": "Non vu",
   "share": "Partager",
   "showMore": "...plus",
   "showLess": "...moins",
@@ -43,7 +45,6 @@
   "notifications": "Notifications",
   "notificationsType": "{type, select, all{Toutes} watchlist{Watchlist} none{Aucune} other{Autre}}",
   "notificationsSubtitles": "{type, select, all{Recevoir des notifications pour tous les animés} watchlist{Recevoir des notifications pour les animés de votre watchlist} none{} other{Recevoir des notifications pour les animés que vous suivez}}",
-  "defaultSort": "Tri par défaut",
   "sortType": "{type, select, oldest{Les plus anciens} newest{Les plus récents} other{Autre}}",
 
   "anonymousWarningTitle": "Avertissement sur la sauvegarde des données",
@@ -93,7 +94,7 @@
   "watchlist": "Watchlist",
   "weekDays": "{day, select, 0{Lundi} 1{Mardi} 2{Mercredi} 3{Jeudi} 4{Vendredi} 5{Samedi} 6{Dimanche} other{}}",
   "days": "j",
-  "watch": "Regarder",
+  "play": "Regarder",
   "notificationNotAuthorized": "Les notifications ne sont pas autorisées",
   "notificationNotAuthorizedSubtitle": "Veuillez les activer dans les paramètres de votre application",
   "downloadingPatch": "Téléchargement du correctif...",

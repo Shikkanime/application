@@ -19,7 +19,7 @@ class WatchButton extends StatelessWidget {
       direction: Axis.horizontal,
       children: <Widget>[
         const Icon(Icons.live_tv_outlined),
-        if (!simple) Text(AppLocalizations.of(context)!.watch),
+        if (!simple) Text(AppLocalizations.of(context)!.play),
       ],
     ),
   );

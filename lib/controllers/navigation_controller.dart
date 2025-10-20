@@ -110,6 +110,9 @@ class NavigationController {
             ) {
               final Icon icon = Icon(
                 _currentIndex == 0 ? Icons.home : Icons.home_outlined,
+                color: _currentIndex == 0
+                    ? Theme.of(context).colorScheme.primary
+                    : null,
               );
 
               if (snapshot.data!.isEmpty) {
@@ -143,12 +146,18 @@ class NavigationController {
       title: AppLocalizations.of(context)!.home,
     ),
     NavigationItem(
-      icon: const Icon(Icons.video_collection),
+      icon: Icon(
+        Icons.video_collection,
+        color: Theme.of(context).colorScheme.primary,
+      ),
       nonActiveIcon: const Icon(Icons.video_collection_outlined),
       title: AppLocalizations.of(context)!.catalog,
     ),
     NavigationItem(
-      icon: const Icon(Icons.calendar_today),
+      icon: Icon(
+        Icons.calendar_today,
+        color: Theme.of(context).colorScheme.primary,
+      ),
       nonActiveIcon: const Icon(Icons.calendar_today_outlined),
       title: AppLocalizations.of(context)!.calendar,
     ),
@@ -354,15 +363,7 @@ class _DrawerButtonState extends State<DrawerButton> {
                 widget.activeIcon!
               else
                 widget.icon,
-              Text(
-                widget.label,
-                style: TextStyle(
-                  color: widget.isActive
-                      ? Theme.of(context).colorScheme.primary
-                      : null,
-                  fontSize: 12,
-                ),
-              ),
+              Text(widget.label, style: Theme.of(context).textTheme.bodySmall),
             ],
           ),
         ),

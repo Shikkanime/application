@@ -7,7 +7,7 @@ class SimulcastController extends GenericController<SimulcastDto> {
   static final SimulcastController instance = SimulcastController();
 
   @override
-  Future<Iterable<SimulcastDto>> fetchItems() async {
+  Future<Pair<Iterable<SimulcastDto>, int>> fetchItems() async {
     final List<dynamic> json = await HttpRequest.instance.get<List<dynamic>>(
       '/v1/simulcasts',
     );
@@ -20,6 +20,6 @@ class SimulcastController extends GenericController<SimulcastDto> {
       AnimeController.instance.selectedSimulcast = list.first;
     }
 
-    return list;
+    return Pair<Iterable<SimulcastDto>, int>(list, list.length);
   }
 }

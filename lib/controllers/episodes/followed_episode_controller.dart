@@ -9,7 +9,7 @@ class FollowedEpisodeController extends GenericController<EpisodeMappingDto> {
   static final FollowedEpisodeController instance = FollowedEpisodeController();
   bool _isRetry = false;
 
-  int get _limit =>
+  int get limit =>
       wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
       ? 9
       : 16;
@@ -23,9 +23,9 @@ class FollowedEpisodeController extends GenericController<EpisodeMappingDto> {
   }
 
   @override
-  Future<Iterable<EpisodeMappingDto>> fetchItems() async {
+  Future<Pair<Iterable<EpisodeMappingDto>, int>> fetchItems() async {
     final PageableDto pageableDto = await HttpRequest.instance.getPage(
-      '/v1/episode-mappings?page=$page&limit=$_limit',
+      '/v1/episode-mappings?page=$page&limit=$limit',
       token: MemberController.instance.member?.token,
       onUnauthorized: () async {
         if (_isRetry) {
@@ -40,16 +40,19 @@ class FollowedEpisodeController extends GenericController<EpisodeMappingDto> {
 
     _isRetry = false;
 
-    return pageableDto.data.map(
-      (final dynamic e) =>
-          EpisodeMappingDto.fromJson(e as Map<String, dynamic>),
+    return Pair<Iterable<EpisodeMappingDto>, int>(
+      pageableDto.data.map(
+        (final dynamic e) =>
+            EpisodeMappingDto.fromJson(e as Map<String, dynamic>),
+      ),
+      pageableDto.total,
     );
   }
 
   @override
   void dispose() {
-    if (items.length > _limit) {
-      items.removeRange(_limit, items.length);
+    if (items.length > limit) {
+      items.removeRange(limit, items.length);
     }
 
     page = 1;

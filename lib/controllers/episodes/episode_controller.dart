@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 class EpisodeController extends GenericController<GroupedEpisodeDto> {
   static final EpisodeController instance = EpisodeController();
 
-  int get _limit =>
+  int get limit =>
       wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
       ? 4
       : 16;
@@ -22,14 +22,17 @@ class EpisodeController extends GenericController<GroupedEpisodeDto> {
       MediaQuery.sizeOf(context).width * 0.46 / maxElementsPerRow(context);
 
   @override
-  Future<Iterable<GroupedEpisodeDto>> fetchItems() async {
+  Future<Pair<Iterable<GroupedEpisodeDto>, int>> fetchItems() async {
     final PageableDto pageableDto = await HttpRequest.instance.getPage(
-      '/v2/episode-mappings?&page=$page&limit=$_limit',
+      '/v2/episode-mappings?&page=$page&limit=$limit',
     );
 
-    return pageableDto.data.map(
-      (final dynamic e) =>
-          GroupedEpisodeDto.fromJson(e as Map<String, dynamic>),
+    return Pair<Iterable<GroupedEpisodeDto>, int>(
+      pageableDto.data.map(
+        (final dynamic e) =>
+            GroupedEpisodeDto.fromJson(e as Map<String, dynamic>),
+      ),
+      pageableDto.total,
     );
   }
 }

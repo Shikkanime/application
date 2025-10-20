@@ -88,6 +88,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get markWatched => 'Tout vu';
 
   @override
+  String get watched => 'Vu';
+
+  @override
+  String get unwatched => 'Non vu';
+
+  @override
   String get share => 'Partager';
 
   @override
@@ -170,9 +176,6 @@ class AppLocalizationsFr extends AppLocalizations {
     });
     return '$_temp0';
   }
-
-  @override
-  String get defaultSort => 'Tri par défaut';
 
   @override
   String sortType(String type) {
@@ -320,7 +323,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get days => 'j';
 
   @override
-  String get watch => 'Regarder';
+  String get play => 'Regarder';
 
   @override
   String get notificationNotAuthorized =>
