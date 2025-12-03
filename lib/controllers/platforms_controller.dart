@@ -8,7 +8,6 @@ import 'package:application/dtos/episode_source_dto.dart';
 import 'package:application/dtos/platform_dto.dart';
 import 'package:application/utils/http_request.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class PlatformsController extends GenericController<PlatformDto> {
   PlatformsController() : super(addScrollListener: false);
@@ -70,7 +69,8 @@ class PlatformsController extends GenericController<PlatformDto> {
         sources,
         (final EpisodeSourceDto s) => s.platform.id,
       );
-      await _launch(sorted.first.url);
+
+      await HttpRequest.instance.launch(sorted.first.url);
       return;
     }
 
@@ -81,7 +81,8 @@ class PlatformsController extends GenericController<PlatformDto> {
         (final EpisodeSourceDto s) => s.platform.id == platforms.first.id,
         orElse: () => sources.first,
       );
-      await _launch(selected.url);
+
+      await HttpRequest.instance.launch(selected.url);
       return;
     }
 
@@ -105,7 +106,8 @@ class PlatformsController extends GenericController<PlatformDto> {
       (final EpisodeSourceDto s) => s.platform.id == selectedId,
       orElse: () => sources.first,
     );
-    await _launch(selected.url);
+
+    await HttpRequest.instance.launch(selected.url);
   }
 
   List<T> _sort<T>(
@@ -173,9 +175,5 @@ class PlatformsController extends GenericController<PlatformDto> {
       ConfigPropertyKey.rememberPlatformChoice,
       remember,
     );
-  }
-
-  Future<void> _launch(final String url) async {
-    await launchUrl(Uri.parse(url));
   }
 }
