@@ -21,10 +21,10 @@ import 'package:application/dtos/season_dto.dart';
 import 'package:application/l10n/app_localizations.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
+import 'package:application/utils/http_request.dart';
 import 'package:application/utils/widget_builder.dart' as wb;
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class AnimeDetailsView extends StatefulWidget {
   const AnimeDetailsView({required this.anime, super.key});
@@ -227,11 +227,7 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                                         }[platform.id];
 
                                         if (url != null) {
-                                          launchUrl(
-                                            Uri.parse(url),
-                                            mode: LaunchMode
-                                                .externalNonBrowserApplication,
-                                          );
+                                          HttpRequest.instance.launch(url);
                                         }
                                       },
                                       child: Flex(

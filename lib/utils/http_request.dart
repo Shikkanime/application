@@ -3,8 +3,10 @@ import 'dart:io';
 
 import 'package:application/dtos/pageable_dto.dart';
 import 'package:application/utils/constant.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 class HttpRequest {
   static final HttpRequest instance = HttpRequest();
@@ -118,4 +120,22 @@ class HttpRequest {
         body: body,
       )
       .timeout(_timeout);
+
+  Future<bool> launch(final String url) async {
+    final List<LaunchMode> modes = <LaunchMode>[
+      LaunchMode.externalNonBrowserApplication,
+      LaunchMode.externalApplication,
+      LaunchMode.platformDefault,
+    ];
+
+    for (final LaunchMode mode in modes) {
+      try {
+        return await launchUrl(Uri.parse(url), mode: mode);
+      } on PlatformException catch (e) {
+        debugPrint('Failed to launch URL with mode $mode: $e');
+      }
+    }
+
+    return false;
+  }
 }
