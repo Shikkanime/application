@@ -128,9 +128,13 @@ class HttpRequest {
       LaunchMode.platformDefault,
     ];
 
+    debugPrint('Launch url...');
+
     for (final LaunchMode mode in modes) {
       try {
-        return await launchUrl(Uri.parse(url), mode: mode);
+        if (await launchUrl(Uri.parse(url), mode: mode)) {
+          return true;
+        }
       } on PlatformException catch (e) {
         debugPrint('Failed to launch URL with mode $mode: $e');
       }
