@@ -34,7 +34,7 @@ class PlatformPreferenceDialog extends StatefulWidget {
     isScrollControlled: true,
     showDragHandle: true,
     builder: (final BuildContext context) => FractionallySizedBox(
-      heightFactor: 0.55,
+      heightFactor: 0.45,
       child: PlatformPreferenceDialog(
         platforms: platforms,
         initialRemember: initialRemember,
@@ -93,7 +93,8 @@ class _PlatformPreferenceDialogState extends State<PlatformPreferenceDialog> {
                     return Padding(
                       key: ValueKey<String>(platform.id),
                       padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Row(
+                      child: Flex(
+                        direction: Axis.horizontal,
                         spacing: 8,
                         children: <Widget>[
                           PlatformComponent(
@@ -106,7 +107,7 @@ class _PlatformPreferenceDialogState extends State<PlatformPreferenceDialog> {
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
                           const Spacer(),
-                          const Icon(Icons.drag_handle),
+                          const Icon(Icons.drag_indicator),
                         ],
                       ),
                     );
@@ -124,26 +125,27 @@ class _PlatformPreferenceDialogState extends State<PlatformPreferenceDialog> {
                 ),
               ),
             ),
-            if (!widget.isForSettings)
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  children: <Widget>[
-                    Checkbox(
-                      value: _remember,
-                      onChanged: (final bool? value) =>
-                          setState(() => _remember = value ?? false),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(child: Text(l10n.rememberMyChoice)),
-                  ],
-                ),
-              ),
             Padding(
               padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
+                  if (!widget.isForSettings)
+                    GestureDetector(
+                      onTap: () => setState(() => _remember = !_remember),
+                      child: Flex(
+                        direction: Axis.horizontal,
+                        children: <Widget>[
+                          Checkbox(
+                            value: _remember,
+                            onChanged: (final bool? value) =>
+                                setState(() => _remember = value ?? false),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(l10n.rememberMyChoice),
+                        ],
+                      ),
+                    ),
+                  const Spacer(),
                   ElevatedButton(
                     onPressed: () =>
                         Navigator.of(context).pop<PlatformPreferenceResult>(
