@@ -111,7 +111,8 @@
   "rememberMyChoice": "Se souvenir de mon choix",
   "dragToReorder": "Glissez pour réorganiser",
   "continueLabel": "Continuer",
-  "platformPreferencesDescription": "Classez vos services de streaming (Netflix, Disney+, etc.) en plaçant votre préféré en premier.\n\nAinsi, quand vous lancerez un épisode, nous vous proposerons toujours ce service en priorité et pourrons même l'ouvrir automatiquement pour vous.",
+  "platformPreferencesDescription": "Placez votre service préféré en haut de la liste. Nous l'utiliserons par défaut pour lancer vos épisodes",
   "reorderPlatforms": "Ordre des services",
-  "reorderPlatformsDescription": "Mettez votre service favori en haut de la liste. Nous le lancerons en priorité lorsque vous regarderez un épisode"
+  "reorderPlatformsDescription": "Mettez votre service favori en haut de la liste. Nous le lancerons en priorité lorsque vous regarderez un épisode",
+  "loggingIn": "Connexion en cours..."
 }

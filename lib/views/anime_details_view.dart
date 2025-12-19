@@ -74,7 +74,7 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
       text: span,
       textDirection: TextDirection.ltr,
       maxLines: 4,
-    )..layout(maxWidth: MediaQuery.sizeOf(context).width - 16);
+    )..layout(maxWidth: MediaQuery.sizeOf(context).width);
 
     final List<SeasonDto>? seasons =
         SortController.instance.sortType == SortType.oldest

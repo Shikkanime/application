@@ -74,7 +74,7 @@ class AnimeController extends GenericController<AnimeDto> {
             spacing: 8,
             direction: Axis.horizontal,
             children: <Widget>[
-              const Icon(Icons.checklist),
+              const Icon(Icons.bookmark_add_outlined),
               Text(AppLocalizations.of(context)!.markWatched),
             ],
           ),

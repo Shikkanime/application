@@ -72,9 +72,15 @@ class CalendarAnimeComponent extends StatelessWidget {
           ),
         );
       },
-      onLongPress: (final TapDownDetails? details) {
-        AnimeController.instance.onLongPress(context, release.anime, details);
-      },
+      onLongPress: !isReleased
+          ? (final TapDownDetails? details) {
+              AnimeController.instance.onLongPress(
+                context,
+                release.anime,
+                details,
+              );
+            }
+          : null,
       child: Column(
         spacing: 8,
         children: <Widget>[
