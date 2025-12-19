@@ -380,7 +380,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get platformPreferencesDescription =>
-      'Classez vos services de streaming (Netflix, Disney+, etc.) en plaçant votre préféré en premier.\n\nAinsi, quand vous lancerez un épisode, nous vous proposerons toujours ce service en priorité et pourrons même l\'ouvrir automatiquement pour vous.';
+      'Placez votre service préféré en haut de la liste. Nous l\'utiliserons par défaut pour lancer vos épisodes';
 
   @override
   String get reorderPlatforms => 'Ordre des services';
@@ -388,4 +388,7 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get reorderPlatformsDescription =>
       'Mettez votre service favori en haut de la liste. Nous le lancerons en priorité lorsque vous regarderez un épisode';
+
+  @override
+  String get loggingIn => 'Connexion en cours...';
 }

@@ -18,6 +18,7 @@ import 'package:application/utils/notification_throttler.dart';
 import 'package:application/views/account_view.dart';
 import 'package:application/views/calendar_view.dart';
 import 'package:application/views/home_view.dart';
+import 'package:application/views/loading_view.dart';
 import 'package:application/views/no_internet.dart';
 import 'package:application/views/simulcast_view.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -61,47 +62,69 @@ Future<void> _firebaseMessagingBackgroundHandler(
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  bool hasInternet = false;
 
   if (kDebugMode && Constant.apiUrl == 'https://api.shikkanime.fr') {
     throw Exception('You must change the API URL in the Constant class');
   }
 
-  try {
-    if (NotificationsController.isSupported) {
-      await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
-      );
-
-      FirebaseMessaging.onBackgroundMessage(
-        _firebaseMessagingBackgroundHandler,
-      );
-      FirebaseMessaging.onMessage.listen(_firebaseMessagingBackgroundHandler);
-    }
-
-    final int start = DateTime.now().millisecondsSinceEpoch;
-    debugPrint('Logging in...');
-
-    await SharedPreferencesController.instance.init();
-    await MemberController.instance.init();
-    await SortController.instance.init();
-
-    debugPrint(
-      'Logged in in ${DateTime.now().millisecondsSinceEpoch - start}ms',
-    );
-
-    hasInternet = true;
-  } on Exception catch (e) {
-    debugPrint(e.toString());
-  }
-
-  runApp(MyApp(hasInternet: hasInternet));
+  runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({required this.hasInternet, super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
 
-  final bool hasInternet;
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool? _hasInternet;
+
+  @override
+  void initState() {
+    super.initState();
+    _init();
+  }
+
+  Future<void> _init() async {
+    try {
+      if (NotificationsController.isSupported) {
+        await Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform,
+        );
+
+        FirebaseMessaging.onBackgroundMessage(
+          _firebaseMessagingBackgroundHandler,
+        );
+        FirebaseMessaging.onMessage.listen(_firebaseMessagingBackgroundHandler);
+      }
+
+      final int start = DateTime.now().millisecondsSinceEpoch;
+      debugPrint('Logging in...');
+
+      await SharedPreferencesController.instance.init();
+      await MemberController.instance.init();
+      await SortController.instance.init();
+
+      debugPrint(
+        'Logged in in ${DateTime.now().millisecondsSinceEpoch - start}ms',
+      );
+
+      if (mounted) {
+        setState(() {
+          _hasInternet = true;
+        });
+      }
+    } on Exception catch (e) {
+      debugPrint(e.toString());
+
+      if (mounted) {
+        setState(() {
+          _hasInternet = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(final BuildContext context) => MaterialApp(
@@ -133,7 +156,9 @@ class MyApp extends StatelessWidget {
       iconImage: const AssetImage('assets/light_icon.png'),
       oppositeTextColor: Colors.black,
     ),
-    home: hasInternet ? const MyHomePage() : const NoInternet(),
+    home: _hasInternet == null
+        ? const LoadingView()
+        : (_hasInternet! ? const MyHomePage() : const NoInternet()),
     debugShowCheckedModeBanner: false,
   );
 
