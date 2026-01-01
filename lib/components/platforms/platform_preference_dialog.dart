@@ -130,22 +130,24 @@ class _PlatformPreferenceDialogState extends State<PlatformPreferenceDialog> {
               child: Row(
                 children: <Widget>[
                   if (!widget.isForSettings)
-                    GestureDetector(
-                      onTap: () => setState(() => _remember = !_remember),
-                      child: Flex(
-                        direction: Axis.horizontal,
-                        children: <Widget>[
-                          Checkbox(
-                            value: _remember,
-                            onChanged: (final bool? value) =>
-                                setState(() => _remember = value ?? false),
-                          ),
-                          const SizedBox(width: 8),
-                          Text(l10n.rememberMyChoice),
-                        ],
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => setState(() => _remember = !_remember),
+                        child: Row(
+                          children: <Widget>[
+                            Checkbox(
+                              value: _remember,
+                              onChanged: (final bool? value) =>
+                                  setState(() => _remember = value ?? false),
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(child: Text(l10n.rememberMyChoice)),
+                          ],
+                        ),
                       ),
-                    ),
-                  const Spacer(),
+                    )
+                  else
+                    const Spacer(),
                   ElevatedButton(
                     onPressed: () =>
                         Navigator.of(context).pop<PlatformPreferenceResult>(

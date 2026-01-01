@@ -1,7 +1,6 @@
-import 'package:application/components/lang_type_component.dart';
+import 'package:application/components/search_type_filter.dart';
 import 'package:application/controllers/animes/anime_search_controller.dart';
 import 'package:application/l10n/app_localizations.dart';
-import 'package:application/utils/extensions.dart';
 import 'package:flutter/material.dart';
 
 class AdvancedSearchCard extends StatelessWidget {
@@ -57,10 +56,12 @@ class AdvancedSearchCard extends StatelessWidget {
         child: IntrinsicHeight(
           child: Row(
             spacing: spacing,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               _buildAdvancedSearchButton(context),
               const VerticalDivider(thickness: 0.5),
-              ..._buildSearchTypeButtons(context, animeSearchController),
+              SearchTypeFilter(controller: animeSearchController),
             ],
           ),
         ),
@@ -97,54 +98,5 @@ class AdvancedSearchCard extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  List<Widget> _buildSearchTypeButtons(
-    final BuildContext context,
-    final AnimeSearchController searchController,
-  ) => SearchType.values
-      .map(
-        (final SearchType type) => ElevatedButton(
-          style: _getButtonStyle(context, type, searchController),
-          onPressed: () => _handleSearchTypePressed(type, searchController),
-          child: LangTypeComponent(
-            langType: type.name.toUpperCase(),
-            color: _getTextColor(context, type, searchController),
-          ),
-        ),
-      )
-      .toList();
-
-  ButtonStyle? _getButtonStyle(
-    final BuildContext context,
-    final SearchType type,
-    final AnimeSearchController searchController,
-  ) {
-    if (searchController.searchType == type) {
-      return Theme.of(context).elevatedButtonTheme.style?.copyWith(
-        backgroundColor: WidgetStateProperty.all(
-          Theme.of(context).colorScheme.primary,
-        ),
-      );
-    }
-
-    return null;
-  }
-
-  Color? _getTextColor(
-    final BuildContext context,
-    final SearchType type,
-    final AnimeSearchController searchController,
-  ) => searchController.searchType == type
-      ? Theme.of(context).oppositeTextColor
-      : Theme.of(context).colorScheme.primary;
-
-  void _handleSearchTypePressed(
-    final SearchType type,
-    final AnimeSearchController searchController,
-  ) {
-    searchController
-      ..searchType = searchController.searchType == type ? null : type
-      ..search(searchController.query);
   }
 }

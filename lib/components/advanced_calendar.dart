@@ -1,6 +1,5 @@
 import 'package:application/components/elevated_async_button.dart';
-import 'package:application/components/lang_type_component.dart';
-import 'package:application/controllers/animes/anime_search_controller.dart';
+import 'package:application/components/search_type_filter.dart';
 import 'package:application/controllers/animes/anime_weekly_controller.dart';
 import 'package:application/l10n/app_localizations.dart';
 import 'package:application/utils/extensions.dart';
@@ -33,6 +32,8 @@ class AdvancedCalendar extends StatelessWidget {
         child: IntrinsicHeight(
           child: Row(
             spacing: 8,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               ElevatedAsyncButton(
                 style: getActiveButtonStyle(controller.isWatchlist),
@@ -60,21 +61,7 @@ class AdvancedCalendar extends StatelessWidget {
                 ),
               ),
               const VerticalDivider(thickness: 0.5),
-              ...SearchType.values.map(
-                (final SearchType type) => ElevatedAsyncButton(
-                  style: getActiveButtonStyle(controller.searchType == type),
-                  onPressed: () async {
-                    controller.searchType = controller.searchType == type
-                        ? null
-                        : type;
-                    await controller.init();
-                  },
-                  child: LangTypeComponent(
-                    langType: type.name.toUpperCase(),
-                    color: getTextColor(controller.searchType == type),
-                  ),
-                ),
-              ),
+              SearchTypeFilter(controller: controller),
             ],
           ),
         ),

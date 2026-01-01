@@ -20,20 +20,15 @@ class AnimeDetailsController extends GenericController<EpisodeMappingDto> {
 
   @override
   Future<Pair<Iterable<EpisodeMappingDto>, int>> fetchItems() async {
-    final Map<String, dynamic> query = <String, Object?>{
-      'anime': anime?.uuid,
-      if (season != null) 'season': season!.number,
-      ...SortController.instance.sortType.value,
-      'page': page,
-      'limit': limit,
-    };
-
-    final String queryString = query.entries
-        .map((final MapEntry<String, dynamic> e) => '${e.key}=${e.value}')
-        .join('&');
-
     final PageableDto pageableDto = await HttpRequest.instance.getPage(
-      '/v1/episode-mappings?$queryString',
+      '/v1/episode-mappings',
+      query: <String, Object>{
+        if (anime != null) 'anime': anime!.uuid,
+        if (season != null) 'season': season!.number,
+        ...SortController.instance.sortType.value,
+        'page': page,
+        'limit': limit,
+      },
     );
 
     return Pair<Iterable<EpisodeMappingDto>, int>(

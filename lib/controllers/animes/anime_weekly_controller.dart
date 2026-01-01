@@ -1,13 +1,15 @@
 import 'dart:math';
 
-import 'package:application/controllers/animes/anime_search_controller.dart';
 import 'package:application/controllers/generic_controller.dart';
 import 'package:application/controllers/member_controller.dart';
+import 'package:application/controllers/searchable_controller.dart';
 import 'package:application/dtos/week_day_dto.dart';
+import 'package:application/enums/search_type.dart';
 import 'package:application/utils/http_request.dart';
 import 'package:flutter/material.dart';
 
-class AnimeWeeklyController extends GenericController<WeekDayDto> {
+class AnimeWeeklyController extends GenericController<WeekDayDto>
+    implements SearchableController {
   AnimeWeeklyController() : super(addScrollListener: false);
 
   static final AnimeWeeklyController instance = AnimeWeeklyController();
@@ -16,7 +18,11 @@ class AnimeWeeklyController extends GenericController<WeekDayDto> {
   int selectedDay = DateTime.now().weekday - 1;
 
   bool isWatchlist = false;
+  @override
   SearchType? searchType;
+
+  @override
+  Future<void> onSearchTypeChanged() => init();
 
   int maxElementsPerRow(final BuildContext context) =>
       max(1, (MediaQuery.sizeOf(context).width * 0.0025).floor());
@@ -27,7 +33,10 @@ class AnimeWeeklyController extends GenericController<WeekDayDto> {
   @override
   Future<Pair<Iterable<WeekDayDto>, int>> fetchItems() async {
     final List<dynamic> json = await HttpRequest.instance.get<List<dynamic>>(
-      '/v1/animes/weekly${searchType != null ? '?searchTypes=${searchType!.name.toUpperCase()}' : ''}',
+      '/v1/animes/weekly',
+      query: <String, Object>{
+        if (searchType != null) 'searchTypes': searchType!.name.toUpperCase(),
+      },
       token: isWatchlist ? MemberController.instance.member?.token : null,
       onUnauthorized: isWatchlist
           ? () async {

@@ -2,10 +2,12 @@ import 'dart:math';
 
 import 'package:application/controllers/generic_controller.dart';
 import 'package:application/controllers/member_controller.dart';
+import 'package:application/controllers/searchable_controller.dart';
 import 'package:application/controllers/vibration_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/pageable_dto.dart';
 import 'package:application/dtos/simulcast_dto.dart';
+import 'package:application/enums/search_type.dart';
 import 'package:application/l10n/app_localizations.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/constant.dart';
@@ -14,10 +16,16 @@ import 'package:application/utils/widget_builder.dart' as wb;
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 
-class AnimeController extends GenericController<AnimeDto> {
+class AnimeController extends GenericController<AnimeDto>
+    implements SearchableController {
   static final AnimeController instance = AnimeController();
 
   SimulcastDto? selectedSimulcast;
+  @override
+  SearchType? searchType;
+
+  @override
+  Future<void> onSearchTypeChanged() => goToTop();
 
   int get limit =>
       wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
@@ -37,7 +45,15 @@ class AnimeController extends GenericController<AnimeDto> {
     }
 
     final PageableDto pageableDto = await HttpRequest.instance.getPage(
-      '/v1/animes?simulcast=${selectedSimulcast?.uuid}&sort=name&page=$page&limit=$limit',
+      '/v1/animes',
+      query: <String, Object>{
+        'country': 'FR',
+        if (selectedSimulcast != null) 'simulcast': selectedSimulcast!.uuid,
+        if (searchType != null) 'searchTypes': searchType!.name.toUpperCase(),
+        'sort': 'name',
+        'page': page,
+        'limit': limit,
+      },
     );
 
     return Pair<Iterable<AnimeDto>, int>(

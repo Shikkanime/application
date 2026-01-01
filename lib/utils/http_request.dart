@@ -14,6 +14,7 @@ class HttpRequest {
 
   Future<T> get<T>(
     final String endpoint, {
+    final Map<String, Object>? query,
     final String? token,
     final VoidCallback? onUnauthorized,
   }) async {
@@ -21,8 +22,19 @@ class HttpRequest {
       if (token != null) 'Authorization': 'Bearer $token',
     };
 
+    final Uri baseUri = Uri.parse(Constant.apiUrl + endpoint);
+
+    final Uri uri = baseUri.replace(
+      queryParameters: (query?.isEmpty ?? true)
+          ? null
+          : query!.map(
+              (final String key, final Object value) =>
+                  MapEntry<String, String>(key, value.toString()),
+            ),
+    );
+
     final http.Response response = await http
-        .get(Uri.parse(Constant.apiUrl + endpoint), headers: headers)
+        .get(uri, headers: headers)
         .timeout(_timeout);
 
     if (response.statusCode == HttpStatus.unauthorized) {
@@ -42,11 +54,13 @@ class HttpRequest {
 
   Future<PageableDto> getPage(
     final String endpoint, {
+    final Map<String, Object>? query,
     final String? token,
     final VoidCallback? onUnauthorized,
   }) async => PageableDto.fromJson(
     await get<Map<String, dynamic>>(
       endpoint,
+      query: query,
       token: token,
       onUnauthorized: onUnauthorized,
     ),

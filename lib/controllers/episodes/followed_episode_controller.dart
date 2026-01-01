@@ -25,7 +25,8 @@ class FollowedEpisodeController extends GenericController<EpisodeMappingDto> {
   @override
   Future<Pair<Iterable<EpisodeMappingDto>, int>> fetchItems() async {
     final PageableDto pageableDto = await HttpRequest.instance.getPage(
-      '/v1/episode-mappings?page=$page&limit=$limit',
+      '/v1/episode-mappings',
+      query: <String, Object>{'page': page, 'limit': limit},
       token: MemberController.instance.member?.token,
       onUnauthorized: () async {
         if (_isRetry) {
