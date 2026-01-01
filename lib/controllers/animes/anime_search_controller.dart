@@ -1,20 +1,24 @@
 import 'dart:async';
 
 import 'package:application/controllers/generic_controller.dart';
+import 'package:application/controllers/searchable_controller.dart';
 import 'package:application/dtos/anime_dto.dart';
 import 'package:application/dtos/pageable_dto.dart';
+import 'package:application/enums/search_type.dart';
 import 'package:application/utils/analytics.dart';
 import 'package:application/utils/http_request.dart';
 import 'package:application/utils/widget_builder.dart' as wb;
-import 'package:flutter/widgets.dart';
 
-enum SearchType { subtitles, voice }
-
-class AnimeSearchController extends GenericController<AnimeDto> {
+class AnimeSearchController extends GenericController<AnimeDto>
+    implements SearchableController {
   static final AnimeSearchController instance = AnimeSearchController();
   Timer? _timer;
   String query = '';
+  @override
   SearchType? searchType;
+
+  @override
+  Future<void> onSearchTypeChanged() async => search(query);
 
   int get limit =>
       wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
@@ -43,14 +47,9 @@ class AnimeSearchController extends GenericController<AnimeDto> {
       if (query.isEmpty) 'sort': 'name',
     };
 
-    final String queryString = queryMap.entries
-        .map((final MapEntry<String, Object> e) => '${e.key}=${e.value}')
-        .join('&');
-
-    debugPrint('Query: $queryString');
-
     final PageableDto pageableDto = await HttpRequest.instance.getPage(
-      '/v1/animes?$queryString',
+      '/v1/animes',
+      query: queryMap,
     );
 
     Analytics.instance.logSearch(query, queryMap);

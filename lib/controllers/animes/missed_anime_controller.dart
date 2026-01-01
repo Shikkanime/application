@@ -27,7 +27,8 @@ class MissedAnimeController extends GenericController<MissedAnimeDto> {
   @override
   Future<Pair<Iterable<MissedAnimeDto>, int>> fetchItems() async {
     final PageableDto pageableDto = await HttpRequest.instance.getPage(
-      '/v1/animes/missed?page=$page&limit=$limit',
+      '/v1/animes/missed',
+      query: <String, Object>{'page': page, 'limit': limit},
       token: MemberController.instance.member!.token,
       onUnauthorized: () async {
         if (_isRetry) {

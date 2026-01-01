@@ -8,8 +8,15 @@ import 'package:application/dtos/anime_dto.dart';
 import 'package:application/utils/widget_builder.dart' as wb;
 import 'package:flutter/material.dart';
 
-class SimulcastView extends StatelessWidget {
+class SimulcastView extends StatefulWidget {
   const SimulcastView({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _SimulcastViewState();
+}
+
+class _SimulcastViewState extends State<SimulcastView> {
+  final ScrollController _scrollController = ScrollController();
 
   List<Widget> _buildAnimeList(
     final BuildContext context,
@@ -31,7 +38,10 @@ class SimulcastView extends StatelessWidget {
       header = const SimulcastLoaderButton();
       itemsToGrid.addAll(loaders);
     } else {
-      header = const SimulcastDropdownButton();
+      header = Padding(
+        padding: const EdgeInsets.only(left: 8, bottom: 8, right: 8),
+        child: SimulcastDropdownButton(scrollController: _scrollController),
+      );
       itemsToGrid.addAll(
         animes.map((final AnimeDto anime) => AnimeComponent(anime: anime)),
       );

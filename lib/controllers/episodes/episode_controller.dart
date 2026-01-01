@@ -24,7 +24,8 @@ class EpisodeController extends GenericController<GroupedEpisodeDto> {
   @override
   Future<Pair<Iterable<GroupedEpisodeDto>, int>> fetchItems() async {
     final PageableDto pageableDto = await HttpRequest.instance.getPage(
-      '/v2/episode-mappings?&page=$page&limit=$limit',
+      '/v2/episode-mappings',
+      query: <String, Object>{'page': page, 'limit': limit},
     );
 
     return Pair<Iterable<GroupedEpisodeDto>, int>(
