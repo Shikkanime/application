@@ -151,9 +151,13 @@ class AccountSettingsView extends StatelessWidget {
                                         ? const Icon(Icons.check)
                                         : null,
                                     onTap: () async {
+                                      final NotificationsController controller =
+                                          NotificationsController.instance;
                                       final bool response =
-                                          await NotificationsController.instance
-                                              .setNotificationsType(type);
+                                          await _setNotificationsTypeWithPermission(
+                                            controller,
+                                            type,
+                                          );
 
                                       if (response || !context.mounted) {
                                         return;
@@ -267,6 +271,21 @@ class AccountSettingsView extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Future<bool> _setNotificationsTypeWithPermission(
+    final NotificationsController controller,
+    final NotificationsType type,
+  ) async {
+    if (type != NotificationsType.none) {
+      final bool hasPermission = await controller.requestPermission();
+
+      if (!hasPermission) {
+        return false;
+      }
+    }
+
+    return controller.setNotificationsType(type);
   }
 }
 

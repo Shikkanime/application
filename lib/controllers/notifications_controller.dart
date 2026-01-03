@@ -30,6 +30,19 @@ class NotificationsController {
           ) ??
           0];
 
+  Future<bool> requestPermission() async {
+    final NotificationSettings? settings = await _messaging
+        ?.requestPermission();
+
+    if (settings?.authorizationStatus != AuthorizationStatus.authorized) {
+      debugPrint('Notifications are not authorized');
+      await setNotificationsType(NotificationsType.none);
+      return false;
+    }
+
+    return true;
+  }
+
   Future<void> init(final BuildContext context) async {
     if (!isSupported) {
       await _setAndIgnore(NotificationsType.none);
@@ -39,10 +52,27 @@ class NotificationsController {
     _messaging = FirebaseMessaging.instance;
     await _createNotificationChannel();
 
-    if (SharedPreferencesController.instance.containsKey(
-      ConfigPropertyKey.notificationsType,
-    )) {
-      debugPrint('Notifications type already set');
+    final bool hasNotificationKey = SharedPreferencesController.instance
+        .containsKey(ConfigPropertyKey.notificationsType);
+
+    if (hasNotificationKey) {
+      final NotificationSettings settings = await _messaging!
+          .getNotificationSettings();
+      final bool isSystemAuthorized =
+          settings.authorizationStatus == AuthorizationStatus.authorized;
+      final bool areNotificationsDisabled =
+          notificationsType == NotificationsType.none;
+
+      if (areNotificationsDisabled || isSystemAuthorized) {
+        debugPrint('Notifications type already set');
+        return;
+      }
+
+      debugPrint(
+        'Notifications enabled but not authorized, requesting authorization',
+      );
+
+      await requestPermission();
       return;
     }
 
@@ -59,31 +89,18 @@ class NotificationsController {
 
     if (tmpNotificationsType == null) {
       debugPrint('Notifications type not set');
-      await _setAndIgnore(NotificationsType.none);
+      await setNotificationsType(NotificationsType.none);
       return;
     }
 
-    final NotificationSettings? settings = await _messaging
-        ?.requestPermission();
-
-    if (settings?.authorizationStatus != AuthorizationStatus.authorized) {
-      debugPrint('Notifications are not authorized');
-      await _setAndIgnore(NotificationsType.none);
-      return;
+    if (await requestPermission()) {
+      await setNotificationsType(tmpNotificationsType!);
     }
-
-    await setNotificationsType(tmpNotificationsType!);
   }
 
   Future<bool> setNotificationsType(final NotificationsType type) async {
     if (_messaging == null || !isSupported) {
       await _setAndIgnore(type);
-      return false;
-    }
-
-    final NotificationSettings settings = await _messaging!.requestPermission();
-    if (settings.authorizationStatus != AuthorizationStatus.authorized) {
-      debugPrint('Notifications are not authorized');
       return false;
     }
 
