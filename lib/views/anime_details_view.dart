@@ -201,33 +201,20 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                                       final PlatformDto platform,
                                     ) => ElevatedButton(
                                       onPressed: () {
-                                        final AnimePlatformDto? animePlatform =
-                                            widget.anime.platformIds
-                                                ?.firstWhere(
-                                                  (final AnimePlatformDto e) =>
-                                                      e.platform.id ==
-                                                      platform.id,
-                                                );
+                                        final String? platformUrl = widget
+                                            .anime
+                                            .platformIds
+                                            ?.where(
+                                              (final AnimePlatformDto e) =>
+                                                  e.platform.id == platform.id,
+                                            )
+                                            .firstOrNull
+                                            ?.url;
 
-                                        if (animePlatform == null) {
-                                          return;
-                                        }
-
-                                        final String? url = <String, String>{
-                                          'CRUN':
-                                              'https://www.crunchyroll.com/series/${animePlatform.platformId}',
-                                          'ANIM':
-                                              'https://animationdigitalnetwork.com/video/${animePlatform.platformId}',
-                                          'NETF':
-                                              'https://www.netflix.com/title/${animePlatform.platformId}',
-                                          'PRIM':
-                                              'https://www.primevideo.com/detail/${animePlatform.platformId}',
-                                          'DISN':
-                                              'https://www.disneyplus.com/browse/entity-${animePlatform.platformId}',
-                                        }[platform.id];
-
-                                        if (url != null) {
-                                          HttpRequest.instance.launch(url);
+                                        if (platformUrl != null) {
+                                          HttpRequest.instance.launch(
+                                            platformUrl,
+                                          );
                                         }
                                       },
                                       child: Flex(
