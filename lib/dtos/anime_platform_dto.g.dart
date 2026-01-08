@@ -11,6 +11,7 @@ _AnimePlatformDto _$AnimePlatformDtoFromJson(Map<String, dynamic> json) =>
       uuid: json['uuid'] as String,
       platform: PlatformDto.fromJson(json['platform'] as Map<String, dynamic>),
       platformId: json['platformId'] as String,
+      url: json['url'] as String,
     );
 
 Map<String, dynamic> _$AnimePlatformDtoToJson(_AnimePlatformDto instance) =>
@@ -18,4 +19,5 @@ Map<String, dynamic> _$AnimePlatformDtoToJson(_AnimePlatformDto instance) =>
       'uuid': instance.uuid,
       'platform': instance.platform,
       'platformId': instance.platformId,
+      'url': instance.url,
     };

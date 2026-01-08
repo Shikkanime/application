@@ -10,6 +10,7 @@ sealed class AnimePlatformDto with _$AnimePlatformDto {
     required final String uuid,
     required final PlatformDto platform,
     required final String platformId,
+    required final String url,
   }) = _AnimePlatformDto;
 
   factory AnimePlatformDto.fromJson(final Map<String, dynamic> json) =>

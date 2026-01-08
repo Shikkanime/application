@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AnimePlatformDto {
 
- String get uuid; PlatformDto get platform; String get platformId;
+ String get uuid; PlatformDto get platform; String get platformId; String get url;
 /// Create a copy of AnimePlatformDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $AnimePlatformDtoCopyWith<AnimePlatformDto> get copyWith => _$AnimePlatformDtoCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AnimePlatformDto&&(identical(other.uuid, uuid) || other.uuid == uuid)&&(identical(other.platform, platform) || other.platform == platform)&&(identical(other.platformId, platformId) || other.platformId == platformId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AnimePlatformDto&&(identical(other.uuid, uuid) || other.uuid == uuid)&&(identical(other.platform, platform) || other.platform == platform)&&(identical(other.platformId, platformId) || other.platformId == platformId)&&(identical(other.url, url) || other.url == url));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,uuid,platform,platformId);
+int get hashCode => Object.hash(runtimeType,uuid,platform,platformId,url);
 
 @override
 String toString() {
-  return 'AnimePlatformDto(uuid: $uuid, platform: $platform, platformId: $platformId)';
+  return 'AnimePlatformDto(uuid: $uuid, platform: $platform, platformId: $platformId, url: $url)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $AnimePlatformDtoCopyWith<$Res>  {
   factory $AnimePlatformDtoCopyWith(AnimePlatformDto value, $Res Function(AnimePlatformDto) _then) = _$AnimePlatformDtoCopyWithImpl;
 @useResult
 $Res call({
- String uuid, PlatformDto platform, String platformId
+ String uuid, PlatformDto platform, String platformId, String url
 });
 
 
@@ -65,11 +65,12 @@ class _$AnimePlatformDtoCopyWithImpl<$Res>
 
 /// Create a copy of AnimePlatformDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? uuid = null,Object? platform = null,Object? platformId = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? uuid = null,Object? platform = null,Object? platformId = null,Object? url = null,}) {
   return _then(_self.copyWith(
 uuid: null == uuid ? _self.uuid : uuid // ignore: cast_nullable_to_non_nullable
 as String,platform: null == platform ? _self.platform : platform // ignore: cast_nullable_to_non_nullable
 as PlatformDto,platformId: null == platformId ? _self.platformId : platformId // ignore: cast_nullable_to_non_nullable
+as String,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -161,10 +162,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String uuid,  PlatformDto platform,  String platformId)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String uuid,  PlatformDto platform,  String platformId,  String url)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AnimePlatformDto() when $default != null:
-return $default(_that.uuid,_that.platform,_that.platformId);case _:
+return $default(_that.uuid,_that.platform,_that.platformId,_that.url);case _:
   return orElse();
 
 }
@@ -182,10 +183,10 @@ return $default(_that.uuid,_that.platform,_that.platformId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String uuid,  PlatformDto platform,  String platformId)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String uuid,  PlatformDto platform,  String platformId,  String url)  $default,) {final _that = this;
 switch (_that) {
 case _AnimePlatformDto():
-return $default(_that.uuid,_that.platform,_that.platformId);}
+return $default(_that.uuid,_that.platform,_that.platformId,_that.url);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -199,10 +200,10 @@ return $default(_that.uuid,_that.platform,_that.platformId);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String uuid,  PlatformDto platform,  String platformId)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String uuid,  PlatformDto platform,  String platformId,  String url)?  $default,) {final _that = this;
 switch (_that) {
 case _AnimePlatformDto() when $default != null:
-return $default(_that.uuid,_that.platform,_that.platformId);case _:
+return $default(_that.uuid,_that.platform,_that.platformId,_that.url);case _:
   return null;
 
 }
@@ -214,12 +215,13 @@ return $default(_that.uuid,_that.platform,_that.platformId);case _:
 @JsonSerializable()
 
 class _AnimePlatformDto implements AnimePlatformDto {
-  const _AnimePlatformDto({required this.uuid, required this.platform, required this.platformId});
+  const _AnimePlatformDto({required this.uuid, required this.platform, required this.platformId, required this.url});
   factory _AnimePlatformDto.fromJson(Map<String, dynamic> json) => _$AnimePlatformDtoFromJson(json);
 
 @override final  String uuid;
 @override final  PlatformDto platform;
 @override final  String platformId;
+@override final  String url;
 
 /// Create a copy of AnimePlatformDto
 /// with the given fields replaced by the non-null parameter values.
@@ -234,16 +236,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AnimePlatformDto&&(identical(other.uuid, uuid) || other.uuid == uuid)&&(identical(other.platform, platform) || other.platform == platform)&&(identical(other.platformId, platformId) || other.platformId == platformId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AnimePlatformDto&&(identical(other.uuid, uuid) || other.uuid == uuid)&&(identical(other.platform, platform) || other.platform == platform)&&(identical(other.platformId, platformId) || other.platformId == platformId)&&(identical(other.url, url) || other.url == url));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,uuid,platform,platformId);
+int get hashCode => Object.hash(runtimeType,uuid,platform,platformId,url);
 
 @override
 String toString() {
-  return 'AnimePlatformDto(uuid: $uuid, platform: $platform, platformId: $platformId)';
+  return 'AnimePlatformDto(uuid: $uuid, platform: $platform, platformId: $platformId, url: $url)';
 }
 
 
@@ -254,7 +256,7 @@ abstract mixin class _$AnimePlatformDtoCopyWith<$Res> implements $AnimePlatformD
   factory _$AnimePlatformDtoCopyWith(_AnimePlatformDto value, $Res Function(_AnimePlatformDto) _then) = __$AnimePlatformDtoCopyWithImpl;
 @override @useResult
 $Res call({
- String uuid, PlatformDto platform, String platformId
+ String uuid, PlatformDto platform, String platformId, String url
 });
 
 
@@ -271,11 +273,12 @@ class __$AnimePlatformDtoCopyWithImpl<$Res>
 
 /// Create a copy of AnimePlatformDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? uuid = null,Object? platform = null,Object? platformId = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? uuid = null,Object? platform = null,Object? platformId = null,Object? url = null,}) {
   return _then(_AnimePlatformDto(
 uuid: null == uuid ? _self.uuid : uuid // ignore: cast_nullable_to_non_nullable
 as String,platform: null == platform ? _self.platform : platform // ignore: cast_nullable_to_non_nullable
 as PlatformDto,platformId: null == platformId ? _self.platformId : platformId // ignore: cast_nullable_to_non_nullable
+as String,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
