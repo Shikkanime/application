@@ -47,6 +47,7 @@ class FollowedEpisodeComponent extends StatelessWidget {
               borderRadius: const BorderRadius.all(
                 Radius.circular(Constant.borderRadius),
               ),
+              height: 100,
             ),
             const SizedBox(height: 4),
             Text(

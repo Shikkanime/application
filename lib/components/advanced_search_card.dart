@@ -1,3 +1,4 @@
+import 'package:application/components/horizontal_list_view.dart';
 import 'package:application/components/search_type_filter.dart';
 import 'package:application/controllers/animes/anime_search_controller.dart';
 import 'package:application/l10n/app_localizations.dart';
@@ -44,28 +45,16 @@ class AdvancedSearchCard extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    const double spacing = 8;
     final AnimeSearchController animeSearchController =
         AnimeSearchController.instance;
 
-    return Scrollbar(
-      controller: scrollController,
-      child: SingleChildScrollView(
-        controller: scrollController,
-        scrollDirection: Axis.horizontal,
-        child: IntrinsicHeight(
-          child: Row(
-            spacing: spacing,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              _buildAdvancedSearchButton(context),
-              const VerticalDivider(thickness: 0.5),
-              SearchTypeFilter(controller: animeSearchController),
-            ],
-          ),
-        ),
-      ),
+    return HorizontalListView(
+      scrollController: scrollController,
+      children: <Widget>[
+        _buildAdvancedSearchButton(context),
+        const VerticalDivider(thickness: 0.5),
+        SearchTypeFilter(controller: animeSearchController),
+      ],
     );
   }
 

@@ -43,6 +43,7 @@ class MissedAnimeComponent extends StatelessWidget {
                   type: ImageType.thumbnail,
                   fit: BoxFit.cover,
                   borderRadius: const BorderRadius.all(Radius.circular(360)),
+                  height: 80,
                 ),
                 Positioned(
                   top: 0,

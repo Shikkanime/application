@@ -64,6 +64,7 @@ class _CachedNetworkImageState extends State<CachedNetworkImage> {
         width: widget.width,
         height: widget.height,
         filterQuality: widget.filterQuality,
+        isAntiAlias: true,
         frameBuilder:
             (
               final BuildContext context,
