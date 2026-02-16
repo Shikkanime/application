@@ -22,6 +22,7 @@ class AnimeEpisodeComponent extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => CustomCard(
+    padding: false,
     onDoubleTap: onDoubleAndLongPress,
     onLongPress: (final TapDownDetails? details) {
       onDoubleAndLongPress?.call();

@@ -21,7 +21,7 @@ class LoadingView extends StatelessWidget {
                 height: 100,
               ),
             ),
-          const CircularProgressIndicator(),
+          const CircularProgressIndicator.adaptive(),
           Text(
             AppLocalizations.of(context)!.loggingIn,
             style: Theme.of(context).textTheme.bodyLarge,

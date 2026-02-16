@@ -1,6 +1,7 @@
 import 'package:application/components/animes/missed/missed_anime_component.dart';
 import 'package:application/components/animes/missed/missed_anime_loader_component.dart';
 import 'package:application/components/card_component.dart';
+import 'package:application/components/horizontal_list_view.dart';
 import 'package:application/controllers/animes/missed_anime_controller.dart';
 import 'package:application/dtos/missed_anime_dto.dart';
 import 'package:application/l10n/app_localizations.dart';
@@ -42,48 +43,28 @@ class MissedAnimesRow extends StatelessWidget {
           final List<Widget> list = _buildAnimeList(context, snapshot.data!);
 
           return CustomCard(
-            child: Scrollbar(
-              controller: MissedAnimeController.instance.scrollController,
-              child: Column(
-                spacing: 8,
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Flex(
-                    direction: Axis.horizontal,
-                    children: <Widget>[
-                      Text(
-                        AppLocalizations.of(context)!.whatYouMightHaveMissed1,
-                      ),
-                      Text(
-                        AppLocalizations.of(context)!.whatYouMightHaveMissed2,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(
-                        child: SizedBox(
-                          height: 105,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            addAutomaticKeepAlives: false,
-                            addRepaintBoundaries: false,
-                            controller:
-                                MissedAnimeController.instance.scrollController,
-                            itemCount: list.length,
-                            itemBuilder:
-                                (final BuildContext context, final int index) =>
-                                    list[index],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+            child: Column(
+              spacing: 8,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Flex(
+                  direction: Axis.horizontal,
+                  children: <Widget>[
+                    Text(AppLocalizations.of(context)!.whatYouMightHaveMissed1),
+                    Text(
+                      AppLocalizations.of(context)!.whatYouMightHaveMissed2,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                HorizontalListView(
+                  scrollController:
+                      MissedAnimeController.instance.scrollController,
+                  spacing: 0,
+                  children: list,
+                ),
+              ],
             ),
           );
         },

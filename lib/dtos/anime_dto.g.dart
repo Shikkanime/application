@@ -23,6 +23,13 @@ _AnimeDto _$AnimeDtoFromJson(Map<String, dynamic> json) => _AnimeDto(
   platformIds: (json['platformIds'] as List<dynamic>?)
       ?.map((e) => AnimePlatformDto.fromJson(e as Map<String, dynamic>))
       .toList(),
+  genres: (json['genres'] as List<dynamic>?)
+      ?.map((e) => GenreDto.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  tags: (json['tags'] as List<dynamic>?)
+      ?.map((e) => AnimeTagDto.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  hasCarousel: json['hasCarousel'] as bool?,
 );
 
 Map<String, dynamic> _$AnimeDtoToJson(_AnimeDto instance) => <String, dynamic>{
@@ -36,4 +43,7 @@ Map<String, dynamic> _$AnimeDtoToJson(_AnimeDto instance) => <String, dynamic>{
   'langTypes': instance.langTypes,
   'seasons': instance.seasons,
   'platformIds': instance.platformIds,
+  'genres': instance.genres,
+  'tags': instance.tags,
+  'hasCarousel': instance.hasCarousel,
 };

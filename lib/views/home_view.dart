@@ -18,31 +18,25 @@ class HomeView extends StatelessWidget {
     final int maxElementsPerRow = EpisodeController.instance.maxElementsPerRow(
       context,
     );
+    final List<EpisodeLoaderComponent> loaders =
+        List<EpisodeLoaderComponent>.generate(
+          EpisodeController.instance.limit,
+          (_) => const EpisodeLoaderComponent(),
+        );
 
-    final List<Widget> loaders = List<EpisodeLoaderComponent>.generate(
-      EpisodeController.instance.limit,
-      (final int index) => const EpisodeLoaderComponent(),
-    );
+    final bool isEmpty = episodes.isEmpty;
+    final StatelessWidget header = isEmpty
+        ? const MissedAnimesLoaderRow()
+        : const MissedAnimesRow();
 
-    final Widget header;
-    final List<Widget> itemsToGrid = <Widget>[];
-
-    if (episodes.isEmpty) {
-      header = const MissedAnimesLoaderRow();
-      itemsToGrid.addAll(loaders);
-    } else {
-      header = const MissedAnimesRow();
-      itemsToGrid.addAll(
-        episodes.map(
+    final List<Widget> itemsToGrid = <Widget>[
+      if (!isEmpty)
+        ...episodes.map(
           (final GroupedEpisodeDto episode) =>
               GroupedEpisodeComponent(episode: episode),
         ),
-      );
-
-      if (EpisodeController.instance.isLoading) {
-        itemsToGrid.addAll(loaders);
-      }
-    }
+      if (isEmpty || EpisodeController.instance.isLoading) ...loaders,
+    ];
 
     return <Widget>[
       header,

@@ -42,6 +42,7 @@ class FollowedAnimeComponent extends StatelessWidget {
                   borderRadius: const BorderRadius.all(
                     Radius.circular(Constant.borderRadius),
                   ),
+                  height: 150,
                 ),
                 ...PlatformComponent.toPlatformsRow(anime.platforms),
               ],

@@ -87,39 +87,44 @@ class _PlatformPreferenceDialogState extends State<PlatformPreferenceDialog> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: ReorderableListView.builder(
+                  buildDefaultDragHandles: false,
                   itemBuilder: (final BuildContext context, final int index) {
                     final PlatformDto platform = _platforms[index];
 
-                    return Padding(
+                    return ReorderableDragStartListener(
                       key: ValueKey<String>(platform.id),
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Flex(
-                        direction: Axis.horizontal,
-                        spacing: 8,
-                        children: <Widget>[
-                          PlatformComponent(
-                            platform: platform,
-                            width: 24,
-                            height: 24,
-                          ),
-                          Text(
-                            platform.name,
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                          const Spacer(),
-                          const Icon(Icons.drag_indicator),
-                        ],
+                      index: index,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Flex(
+                          direction: Axis.horizontal,
+                          spacing: 8,
+                          children: <Widget>[
+                            PlatformComponent(
+                              platform: platform,
+                              width: 24,
+                              height: 24,
+                            ),
+                            Text(
+                              platform.name,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                            const Spacer(),
+                            const Icon(Icons.drag_indicator),
+                          ],
+                        ),
                       ),
                     );
                   },
                   itemCount: _platforms.length,
-                  onReorder: (final int oldIndex, int newIndex) {
+                  onReorder: (final int oldIndex, final int newIndex) {
+                    final int index = newIndex > oldIndex
+                        ? newIndex - 1
+                        : newIndex;
+
                     setState(() {
-                      if (newIndex > oldIndex) {
-                        newIndex -= 1;
-                      }
                       final PlatformDto item = _platforms.removeAt(oldIndex);
-                      _platforms.insert(newIndex, item);
+                      _platforms.insert(index, item);
                     });
                   },
                 ),

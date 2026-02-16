@@ -185,7 +185,7 @@ class _MyAppState extends State<MyApp> {
             primary: primary,
           ),
           appBarTheme: AppBarTheme(
-            backgroundColor: scaffoldBackground.withValues(alpha: 0.8),
+            backgroundColor: scaffoldBackground.withValues(alpha: 0.6),
           ),
           bottomNavigationBarTheme: BottomNavigationBarThemeData(
             selectedItemColor: primary,

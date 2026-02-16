@@ -1,4 +1,6 @@
 import 'package:application/dtos/anime_platform_dto.dart';
+import 'package:application/dtos/anime_tag_dto.dart';
+import 'package:application/dtos/genre_dto.dart';
 import 'package:application/dtos/platform_dto.dart';
 import 'package:application/dtos/season_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -19,6 +21,9 @@ sealed class AnimeDto with _$AnimeDto {
     required final List<String>? langTypes,
     required final List<SeasonDto>? seasons,
     required final List<AnimePlatformDto>? platformIds,
+    required final List<GenreDto>? genres,
+    required final List<AnimeTagDto>? tags,
+    required final bool? hasCarousel,
   }) = _AnimeDto;
 
   factory AnimeDto.fromJson(final Map<String, dynamic> json) =>

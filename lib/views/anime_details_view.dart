@@ -4,6 +4,7 @@ import 'package:application/components/elevated_async_button.dart';
 import 'package:application/components/elevated_dropdown_button.dart';
 import 'package:application/components/episodes/anime_episode_component.dart';
 import 'package:application/components/episodes/anime_episode_loader_component.dart';
+import 'package:application/components/horizontal_list_view.dart';
 import 'package:application/components/image_component.dart';
 import 'package:application/components/lang_type_component.dart';
 import 'package:application/components/platforms/platform_component.dart';
@@ -37,7 +38,7 @@ class AnimeDetailsView extends StatefulWidget {
 
 class _AnimeDetailsViewState extends State<AnimeDetailsView> {
   bool _showMore = false;
-  final ScrollController scrollController = ScrollController();
+  final ScrollController _platformScrollController = ScrollController();
   final Set<String> _selectedEpisodes = <String>{};
 
   @override
@@ -81,6 +82,8 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
         ? widget.anime.seasons
         : widget.anime.seasons?.reversed.toList();
 
+    final double animeBannerHeight = MediaQuery.sizeOf(context).height * .5;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -120,230 +123,228 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        controller: AnimeDetailsController.instance.scrollController,
-        child: SafeArea(
-          child: Column(
-            spacing: 8,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Column(
-                  spacing: 8,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Stack(
-                      children: <Widget>[
-                        ImageComponent(
-                          uuid: widget.anime.uuid,
-                          type: ImageType.banner,
-                          height: MediaQuery.sizeOf(context).width > 900
-                              ? 300
-                              : null,
-                          fit: BoxFit.cover,
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(Constant.borderRadius),
-                          ),
-                        ),
-                        ...PlatformComponent.toPlatformsRow(
-                          widget.anime.platforms,
-                        ),
-                      ],
+      body: Stack(
+        children: <Widget>[
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: ImageComponent(
+              uuid: widget.anime.uuid,
+              type: (widget.anime.hasCarousel ?? false)
+                  ? ImageType.carousel
+                  : ImageType.banner,
+              height: animeBannerHeight + 20,
+              placeholderHeight: animeBannerHeight + 20,
+              fit: BoxFit.cover,
+            ),
+          ),
+          CustomScrollView(
+            controller: AnimeDetailsController.instance.scrollController,
+            slivers: <Widget>[
+              SliverToBoxAdapter(
+                child: SizedBox(height: animeBannerHeight - 30),
+              ),
+              SliverToBoxAdapter(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(Constant.borderRadius),
                     ),
-                    Row(
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
                       spacing: 8,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                widget.anime.shortName,
-                                style: Theme.of(context).textTheme.bodyLarge,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 2,
-                              ),
-                              ...?widget.anime.langTypes?.map(
-                                (final String langType) =>
-                                    LangTypeComponent(langType: langType),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Flex(
-                          direction: Axis.horizontal,
+                        Row(
+                          spacing: 8,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    widget.anime.shortName,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodyLarge,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                  ),
+                                  ...?widget.anime.langTypes?.map(
+                                    (final String langType) =>
+                                        LangTypeComponent(langType: langType),
+                                  ),
+                                ],
+                              ),
+                            ),
                             WatchlistButton(
                               anime: widget.anime.uuid,
                               isAnime: true,
                             ),
                           ],
                         ),
-                      ],
-                    ),
-                    Column(
-                      spacing: 4,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
                         Text(AppLocalizations.of(context)!.watchOn),
-                        Scrollbar(
-                          controller: scrollController,
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            controller: scrollController,
-                            child: Row(
-                              spacing: 16,
-                              children: widget.anime.platforms
-                                  .map(
-                                    (
-                                      final PlatformDto platform,
-                                    ) => ElevatedButton(
-                                      onPressed: () {
-                                        final String? platformUrl = widget
-                                            .anime
-                                            .platformIds
-                                            ?.where(
-                                              (final AnimePlatformDto e) =>
-                                                  e.platform.id == platform.id,
-                                            )
-                                            .firstOrNull
-                                            ?.url;
-
-                                        if (platformUrl != null) {
-                                          HttpRequest.instance.launch(
-                                            platformUrl,
-                                          );
-                                        }
-                                      },
-                                      child: Flex(
-                                        spacing: 8,
-                                        mainAxisSize: MainAxisSize.min,
-                                        direction: Axis.horizontal,
-                                        children: <Widget>[
-                                          PlatformComponent(platform: platform),
-                                          Text(
-                                            platform.name,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: <Widget>[
-                        Expanded(
-                          child: Text.rich(
-                            span,
-                            overflow: _showMore
-                                ? TextOverflow.visible
-                                : TextOverflow.ellipsis,
-                            maxLines: _showMore ? null : 4,
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                        ),
-                        if (textPainter.didExceedMaxLines)
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _showMore = !_showMore;
-                              });
-                            },
-                            child: Text(
-                              _showMore
-                                  ? AppLocalizations.of(context)!.showLess
-                                  : AppLocalizations.of(context)!.showMore,
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                          ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        if (seasons != null)
-                          ElevatedDropdownButton<SeasonDto>(
-                            globalKey: GlobalKey(),
-                            value: AnimeDetailsController.instance.season,
-                            items: seasons
-                                .map(
-                                  (final SeasonDto season) =>
-                                      ElevatedPopupMenuItem<SeasonDto>(
-                                        value: season,
-                                        child: Text(
-                                          AppLocalizations.of(
-                                            context,
-                                          )!.season(season.number.toString()),
-                                        ),
-                                      ),
-                                )
-                                .toList(),
-                            onChanged: (final SeasonDto value) {
-                              setState(() {
-                                AnimeDetailsController.instance.season = value;
-                                AnimeDetailsController.instance.init();
-                              });
-                            },
-                          ),
-                        const Spacer(),
-                        ElevatedDropdownButton<SortType>(
-                          globalKey: GlobalKey(),
-                          value: SortController.instance.sortType,
-                          items: SortType.values
+                        HorizontalListView(
+                          scrollController: _platformScrollController,
+                          children: widget.anime.platforms
                               .map(
-                                (final SortType sortType) =>
-                                    ElevatedPopupMenuItem<SortType>(
-                                      value: sortType,
-                                      child: Text(
-                                        AppLocalizations.of(
-                                          context,
-                                        )!.sortType(sortType.name),
+                                (final PlatformDto platform) => ElevatedButton(
+                                  onPressed: () {
+                                    final String? platformUrl = widget
+                                        .anime
+                                        .platformIds
+                                        ?.where(
+                                          (final AnimePlatformDto e) =>
+                                              e.platform.id == platform.id,
+                                        )
+                                        .firstOrNull
+                                        ?.url;
+
+                                    if (platformUrl != null) {
+                                      HttpRequest.instance.launch(platformUrl);
+                                    }
+                                  },
+                                  child: Flex(
+                                    spacing: 8,
+                                    mainAxisSize: MainAxisSize.min,
+                                    direction: Axis.horizontal,
+                                    children: <Widget>[
+                                      PlatformComponent(platform: platform),
+                                      Text(
+                                        platform.name,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                    ),
+                                    ],
+                                  ),
+                                ),
                               )
                               .toList(),
-                          onChanged: (final SortType value) {
-                            setState(() {
-                              SortController.instance.setSortType(value);
-                              AnimeDetailsController.instance.init();
-                            });
-                          },
-                          showIcon: false,
-                          child: Flex(
-                            spacing: 8,
-                            direction: Axis.horizontal,
-                            children: <Widget>[
-                              const Icon(Icons.sort),
-                              Text(AppLocalizations.of(context)!.sort),
-                            ],
-                          ),
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: <Widget>[
+                            Expanded(
+                              child: Text.rich(
+                                span,
+                                overflow: _showMore
+                                    ? TextOverflow.visible
+                                    : TextOverflow.ellipsis,
+                                maxLines: _showMore ? null : 4,
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                            ),
+                            if (textPainter.didExceedMaxLines)
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _showMore = !_showMore;
+                                  });
+                                },
+                                child: Text(
+                                  _showMore
+                                      ? AppLocalizations.of(context)!.showLess
+                                      : AppLocalizations.of(context)!.showMore,
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ),
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            if (seasons != null)
+                              ElevatedDropdownButton<SeasonDto>(
+                                globalKey: GlobalKey(),
+                                value: AnimeDetailsController.instance.season,
+                                items: seasons
+                                    .map(
+                                      (final SeasonDto season) =>
+                                          ElevatedPopupMenuItem<SeasonDto>(
+                                            value: season,
+                                            child: Text(
+                                              AppLocalizations.of(
+                                                context,
+                                              )!.season(
+                                                season.number.toString(),
+                                              ),
+                                            ),
+                                          ),
+                                    )
+                                    .toList(),
+                                onChanged: (final SeasonDto value) {
+                                  setState(() {
+                                    AnimeDetailsController.instance.season =
+                                        value;
+                                    AnimeDetailsController.instance.init();
+                                  });
+                                },
+                              ),
+                            const Spacer(),
+                            ElevatedDropdownButton<SortType>(
+                              globalKey: GlobalKey(),
+                              value: SortController.instance.sortType,
+                              items: SortType.values
+                                  .map(
+                                    (final SortType sortType) =>
+                                        ElevatedPopupMenuItem<SortType>(
+                                          value: sortType,
+                                          child: Text(
+                                            AppLocalizations.of(
+                                              context,
+                                            )!.sortType(sortType.name),
+                                          ),
+                                        ),
+                                  )
+                                  .toList(),
+                              onChanged: (final SortType value) {
+                                setState(() {
+                                  SortController.instance.setSortType(value);
+                                  AnimeDetailsController.instance.init();
+                                });
+                              },
+                              showIcon: false,
+                              child: Flex(
+                                spacing: 8,
+                                direction: Axis.horizontal,
+                                children: <Widget>[
+                                  const Icon(Icons.sort),
+                                  Text(AppLocalizations.of(context)!.sort),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        StreamBuilder<List<EpisodeMappingDto>>(
+                          stream: AnimeDetailsController
+                              .instance
+                              .streamController
+                              .stream,
+                          initialData: AnimeDetailsController.instance.items,
+                          builder:
+                              (
+                                final BuildContext context,
+                                final AsyncSnapshot<List<EpisodeMappingDto>>
+                                snapshot,
+                              ) => Column(
+                                spacing: 8,
+                                children: _buildEpisodeList(
+                                  context,
+                                  snapshot.data!,
+                                ),
+                              ),
                         ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-              StreamBuilder<List<EpisodeMappingDto>>(
-                stream: AnimeDetailsController.instance.streamController.stream,
-                initialData: AnimeDetailsController.instance.items,
-                builder:
-                    (
-                      final BuildContext context,
-                      final AsyncSnapshot<List<EpisodeMappingDto>> snapshot,
-                    ) => Column(
-                      children: _buildEpisodeList(context, snapshot.data!),
-                    ),
               ),
             ],
           ),
-        ),
+        ],
       ),
       floatingActionButton: _selectedEpisodes.isNotEmpty
           ? FloatingActionButton(
