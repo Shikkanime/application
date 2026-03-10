@@ -25,6 +25,7 @@ jobs:
       - name: Update Pods
         working-directory: ios
         run: |
+          rm -f Podfile.lock
           pod repo update
           pod install
           
