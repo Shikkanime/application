@@ -8,6 +8,8 @@ jobs:
   update-podfile:
     runs-on: macos-latest
     if: github.actor == 'dependabot[bot]'
+    permissions:
+      contents: write
     
     steps:
       - uses: actions/checkout@v4
