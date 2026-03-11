@@ -56,6 +56,7 @@ class _CachedNetworkImageState extends State<CachedNetworkImage> {
         return widget.placeholderWidget ?? const SizedBox.shrink();
       }
       if (snapshot.hasError || !snapshot.hasData) {
+        debugPrint('Error loading image: ${snapshot.error}');
         return widget.errorWidget ?? const SizedBox.shrink();
       }
       return Image.file(
