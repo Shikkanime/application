@@ -29,7 +29,7 @@ dependencies:
   package_info_plus: ^9.0.0
   restart_app: ^1.7.3
   share_plus: ^12.0.1
-  shared_preferences: ^2.5.4
+  shared_preferences: ^2.5.5
   shimmer_animation: ^2.2.2+1
   shorebird_code_push: ^2.0.5
   url_launcher: ^6.3.2
