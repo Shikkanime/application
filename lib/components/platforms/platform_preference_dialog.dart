@@ -117,14 +117,10 @@ class _PlatformPreferenceDialogState extends State<PlatformPreferenceDialog> {
                     );
                   },
                   itemCount: _platforms.length,
-                  onReorder: (final int oldIndex, final int newIndex) {
-                    final int index = newIndex > oldIndex
-                        ? newIndex - 1
-                        : newIndex;
-
+                  onReorderItem: (final int oldIndex, final int newIndex) {
                     setState(() {
                       final PlatformDto item = _platforms.removeAt(oldIndex);
-                      _platforms.insert(index, item);
+                      _platforms.insert(newIndex, item);
                     });
                   },
                 ),

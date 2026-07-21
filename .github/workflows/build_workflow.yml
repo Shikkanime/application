@@ -38,7 +38,4 @@ jobs:
           cache: true
           
       - run: flutter pub get
-      - run: rm -f ios/Podfile.lock
-      - run: pod repo update
-        working-directory: ios
       - run: flutter build ios --release --no-codesign
