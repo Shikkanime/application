@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:application/ui/components/platforms/platform_preference_dialog.dart';
 import 'package:application/ui/viewmodels/generic_controller.dart';
 import 'package:application/ui/viewmodels/shared_preferences_controller.dart';

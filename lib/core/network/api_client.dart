@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:application/core/network/api_result.dart';
 import 'package:application/data/models/pageable_dto.dart';
 import 'package:application/core/constants/constant.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
@@ -173,7 +173,7 @@ class ApiClient {
       LaunchMode.platformDefault,
     ];
 
-    debugPrint('Launch url...');
+    debugPrint('Opening URL: $url');
 
     for (final LaunchMode mode in modes) {
       try {
@@ -187,10 +187,6 @@ class ApiClient {
 
     return false;
   }
-
-  // ---------------------------------------------------------------------------
-  // Private helpers
-  // ---------------------------------------------------------------------------
 
   /// Builds a URI by appending [endpoint] to [Constant.apiUrl] and encoding
   /// optional [query] parameters.
@@ -223,7 +219,8 @@ class ApiClient {
     }
 
     if (response.statusCode != HttpStatus.ok &&
-        response.statusCode != HttpStatus.created) {
+        response.statusCode != HttpStatus.created &&
+        response.statusCode != HttpStatus.noContent) {
       return ApiFailure<http.Response>('Request failed', response.statusCode);
     }
 

@@ -12,6 +12,9 @@ class ApiSuccess<T> extends ApiResult<T> {
   const ApiSuccess(this.data);
 
   final T data;
+
+  @override
+  String toString() => 'ApiSuccess($data)';
 }
 
 /// Failed API result containing an [error] message and optional [statusCode].

@@ -21,13 +21,13 @@ import 'package:crop_your_image/crop_your_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class MemberController {
   static MemberController instance = MemberController();
   final ApiClient _client = const ApiClient();
+  bool _isRetry = false;
   final StreamController<MemberDto> streamController =
       StreamController<MemberDto>.broadcast();
   String? identifier;
@@ -129,7 +129,9 @@ class MemberController {
 
     return switch (result) {
       ApiSuccess<http.Response>(:final data) => data,
-      ApiFailure<http.Response>(:final error) => throw ClientException(error),
+      ApiFailure<http.Response>(:final error) => throw http.ClientException(
+        error,
+      ),
     };
   }
 
@@ -151,7 +153,7 @@ class MemberController {
     }
 
     if (response.statusCode != HttpStatus.ok) {
-      throw ClientException('Server error');
+      throw http.ClientException('Server error');
     }
 
     return response;
@@ -286,6 +288,10 @@ class MemberController {
 
     switch (result) {
       case ApiFailure<http.Response>(:final statusCode) when statusCode == 401:
+        if (_isRetry) {
+          throw Exception("Unauthorized after retry");
+        }
+        _isRetry = true;
         await login();
         return updateImage(image);
 
@@ -329,6 +335,10 @@ class MemberController {
   }
 
   Future<String> _retryAssociateEmail(final String email) async {
+    if (_isRetry) {
+      throw Exception("Unauthorized after retry");
+    }
+    _isRetry = true;
     await login();
     return associateEmail(email);
   }
@@ -363,6 +373,10 @@ class MemberController {
   }
 
   Future<String> _retryForgotIdentifier(final String email) async {
+    if (_isRetry) {
+      throw Exception("Unauthorized after retry");
+    }
+    _isRetry = true;
     await login();
     return forgotIdentifier(email);
   }
@@ -376,6 +390,10 @@ class MemberController {
 
     switch (result) {
       case ApiFailure<http.Response>(:final statusCode) when statusCode == 401:
+        if (_isRetry) {
+          throw Exception("Unauthorized after retry");
+        }
+        _isRetry = true;
         await login();
         return validateAction(uuid, code);
 
@@ -407,6 +425,10 @@ class MemberController {
 
     switch (result) {
       case ApiFailure<http.Response>(:final statusCode) when statusCode == 401:
+        if (_isRetry) {
+          throw Exception("Unauthorized after retry");
+        }
+        _isRetry = true;
         await login();
         return followAnime(anime, loadMemberData: loadMemberData);
 
@@ -437,6 +459,10 @@ class MemberController {
 
     switch (result) {
       case ApiFailure<http.Response>(:final statusCode) when statusCode == 401:
+        if (_isRetry) {
+          throw Exception("Unauthorized after retry");
+        }
+        _isRetry = true;
         await login();
         return unfollowAnime(anime);
 
@@ -466,6 +492,10 @@ class MemberController {
 
     switch (result) {
       case ApiFailure<http.Response>(:final statusCode) when statusCode == 401:
+        if (_isRetry) {
+          throw Exception("Unauthorized after retry");
+        }
+        _isRetry = true;
         await login();
         return followAllEpisodes(anime);
 
@@ -510,6 +540,10 @@ class MemberController {
 
     switch (result) {
       case ApiFailure<http.Response>(:final statusCode) when statusCode == 401:
+        if (_isRetry) {
+          throw Exception("Unauthorized after retry");
+        }
+        _isRetry = true;
         await login();
         return followEpisode(anime, episode);
 
@@ -538,6 +572,10 @@ class MemberController {
 
     switch (result) {
       case ApiFailure<http.Response>(:final statusCode) when statusCode == 401:
+        if (_isRetry) {
+          throw Exception("Unauthorized after retry");
+        }
+        _isRetry = true;
         await login();
         return unfollowEpisode(episode);
 
