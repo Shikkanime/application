@@ -25,7 +25,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class MemberController {
-  MemberController({ApiClient? client, Analytics? analytics}) : _client = client ?? const ApiClient(), _analytics = analytics ?? const Analytics();
+  MemberController({ApiClient? client, Analytics? analytics})
+    : _client = client ?? const ApiClient(),
+      _analytics = analytics ?? const Analytics();
   static MemberController instance = MemberController();
   final ApiClient _client;
   final Analytics _analytics;

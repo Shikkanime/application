@@ -19,7 +19,9 @@ import 'package:share_plus/share_plus.dart';
 
 class AnimeController extends GenericController<AnimeDto>
     implements SearchableController {
-  AnimeController({ApiClient? client, Analytics? analytics}) : _client = client ?? const ApiClient(), _analytics = analytics ?? const Analytics();
+  AnimeController({ApiClient? client, Analytics? analytics})
+    : _client = client ?? const ApiClient(),
+      _analytics = analytics ?? const Analytics();
   static final AnimeController instance = AnimeController();
   final ApiClient _client;
   final Analytics _analytics;

@@ -23,7 +23,8 @@ import 'package:flutter/material.dart';
 enum NavigationSource { bottomNavigationBar, drawer, pageView, appBar }
 
 class NavigationController {
-  NavigationController({Analytics? analytics}) : _analytics = analytics ?? const Analytics();
+  NavigationController({Analytics? analytics})
+    : _analytics = analytics ?? const Analytics();
   static final NavigationController instance = NavigationController();
   final Analytics _analytics;
   final PageController pageController = PageController();

@@ -13,7 +13,8 @@ import 'package:application/core/widgets/widget_builder.dart' as wb;
 class AnimeSearchController extends GenericController<AnimeDto>
     implements SearchableController {
   AnimeSearchController({ApiClient? client, Analytics? analytics})
-    : _client = client ?? const ApiClient(), _analytics = analytics ?? const Analytics();
+    : _client = client ?? const ApiClient(),
+      _analytics = analytics ?? const Analytics();
   static final AnimeSearchController instance = AnimeSearchController();
   final ApiClient _client;
   final Analytics _analytics;
