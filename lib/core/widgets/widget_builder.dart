@@ -28,30 +28,42 @@ class WidgetBuilder {
   ///
   /// Throws if [maxElementsPerRow] is less than 1.
   static List<Widget> buildRowWidgets(
-    final Iterable<Widget> toSeparateList, {
+    final Iterable<Widget> items, {
     final int maxElementsPerRow = 2,
   }) {
     if (maxElementsPerRow < 1) {
       throw Exception('maxElementsPerRow must be greater than 0');
     }
 
-    if (maxElementsPerRow == 1) {
-      return toSeparateList.toList();
+    if (maxElementsPerRow == 1 || items.length <= 1) {
+      return items.toList();
     }
 
-    return List<Widget>.generate(
-      (toSeparateList.length / maxElementsPerRow).ceil(),
-      (final int i) => Row(
+    final itemsList = items.toList(growable: false);
+    final rowCount = (itemsList.length / maxElementsPerRow).ceil();
+
+    return List<Widget>.generate(rowCount, (final i) {
+      final start = i * maxElementsPerRow;
+      final end = (start + maxElementsPerRow).clamp(0, itemsList.length);
+      final rowItems = itemsList.sublist(start, end);
+
+      return Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: List<Widget>.generate(
-          maxElementsPerRow,
-          (final int j) => i * maxElementsPerRow + j < toSeparateList.length
-              ? Expanded(
-                  child: toSeparateList.elementAt(i * maxElementsPerRow + j),
-                )
-              : const Spacer(),
-        ),
-      ),
-    );
+        children: _fillRow(rowItems, maxElementsPerRow),
+      );
+    });
+  }
+
+  /// Fills [rowItems] with [Spacer]s to reach [maxElementsPerRow] width.
+  static List<Widget> _fillRow(
+    final List<Widget> rowItems,
+    final int maxElementsPerRow,
+  ) {
+    return List<Widget>.generate(maxElementsPerRow, (final j) {
+      if (j < rowItems.length) {
+        return Expanded(child: rowItems[j]);
+      }
+      return const Spacer();
+    });
   }
 }
