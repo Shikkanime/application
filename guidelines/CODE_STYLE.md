@@ -67,6 +67,7 @@ rules:
 
 ## Dart-specific Conventions
 
+- **Never put multiple statements on a single line** — each statement must be on its own line.
 - Use **expression bodies** (`=>`) for simple functions.
 - Use **curly braces** for all flow control statements (except single-line `if` without `else`).
 - Use `super` parameters for constructors.

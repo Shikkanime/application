@@ -429,7 +429,7 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
       }
     }
 
-    return wb.WidgetBuilder.instance.buildRowWidgets(
+    return wb.WidgetBuilder.buildRowWidgets(
       itemsToGrid,
       maxElementsPerRow: maxElementsPerRow,
     );

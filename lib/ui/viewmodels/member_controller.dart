@@ -501,7 +501,9 @@ class MemberController {
         }
         _isRetry = true;
         await login();
-        return followAllEpisodes(anime);
+        await followAllEpisodes(anime);
+        _isRetry = false;
+        return;
 
       case ApiSuccess<http.Response>(:final data)
           when data.statusCode == HttpStatus.ok:
@@ -549,7 +551,9 @@ class MemberController {
         }
         _isRetry = true;
         await login();
-        return followEpisode(anime, episode);
+        await followEpisode(anime, episode);
+        _isRetry = false;
+        return;
 
       case ApiSuccess<http.Response>(:final data)
           when data.statusCode == HttpStatus.ok:
@@ -581,7 +585,9 @@ class MemberController {
         }
         _isRetry = true;
         await login();
-        return unfollowEpisode(episode);
+        await unfollowEpisode(episode);
+        _isRetry = false;
+        return;
 
       case ApiSuccess<http.Response>(:final data)
           when data.statusCode == HttpStatus.ok:

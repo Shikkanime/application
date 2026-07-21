@@ -14,9 +14,7 @@ class FollowedAnimeController extends GenericController<AnimeDto> {
   bool _isRetry = false;
 
   int get limit =>
-      wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
-      ? 9
-      : 24;
+      wb.WidgetBuilder.getDeviceType() == wb.DeviceType.mobile ? 9 : 24;
 
   void setItems(final List<AnimeDto> items) {
     this.items.clear();
