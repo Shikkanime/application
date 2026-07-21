@@ -214,34 +214,49 @@ class ApiClient {
     if (token != null) 'Authorization': 'Bearer $token',
   };
 
+  /// Checks [response] status code and returns [ApiResult].
+  ///
+  /// Returns [ApiSuccess] for 200 and 201, [ApiFailure] otherwise.
+  ApiResult<http.Response> _checkStatus(final http.Response response) {
+    if (response.statusCode == HttpStatus.unauthorized) {
+      return const ApiFailure<http.Response>('Unauthorized', 401);
+    }
+
+    if (response.statusCode != HttpStatus.ok &&
+        response.statusCode != HttpStatus.created) {
+      return ApiFailure<http.Response>('Request failed', response.statusCode);
+    }
+
+    return ApiSuccess<http.Response>(response);
+  }
+
+  /// Maps a caught [error] to an [ApiFailure] with a user-friendly message.
+  ApiResult<http.Response> _catchToResult(final Object error) =>
+      switch (error) {
+        SocketException e => ApiFailure<http.Response>(
+          'Network error: ${e.message}',
+        ),
+        http.ClientException e => ApiFailure<http.Response>(
+          'Client error: ${e.message}',
+        ),
+        TimeoutException _ => const ApiFailure<http.Response>(
+          'Request timed out',
+        ),
+        _ => ApiFailure<http.Response>('Request error: $error'),
+      };
+
   /// Executes a plain HTTP request and wraps the result in [ApiResult].
   ///
   /// Handles common error types: [SocketException], [ClientException],
-  /// [TimeoutException], and non-2xx status codes.
+  /// and [TimeoutException].
   Future<ApiResult<http.Response>> _execute(
     final Future<http.Response> Function() request,
   ) async {
     try {
       final http.Response response = await request().timeout(timeout);
-
-      if (response.statusCode == HttpStatus.unauthorized) {
-        return const ApiFailure<http.Response>('Unauthorized', 401);
-      }
-
-      if (response.statusCode != HttpStatus.ok &&
-          response.statusCode != HttpStatus.created) {
-        return ApiFailure<http.Response>('Request failed', response.statusCode);
-      }
-
-      return ApiSuccess<http.Response>(response);
-    } on SocketException catch (e) {
-      return ApiFailure<http.Response>('Network error: ${e.message}');
-    } on http.ClientException catch (e) {
-      return ApiFailure<http.Response>('Client error: ${e.message}');
-    } on FormatException catch (e) {
-      return ApiFailure<http.Response>('Invalid response format: ${e.message}');
-    } on TimeoutException {
-      return ApiFailure<http.Response>('Request timed out');
+      return _checkStatus(response);
+    } on Object catch (e) {
+      return _catchToResult(e);
     }
   }
 
@@ -256,22 +271,9 @@ class ApiClient {
       final http.Response response = await http.Response.fromStream(
         streamedResponse,
       );
-
-      if (response.statusCode == HttpStatus.unauthorized) {
-        return const ApiFailure<http.Response>('Unauthorized', 401);
-      }
-
-      if (response.statusCode != HttpStatus.ok) {
-        return ApiFailure<http.Response>('Request failed', response.statusCode);
-      }
-
-      return ApiSuccess<http.Response>(response);
-    } on SocketException catch (e) {
-      return ApiFailure<http.Response>('Network error: ${e.message}');
-    } on http.ClientException catch (e) {
-      return ApiFailure<http.Response>('Client error: ${e.message}');
-    } on TimeoutException {
-      return ApiFailure<http.Response>('Request timed out');
+      return _checkStatus(response);
+    } on Object catch (e) {
+      return _catchToResult(e);
     }
   }
 
