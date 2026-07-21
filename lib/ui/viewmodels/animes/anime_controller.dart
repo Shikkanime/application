@@ -34,7 +34,7 @@ class AnimeController extends GenericController<AnimeDto>
   Future<void> onSearchTypeChanged() => goToTop();
 
   int get limit =>
-      wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
+      wb.WidgetBuilder.getDeviceType() == wb.DeviceType.mobile
       ? 6
       : 24;
 

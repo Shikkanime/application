@@ -69,7 +69,7 @@ class _SearchViewState extends State<SearchView> {
           scrollController: _scrollController,
         ),
       ),
-      ...wb.WidgetBuilder.instance.buildRowWidgets(
+      ...wb.WidgetBuilder.buildRowWidgets(
         itemsToGrid,
         maxElementsPerRow: maxElementsPerRow,
       ),

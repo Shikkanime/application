@@ -15,7 +15,7 @@ class EpisodeController extends GenericController<GroupedEpisodeDto> {
   final ApiClient _client;
 
   int get limit =>
-      wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
+      wb.WidgetBuilder.getDeviceType() == wb.DeviceType.mobile
       ? 4
       : 16;
 

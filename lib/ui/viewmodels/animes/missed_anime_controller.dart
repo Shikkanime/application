@@ -16,7 +16,7 @@ class MissedAnimeController extends GenericController<MissedAnimeDto> {
 
   int get limit =>
       Constant.isAndroidOrIOS &&
-          wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
+          wb.WidgetBuilder.getDeviceType() == wb.DeviceType.mobile
       ? 9
       : 24;
 

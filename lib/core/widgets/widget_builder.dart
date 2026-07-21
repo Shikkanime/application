@@ -2,12 +2,21 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+/// Device type enum for responsive layout decisions.
 enum DeviceType { mobile, tablet }
 
+/// Utility class for responsive widget building.
+///
+/// Provides methods to detect device type and build responsive row layouts.
+/// All methods are static — no instance needed.
 class WidgetBuilder {
-  static final WidgetBuilder instance = WidgetBuilder();
+  WidgetBuilder._();
 
-  DeviceType getDeviceType() {
+  /// Detects the current device type based on screen width.
+  ///
+  /// Returns [DeviceType.tablet] if the shortest side is >= 600dp,
+  /// [DeviceType.mobile] otherwise.
+  static DeviceType getDeviceType() {
     final Display display = PlatformDispatcher.instance.views.first.display;
 
     return display.size.shortestSide / display.devicePixelRatio < 600
@@ -15,7 +24,10 @@ class WidgetBuilder {
         : DeviceType.tablet;
   }
 
-  List<Widget> buildRowWidgets(
+  /// Splits [toSeparateList] into rows with at most [maxElementsPerRow] per row.
+  ///
+  /// Throws if [maxElementsPerRow] is less than 1.
+  static List<Widget> buildRowWidgets(
     final Iterable<Widget> toSeparateList, {
     final int maxElementsPerRow = 2,
   }) {

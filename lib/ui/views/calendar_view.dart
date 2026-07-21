@@ -53,7 +53,7 @@ class _CalendarViewState extends State<CalendarView> {
 
   List<Widget> _buildEmptyReleasesList(final BuildContext context) => <Widget>[
     _buildCalendar(),
-    ...wb.WidgetBuilder.instance.buildRowWidgets(
+    ...wb.WidgetBuilder.buildRowWidgets(
       List<CalendarAnimeLoaderComponent>.generate(
         12,
         (final int index) => const CalendarAnimeLoaderComponent(),
@@ -137,7 +137,7 @@ class _CalendarViewState extends State<CalendarView> {
   ) => <Widget>[
     _buildCalendar(),
     daysNavigationBar,
-    ...wb.WidgetBuilder.instance.buildRowWidgets(
+    ...wb.WidgetBuilder.buildRowWidgets(
       currentWeekDay.releases.map(
         (final WeekDayReleaseDto release) => CalendarAnimeComponent(
           key: Key(release.anime.uuid),

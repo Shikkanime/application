@@ -14,7 +14,7 @@ class FollowedEpisodeController extends GenericController<EpisodeMappingDto> {
   bool _isRetry = false;
 
   int get limit =>
-      wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
+      wb.WidgetBuilder.getDeviceType() == wb.DeviceType.mobile
       ? 9
       : 16;
 

@@ -40,7 +40,7 @@ class HomeView extends StatelessWidget {
 
     return <Widget>[
       header,
-      ...wb.WidgetBuilder.instance.buildRowWidgets(
+      ...wb.WidgetBuilder.buildRowWidgets(
         itemsToGrid,
         maxElementsPerRow: maxElementsPerRow,
       ),

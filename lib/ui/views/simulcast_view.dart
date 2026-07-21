@@ -53,7 +53,7 @@ class _SimulcastViewState extends State<SimulcastView> {
 
     return <Widget>[
       header,
-      ...wb.WidgetBuilder.instance.buildRowWidgets(
+      ...wb.WidgetBuilder.buildRowWidgets(
         itemsToGrid,
         maxElementsPerRow: maxElementsPerRow,
       ),
