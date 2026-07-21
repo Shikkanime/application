@@ -71,3 +71,48 @@ rules:
 - Use **curly braces** for all flow control statements (except single-line `if` without `else`).
 - Use `super` parameters for constructors.
 - Use `wildcard` variables for unused parameters (`_`).
+
+## Type Annotations (Effective Dart guidelines)
+
+Follow Google's Effective Dart recommendations for type annotations:
+
+### Local variables
+- **Use `var`** when the type is obvious from the right-hand side:
+  ```dart
+  var count = 3; // int is obvious
+  var items = <String>[]; // type is explicit in literal
+  ```
+- **Use `final`** when the variable is never reassigned (prefer over `var`):
+  ```dart
+  final name = 'Dart'; // never reassigned
+  final response = await client.get(...); // single assignment
+  ```
+- **Use explicit type annotations** when the type is not obvious or when it's part of a public API:
+  ```dart
+  // Good: type is not obvious from the RHS
+  final Map<String, dynamic> json = jsonDecode(body);
+  
+  // Bad: unnecessary type annotation
+  final String name = 'Dart';
+  ```
+
+### Parameters and return types
+- **Always annotate** public API parameters and return types.
+- **Use `Object?`** instead of `dynamic` when you need to accept any value.
+- **Prefer `Future<void>`** over `Future` for async methods that don't return a value.
+
+### Constants
+- Use `const` for compile-time constants.
+- Name constants using `lowerCamelCase` (not `SCREAMING_CAPS`):
+  ```dart
+  const defaultTimeout = 1000; // Good
+  const DEFAULT_TIMEOUT = 1000; // Bad
+  ```
+
+### Best practices
+- **DO** follow a consistent rule for `var` and `final` on local variables.
+- **AVOID** storing what you can calculate.
+- **DO** use collection literals (`[]`, `{}`) over `List()` / `Map()`.
+- **DON'T** use `.length` to check if a collection is empty — use `.isEmpty`.
+- **PREFER** `async`/`await` over raw futures.
+- **DON'T** create a lambda when a tear-off will do.
