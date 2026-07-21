@@ -40,12 +40,10 @@ class ApiClient {
     final Map<String, Object>? query,
     final String? token,
   }) async {
-    final Uri uri = _buildUri(endpoint, query);
-    final Map<String, String> headers = _buildHeaders(token);
+    final uri = _buildUri(endpoint, query);
+    final headers = _buildHeaders(token);
 
-    final ApiResult<http.Response> response = await _execute(
-      () => http.get(uri, headers: headers),
-    );
+    final response = await _execute(() => http.get(uri, headers: headers));
 
     return switch (response) {
       ApiSuccess<http.Response>(:final data) => _parseJson<T>(data),
@@ -89,7 +87,7 @@ class ApiClient {
     final Map<String, String>? headers,
     final Object? body,
   }) async {
-    final Map<String, String> requestHeaders = <String, String>{
+    final requestHeaders = <String, String>{
       'Content-Type': 'application/json',
       if (token != null) 'Authorization': 'Bearer $token',
       ...?headers,
@@ -109,10 +107,7 @@ class ApiClient {
     final String token,
     final Uint8List bytes,
   ) async {
-    final http.MultipartRequest request = http.MultipartRequest(
-      'POST',
-      _buildUri(endpoint),
-    );
+    final request = http.MultipartRequest('POST', _buildUri(endpoint));
 
     request.headers.putIfAbsent('Authorization', () => 'Bearer $token');
     request.files.add(
@@ -167,7 +162,7 @@ class ApiClient {
   /// Tries multiple launch modes (external non-browser app, external app,
   /// platform default) and returns true if any succeeded.
   Future<bool> launchUrlString(final String url) async {
-    final List<LaunchMode> modes = <LaunchMode>[
+    final modes = <LaunchMode>[
       LaunchMode.externalNonBrowserApplication,
       LaunchMode.externalApplication,
       LaunchMode.platformDefault,
@@ -191,7 +186,7 @@ class ApiClient {
   /// Builds a URI by appending [endpoint] to [Constant.apiUrl] and encoding
   /// optional [query] parameters.
   Uri _buildUri(final String endpoint, [final Map<String, Object>? query]) {
-    final Uri baseUri = Uri.parse(Constant.apiUrl + endpoint);
+    final baseUri = Uri.parse(Constant.apiUrl + endpoint);
 
     if (query == null || query.isEmpty) {
       return baseUri;
@@ -250,7 +245,7 @@ class ApiClient {
     final Future<http.Response> Function() request,
   ) async {
     try {
-      final http.Response response = await request().timeout(timeout);
+      final response = await request().timeout(timeout);
       return _checkStatus(response);
     } on Object catch (e) {
       return _catchToResult(e);
@@ -262,12 +257,8 @@ class ApiClient {
     final http.MultipartRequest request,
   ) async {
     try {
-      final http.StreamedResponse streamedResponse = await request
-          .send()
-          .timeout(timeout);
-      final http.Response response = await http.Response.fromStream(
-        streamedResponse,
-      );
+      final streamedResponse = await request.send().timeout(timeout);
+      final response = await http.Response.fromStream(streamedResponse);
       return _checkStatus(response);
     } on Object catch (e) {
       return _catchToResult(e);
