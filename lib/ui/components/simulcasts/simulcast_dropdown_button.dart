@@ -8,6 +8,8 @@ import 'package:application/l10n/app_localizations.dart';
 import 'package:application/core/analytics/analytics.dart';
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+
 class SimulcastDropdownButton extends StatelessWidget {
   const SimulcastDropdownButton({required this.scrollController, super.key});
 
@@ -51,7 +53,7 @@ class SimulcastDropdownButton extends StatelessWidget {
                       )
                       .toList(),
                   onChanged: (final SimulcastDto value) {
-                    Analytics.instance.logSelectContent(
+                    context.read<Analytics>().logSelectContent(
                       'simulcast',
                       value.uuid,
                     );

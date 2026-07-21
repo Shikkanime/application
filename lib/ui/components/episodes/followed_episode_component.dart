@@ -7,6 +7,8 @@ import 'package:application/core/constants/constant.dart';
 import 'package:application/ui/views/anime_details_view.dart';
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+
 double _ratio = 4;
 
 class FollowedEpisodeComponent extends StatelessWidget {
@@ -25,7 +27,10 @@ class FollowedEpisodeComponent extends StatelessWidget {
             return;
           }
 
-          Analytics.instance.logSelectContent('anime', episode.anime!.uuid);
+          context.read<Analytics>().logSelectContent(
+            'anime',
+            episode.anime!.uuid,
+          );
 
           Navigator.of(context).push(
             MaterialPageRoute<void>(

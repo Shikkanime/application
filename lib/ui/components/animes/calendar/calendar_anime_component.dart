@@ -17,6 +17,8 @@ import 'package:application/ui/views/anime_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'package:provider/provider.dart';
+
 class CalendarAnimeComponent extends StatelessWidget {
   const CalendarAnimeComponent({required this.release, super.key});
 
@@ -63,7 +65,7 @@ class CalendarAnimeComponent extends StatelessWidget {
 
     return CustomCard(
       onTap: () {
-        Analytics.instance.logSelectContent('anime', release.anime.uuid);
+        context.read<Analytics>().logSelectContent('anime', release.anime.uuid);
 
         Navigator.of(context).push(
           MaterialPageRoute<void>(

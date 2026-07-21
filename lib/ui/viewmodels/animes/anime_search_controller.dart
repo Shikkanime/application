@@ -12,10 +12,12 @@ import 'package:application/core/widgets/widget_builder.dart' as wb;
 
 class AnimeSearchController extends GenericController<AnimeDto>
     implements SearchableController {
-  AnimeSearchController({ApiClient? client})
-    : _client = client ?? const ApiClient();
+  AnimeSearchController({ApiClient? client, Analytics? analytics})
+    : _client = client ?? const ApiClient(),
+      _analytics = analytics ?? const Analytics();
   static final AnimeSearchController instance = AnimeSearchController();
   final ApiClient _client;
+  final Analytics _analytics;
   Timer? _timer;
   String query = '';
   @override
@@ -56,7 +58,7 @@ class AnimeSearchController extends GenericController<AnimeDto>
       query: queryMap,
     );
 
-    Analytics.instance.logSearch(query, queryMap);
+    _analytics.logSearch(query, queryMap);
 
     return switch (result) {
       ApiSuccess<PageableDto>(:final data) => Pair<Iterable<AnimeDto>, int>(

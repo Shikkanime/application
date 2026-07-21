@@ -12,6 +12,8 @@ import 'package:application/core/extensions/extensions.dart';
 import 'package:application/ui/views/anime_details_view.dart';
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+
 class AnimeComponent extends StatelessWidget {
   const AnimeComponent({
     required this.anime,
@@ -25,7 +27,7 @@ class AnimeComponent extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => CustomCard(
     onTap: () {
-      Analytics.instance.logSelectContent('anime', anime.uuid);
+      context.read<Analytics>().logSelectContent('anime', anime.uuid);
 
       Navigator.of(context).push(
         MaterialPageRoute<void>(

@@ -70,7 +70,13 @@ Future<void> main() async {
   }
 
   runApp(
-    Provider<ApiClient>(create: (_) => const ApiClient(), child: const MyApp()),
+    MultiProvider(
+      providers: [
+        Provider<ApiClient>(create: (_) => const ApiClient()),
+        Provider<Analytics>(create: (_) => const Analytics()),
+      ],
+      child: const MyApp(),
+    ),
   );
 }
 
@@ -278,7 +284,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     WidgetsBinding.instance.addPostFrameCallback((final _) {
       NotificationsController.instance.init(context);
-      Analytics.instance.logScreenView('home');
+      context.read<Analytics>().logScreenView('home');
       PatchController.instance.patch(context);
       ReviewController.instance.requestReview();
       UpdateController.instance.checkIfStoreUpdateIsAvailable(context);

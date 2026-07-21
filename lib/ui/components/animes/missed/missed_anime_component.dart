@@ -8,6 +8,8 @@ import 'package:application/core/analytics/analytics.dart';
 import 'package:application/ui/views/anime_details_view.dart';
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+
 class MissedAnimeComponent extends StatelessWidget {
   const MissedAnimeComponent({required this.missedAnime, super.key});
 
@@ -16,7 +18,10 @@ class MissedAnimeComponent extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => CustomGestureDetector(
     onTap: () {
-      Analytics.instance.logSelectContent('anime', missedAnime.anime.uuid);
+      context.read<Analytics>().logSelectContent(
+        'anime',
+        missedAnime.anime.uuid,
+      );
 
       Navigator.of(context).push(
         MaterialPageRoute<void>(
