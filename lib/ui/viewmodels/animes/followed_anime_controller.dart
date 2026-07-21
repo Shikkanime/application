@@ -9,6 +9,7 @@ import 'package:application/core/widgets/widget_builder.dart' as wb;
 class FollowedAnimeController extends GenericController<AnimeDto> {
   static final FollowedAnimeController instance = FollowedAnimeController();
   final ApiClient _client = const ApiClient();
+  bool _isRetry = false;
 
   int get limit =>
       wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
@@ -30,6 +31,18 @@ class FollowedAnimeController extends GenericController<AnimeDto> {
       query: <String, Object>{'page': page, 'limit': limit},
       token: MemberController.instance.member?.token,
     );
+
+    if (result is ApiFailure<PageableDto> && result.statusCode == 401) {
+      if (_isRetry) {
+        throw Exception('Unauthorized after retry');
+      }
+
+      _isRetry = true;
+      await MemberController.instance.login();
+      return fetchItems();
+    }
+
+    _isRetry = false;
 
     return switch (result) {
       ApiSuccess<PageableDto>(:final data) => Pair<Iterable<AnimeDto>, int>(

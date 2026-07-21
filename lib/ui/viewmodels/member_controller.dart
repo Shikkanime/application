@@ -76,7 +76,7 @@ class MemberController {
     return switch (result) {
       ApiSuccess<http.Response>(:final data)
           when data.statusCode == HttpStatus.created =>
-        _handleRegisterSuccess(data),
+        await _handleRegisterSuccess(data),
       ApiSuccess<http.Response>(:final data) => throw HttpException(
         'Failed to register: ${data.statusCode}',
       ),
@@ -84,12 +84,12 @@ class MemberController {
     };
   }
 
-  String _handleRegisterSuccess(final http.Response response) {
+  Future<String> _handleRegisterSuccess(final http.Response response) async {
     final String identifier =
         (jsonDecode(utf8.decode(response.bodyBytes))
                 as Map<String, dynamic>)['identifier']
             as String;
-    SharedPreferencesController.instance.setString(
+    await SharedPreferencesController.instance.setString(
       ConfigPropertyKey.identifier,
       identifier,
     );
@@ -352,6 +352,9 @@ class MemberController {
       ApiSuccess<http.Response>(:final data)
           when data.statusCode == HttpStatus.unauthorized =>
         _retryForgotIdentifier(email),
+      ApiSuccess<http.Response>(:final data)
+          when data.statusCode == HttpStatus.conflict =>
+        throw const ConflictEmailException(),
       ApiSuccess<http.Response>(:final data)
           when data.statusCode == HttpStatus.created =>
         _extractUuid(data),
