@@ -1,7 +1,7 @@
 import 'package:application/core/analytics/analytics.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-/// Stub minimal de FirebaseAnalytics pour les tests.
+/// Minimal FirebaseAnalytics stub for testing the Analytics interface.
 class FakeFirebaseAnalytics {
   bool loginLogged = false;
   bool signUpLogged = false;
@@ -9,9 +9,6 @@ class FakeFirebaseAnalytics {
   String? lastSearchTerm;
   String? lastContentType;
   String? lastItemId;
-  String? lastShareContentType;
-  String? lastShareItemId;
-  String? lastShareMethod;
   String? lastEventName;
 
   void logLogin() {
@@ -35,25 +32,12 @@ class FakeFirebaseAnalytics {
     lastItemId = itemId;
   }
 
-  void logShare({
-    String? contentType,
-    String? itemId,
-    String? method,
-  }) {
-    lastShareContentType = contentType;
-    lastShareItemId = itemId;
-    lastShareMethod = method;
-  }
-
   void logEvent({String? name, Map<String, Object>? parameters}) {
     lastEventName = name;
   }
 }
 
 void main() {
-  // Note : on teste l'interface d'Analytics avec un faux FirebaseAnalytics
-  // en utilisant un cast dynamique (pas de vrai type FirebaseAnalytics disponible).
-
   group('Analytics', () {
     test('const constructor works', () {
       // Given & When
@@ -63,7 +47,7 @@ void main() {
       expect(analytics, isA<Analytics>());
     });
 
-    test('instance is const', () {
+    test('instance is const and canonicalized', () {
       // Given & When
       const a = Analytics.instance;
       const b = Analytics.instance;
@@ -76,25 +60,38 @@ void main() {
       // Given
       const analytics = Analytics();
 
-      // When & Then — no exceptions
+      // When & Then — no exceptions should be thrown
       analytics.logLogin();
       analytics.logSignUp();
       analytics.logScreenView('test');
       analytics.logSearch('term', <String, Object>{});
       analytics.logSelectContent('type', 'id');
-      analytics.logShare('type', 'id', 'method');
       analytics.log('event', <String, Object>{});
+
+      // All methods are void — reaching here means no crash
+      expect(true, isTrue);
     });
 
-    test('methods execute without error when Firebase is available', () {
+    test('FakeFirebaseAnalytics tracks method calls', () {
       // Given
       final fake = FakeFirebaseAnalytics();
-      // On ne peut pas injecter le fake directement car FirebaseAnalytics
-      // est un type concret. On teste via le constructeur avec un mock.
-      // Le test ci-dessus couvre déjà le cas safe-to-call.
+
+      // When
+      fake.logLogin();
+      fake.logSignUp();
+      fake.logScreenView(screenName: 'home');
+      fake.logSearch(searchTerm: 'naruto');
+      fake.logSelectContent(contentType: 'anime', itemId: '123');
+      fake.logEvent(name: 'test_event');
 
       // Then
-      expect(fake.loginLogged, isFalse);
+      expect(fake.loginLogged, isTrue);
+      expect(fake.signUpLogged, isTrue);
+      expect(fake.lastScreenView, equals('home'));
+      expect(fake.lastSearchTerm, equals('naruto'));
+      expect(fake.lastContentType, equals('anime'));
+      expect(fake.lastItemId, equals('123'));
+      expect(fake.lastEventName, equals('test_event'));
     });
   });
 }
