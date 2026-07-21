@@ -284,7 +284,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     WidgetsBinding.instance.addPostFrameCallback((final _) {
       NotificationsController.instance.init(context);
-      Analytics.instance.logScreenView('home');
+      const Analytics().logScreenView('home');
       PatchController.instance.patch(context);
       ReviewController.instance.requestReview();
       UpdateController.instance.checkIfStoreUpdateIsAvailable(context);

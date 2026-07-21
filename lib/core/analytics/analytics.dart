@@ -17,10 +17,6 @@ import 'package:flutter/foundation.dart';
 /// ```
 /// {@end-tool}
 class Analytics {
-  /// Default singleton instance. Use this for direct access, or inject via
-  /// `provider` with a custom `FirebaseAnalytics` instance for testing.
-  static const Analytics instance = Analytics();
-
   const Analytics({FirebaseAnalytics? firebase}) : _firebase = firebase;
 
   /// The underlying Firebase Analytics instance, or null if not available.

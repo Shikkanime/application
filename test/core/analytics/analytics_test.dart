@@ -47,10 +47,10 @@ void main() {
       expect(analytics, isA<Analytics>());
     });
 
-    test('instance is const and canonicalized', () {
+    test('const constructor is canonicalized', () {
       // Given & When
-      const a = Analytics.instance;
-      const b = Analytics.instance;
+      const a = Analytics();
+      const b = Analytics();
 
       // Then
       expect(identical(a, b), isTrue);
@@ -96,14 +96,9 @@ void main() {
 
     test('delegates to injected FirebaseAnalytics', () {
       // Given
-      final fake = FakeFirebaseAnalytics();
-
-      // When
-      // Analytics accepts FirebaseAnalytics? — we test via dynamic cast
-      // to verify the injection contract works at runtime
       const analytics = Analytics();
 
-      // Then — safe-to-call guarantee
+      // When & Then — safe-to-call guarantee
       analytics.logLogin();
       analytics.logSignUp();
       expect(analytics, isA<Analytics>());

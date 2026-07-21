@@ -63,7 +63,7 @@ class CalendarAnimeComponent extends StatelessWidget {
 
     return CustomCard(
       onTap: () {
-        Analytics.instance.logSelectContent('anime', release.anime.uuid);
+        const Analytics().logSelectContent('anime', release.anime.uuid);
 
         Navigator.of(context).push(
           MaterialPageRoute<void>(

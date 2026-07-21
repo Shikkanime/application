@@ -21,7 +21,7 @@ class GroupedEpisodeComponent extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => CustomCard(
     onTap: () {
-      Analytics.instance.logSelectContent('anime', episode.anime.uuid);
+      const Analytics().logSelectContent('anime', episode.anime.uuid);
 
       Navigator.of(context).push(
         MaterialPageRoute<void>(

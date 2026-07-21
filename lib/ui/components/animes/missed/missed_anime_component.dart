@@ -16,7 +16,7 @@ class MissedAnimeComponent extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => CustomGestureDetector(
     onTap: () {
-      Analytics.instance.logSelectContent('anime', missedAnime.anime.uuid);
+      const Analytics().logSelectContent('anime', missedAnime.anime.uuid);
 
       Navigator.of(context).push(
         MaterialPageRoute<void>(

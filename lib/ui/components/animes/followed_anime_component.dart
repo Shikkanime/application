@@ -21,7 +21,7 @@ class FollowedAnimeComponent extends StatelessWidget {
       width: 360 / _ratio + 10,
       child: GestureDetector(
         onTap: () {
-          Analytics.instance.logSelectContent('anime', anime.uuid);
+          const Analytics().logSelectContent('anime', anime.uuid);
 
           Navigator.of(context).push(
             MaterialPageRoute<void>(

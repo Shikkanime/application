@@ -51,10 +51,7 @@ class SimulcastDropdownButton extends StatelessWidget {
                       )
                       .toList(),
                   onChanged: (final SimulcastDto value) {
-                    Analytics.instance.logSelectContent(
-                      'simulcast',
-                      value.uuid,
-                    );
+                    const Analytics().logSelectContent('simulcast', value.uuid);
 
                     animeController
                       ..selectedSimulcast = value

@@ -25,7 +25,7 @@ class AnimeComponent extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => CustomCard(
     onTap: () {
-      Analytics.instance.logSelectContent('anime', anime.uuid);
+      const Analytics().logSelectContent('anime', anime.uuid);
 
       Navigator.of(context).push(
         MaterialPageRoute<void>(
