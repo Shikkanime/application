@@ -9,10 +9,12 @@ import 'package:application/core/network/api_result.dart';
 import 'package:flutter/material.dart';
 
 class PlatformsController extends GenericController<PlatformDto> {
-  PlatformsController() : super(addScrollListener: false);
+  PlatformsController({ApiClient? client})
+    : _client = client ?? const ApiClient(),
+      super(addScrollListener: false);
 
   static final PlatformsController instance = PlatformsController();
-  final ApiClient _client = const ApiClient();
+  final ApiClient _client;
   static const int _unrankedIndex = 1 << 20;
 
   @override

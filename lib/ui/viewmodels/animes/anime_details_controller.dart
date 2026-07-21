@@ -9,8 +9,10 @@ import 'package:application/core/network/api_result.dart';
 import 'package:application/core/widgets/widget_builder.dart' as wb;
 
 class AnimeDetailsController extends GenericController<EpisodeMappingDto> {
+  AnimeDetailsController({ApiClient? client})
+    : _client = client ?? const ApiClient();
   static final AnimeDetailsController instance = AnimeDetailsController();
-  final ApiClient _client = const ApiClient();
+  final ApiClient _client;
 
   AnimeDto? anime;
   SeasonDto? season;

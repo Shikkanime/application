@@ -25,8 +25,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class MemberController {
+  MemberController({ApiClient? client}) : _client = client ?? const ApiClient();
   static MemberController instance = MemberController();
-  final ApiClient _client = const ApiClient();
+  final ApiClient _client;
   bool _isRetry = false;
   final StreamController<MemberDto> streamController =
       StreamController<MemberDto>.broadcast();

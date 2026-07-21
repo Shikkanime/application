@@ -19,8 +19,9 @@ import 'package:share_plus/share_plus.dart';
 
 class AnimeController extends GenericController<AnimeDto>
     implements SearchableController {
+  AnimeController({ApiClient? client}) : _client = client ?? const ApiClient();
   static final AnimeController instance = AnimeController();
-  final ApiClient _client = const ApiClient();
+  final ApiClient _client;
 
   SimulcastDto? selectedSimulcast;
   @override

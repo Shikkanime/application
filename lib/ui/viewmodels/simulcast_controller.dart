@@ -5,8 +5,10 @@ import 'package:application/core/network/api_client.dart';
 import 'package:application/core/network/api_result.dart';
 
 class SimulcastController extends GenericController<SimulcastDto> {
+  SimulcastController({ApiClient? client})
+    : _client = client ?? const ApiClient();
   static final SimulcastController instance = SimulcastController();
-  final ApiClient _client = const ApiClient();
+  final ApiClient _client;
 
   @override
   Future<Pair<Iterable<SimulcastDto>, int>> fetchItems() async {

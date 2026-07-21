@@ -11,10 +11,11 @@ import 'package:flutter/material.dart';
 
 class AnimeWeeklyController extends GenericController<WeekDayDto>
     implements SearchableController {
+  AnimeWeeklyController({ApiClient? client})
+    : _client = client ?? const ApiClient(),
+      super(addScrollListener: false);
   static final AnimeWeeklyController instance = AnimeWeeklyController();
-  final ApiClient _client = const ApiClient();
-
-  AnimeWeeklyController() : super(addScrollListener: false);
+  final ApiClient _client;
 
   int selectedDay = DateTime.now().weekday - 1;
 

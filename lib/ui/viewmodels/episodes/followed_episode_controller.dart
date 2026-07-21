@@ -7,8 +7,10 @@ import 'package:application/core/network/api_result.dart';
 import 'package:application/core/widgets/widget_builder.dart' as wb;
 
 class FollowedEpisodeController extends GenericController<EpisodeMappingDto> {
+  FollowedEpisodeController({ApiClient? client})
+    : _client = client ?? const ApiClient();
   static final FollowedEpisodeController instance = FollowedEpisodeController();
-  final ApiClient _client = const ApiClient();
+  final ApiClient _client;
   bool _isRetry = false;
 
   int get limit =>

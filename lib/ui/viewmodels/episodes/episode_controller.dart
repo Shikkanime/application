@@ -9,8 +9,10 @@ import 'package:application/core/widgets/widget_builder.dart' as wb;
 import 'package:flutter/material.dart';
 
 class EpisodeController extends GenericController<GroupedEpisodeDto> {
+  EpisodeController({ApiClient? client})
+    : _client = client ?? const ApiClient();
   static final EpisodeController instance = EpisodeController();
-  final ApiClient _client = const ApiClient();
+  final ApiClient _client;
 
   int get limit =>
       wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
