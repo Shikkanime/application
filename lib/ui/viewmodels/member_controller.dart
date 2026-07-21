@@ -285,8 +285,7 @@ class MemberController {
     );
 
     switch (result) {
-      case ApiSuccess<http.Response>(:final data)
-          when data.statusCode == HttpStatus.unauthorized:
+      case ApiFailure<http.Response>(:final statusCode) when statusCode == 401:
         await login();
         return updateImage(image);
 
@@ -314,8 +313,7 @@ class MemberController {
     );
 
     return switch (result) {
-      ApiSuccess<http.Response>(:final data)
-          when data.statusCode == HttpStatus.unauthorized =>
+      ApiFailure<http.Response>(:final statusCode) when statusCode == 401 =>
         _retryAssociateEmail(email),
       ApiSuccess<http.Response>(:final data)
           when data.statusCode == HttpStatus.conflict =>
@@ -349,8 +347,7 @@ class MemberController {
     );
 
     return switch (result) {
-      ApiSuccess<http.Response>(:final data)
-          when data.statusCode == HttpStatus.unauthorized =>
+      ApiFailure<http.Response>(:final statusCode) when statusCode == 401 =>
         _retryForgotIdentifier(email),
       ApiSuccess<http.Response>(:final data)
           when data.statusCode == HttpStatus.conflict =>
@@ -378,8 +375,7 @@ class MemberController {
     );
 
     switch (result) {
-      case ApiSuccess<http.Response>(:final data)
-          when data.statusCode == HttpStatus.unauthorized:
+      case ApiFailure<http.Response>(:final statusCode) when statusCode == 401:
         await login();
         return validateAction(uuid, code);
 
@@ -410,8 +406,7 @@ class MemberController {
     );
 
     switch (result) {
-      case ApiSuccess<http.Response>(:final data)
-          when data.statusCode == HttpStatus.unauthorized:
+      case ApiFailure<http.Response>(:final statusCode) when statusCode == 401:
         await login();
         return followAnime(anime, loadMemberData: loadMemberData);
 
@@ -441,8 +436,7 @@ class MemberController {
     );
 
     switch (result) {
-      case ApiSuccess<http.Response>(:final data)
-          when data.statusCode == HttpStatus.unauthorized:
+      case ApiFailure<http.Response>(:final statusCode) when statusCode == 401:
         await login();
         return unfollowAnime(anime);
 
@@ -471,8 +465,7 @@ class MemberController {
     );
 
     switch (result) {
-      case ApiSuccess<http.Response>(:final data)
-          when data.statusCode == HttpStatus.unauthorized:
+      case ApiFailure<http.Response>(:final statusCode) when statusCode == 401:
         await login();
         return followAllEpisodes(anime);
 
@@ -516,8 +509,7 @@ class MemberController {
     );
 
     switch (result) {
-      case ApiSuccess<http.Response>(:final data)
-          when data.statusCode == HttpStatus.unauthorized:
+      case ApiFailure<http.Response>(:final statusCode) when statusCode == 401:
         await login();
         return followEpisode(anime, episode);
 
@@ -545,8 +537,7 @@ class MemberController {
     );
 
     switch (result) {
-      case ApiSuccess<http.Response>(:final data)
-          when data.statusCode == HttpStatus.unauthorized:
+      case ApiFailure<http.Response>(:final statusCode) when statusCode == 401:
         await login();
         return unfollowEpisode(episode);
 
