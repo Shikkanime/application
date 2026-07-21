@@ -11,7 +11,7 @@ import 'package:application/data/models/enums/search_type.dart';
 import 'package:application/l10n/app_localizations.dart';
 import 'package:application/core/analytics/analytics.dart';
 import 'package:application/core/constants/constant.dart';
-import 'package:application/core/network/http_request.dart';
+import 'package:application/core/network/api_client.dart';
 import 'package:application/core/network/api_result.dart';
 import 'package:application/core/widgets/widget_builder.dart' as wb;
 import 'package:flutter/material.dart';

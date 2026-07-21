@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:application/ui/viewmodels/generic_controller.dart';
 import 'package:application/data/models/grouped_episode_dto.dart';
 import 'package:application/data/models/pageable_dto.dart';
-import 'package:application/core/network/http_request.dart';
+import 'package:application/core/network/api_client.dart';
 import 'package:application/core/network/api_result.dart';
 import 'package:application/core/widgets/widget_builder.dart' as wb;
 import 'package:flutter/material.dart';

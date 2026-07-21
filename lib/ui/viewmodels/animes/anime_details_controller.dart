@@ -4,7 +4,7 @@ import 'package:application/data/models/anime_dto.dart';
 import 'package:application/data/models/episode_mapping_dto.dart';
 import 'package:application/data/models/pageable_dto.dart';
 import 'package:application/data/models/season_dto.dart';
-import 'package:application/core/network/http_request.dart';
+import 'package:application/core/network/api_client.dart';
 import 'package:application/core/network/api_result.dart';
 import 'package:application/core/widgets/widget_builder.dart' as wb;
 

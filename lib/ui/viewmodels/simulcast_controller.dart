@@ -1,7 +1,7 @@
 import 'package:application/ui/viewmodels/animes/anime_controller.dart';
 import 'package:application/ui/viewmodels/generic_controller.dart';
 import 'package:application/data/models/simulcast_dto.dart';
-import 'package:application/core/network/http_request.dart';
+import 'package:application/core/network/api_client.dart';
 import 'package:application/core/network/api_result.dart';
 
 class SimulcastController extends GenericController<SimulcastDto> {

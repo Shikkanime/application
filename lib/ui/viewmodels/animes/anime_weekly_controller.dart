@@ -5,7 +5,7 @@ import 'package:application/ui/viewmodels/member_controller.dart';
 import 'package:application/ui/viewmodels/searchable_controller.dart';
 import 'package:application/data/models/week_day_dto.dart';
 import 'package:application/data/models/enums/search_type.dart';
-import 'package:application/core/network/http_request.dart';
+import 'package:application/core/network/api_client.dart';
 import 'package:application/core/network/api_result.dart';
 import 'package:flutter/material.dart';
 

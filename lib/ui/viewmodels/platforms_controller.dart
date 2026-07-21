@@ -6,7 +6,7 @@ import 'package:application/ui/viewmodels/shared_preferences_controller.dart';
 import 'package:application/data/models/enums/config_property_key.dart';
 import 'package:application/data/models/episode_source_dto.dart';
 import 'package:application/data/models/platform_dto.dart';
-import 'package:application/core/network/http_request.dart';
+import 'package:application/core/network/api_client.dart';
 import 'package:application/core/network/api_result.dart';
 import 'package:flutter/material.dart';
 

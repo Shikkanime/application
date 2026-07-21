@@ -14,7 +14,7 @@ import 'package:application/data/models/missed_anime_dto.dart';
 import 'package:application/data/models/refresh_member_dto.dart';
 import 'package:application/l10n/app_localizations.dart';
 import 'package:application/core/analytics/analytics.dart';
-import 'package:application/core/network/http_request.dart';
+import 'package:application/core/network/api_client.dart';
 import 'package:application/core/network/api_result.dart';
 import 'package:application/ui/views/crop_view.dart';
 import 'package:crop_your_image/crop_your_image.dart';

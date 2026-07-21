@@ -18,6 +18,7 @@ Based on **Effective Dart** (https://dart.dev/effective-dart/style).
 | Types (classes, enums, typedefs) | `UpperCamelCase` | `HomeViewModel`, `AnimeDto` |
 | Extensions | `UpperCamelCase` | `StringExtensions` |
 | Packages, directories, files | `lowercase_with_underscores` | `anime_repository.dart` |
+| **File name matches class name** | `api_client.dart` ↔ `ApiClient` | `ApiClient` → `api_client.dart` |
 | Variables, parameters, methods | `lowerCamelCase` | `httpRequest`, `fetchItems()` |
 | Constants | `lowerCamelCase` | `const defaultTimeout = 1000;` |
 | Unused callback parameters | `_` (wildcard) | `then((_) => ...)` |
