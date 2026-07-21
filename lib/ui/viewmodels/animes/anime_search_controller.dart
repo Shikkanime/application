@@ -7,11 +7,13 @@ import 'package:application/data/models/pageable_dto.dart';
 import 'package:application/data/models/enums/search_type.dart';
 import 'package:application/core/analytics/analytics.dart';
 import 'package:application/core/network/http_request.dart';
+import 'package:application/core/network/api_result.dart';
 import 'package:application/core/widgets/widget_builder.dart' as wb;
 
 class AnimeSearchController extends GenericController<AnimeDto>
     implements SearchableController {
   static final AnimeSearchController instance = AnimeSearchController();
+  final ApiClient _client = const ApiClient();
   Timer? _timer;
   String query = '';
   @override
@@ -47,18 +49,23 @@ class AnimeSearchController extends GenericController<AnimeDto>
       if (query.isEmpty) 'sort': 'name',
     };
 
-    final PageableDto pageableDto = await HttpRequest.instance.getPage(
+    final ApiResult<PageableDto> result = await _client.getPage(
       '/v1/animes',
       query: queryMap,
     );
 
     Analytics.instance.logSearch(query, queryMap);
 
-    return Pair<Iterable<AnimeDto>, int>(
-      pageableDto.data.map(
-        (final dynamic e) => AnimeDto.fromJson(e as Map<String, dynamic>),
+    return switch (result) {
+      ApiSuccess<PageableDto>(:final data) => Pair<Iterable<AnimeDto>, int>(
+        data.data.map(
+          (final dynamic e) => AnimeDto.fromJson(e as Map<String, dynamic>),
+        ),
+        data.total,
       ),
-      pageableDto.total,
-    );
+      ApiFailure<PageableDto>(:final error) => throw Exception(
+        'Failed to search animes: $error',
+      ),
+    };
   }
 }

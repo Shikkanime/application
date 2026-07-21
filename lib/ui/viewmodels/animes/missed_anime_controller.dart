@@ -4,11 +4,12 @@ import 'package:application/data/models/missed_anime_dto.dart';
 import 'package:application/data/models/pageable_dto.dart';
 import 'package:application/core/constants/constant.dart';
 import 'package:application/core/network/http_request.dart';
+import 'package:application/core/network/api_result.dart';
 import 'package:application/core/widgets/widget_builder.dart' as wb;
 
 class MissedAnimeController extends GenericController<MissedAnimeDto> {
   static final MissedAnimeController instance = MissedAnimeController();
-  bool _isRetry = false;
+  final ApiClient _client = const ApiClient();
 
   int get limit =>
       Constant.isAndroidOrIOS &&
@@ -26,28 +27,24 @@ class MissedAnimeController extends GenericController<MissedAnimeDto> {
 
   @override
   Future<Pair<Iterable<MissedAnimeDto>, int>> fetchItems() async {
-    final PageableDto pageableDto = await HttpRequest.instance.getPage(
+    final ApiResult<PageableDto> result = await _client.getPage(
       '/v1/animes/missed',
       query: <String, Object>{'page': page, 'limit': limit},
       token: MemberController.instance.member!.token,
-      onUnauthorized: () async {
-        if (_isRetry) {
-          return;
-        }
-
-        _isRetry = true;
-        await MemberController.instance.login();
-        await fetchItems();
-      },
     );
 
-    _isRetry = false;
-
-    return Pair<Iterable<MissedAnimeDto>, int>(
-      pageableDto.data.map(
-        (final dynamic e) => MissedAnimeDto.fromJson(e as Map<String, dynamic>),
+    return switch (result) {
+      ApiSuccess<PageableDto>(:final data) =>
+        Pair<Iterable<MissedAnimeDto>, int>(
+          data.data.map(
+            (final dynamic e) =>
+                MissedAnimeDto.fromJson(e as Map<String, dynamic>),
+          ),
+          data.total,
+        ),
+      ApiFailure<PageableDto>(:final error) => throw Exception(
+        'Failed to fetch missed animes: $error',
       ),
-      pageableDto.total,
-    );
+    };
   }
 }

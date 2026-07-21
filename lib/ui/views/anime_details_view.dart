@@ -206,7 +206,9 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
                                         ?.url;
 
                                     if (platformUrl != null) {
-                                      HttpRequest.instance.launch(platformUrl);
+                                      const ApiClient().launchUrlString(
+                                        platformUrl,
+                                      );
                                     }
                                   },
                                   child: Flex(
