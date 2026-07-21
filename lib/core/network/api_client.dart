@@ -270,8 +270,13 @@ class ApiClient {
   /// Returns [ApiFailure] if the body cannot be parsed.
   ApiResult<T> _parseJson<T>(final http.Response response) {
     try {
-      final dynamic decoded = jsonDecode(utf8.decode(response.bodyBytes));
-      return ApiSuccess<T>(decoded as T);
+      final decoded = jsonDecode(utf8.decode(response.bodyBytes));
+      if (decoded is T) {
+        return ApiSuccess<T>(decoded);
+      }
+      return ApiFailure<T>(
+        'JSON type mismatch: expected ${T.toString()}, got ${decoded.runtimeType}',
+      );
     } on FormatException catch (e) {
       return ApiFailure<T>('Invalid JSON: ${e.message}');
     }
