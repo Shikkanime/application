@@ -1,0 +1,126 @@
+import 'dart:math';
+
+import 'package:application/ui/viewmodels/generic_controller.dart';
+import 'package:application/ui/viewmodels/member_controller.dart';
+import 'package:application/ui/viewmodels/searchable_controller.dart';
+import 'package:application/ui/viewmodels/vibration_controller.dart';
+import 'package:application/data/models/anime_dto.dart';
+import 'package:application/data/models/pageable_dto.dart';
+import 'package:application/data/models/simulcast_dto.dart';
+import 'package:application/data/models/enums/search_type.dart';
+import 'package:application/l10n/app_localizations.dart';
+import 'package:application/core/analytics/analytics.dart';
+import 'package:application/core/constants/constant.dart';
+import 'package:application/core/network/http_request.dart';
+import 'package:application/core/widgets/widget_builder.dart' as wb;
+import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
+
+class AnimeController extends GenericController<AnimeDto>
+    implements SearchableController {
+  static final AnimeController instance = AnimeController();
+
+  SimulcastDto? selectedSimulcast;
+  @override
+  SearchType? searchType;
+
+  @override
+  Future<void> onSearchTypeChanged() => goToTop();
+
+  int get limit =>
+      wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
+      ? 6
+      : 24;
+
+  int maxElementsPerRow(final BuildContext context) =>
+      max(2, (MediaQuery.sizeOf(context).width * 0.005).floor());
+
+  double placeholderHeight(final BuildContext context) =>
+      MediaQuery.sizeOf(context).width * 1.1 / maxElementsPerRow(context);
+
+  @override
+  Future<Pair<Iterable<AnimeDto>, int>> fetchItems() async {
+    if (selectedSimulcast == null) {
+      return Pair<Iterable<AnimeDto>, int>(<AnimeDto>[], 0);
+    }
+
+    final PageableDto pageableDto = await HttpRequest.instance.getPage(
+      '/v1/animes',
+      query: <String, Object>{
+        'country': 'FR',
+        if (selectedSimulcast != null) 'simulcast': selectedSimulcast!.uuid,
+        if (searchType != null) 'searchTypes': searchType!.name.toUpperCase(),
+        'sort': 'name',
+        'page': page,
+        'limit': limit,
+      },
+    );
+
+    return Pair<Iterable<AnimeDto>, int>(
+      pageableDto.data.map(
+        (final dynamic e) => AnimeDto.fromJson(e as Map<String, dynamic>),
+      ),
+      pageableDto.total,
+    );
+  }
+
+  void onLongPress(
+    final BuildContext context,
+    final AnimeDto anime,
+    final TapDownDetails? details,
+  ) {
+    if (details == null) {
+      return;
+    }
+
+    final RenderBox renderBox =
+        Overlay.of(context).context.findRenderObject()! as RenderBox;
+
+    // Show dropdown menu
+    showMenu<int>(
+      context: context,
+      position: RelativeRect.fromRect(
+        details.globalPosition & const Size(40, 40),
+        Offset.zero & renderBox.size,
+      ),
+      items: <PopupMenuEntry<int>>[
+        PopupMenuItem<int>(
+          value: 0,
+          child: Flex(
+            spacing: 8,
+            direction: Axis.horizontal,
+            children: <Widget>[
+              const Icon(Icons.bookmark_add_outlined),
+              Text(AppLocalizations.of(context)!.markWatched),
+            ],
+          ),
+        ),
+        PopupMenuItem<int>(
+          value: 1,
+          child: Flex(
+            spacing: 8,
+            direction: Axis.horizontal,
+            children: <Widget>[
+              const Icon(Icons.share),
+              Text(AppLocalizations.of(context)!.share),
+            ],
+          ),
+        ),
+      ],
+    ).then((final int? value) async {
+      if (value == 0) {
+        await MemberController.instance.followAllEpisodes(anime.uuid);
+        VibrationController.instance.vibrate(
+          pattern: <int>[0, 50, 125, 50, 125, 50],
+        );
+      } else if (value == 1) {
+        Analytics.instance.logShare('anime', anime.uuid, 'onLongPress');
+        await SharePlus.instance.share(
+          ShareParams(
+            uri: Uri.parse('${Constant.baseUrl}/animes/${anime.slug}'),
+          ),
+        );
+      }
+    });
+  }
+}

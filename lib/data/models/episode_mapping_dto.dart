@@ -1,0 +1,25 @@
+import 'package:application/data/models/anime_dto.dart';
+import 'package:application/data/models/episode_source_dto.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'episode_mapping_dto.freezed.dart';
+part 'episode_mapping_dto.g.dart';
+
+@freezed
+sealed class EpisodeMappingDto with _$EpisodeMappingDto {
+  const factory EpisodeMappingDto({
+    required final String uuid,
+    required final AnimeDto? anime,
+    required final String releaseDateTime,
+    required final int season,
+    required final String episodeType,
+    required final int number,
+    required final int duration,
+    required final String? title,
+    required final String? description,
+    required final List<EpisodeSourceDto> sources,
+  }) = _EpisodeMappingDto;
+
+  factory EpisodeMappingDto.fromJson(final Map<String, dynamic> json) =>
+      _$EpisodeMappingDtoFromJson(json);
+}

@@ -1,0 +1,87 @@
+import 'package:application/ui/components/animes/followed_anime_component.dart';
+import 'package:application/ui/components/animes/followed_anime_loader_component.dart';
+import 'package:application/ui/components/card_component.dart';
+import 'package:application/ui/components/horizontal_list_view.dart';
+import 'package:application/ui/viewmodels/animes/followed_anime_controller.dart';
+import 'package:application/data/models/anime_dto.dart';
+import 'package:application/l10n/app_localizations.dart';
+import 'package:flutter/material.dart';
+
+class FollowedAnimesRow extends StatelessWidget {
+  const FollowedAnimesRow({super.key});
+
+  List<Widget> _buildAnimeList(
+    final BuildContext context,
+    final List<AnimeDto> animes,
+  ) => <Widget>[
+    ...animes.map(
+      (final AnimeDto anime) => FollowedAnimeComponent(anime: anime),
+    ),
+    if (FollowedAnimeController.instance.isLoading)
+      ...List<Widget>.generate(
+        FollowedAnimeController.instance.limit,
+        (final int index) => const FollowedAnimeLoaderComponent(),
+      ),
+  ];
+
+  @override
+  Widget build(final BuildContext context) => CustomCard(
+    padding: false,
+    child: StreamBuilder<List<AnimeDto>>(
+      stream: FollowedAnimeController.instance.streamController.stream,
+      initialData: FollowedAnimeController.instance.items,
+      builder:
+          (
+            final BuildContext context,
+            final AsyncSnapshot<List<AnimeDto>> snapshot,
+          ) {
+            final List<Widget> list = _buildAnimeList(
+              context,
+              snapshot.data ?? <AnimeDto>[],
+            );
+
+            return Column(
+              spacing: 8,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Flex(
+                  direction: Axis.horizontal,
+                  children: <Widget>[
+                    Text(AppLocalizations.of(context)!.yourRecentlyAddedAnime1),
+                    Text(
+                      AppLocalizations.of(context)!.yourRecentlyAddedAnime2,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                if (snapshot.data!.isEmpty &&
+                    !FollowedAnimeController.instance.isLoading)
+                  SizedBox(
+                    height: 50,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            AppLocalizations.of(context)!.noFollowedAnime,
+                            style: Theme.of(context).textTheme.titleSmall,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                else
+                  HorizontalListView(
+                    scrollController:
+                        FollowedAnimeController.instance.scrollController,
+                    spacing: 0,
+                    children: list,
+                  ),
+              ],
+            );
+          },
+    ),
+  );
+}
