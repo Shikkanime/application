@@ -19,9 +19,10 @@ import 'package:share_plus/share_plus.dart';
 
 class AnimeController extends GenericController<AnimeDto>
     implements SearchableController {
-  AnimeController({ApiClient? client}) : _client = client ?? const ApiClient();
+  AnimeController({ApiClient? client, Analytics? analytics}) : _client = client ?? const ApiClient(), _analytics = analytics ?? const Analytics();
   static final AnimeController instance = AnimeController();
   final ApiClient _client;
+  final Analytics _analytics;
 
   SimulcastDto? selectedSimulcast;
   @override
@@ -122,7 +123,7 @@ class AnimeController extends GenericController<AnimeDto>
           pattern: <int>[0, 50, 125, 50, 125, 50],
         );
       } else if (value == 1) {
-        Analytics.instance.logShare('anime', anime.uuid, 'onLongPress');
+        _analytics.logShare('anime', anime.uuid, 'onLongPress');
         await SharePlus.instance.share(
           ShareParams(
             uri: Uri.parse('${Constant.baseUrl}/animes/${anime.slug}'),

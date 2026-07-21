@@ -25,9 +25,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class MemberController {
-  MemberController({ApiClient? client}) : _client = client ?? const ApiClient();
+  MemberController({ApiClient? client, Analytics? analytics}) : _client = client ?? const ApiClient(), _analytics = analytics ?? const Analytics();
   static MemberController instance = MemberController();
   final ApiClient _client;
+  final Analytics _analytics;
   bool _isRetry = false;
   final StreamController<MemberDto> streamController =
       StreamController<MemberDto>.broadcast();
@@ -94,7 +95,7 @@ class MemberController {
       ConfigPropertyKey.identifier,
       identifier,
     );
-    Analytics.instance.logSignUp();
+    _analytics.logSignUp();
     return identifier;
   }
 
@@ -177,7 +178,7 @@ class MemberController {
 
     member = MemberDto.fromJson(json);
     streamController.add(member!);
-    Analytics.instance.logLogin();
+    _analytics.logLogin();
 
     if (identifier != null) {
       await refresh();

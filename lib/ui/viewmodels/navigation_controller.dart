@@ -23,7 +23,9 @@ import 'package:flutter/material.dart';
 enum NavigationSource { bottomNavigationBar, drawer, pageView, appBar }
 
 class NavigationController {
+  NavigationController({Analytics? analytics}) : _analytics = analytics ?? const Analytics();
   static final NavigationController instance = NavigationController();
+  final Analytics _analytics;
   final PageController pageController = PageController();
   int _currentIndex = 0;
   final StreamController<int> streamController =
@@ -91,7 +93,7 @@ class NavigationController {
       'account',
     ];
 
-    Analytics.instance.logScreenView(screenNames[index]);
+    _analytics.logScreenView(screenNames[index]);
 
     _isPageViewChanging = false;
   }
