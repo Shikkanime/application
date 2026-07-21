@@ -1,0 +1,64 @@
+import 'package:application/ui/components/image_component.dart';
+import 'package:application/ui/components/platforms/platform_component.dart';
+import 'package:application/data/models/anime_dto.dart';
+import 'package:application/data/models/enums/image_type.dart';
+import 'package:application/core/analytics/analytics.dart';
+import 'package:application/core/constants/constant.dart';
+import 'package:application/ui/views/anime_details_view.dart';
+import 'package:flutter/material.dart';
+
+double _ratio = 4;
+
+class FollowedAnimeComponent extends StatelessWidget {
+  const FollowedAnimeComponent({required this.anime, super.key});
+
+  final AnimeDto anime;
+
+  @override
+  Widget build(final BuildContext context) => Padding(
+    padding: const EdgeInsets.only(right: 8),
+    child: SizedBox(
+      width: 360 / _ratio + 10,
+      child: GestureDetector(
+        onTap: () {
+          Analytics.instance.logSelectContent('anime', anime.uuid);
+
+          Navigator.of(context).push(
+            MaterialPageRoute<void>(
+              builder: (final BuildContext context) =>
+                  AnimeDetailsView(anime: anime),
+            ),
+          );
+        },
+        child: Column(
+          spacing: 8,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Stack(
+              children: <Widget>[
+                ImageComponent(
+                  uuid: anime.uuid,
+                  type: ImageType.thumbnail,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(Constant.borderRadius),
+                  ),
+                  height: 150,
+                ),
+                ...PlatformComponent.toPlatformsRow(anime.platforms),
+              ],
+            ),
+            Text(
+              anime.shortName,
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}

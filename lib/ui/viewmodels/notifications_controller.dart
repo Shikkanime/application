@@ -1,0 +1,159 @@
+import 'dart:async';
+
+import 'package:application/ui/viewmodels/member_controller.dart';
+import 'package:application/ui/viewmodels/shared_preferences_controller.dart';
+import 'package:application/data/models/enums/config_property_key.dart';
+import 'package:application/data/models/member_dto.dart';
+import 'package:application/core/constants/constant.dart';
+import 'package:application/ui/views/request_notification_view.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+enum NotificationsType { all, watchlist, none }
+
+class NotificationsController {
+  static final NotificationsController instance = NotificationsController();
+
+  static const String _topicGlobal = 'global';
+
+  final StreamController<NotificationsType> streamController =
+      StreamController<NotificationsType>.broadcast();
+  FirebaseMessaging? _messaging;
+  NotificationsType? tmpNotificationsType;
+
+  static bool get isSupported => Constant.isAndroidOrIOS;
+
+  NotificationsType get notificationsType =>
+      NotificationsType.values[SharedPreferencesController.instance.getInt(
+            ConfigPropertyKey.notificationsType,
+          ) ??
+          0];
+
+  Future<bool> requestPermission() async {
+    final NotificationSettings? settings = await _messaging
+        ?.requestPermission();
+
+    if (settings?.authorizationStatus != AuthorizationStatus.authorized) {
+      debugPrint('Notifications are not authorized');
+      await setNotificationsType(NotificationsType.none);
+      return false;
+    }
+
+    return true;
+  }
+
+  Future<void> init(final BuildContext context) async {
+    if (!isSupported) {
+      await _setAndIgnore(NotificationsType.none);
+      return;
+    }
+
+    _messaging = FirebaseMessaging.instance;
+    await _createNotificationChannel();
+
+    final bool hasNotificationKey = SharedPreferencesController.instance
+        .containsKey(ConfigPropertyKey.notificationsType);
+
+    if (hasNotificationKey) {
+      final NotificationSettings settings = await _messaging!
+          .getNotificationSettings();
+      final bool isSystemAuthorized =
+          settings.authorizationStatus == AuthorizationStatus.authorized;
+      final bool areNotificationsDisabled =
+          notificationsType == NotificationsType.none;
+
+      if (areNotificationsDisabled || isSystemAuthorized) {
+        debugPrint('Notifications type already set');
+        return;
+      }
+
+      debugPrint(
+        'Notifications enabled but not authorized, requesting authorization',
+      );
+
+      await requestPermission();
+      return;
+    }
+
+    if (!context.mounted) {
+      return;
+    }
+
+    await Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (final BuildContext context) =>
+            const RequestNotificationView(),
+      ),
+    );
+
+    if (tmpNotificationsType == null) {
+      debugPrint('Notifications type not set');
+      await setNotificationsType(NotificationsType.none);
+      return;
+    }
+
+    if (await requestPermission()) {
+      await setNotificationsType(tmpNotificationsType!);
+    }
+  }
+
+  Future<bool> setNotificationsType(final NotificationsType type) async {
+    if (_messaging == null || !isSupported) {
+      await _setAndIgnore(type);
+      return false;
+    }
+
+    final MemberDto? member = MemberController.instance.member;
+    if (member == null) {
+      debugPrint('Member not connected, impossible to configure notifications');
+      return false;
+    }
+
+    await SharedPreferencesController.instance.setInt(
+      ConfigPropertyKey.notificationsType,
+      type.index,
+    );
+
+    switch (type) {
+      case NotificationsType.all:
+        await _messaging!.subscribeToTopic(_topicGlobal);
+        await _messaging!.unsubscribeFromTopic(member.uuid);
+      case NotificationsType.watchlist:
+        await _messaging!.unsubscribeFromTopic(_topicGlobal);
+        await _messaging!.subscribeToTopic(member.uuid);
+      case NotificationsType.none:
+        await _messaging!.unsubscribeFromTopic(_topicGlobal);
+        await _messaging!.unsubscribeFromTopic(member.uuid);
+    }
+
+    streamController.add(type);
+    return true;
+  }
+
+  Future<void> _createNotificationChannel() async {
+    const AndroidNotificationChannel channel = AndroidNotificationChannel(
+      'high_importance_channel',
+      'High Importance Notifications',
+      description: 'This channel is used for important notifications',
+      importance: Importance.max,
+    );
+
+    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+        FlutterLocalNotificationsPlugin();
+
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >()
+        ?.createNotificationChannel(channel);
+  }
+
+  Future<void> _setAndIgnore(final NotificationsType type) async {
+    await SharedPreferencesController.instance.setInt(
+      ConfigPropertyKey.notificationsType,
+      type.index,
+    );
+    streamController.add(type);
+  }
+}

@@ -1,6 +1,6 @@
-import 'package:application/controllers/shared_preferences_controller.dart';
-import 'package:application/dtos/enums/config_property_key.dart';
-import 'package:application/utils/notification_throttler.dart';
+import 'package:application/ui/viewmodels/shared_preferences_controller.dart';
+import 'package:application/data/models/enums/config_property_key.dart';
+import 'package:application/core/notifications/notification_throttler.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

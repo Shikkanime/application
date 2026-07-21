@@ -1,0 +1,92 @@
+import 'package:application/ui/components/animes/anime_component.dart';
+import 'package:application/ui/components/animes/anime_loader_component.dart';
+import 'package:application/ui/components/simulcasts/simulcast_dropdown_button.dart';
+import 'package:application/ui/components/simulcasts/simulcast_loader_button.dart';
+import 'package:application/ui/viewmodels/animes/anime_controller.dart';
+import 'package:application/ui/viewmodels/simulcast_controller.dart';
+import 'package:application/data/models/anime_dto.dart';
+import 'package:application/core/widgets/widget_builder.dart' as wb;
+import 'package:flutter/material.dart';
+
+class SimulcastView extends StatefulWidget {
+  const SimulcastView({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _SimulcastViewState();
+}
+
+class _SimulcastViewState extends State<SimulcastView> {
+  final ScrollController _scrollController = ScrollController();
+
+  List<Widget> _buildAnimeList(
+    final BuildContext context,
+    final List<AnimeDto> animes,
+  ) {
+    final int maxElementsPerRow = AnimeController.instance.maxElementsPerRow(
+      context,
+    );
+
+    final List<Widget> loaders = List<AnimeLoaderComponent>.generate(
+      AnimeController.instance.limit,
+      (final int index) => const AnimeLoaderComponent(),
+    );
+
+    final Widget header;
+    final List<Widget> itemsToGrid = <Widget>[];
+
+    if (animes.isEmpty) {
+      header = const SimulcastLoaderButton();
+      itemsToGrid.addAll(loaders);
+    } else {
+      header = Padding(
+        padding: const EdgeInsets.only(left: 8, bottom: 8, right: 8),
+        child: SimulcastDropdownButton(scrollController: _scrollController),
+      );
+      itemsToGrid.addAll(
+        animes.map((final AnimeDto anime) => AnimeComponent(anime: anime)),
+      );
+
+      if (AnimeController.instance.isLoading) {
+        itemsToGrid.addAll(loaders);
+      }
+    }
+
+    return <Widget>[
+      header,
+      ...wb.WidgetBuilder.instance.buildRowWidgets(
+        itemsToGrid,
+        maxElementsPerRow: maxElementsPerRow,
+      ),
+    ];
+  }
+
+  @override
+  Widget build(final BuildContext context) => StreamBuilder<List<AnimeDto>>(
+    stream: AnimeController.instance.streamController.stream,
+    initialData: AnimeController.instance.items,
+    builder:
+        (
+          final BuildContext context,
+          final AsyncSnapshot<List<AnimeDto>> snapshot,
+        ) {
+          final List<Widget> list = _buildAnimeList(context, snapshot.data!);
+
+          return RefreshIndicator.adaptive(
+            onRefresh: () async {
+              await Future.wait(<Future<void>>[
+                SimulcastController.instance.init(),
+                AnimeController.instance.init(),
+              ]);
+            },
+            child: ListView.builder(
+              addAutomaticKeepAlives: false,
+              addRepaintBoundaries: false,
+              controller: AnimeController.instance.scrollController,
+              itemCount: list.length,
+              itemBuilder: (final BuildContext context, final int index) =>
+                  list[index],
+            ),
+          );
+        },
+  );
+}
