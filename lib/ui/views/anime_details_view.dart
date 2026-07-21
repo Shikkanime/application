@@ -27,6 +27,8 @@ import 'package:application/core/widgets/widget_builder.dart' as wb;
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 
+import 'package:provider/provider.dart';
+
 class AnimeDetailsView extends StatefulWidget {
   const AnimeDetailsView({required this.anime, super.key});
 
@@ -110,7 +112,11 @@ class _AnimeDetailsViewState extends State<AnimeDetailsView> {
           ),
           IconButton(
             onPressed: () async {
-              const Analytics().logShare('anime', widget.anime.uuid, 'appBar');
+              context.read<Analytics>().logShare(
+                'anime',
+                widget.anime.uuid,
+                'appBar',
+              );
               await SharePlus.instance.share(
                 ShareParams(
                   uri: Uri.parse(

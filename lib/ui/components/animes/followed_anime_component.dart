@@ -7,6 +7,8 @@ import 'package:application/core/constants/constant.dart';
 import 'package:application/ui/views/anime_details_view.dart';
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+
 double _ratio = 4;
 
 class FollowedAnimeComponent extends StatelessWidget {
@@ -21,7 +23,7 @@ class FollowedAnimeComponent extends StatelessWidget {
       width: 360 / _ratio + 10,
       child: GestureDetector(
         onTap: () {
-          const Analytics().logSelectContent('anime', anime.uuid);
+          context.read<Analytics>().logSelectContent('anime', anime.uuid);
 
           Navigator.of(context).push(
             MaterialPageRoute<void>(

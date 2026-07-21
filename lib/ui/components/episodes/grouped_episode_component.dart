@@ -11,6 +11,8 @@ import 'package:application/core/constants/constant.dart';
 import 'package:application/ui/views/anime_details_view.dart';
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+
 int i = 0;
 
 class GroupedEpisodeComponent extends StatelessWidget {
@@ -21,7 +23,7 @@ class GroupedEpisodeComponent extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => CustomCard(
     onTap: () {
-      const Analytics().logSelectContent('anime', episode.anime.uuid);
+      context.read<Analytics>().logSelectContent('anime', episode.anime.uuid);
 
       Navigator.of(context).push(
         MaterialPageRoute<void>(
