@@ -5,16 +5,18 @@ import 'package:application/ui/viewmodels/member_controller.dart';
 import 'package:application/ui/viewmodels/searchable_controller.dart';
 import 'package:application/data/models/week_day_dto.dart';
 import 'package:application/data/models/enums/search_type.dart';
-import 'package:application/core/network/http_request.dart';
+import 'package:application/core/network/api_client.dart';
+import 'package:application/core/network/api_result.dart';
 import 'package:flutter/material.dart';
 
 class AnimeWeeklyController extends GenericController<WeekDayDto>
     implements SearchableController {
-  AnimeWeeklyController() : super(addScrollListener: false);
-
+  AnimeWeeklyController({ApiClient? client})
+    : _client = client ?? const ApiClient(),
+      super(addScrollListener: false);
   static final AnimeWeeklyController instance = AnimeWeeklyController();
+  final ApiClient _client;
 
-  bool _isRetry = false;
   int selectedDay = DateTime.now().weekday - 1;
 
   bool isWatchlist = false;
@@ -32,33 +34,25 @@ class AnimeWeeklyController extends GenericController<WeekDayDto>
 
   @override
   Future<Pair<Iterable<WeekDayDto>, int>> fetchItems() async {
-    final List<dynamic> json = await HttpRequest.instance.get<List<dynamic>>(
+    final ApiResult<List<dynamic>> result = await _client.get<List<dynamic>>(
       '/v1/animes/weekly',
       query: <String, Object>{
         if (searchType != null) 'searchTypes': searchType!.name.toUpperCase(),
       },
       token: isWatchlist ? MemberController.instance.member?.token : null,
-      onUnauthorized: isWatchlist
-          ? () async {
-              if (_isRetry) {
-                return;
-              }
-
-              _isRetry = true;
-              await MemberController.instance.login();
-              await fetchItems();
-            }
-          : null,
     );
 
-    _isRetry = false;
-
-    return Pair<Iterable<WeekDayDto>, int>(
-      json.map(
-        (final dynamic e) => WeekDayDto.fromJson(e as Map<String, dynamic>),
+    return switch (result) {
+      ApiSuccess<List<dynamic>>(:final data) => Pair<Iterable<WeekDayDto>, int>(
+        data.map(
+          (final dynamic e) => WeekDayDto.fromJson(e as Map<String, dynamic>),
+        ),
+        data.length,
       ),
-      json.length,
-    );
+      ApiFailure<List<dynamic>>(:final error) => throw Exception(
+        'Failed to load weekly animes: $error',
+      ),
+    };
   }
 
   void previousDay() {

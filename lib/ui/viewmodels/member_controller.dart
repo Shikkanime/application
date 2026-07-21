@@ -14,17 +14,21 @@ import 'package:application/data/models/missed_anime_dto.dart';
 import 'package:application/data/models/refresh_member_dto.dart';
 import 'package:application/l10n/app_localizations.dart';
 import 'package:application/core/analytics/analytics.dart';
-import 'package:application/core/network/http_request.dart';
+import 'package:application/core/network/api_client.dart';
+import 'package:application/core/network/api_result.dart';
 import 'package:application/ui/views/crop_view.dart';
 import 'package:crop_your_image/crop_your_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class MemberController {
+  MemberController({ApiClient? client}) : _client = client ?? const ApiClient();
   static MemberController instance = MemberController();
+  final ApiClient _client;
+  bool _isRetry = false;
   final StreamController<MemberDto> streamController =
       StreamController<MemberDto>.broadcast();
   String? identifier;
@@ -59,21 +63,29 @@ class MemberController {
     } on TimeoutException catch (e) {
       debugPrint('Failed to login: $e');
       rethrow;
-    } on ClientException catch (e) {
+    } on http.ClientException catch (e) {
       debugPrint('Failed to login: $e');
       rethrow;
     }
   }
 
   Future<String> register() async {
-    final Response response = await HttpRequest.instance.post(
+    final ApiResult<http.Response> result = await _client.post(
       '/v1/members/register',
     );
 
-    if (response.statusCode != HttpStatus.created) {
-      throw const HttpException('Failed to register');
-    }
+    return switch (result) {
+      ApiSuccess<http.Response>(:final data)
+          when data.statusCode == HttpStatus.created =>
+        await _handleRegisterSuccess(data),
+      ApiSuccess<http.Response>(:final data) => throw HttpException(
+        'Failed to register: ${data.statusCode}',
+      ),
+      ApiFailure<http.Response>(:final error) => throw HttpException(error),
+    };
+  }
 
+  Future<String> _handleRegisterSuccess(final http.Response response) async {
     final String identifier =
         (jsonDecode(utf8.decode(response.bodyBytes))
                 as Map<String, dynamic>)['identifier']
@@ -103,10 +115,31 @@ class MemberController {
     }
   }
 
-  Future<Response> testLogin(final String identifier) async {
+  Future<http.Response> _postAndGetResponse(
+    final String endpoint, {
+    final String? token,
+    final Map<String, String>? headers,
+    final Object? body,
+  }) async {
+    final ApiResult<http.Response> result = await _client.post(
+      endpoint,
+      token: token,
+      headers: headers,
+      body: body,
+    );
+
+    return switch (result) {
+      ApiSuccess<http.Response>(:final data) => data,
+      ApiFailure<http.Response>(:final error) => throw http.ClientException(
+        error,
+      ),
+    };
+  }
+
+  Future<http.Response> testLogin(final String identifier) async {
     final PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
-    final Response response = await HttpRequest.instance.post(
+    final http.Response response = await _postAndGetResponse(
       '/v1/members/login',
       headers: <String, String>{
         'X-App-Version': '${packageInfo.version}+${packageInfo.buildNumber}',
@@ -121,14 +154,16 @@ class MemberController {
     }
 
     if (response.statusCode != HttpStatus.ok) {
-      throw ClientException('Server error');
+      throw http.ClientException('Server error');
     }
 
     return response;
   }
 
   Future<void> login({final String? identifier}) async {
-    final Response response = await testLogin(identifier ?? this.identifier!);
+    final http.Response response = await testLogin(
+      identifier ?? this.identifier!,
+    );
     final Map<String, dynamic> json =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
 
@@ -150,40 +185,54 @@ class MemberController {
   }
 
   Future<void> refresh() async {
-    final Map<String, dynamic> json = await HttpRequest.instance
+    final ApiResult<Map<String, dynamic>> result = await _client
         .get<Map<String, dynamic>>('/v1/members/refresh', token: member!.token);
 
-    final RefreshMemberDto refreshedMember = RefreshMemberDto.fromJson(json);
+    switch (result) {
+      case ApiSuccess<Map<String, dynamic>>(:final data):
+        final RefreshMemberDto refreshedMember = RefreshMemberDto.fromJson(
+          data,
+        );
 
-    member = member!.copyWith(
-      totalDuration: refreshedMember.totalDuration,
-      totalUnseenDuration: refreshedMember.totalUnseenDuration,
-    );
+        member = member!.copyWith(
+          totalDuration: refreshedMember.totalDuration,
+          totalUnseenDuration: refreshedMember.totalUnseenDuration,
+        );
 
-    final List<MissedAnimeDto> missedAnimes = refreshedMember.missedAnimes.data
-        .map(
-          (final dynamic e) =>
-              MissedAnimeDto.fromJson(e as Map<String, dynamic>),
-        )
-        .toList();
+        final List<MissedAnimeDto> missedAnimes = refreshedMember
+            .missedAnimes
+            .data
+            .map(
+              (final dynamic e) =>
+                  MissedAnimeDto.fromJson(e as Map<String, dynamic>),
+            )
+            .toList();
 
-    final List<AnimeDto> followedAnimes = refreshedMember.followedAnimes.data
-        .map((final dynamic e) => AnimeDto.fromJson(e as Map<String, dynamic>))
-        .toList();
+        final List<AnimeDto> followedAnimes = refreshedMember
+            .followedAnimes
+            .data
+            .map(
+              (final dynamic e) => AnimeDto.fromJson(e as Map<String, dynamic>),
+            )
+            .toList();
 
-    final List<EpisodeMappingDto> followedEpisodes = refreshedMember
-        .followedEpisodes
-        .data
-        .map(
-          (final dynamic e) =>
-              EpisodeMappingDto.fromJson(e as Map<String, dynamic>),
-        )
-        .toList();
+        final List<EpisodeMappingDto> followedEpisodes = refreshedMember
+            .followedEpisodes
+            .data
+            .map(
+              (final dynamic e) =>
+                  EpisodeMappingDto.fromJson(e as Map<String, dynamic>),
+            )
+            .toList();
 
-    streamController.add(member!);
-    MissedAnimeController.instance.setItems(missedAnimes);
-    FollowedAnimeController.instance.setItems(followedAnimes);
-    FollowedEpisodeController.instance.setItems(followedEpisodes);
+        streamController.add(member!);
+        MissedAnimeController.instance.setItems(missedAnimes);
+        FollowedAnimeController.instance.setItems(followedAnimes);
+        FollowedEpisodeController.instance.setItems(followedEpisodes);
+
+      case ApiFailure<Map<String, dynamic>>(:final error):
+        debugPrint('Failed to refresh member data: $error');
+    }
   }
 
   Future<void> changeImage(final BuildContext context) async {
@@ -232,92 +281,132 @@ class MemberController {
     isImageUploadLoading = true;
     streamController.add(member!);
 
-    final Response response = await HttpRequest.instance.postMultipart(
+    final ApiResult<http.Response> result = await _client.postMultipart(
       '/v1/members/image',
       member!.token,
       image,
     );
 
-    if (response.statusCode == HttpStatus.unauthorized) {
-      await login();
-      return updateImage(image);
-    }
+    switch (result) {
+      case ApiFailure<http.Response>(:final statusCode) when statusCode == 401:
+        if (_isRetry) {
+          throw Exception("Unauthorized after retry");
+        }
+        _isRetry = true;
+        await login();
+        return updateImage(image);
 
-    if (response.statusCode != HttpStatus.ok) {
-      throw HttpException('Failed to change image ${response.body}');
-    }
+      case ApiSuccess<http.Response>(:final data)
+          when data.statusCode == HttpStatus.ok:
+        isImageUploadLoading = false;
+        member = member!.copyWith(
+          attachmentLastUpdateDateTime: DateTime.now().toIso8601String(),
+        );
+        streamController.add(member!);
 
-    isImageUploadLoading = false;
-    member = member!.copyWith(
-      attachmentLastUpdateDateTime: DateTime.now().toIso8601String(),
-    );
-    streamController.add(member!);
+      case ApiSuccess<http.Response>(:final data):
+        throw HttpException('Failed to change image ${data.body}');
+
+      case ApiFailure<http.Response>(:final error):
+        throw HttpException(error);
+    }
   }
 
   Future<String> associateEmail(final String email) async {
-    final Response response = await HttpRequest.instance.post(
+    final ApiResult<http.Response> result = await _client.post(
       '/v1/members/associate-email',
       token: member!.token,
       body: email,
     );
 
-    if (response.statusCode == HttpStatus.unauthorized) {
-      await login();
-      return associateEmail(email);
-    }
+    return switch (result) {
+      ApiFailure<http.Response>(:final statusCode) when statusCode == 401 =>
+        _retryAssociateEmail(email),
+      ApiSuccess<http.Response>(:final data)
+          when data.statusCode == HttpStatus.conflict =>
+        throw const ConflictEmailException(),
+      ApiSuccess<http.Response>(:final data)
+          when data.statusCode == HttpStatus.created =>
+        _extractUuid(data),
+      ApiSuccess<http.Response>(:final data) => throw HttpException(
+        'Failed to associate email: ${data.statusCode}',
+      ),
+      ApiFailure<http.Response>(:final error) => throw HttpException(error),
+    };
+  }
 
-    if (response.statusCode == HttpStatus.conflict) {
-      throw const ConflictEmailException();
+  Future<String> _retryAssociateEmail(final String email) async {
+    if (_isRetry) {
+      throw Exception("Unauthorized after retry");
     }
+    _isRetry = true;
+    await login();
+    return associateEmail(email);
+  }
 
-    if (response.statusCode != HttpStatus.created) {
-      throw const HttpException('Failed to associate email');
-    }
-
+  String _extractUuid(final http.Response response) {
     return (jsonDecode(utf8.decode(response.bodyBytes))
             as Map<String, dynamic>)['uuid']
         as String;
   }
 
   Future<String> forgotIdentifier(final String email) async {
-    final Response response = await HttpRequest.instance.post(
+    final ApiResult<http.Response> result = await _client.post(
       '/v1/members/forgot-identifier',
       token: member!.token,
       body: email,
     );
 
-    if (response.statusCode == HttpStatus.unauthorized) {
-      await login();
-      return forgotIdentifier(email);
-    }
+    return switch (result) {
+      ApiFailure<http.Response>(:final statusCode) when statusCode == 401 =>
+        _retryForgotIdentifier(email),
+      ApiSuccess<http.Response>(:final data)
+          when data.statusCode == HttpStatus.conflict =>
+        throw const ConflictEmailException(),
+      ApiSuccess<http.Response>(:final data)
+          when data.statusCode == HttpStatus.created =>
+        _extractUuid(data),
+      ApiSuccess<http.Response>(:final data) => throw HttpException(
+        'Failed: ${data.statusCode}',
+      ),
+      ApiFailure<http.Response>(:final error) => throw HttpException(error),
+    };
+  }
 
-    if (response.statusCode == HttpStatus.conflict) {
-      throw const ConflictEmailException();
+  Future<String> _retryForgotIdentifier(final String email) async {
+    if (_isRetry) {
+      throw Exception("Unauthorized after retry");
     }
-
-    if (response.statusCode != HttpStatus.created) {
-      throw const HttpException('Failed to associate email');
-    }
-
-    return (jsonDecode(utf8.decode(response.bodyBytes))
-            as Map<String, dynamic>)['uuid']
-        as String;
+    _isRetry = true;
+    await login();
+    return forgotIdentifier(email);
   }
 
   Future<void> validateAction(final String uuid, final String code) async {
-    final Response response = await HttpRequest.instance.post(
+    final ApiResult<http.Response> result = await _client.post(
       '/v1/member-actions/validate?uuid=$uuid',
       token: member!.token,
       body: code,
     );
 
-    if (response.statusCode == HttpStatus.unauthorized) {
-      await login();
-      return validateAction(uuid, code);
-    }
+    switch (result) {
+      case ApiFailure<http.Response>(:final statusCode) when statusCode == 401:
+        if (_isRetry) {
+          throw Exception("Unauthorized after retry");
+        }
+        _isRetry = true;
+        await login();
+        return validateAction(uuid, code);
 
-    if (response.statusCode != HttpStatus.ok) {
-      throw const HttpException('Failed to validate action');
+      case ApiSuccess<http.Response>(:final data)
+          when data.statusCode == HttpStatus.ok:
+        return;
+
+      case ApiSuccess<http.Response>(:final data):
+        throw HttpException('Failed to validate action: ${data.statusCode}');
+
+      case ApiFailure<http.Response>(:final error):
+        throw HttpException(error);
     }
   }
 
@@ -329,48 +418,66 @@ class MemberController {
       return;
     }
 
-    final Response response = await HttpRequest.instance.put(
+    final ApiResult<http.Response> result = await _client.put(
       '/v1/members/animes',
       member!.token,
       jsonEncode(<String, String>{'uuid': anime}),
     );
 
-    if (response.statusCode == HttpStatus.unauthorized) {
-      await login();
-      return followAnime(anime, loadMemberData: loadMemberData);
-    }
+    switch (result) {
+      case ApiFailure<http.Response>(:final statusCode) when statusCode == 401:
+        if (_isRetry) {
+          throw Exception("Unauthorized after retry");
+        }
+        _isRetry = true;
+        await login();
+        return followAnime(anime, loadMemberData: loadMemberData);
 
-    if (response.statusCode != HttpStatus.ok) {
-      throw const HttpException('Failed to follow anime');
-    }
+      case ApiSuccess<http.Response>(:final data)
+          when data.statusCode == HttpStatus.ok:
+        member!.followedAnimes.add(anime);
 
-    member!.followedAnimes.add(anime);
+        if (loadMemberData) {
+          await refresh();
+        } else {
+          streamController.add(member!);
+        }
 
-    if (loadMemberData) {
-      await refresh();
-    } else {
-      streamController.add(member!);
+      case ApiSuccess<http.Response>(:final data):
+        throw HttpException('Failed to follow anime: ${data.statusCode}');
+
+      case ApiFailure<http.Response>(:final error):
+        throw HttpException(error);
     }
   }
 
   Future<void> unfollowAnime(final String anime) async {
-    final Response response = await HttpRequest.instance.delete(
+    final ApiResult<http.Response> result = await _client.delete(
       '/v1/members/animes',
       member!.token,
       jsonEncode(<String, String>{'uuid': anime}),
     );
 
-    if (response.statusCode == HttpStatus.unauthorized) {
-      await login();
-      return unfollowAnime(anime);
-    }
+    switch (result) {
+      case ApiFailure<http.Response>(:final statusCode) when statusCode == 401:
+        if (_isRetry) {
+          throw Exception("Unauthorized after retry");
+        }
+        _isRetry = true;
+        await login();
+        return unfollowAnime(anime);
 
-    if (response.statusCode != HttpStatus.ok) {
-      throw const HttpException('Failed to unfollow anime');
-    }
+      case ApiSuccess<http.Response>(:final data)
+          when data.statusCode == HttpStatus.ok:
+        member!.followedAnimes.remove(anime);
+        await refresh();
 
-    member!.followedAnimes.remove(anime);
-    await refresh();
+      case ApiSuccess<http.Response>(:final data):
+        throw HttpException('Failed to unfollow anime: ${data.statusCode}');
+
+      case ApiFailure<http.Response>(:final error):
+        throw HttpException(error);
+    }
   }
 
   Future<void> followAllEpisodes(final String anime) async {
@@ -378,27 +485,39 @@ class MemberController {
       await followAnime(anime, loadMemberData: false);
     }
 
-    final Response response = await HttpRequest.instance.put(
+    final ApiResult<http.Response> result = await _client.put(
       '/v1/members/follow-all-episodes',
       member!.token,
       jsonEncode(<String, String>{'uuid': anime}),
     );
 
-    if (response.statusCode == HttpStatus.unauthorized) {
-      await login();
-      return followAllEpisodes(anime);
+    switch (result) {
+      case ApiFailure<http.Response>(:final statusCode) when statusCode == 401:
+        if (_isRetry) {
+          throw Exception("Unauthorized after retry");
+        }
+        _isRetry = true;
+        await login();
+        return followAllEpisodes(anime);
+
+      case ApiSuccess<http.Response>(:final data)
+          when data.statusCode == HttpStatus.ok:
+        final Map<String, dynamic> json =
+            jsonDecode(utf8.decode(data.bodyBytes)) as Map<String, dynamic>;
+        final List<String> newEpisodes = List<String>.from(
+          json['data'] as List<dynamic>,
+        );
+        member!.followedEpisodes.addAll(newEpisodes);
+        await refresh();
+
+      case ApiSuccess<http.Response>(:final data):
+        throw HttpException(
+          'Failed to follow all episodes: ${data.statusCode}',
+        );
+
+      case ApiFailure<http.Response>(:final error):
+        throw HttpException(error);
     }
-
-    if (response.statusCode != HttpStatus.ok) {
-      throw const HttpException('Failed to follow all episodes');
-    }
-
-    final Map<String, dynamic> json =
-        jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
-    final List<String> data = List<String>.from(json['data'] as List<dynamic>);
-
-    member!.followedEpisodes.addAll(data);
-    await refresh();
   }
 
   Future<void> followEpisode(
@@ -414,46 +533,64 @@ class MemberController {
       await followAnime(anime, loadMemberData: false);
     }
 
-    final Response response = await HttpRequest.instance.put(
+    final ApiResult<http.Response> result = await _client.put(
       '/v1/members/episodes',
       member!.token,
       jsonEncode(<String, String>{'uuid': episode}),
     );
 
-    if (response.statusCode == HttpStatus.unauthorized) {
-      await login();
-      return followEpisode(anime, episode);
-    }
+    switch (result) {
+      case ApiFailure<http.Response>(:final statusCode) when statusCode == 401:
+        if (_isRetry) {
+          throw Exception("Unauthorized after retry");
+        }
+        _isRetry = true;
+        await login();
+        return followEpisode(anime, episode);
 
-    if (response.statusCode != HttpStatus.ok) {
-      throw const HttpException('Failed to follow episode');
-    }
+      case ApiSuccess<http.Response>(:final data)
+          when data.statusCode == HttpStatus.ok:
+        member!.followedEpisodes.add(episode);
 
-    member!.followedEpisodes.add(episode);
+        if (refreshAfterFollow) {
+          await refresh();
+        }
 
-    if (refreshAfterFollow) {
-      await refresh();
+      case ApiSuccess<http.Response>(:final data):
+        throw HttpException('Failed to follow episode: ${data.statusCode}');
+
+      case ApiFailure<http.Response>(:final error):
+        throw HttpException(error);
     }
   }
 
   Future<void> unfollowEpisode(final String episode) async {
-    final Response response = await HttpRequest.instance.delete(
+    final ApiResult<http.Response> result = await _client.delete(
       '/v1/members/episodes',
       member!.token,
       jsonEncode(<String, String>{'uuid': episode}),
     );
 
-    if (response.statusCode == HttpStatus.unauthorized) {
-      await login();
-      return unfollowEpisode(episode);
-    }
+    switch (result) {
+      case ApiFailure<http.Response>(:final statusCode) when statusCode == 401:
+        if (_isRetry) {
+          throw Exception("Unauthorized after retry");
+        }
+        _isRetry = true;
+        await login();
+        return unfollowEpisode(episode);
 
-    if (response.statusCode != HttpStatus.ok) {
-      throw const HttpException('Failed to unfollow episode');
-    }
+      case ApiSuccess<http.Response>(:final data)
+          when data.statusCode == HttpStatus.ok:
+        member!.followedEpisodes.remove(episode);
+        await refresh();
 
-    member!.followedEpisodes.remove(episode);
-    await refresh();
+      case ApiSuccess<http.Response>(:final data):
+        throw HttpException('Failed to unfollow episode: ${data.statusCode}');
+
+      case ApiFailure<http.Response>(:final error):
+        throw HttpException(error);
+    }
   }
 }
 

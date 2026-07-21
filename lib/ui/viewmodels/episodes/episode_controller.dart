@@ -3,12 +3,16 @@ import 'dart:math';
 import 'package:application/ui/viewmodels/generic_controller.dart';
 import 'package:application/data/models/grouped_episode_dto.dart';
 import 'package:application/data/models/pageable_dto.dart';
-import 'package:application/core/network/http_request.dart';
+import 'package:application/core/network/api_client.dart';
+import 'package:application/core/network/api_result.dart';
 import 'package:application/core/widgets/widget_builder.dart' as wb;
 import 'package:flutter/material.dart';
 
 class EpisodeController extends GenericController<GroupedEpisodeDto> {
+  EpisodeController({ApiClient? client})
+    : _client = client ?? const ApiClient();
   static final EpisodeController instance = EpisodeController();
+  final ApiClient _client;
 
   int get limit =>
       wb.WidgetBuilder.instance.getDeviceType() == wb.DeviceType.mobile
@@ -23,17 +27,23 @@ class EpisodeController extends GenericController<GroupedEpisodeDto> {
 
   @override
   Future<Pair<Iterable<GroupedEpisodeDto>, int>> fetchItems() async {
-    final PageableDto pageableDto = await HttpRequest.instance.getPage(
+    final ApiResult<PageableDto> result = await _client.getPage(
       '/v2/episode-mappings',
       query: <String, Object>{'page': page, 'limit': limit},
     );
 
-    return Pair<Iterable<GroupedEpisodeDto>, int>(
-      pageableDto.data.map(
-        (final dynamic e) =>
-            GroupedEpisodeDto.fromJson(e as Map<String, dynamic>),
+    return switch (result) {
+      ApiSuccess<PageableDto>(:final data) =>
+        Pair<Iterable<GroupedEpisodeDto>, int>(
+          data.data.map(
+            (final dynamic e) =>
+                GroupedEpisodeDto.fromJson(e as Map<String, dynamic>),
+          ),
+          data.total,
+        ),
+      ApiFailure<PageableDto>(:final error) => throw Exception(
+        'Failed to fetch episodes: $error',
       ),
-      pageableDto.total,
-    );
+    };
   }
 }

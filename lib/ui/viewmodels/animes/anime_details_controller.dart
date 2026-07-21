@@ -4,11 +4,15 @@ import 'package:application/data/models/anime_dto.dart';
 import 'package:application/data/models/episode_mapping_dto.dart';
 import 'package:application/data/models/pageable_dto.dart';
 import 'package:application/data/models/season_dto.dart';
-import 'package:application/core/network/http_request.dart';
+import 'package:application/core/network/api_client.dart';
+import 'package:application/core/network/api_result.dart';
 import 'package:application/core/widgets/widget_builder.dart' as wb;
 
 class AnimeDetailsController extends GenericController<EpisodeMappingDto> {
+  AnimeDetailsController({ApiClient? client})
+    : _client = client ?? const ApiClient();
   static final AnimeDetailsController instance = AnimeDetailsController();
+  final ApiClient _client;
 
   AnimeDto? anime;
   SeasonDto? season;
@@ -20,7 +24,7 @@ class AnimeDetailsController extends GenericController<EpisodeMappingDto> {
 
   @override
   Future<Pair<Iterable<EpisodeMappingDto>, int>> fetchItems() async {
-    final PageableDto pageableDto = await HttpRequest.instance.getPage(
+    final ApiResult<PageableDto> result = await _client.getPage(
       '/v1/episode-mappings',
       query: <String, Object>{
         if (anime != null) 'anime': anime!.uuid,
@@ -31,12 +35,18 @@ class AnimeDetailsController extends GenericController<EpisodeMappingDto> {
       },
     );
 
-    return Pair<Iterable<EpisodeMappingDto>, int>(
-      pageableDto.data.map(
-        (final dynamic e) =>
-            EpisodeMappingDto.fromJson(e as Map<String, dynamic>),
+    return switch (result) {
+      ApiSuccess<PageableDto>(:final data) =>
+        Pair<Iterable<EpisodeMappingDto>, int>(
+          data.data.map(
+            (final dynamic e) =>
+                EpisodeMappingDto.fromJson(e as Map<String, dynamic>),
+          ),
+          data.total,
+        ),
+      ApiFailure<PageableDto>(:final error) => throw Exception(
+        'Failed to load episodes: $error',
       ),
-      pageableDto.total,
-    );
+    };
   }
 }

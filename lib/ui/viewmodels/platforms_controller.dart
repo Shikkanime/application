@@ -1,33 +1,43 @@
-import 'dart:async';
-
 import 'package:application/ui/components/platforms/platform_preference_dialog.dart';
 import 'package:application/ui/viewmodels/generic_controller.dart';
 import 'package:application/ui/viewmodels/shared_preferences_controller.dart';
 import 'package:application/data/models/enums/config_property_key.dart';
 import 'package:application/data/models/episode_source_dto.dart';
 import 'package:application/data/models/platform_dto.dart';
-import 'package:application/core/network/http_request.dart';
+import 'package:application/core/network/api_client.dart';
+import 'package:application/core/network/api_result.dart';
 import 'package:flutter/material.dart';
 
 class PlatformsController extends GenericController<PlatformDto> {
-  PlatformsController() : super(addScrollListener: false);
+  PlatformsController({ApiClient? client})
+    : _client = client ?? const ApiClient(),
+      super(addScrollListener: false);
 
   static final PlatformsController instance = PlatformsController();
+  final ApiClient _client;
   static const int _unrankedIndex = 1 << 20;
 
   @override
   Future<Pair<Iterable<PlatformDto>, int>> fetchItems() async {
-    final List<dynamic> data = await HttpRequest.instance.get<List<dynamic>>(
+    final ApiResult<List<dynamic>> result = await _client.get<List<dynamic>>(
       '/v1/platforms',
     );
 
-    final List<PlatformDto> platforms = data
-        .map(
-          (final dynamic e) => PlatformDto.fromJson(e as Map<String, dynamic>),
-        )
-        .toList();
-
-    return Pair<Iterable<PlatformDto>, int>(platforms, platforms.length);
+    return switch (result) {
+      ApiSuccess<List<dynamic>>(:final data) =>
+        Pair<Iterable<PlatformDto>, int>(
+          data
+              .map(
+                (final dynamic e) =>
+                    PlatformDto.fromJson(e as Map<String, dynamic>),
+              )
+              .toList(),
+          data.length,
+        ),
+      ApiFailure<List<dynamic>>(:final error) => throw Exception(
+        'Failed to load platforms: $error',
+      ),
+    };
   }
 
   Future<List<PlatformDto>> managePlatformPreferences(
@@ -70,7 +80,7 @@ class PlatformsController extends GenericController<PlatformDto> {
         (final EpisodeSourceDto s) => s.platform.id,
       );
 
-      await HttpRequest.instance.launch(sorted.first.url);
+      await _client.launchUrlString(sorted.first.url);
       return;
     }
 
@@ -82,7 +92,7 @@ class PlatformsController extends GenericController<PlatformDto> {
         orElse: () => sources.first,
       );
 
-      await HttpRequest.instance.launch(selected.url);
+      await _client.launchUrlString(selected.url);
       return;
     }
 
@@ -107,7 +117,7 @@ class PlatformsController extends GenericController<PlatformDto> {
       orElse: () => sources.first,
     );
 
-    await HttpRequest.instance.launch(selected.url);
+    await _client.launchUrlString(selected.url);
   }
 
   List<T> _sort<T>(

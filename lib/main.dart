@@ -14,6 +14,7 @@ import 'package:application/l10n/app_localizations.dart';
 import 'package:application/core/analytics/analytics.dart';
 import 'package:application/core/constants/constant.dart';
 import 'package:application/core/extensions/extensions.dart';
+import 'package:application/core/network/api_client.dart';
 import 'package:application/core/notifications/notification_throttler.dart';
 import 'package:application/ui/views/account_view.dart';
 import 'package:application/ui/views/calendar_view.dart';
@@ -25,6 +26,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 
@@ -67,7 +69,9 @@ Future<void> main() async {
     throw Exception('You must change the API URL in the Constant class');
   }
 
-  runApp(const MyApp());
+  runApp(
+    Provider<ApiClient>(create: (_) => const ApiClient(), child: const MyApp()),
+  );
 }
 
 class MyApp extends StatefulWidget {
