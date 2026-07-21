@@ -70,7 +70,13 @@ Future<void> main() async {
   }
 
   runApp(
-    Provider<ApiClient>(create: (_) => const ApiClient(), child: const MyApp()),
+    MultiProvider(
+      providers: [
+        Provider<ApiClient>(create: (_) => const ApiClient()),
+        Provider<Analytics>(create: (_) => const Analytics()),
+      ],
+      child: const MyApp(),
+    ),
   );
 }
 
