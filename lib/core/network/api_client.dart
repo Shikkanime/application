@@ -207,19 +207,39 @@ class ApiClient {
 
   /// Checks [response] status code and returns [ApiResult].
   ///
-  /// Returns [ApiSuccess] for 200 and 201, [ApiFailure] otherwise.
+  /// Returns [ApiSuccess] for 2xx status codes (200-299), [ApiFailure] otherwise.
   ApiResult<http.Response> _checkStatus(final http.Response response) {
-    if (response.statusCode == HttpStatus.unauthorized) {
-      return const ApiFailure<http.Response>('Unauthorized', 401);
+    final statusCode = response.statusCode;
+
+    if (statusCode >= 200 && statusCode < 300) {
+      return ApiSuccess<http.Response>(response);
     }
 
-    if (response.statusCode != HttpStatus.ok &&
-        response.statusCode != HttpStatus.created &&
-        response.statusCode != HttpStatus.noContent) {
-      return ApiFailure<http.Response>('Request failed', response.statusCode);
+    final errorMessage = _extractErrorMessage(response);
+    return ApiFailure<http.Response>(errorMessage, statusCode);
+  }
+
+  /// Extracts an error message from [response] body, reason phrase, or status code.
+  String _extractErrorMessage(final http.Response response) {
+    try {
+      final decoded = jsonDecode(utf8.decode(response.bodyBytes));
+      if (decoded is Map<String, dynamic>) {
+        if (decoded.containsKey('message') && decoded['message'] is String) {
+          return decoded['message'] as String;
+        }
+        if (decoded.containsKey('error') && decoded['error'] is String) {
+          return decoded['error'] as String;
+        }
+      }
+    } on Exception {
+      // Ignore JSON parsing errors and fallback to reason phrase or status code
     }
 
-    return ApiSuccess<http.Response>(response);
+    if (response.reasonPhrase != null && response.reasonPhrase!.isNotEmpty) {
+      return response.reasonPhrase!;
+    }
+
+    return 'HTTP error ${response.statusCode}';
   }
 
   /// Maps a caught [error] to an [ApiFailure] with a user-friendly message.
