@@ -15,7 +15,9 @@ import 'package:application/ui/viewmodels/shared_preferences_controller.dart';
 /// Storage:
 /// - Last successful send timestamp stored as ISO 8601 in
 ///   [ConfigPropertyKey.lastApiCallNotification].
-abstract final class NotificationThrottler {
+class NotificationThrottler {
+  NotificationThrottler._();
+
   /// Returns true if a server call should be throttled right now, i.e.,
   /// a call has already been performed within the current time slot today.
   static bool isCallThrottled({
@@ -37,56 +39,81 @@ abstract final class NotificationThrottler {
 
     final SharedPreferencesController prefs =
         preferencesController ?? SharedPreferencesController.instance;
-    final String? lastApiCallNotification = prefs.getString(
-      ConfigPropertyKey.lastApiCallNotification,
-    );
+    final DateTime? lastCallDate = _getLastCallDate(prefs);
 
-    if (lastApiCallNotification == null) {
+    if (lastCallDate == null) {
+      // No call recorded or invalid timestamp format: allow call.
       return false;
     }
 
     final DateTime currentTime = now ?? DateTime.now();
-    final DateTime today = DateTime(
-      currentTime.year,
-      currentTime.month,
-      currentTime.day,
+    final DateTime today = _truncateToDay(currentTime);
+
+    if (!_isSameDay(lastCallDate, today)) {
+      // Last call was on another day: allow call.
+      return false;
+    }
+
+    // Divide 24 hours into equal time slots based on maxPerDay.
+    const int dayInSeconds = 86400;
+    final int slotDuration = (dayInSeconds ~/ maxPerDay).clamp(1, dayInSeconds);
+
+    // Compare current slot index against the slot index of the last call.
+    final int currentSlot = _computeSlot(
+      currentTime,
+      today,
+      slotDuration,
+      maxPerDay,
+    );
+    final int lastSlot = _computeSlot(
+      lastCallDate,
+      today,
+      slotDuration,
+      maxPerDay,
     );
 
-    final DateTime lastCallDate;
+    return currentSlot == lastSlot;
+  }
+
+  /// Retrieves and parses the last notification call timestamp from [prefs].
+  static DateTime? _getLastCallDate(final SharedPreferencesController prefs) {
+    final String? rawTimestamp = prefs.getString(
+      ConfigPropertyKey.lastApiCallNotification,
+    );
+    return rawTimestamp == null ? null : _parseIsoDate(rawTimestamp);
+  }
+
+  /// Truncates a [DateTime] to 00:00:00 of the same calendar day.
+  static DateTime _truncateToDay(final DateTime dt) =>
+      DateTime(dt.year, dt.month, dt.day);
+
+  /// Returns true if [lastCallDate] occurred on the same calendar day as [today].
+  static bool _isSameDay(final DateTime lastCallDate, final DateTime today) {
+    final DateTime lastCallDay = _truncateToDay(lastCallDate);
+    return lastCallDay.isAtSameMomentAs(today);
+  }
+
+  /// Calculates the zero-based time slot index for a given [time] on [today].
+  static int _computeSlot(
+    final DateTime time,
+    final DateTime today,
+    final int slotDurationSeconds,
+    final int maxSlots,
+  ) {
+    // Number of elapsed seconds from 00:00:00 midnight today.
+    final int secondsSinceMidnight = time.difference(today).inSeconds;
+
+    // Slot index = elapsed seconds divided by slot duration, clamped to [0, maxSlots - 1].
+    return (secondsSinceMidnight ~/ slotDurationSeconds).clamp(0, maxSlots - 1);
+  }
+
+  /// Safely parses an ISO 8601 date string, returning null if invalid.
+  static DateTime? _parseIsoDate(final String rawDate) {
     try {
-      lastCallDate = DateTime.parse(lastApiCallNotification);
+      return DateTime.parse(rawDate);
     } on FormatException {
-      return false;
+      return null;
     }
-
-    final DateTime lastCallDay = DateTime(
-      lastCallDate.year,
-      lastCallDate.month,
-      lastCallDate.day,
-    );
-
-    if (!lastCallDay.isAtSameMomentAs(today)) {
-      return false;
-    }
-
-    const int dayInSeconds = 24 * 60 * 60;
-    final int slotLengthSec = (dayInSeconds ~/ maxPerDay).clamp(
-      1,
-      dayInSeconds,
-    );
-
-    final int secondsSinceMidnight = currentTime.difference(today).inSeconds;
-    final int currentSlot = (secondsSinceMidnight ~/ slotLengthSec).clamp(
-      0,
-      maxPerDay - 1,
-    );
-
-    final int lastSecondsSinceMidnight = lastCallDate
-        .difference(today)
-        .inSeconds;
-    final int lastSlot = lastSecondsSinceMidnight ~/ slotLengthSec;
-
-    return lastSlot == currentSlot;
   }
 
   /// Records the current timestamp as the last successful notification API call.

@@ -49,7 +49,9 @@ When refactoring or breaking changes are made:
 
 ### 5. Code Structure & Formatting
 - **Organization**: Class member order must follow Dart conventions (constructors, constants, instance fields, getters/setters, public methods, private methods).
-- **Method Size**: Excessively long methods must be decomposed into smaller functions.
+- **Maximum Method Length**: Every method must be **50 lines of code or fewer**. Flag any method exceeding 50 lines as a **Blocker** and demand decomposition into smaller single-responsibility functions.
+- **No Unnecessary Abstractions**: Flag using `abstract` on utility classes when a private constructor (`Class._();`) is sufficient.
+- **Internal Explanatory Comments**: Verify that non-obvious algorithms, mathematical operations, or complex logic include internal `//` explanatory comments.
 - **Dart Format**: Code must be formatted with `dart format`.
 
 ### 6. Local Development Environment Overrides

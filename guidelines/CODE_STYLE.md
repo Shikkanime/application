@@ -8,8 +8,10 @@ Based on **Effective Dart** (https://dart.dev/effective-dart/style).
 - Format code using `dart format` (the official formatter).
 - Prefer lines **80 characters or fewer**.
 - Keep one clear responsibility per class or function.
+- **Maximum Method Length**: Every function or method must be **50 lines of code or fewer**. Excessively long methods must be decomposed into smaller, single-responsibility helper methods.
+- **No Unnecessary Abstractions**: Do not use `abstract` on utility classes when a simple class with a private constructor (`Class._();`) is sufficient.
 - Reuse existing project patterns over introducing new ones.
-- Keep comments rare, useful, and focused on non-obvious behavior.
+- Keep comments rare, useful, and focused on non-obvious behavior. Add internal `//` comments to explain complex mathematical, algorithmic, or non-obvious logic.
 
 ## Naming Conventions
 
