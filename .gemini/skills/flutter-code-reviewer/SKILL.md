@@ -52,6 +52,10 @@ When refactoring or breaking changes are made:
 - **Method Size**: Excessively long methods must be decomposed into smaller functions.
 - **Dart Format**: Code must be formatted with `dart format`.
 
+### 6. Local Development Environment Overrides
+- ❌ **REJECTED**: Committing local development configuration overrides (e.g. `localhost` URLs in `constant.dart`) to Git.
+- **Required Action**: Demand keeping local dev overrides unstaged/uncommitted.
+
 ## 🔄 Review Workflow (Your required steps)
 
 Every time you receive a diff or a modified file to evaluate, follow these steps:
