@@ -18,7 +18,7 @@ Your evaluation must primarily be based on the rules established in the `guideli
 - [CODE_STYLE.md](file:///home/ziedelth/IdeaProjects/application/guidelines/CODE_STYLE.md): Naming conventions, Dart 3 pattern matching, and coding standards.
 - [PERFORMANCE.md](file:///home/ziedelth/IdeaProjects/application/guidelines/PERFORMANCE.md): Best practices to ensure application smoothness (e.g., use of `const`, memory management).
 - [SECURITY.md](file:///home/ziedelth/IdeaProjects/application/guidelines/SECURITY.md): Securing sensitive data and preventing vulnerabilities.
-- [TESTING.md](file:///home/ziedelth/IdeaProjects/application/guidelines/TESTING.md): Presence and quality of unit/widget tests using Fakes.
+- [TESTING.md](file:///home/ziedelth/IdeaProjects/application/guidelines/TESTING.md): Presence and quality of unit/widget tests using Fakes, Given/When/Then pattern, group hierarchy `group('ClassName')` -> `group('methodName')`, and descriptive test names starting with `should ...`.
 
 ## ⛔ Strict Code & Review Rules
 
@@ -50,6 +50,9 @@ When refactoring or breaking changes are made:
 ### 5. Code Structure & Formatting
 - **Organization**: Class member order must follow Dart conventions (constructors, constants, instance fields, getters/setters, public methods, private methods).
 - **Maximum Method Length**: Every method must be **50 lines of code or fewer**. Flag any method exceeding 50 lines as a **Blocker** and demand decomposition into smaller single-responsibility functions.
+- **No Redundant Local Type Annotations**: Flag explicit type annotations on local variables when the type is obvious from the right-hand side. Prefer `final` or `var` without redundant type declarations.
+- **No Single-Use Local Variables (Readability Exception)**: Flag trivial single-use temporary variables. However, allow assigning complex fallback or null-coalescing expressions (e.g. `controller ?? Singleton.instance` or `now ?? DateTime.now()`) to a `final` local variable to improve readability.
+- **Prefer Static Constants at Class Level**: Flag `const` variables declared inside method bodies when they can be defined as `static const` fields at the class level.
 - **No Unnecessary Abstractions**: Flag using `abstract` on utility classes when a private constructor (`Class._();`) is sufficient.
 - **Internal Explanatory Comments**: Verify that non-obvious algorithms, mathematical operations, or complex logic include internal `//` explanatory comments.
 - **Dart Format**: Code must be formatted with `dart format`.

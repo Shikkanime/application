@@ -17,159 +17,112 @@ void main() {
     );
   });
 
-  group('NotificationThrottler with maxPerDay = 2 (slots ~12h)', () {
-    test(
-      'Given no previous call today when checking throttle then returns false',
-      () {
-        final DateTime now = DateTime(2025, 1, 1, 10);
-        final bool throttled = NotificationThrottler.isCallThrottledWithMax(
-          2,
-          now: now,
-        );
-        expect(throttled, isFalse);
-      },
-    );
+  group('NotificationThrottler', () {
+    group('isCallThrottledWithMax', () {
+      test('should return false when no previous call today', () {
+        // Given
+        final now = DateTime(2025, 1, 1, 10);
 
-    test(
-      'Given previous call in same slot when checking throttle then returns true',
-      () async {
-        final DateTime now = DateTime(2025, 1, 1, 10); // slot 0 (00:00-11:59)
-        final DateTime previous = DateTime(2025, 1, 1, 9); // same slot 0
+        // When & Then
+        expect(
+          NotificationThrottler.isCallThrottledWithMax(2, now: now),
+          isFalse,
+        );
+      });
+
+      test('should return true when previous call is in same slot', () async {
+        // Given
+        final now = DateTime(2025, 1, 1, 10); // slot 0 (00:00-11:59)
+        final previous = DateTime(2025, 1, 1, 9); // same slot 0
 
         await SharedPreferencesController.instance.setString(
           ConfigPropertyKey.lastApiCallNotification,
           previous.toIso8601String(),
         );
 
-        final bool throttled = NotificationThrottler.isCallThrottledWithMax(
-          2,
-          now: now,
+        // When & Then
+        expect(
+          NotificationThrottler.isCallThrottledWithMax(2, now: now),
+          isTrue,
         );
-        expect(throttled, isTrue);
-      },
-    );
+      });
 
-    test(
-      'Given previous call in different slot when checking throttle then returns false',
-      () async {
-        final DateTime now = DateTime(2025, 1, 1, 20); // slot 1 (12:00-23:59)
-        final DateTime previous = DateTime(2025, 1, 1, 10); // slot 0
+      test(
+        'should return false when previous call is in different slot',
+        () async {
+          // Given
+          final now = DateTime(2025, 1, 1, 20); // slot 1 (12:00-23:59)
+          final previous = DateTime(2025, 1, 1, 10); // slot 0
 
-        await SharedPreferencesController.instance.setString(
-          ConfigPropertyKey.lastApiCallNotification,
-          previous.toIso8601String(),
-        );
+          await SharedPreferencesController.instance.setString(
+            ConfigPropertyKey.lastApiCallNotification,
+            previous.toIso8601String(),
+          );
 
-        final bool throttled = NotificationThrottler.isCallThrottledWithMax(
-          2,
-          now: now,
-        );
-        expect(throttled, isFalse);
-      },
-    );
-  });
+          // When & Then
+          expect(
+            NotificationThrottler.isCallThrottledWithMax(2, now: now),
+            isFalse,
+          );
+        },
+      );
 
-  group('NotificationThrottler with maxPerDay = 3 (slots ~8h)', () {
-    test(
-      'Given no previous call today when checking throttle then returns false',
-      () {
-        final DateTime now = DateTime(2025, 1, 1, 10); // slot 1
-        final bool throttled = NotificationThrottler.isCallThrottledWithMax(
-          3,
-          now: now,
-        );
-        expect(throttled, isFalse);
-      },
-    );
+      test(
+        'should return false when previous call was on previous day',
+        () async {
+          // Given
+          final now = DateTime(2025, 1, 1, 10);
+          final previous = DateTime(2024, 12, 31, 22);
 
-    test(
-      'Given previous call in same slot when checking throttle then returns true',
-      () async {
-        final DateTime now = DateTime(2025, 1, 1, 10); // slot 1 (08:00-15:59)
-        final DateTime previous = DateTime(2025, 1, 1, 12); // same slot 1
+          await SharedPreferencesController.instance.setString(
+            ConfigPropertyKey.lastApiCallNotification,
+            previous.toIso8601String(),
+          );
 
-        await SharedPreferencesController.instance.setString(
-          ConfigPropertyKey.lastApiCallNotification,
-          previous.toIso8601String(),
-        );
+          // When & Then
+          expect(
+            NotificationThrottler.isCallThrottledWithMax(3, now: now),
+            isFalse,
+          );
+        },
+      );
 
-        final bool throttled = NotificationThrottler.isCallThrottledWithMax(
-          3,
-          now: now,
-        );
-        expect(throttled, isTrue);
-      },
-    );
+      test('should return true when maxPerDay is non-positive', () {
+        // Given & When & Then
+        expect(NotificationThrottler.isCallThrottledWithMax(0), isTrue);
+      });
 
-    test(
-      'Given previous call in different slot when checking throttle then returns false',
-      () async {
-        final DateTime now = DateTime(2025, 1, 1, 10); // slot 1
-        final DateTime previous = DateTime(2025, 1, 1, 2); // slot 0
+      test(
+        'should return false when timestamp format in preferences is invalid',
+        () async {
+          // Given
+          await SharedPreferencesController.instance.setString(
+            ConfigPropertyKey.lastApiCallNotification,
+            'invalid-date-string',
+          );
 
-        await SharedPreferencesController.instance.setString(
-          ConfigPropertyKey.lastApiCallNotification,
-          previous.toIso8601String(),
-        );
-
-        final bool throttled = NotificationThrottler.isCallThrottledWithMax(
-          3,
-          now: now,
-        );
-        expect(throttled, isFalse);
-      },
-    );
-
-    test(
-      'Given previous call on previous day when checking throttle then returns false',
-      () async {
-        final DateTime now = DateTime(2025, 1, 1, 10);
-        final DateTime previous = DateTime(2024, 12, 31, 22);
-
-        await SharedPreferencesController.instance.setString(
-          ConfigPropertyKey.lastApiCallNotification,
-          previous.toIso8601String(),
-        );
-
-        final bool throttled = NotificationThrottler.isCallThrottledWithMax(
-          3,
-          now: now,
-        );
-        expect(throttled, isFalse);
-      },
-    );
-  });
-
-  group('NotificationThrottler edge cases and recordCall', () {
-    test('Given maxPerDay <= 0 when checking throttle then returns true', () {
-      final bool throttled = NotificationThrottler.isCallThrottledWithMax(0);
-      expect(throttled, isTrue);
+          // When & Then
+          expect(NotificationThrottler.isCallThrottledWithMax(2), isFalse);
+        },
+      );
     });
 
-    test(
-      'Given invalid date string in preferences when checking throttle then returns false',
-      () async {
-        await SharedPreferencesController.instance.setString(
-          ConfigPropertyKey.lastApiCallNotification,
-          'invalid-date-string',
-        );
+    group('recordCall', () {
+      test('should save current timestamp in preferences', () async {
+        // Given
+        final now = DateTime(2025, 1, 15, 14, 30);
 
-        final bool throttled = NotificationThrottler.isCallThrottledWithMax(2);
-        expect(throttled, isFalse);
-      },
-    );
-
-    test(
-      'Given recordCall called when executing then saves current timestamp',
-      () async {
-        final DateTime now = DateTime(2025, 1, 15, 14, 30);
+        // When
         await NotificationThrottler.recordCall(now: now);
 
-        final String? saved = SharedPreferencesController.instance.getString(
-          ConfigPropertyKey.lastApiCallNotification,
+        // Then
+        expect(
+          SharedPreferencesController.instance.getString(
+            ConfigPropertyKey.lastApiCallNotification,
+          ),
+          equals(now.toIso8601String()),
         );
-        expect(saved, equals(now.toIso8601String()));
-      },
-    );
+      });
+    });
   });
 }
