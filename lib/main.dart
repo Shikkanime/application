@@ -255,7 +255,7 @@ class _MyAppState extends State<MyApp> {
           ),
           dividerTheme: DividerThemeData(color: primary),
         )
-        ..addInputDecorationTheme(
+        ..addCardButtonStyle(
           ElevatedButton.styleFrom(
             backgroundColor: elevatedButtonBackground,
             shadowColor: elevatedButtonShadowColor,
