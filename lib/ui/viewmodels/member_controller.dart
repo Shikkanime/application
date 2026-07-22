@@ -118,31 +118,10 @@ class MemberController {
     }
   }
 
-  Future<http.Response> _postAndGetResponse(
-    final String endpoint, {
-    final String? token,
-    final Map<String, String>? headers,
-    final Object? body,
-  }) async {
-    final ApiResult<http.Response> result = await _client.post(
-      endpoint,
-      token: token,
-      headers: headers,
-      body: body,
-    );
-
-    return switch (result) {
-      ApiSuccess<http.Response>(:final data) => data,
-      ApiFailure<http.Response>(:final error) => throw http.ClientException(
-        error,
-      ),
-    };
-  }
-
   Future<http.Response> testLogin(final String identifier) async {
     final PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
-    final http.Response response = await _postAndGetResponse(
+    final ApiResult<http.Response> result = await _client.post(
       '/v1/members/login',
       headers: <String, String>{
         'X-App-Version': '${packageInfo.version}+${packageInfo.buildNumber}',
@@ -152,15 +131,21 @@ class MemberController {
       body: identifier,
     );
 
-    if (response.statusCode == HttpStatus.notFound) {
-      throw const HttpException('Failed to login, identifier not found');
-    }
-
-    if (response.statusCode != HttpStatus.ok) {
-      throw http.ClientException('Server error');
-    }
-
-    return response;
+    return switch (result) {
+      ApiSuccess<http.Response>(:final data)
+          when data.statusCode == HttpStatus.ok =>
+        data,
+      ApiSuccess<http.Response>(:final data)
+          when data.statusCode == HttpStatus.notFound =>
+        throw const HttpException('Failed to login, identifier not found'),
+      ApiFailure<http.Response>(:final statusCode)
+          when statusCode == HttpStatus.notFound =>
+        throw const HttpException('Failed to login, identifier not found'),
+      ApiFailure<http.Response>(:final error) => throw http.ClientException(
+        error,
+      ),
+      ApiSuccess<http.Response>() => throw http.ClientException('Server error'),
+    };
   }
 
   Future<void> login({final String? identifier}) async {
