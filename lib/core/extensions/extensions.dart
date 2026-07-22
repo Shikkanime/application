@@ -1,40 +1,100 @@
 import 'package:flutter/material.dart';
 
-extension ExtensionsIterable<T> on Iterable<T> {
-  Iterable<R> mapIndexed<R>(final R Function(int index, T e) f) =>
-      List<R>.generate(length, (final int i) => f(i, elementAt(i)));
+/// Extension methods on [Iterable].
+extension IterableExtensions<T> on Iterable<T> {
+  /// Maps each element of this iterable along with its 0-based index
+  /// to a new value using the provided function [f].
+  ///
+  /// Evaluates lazily using a `sync*` generator, providing $O(N)$ execution time
+  /// across any collection type.
+  Iterable<R> mapIndexed<R>(final R Function(int index, T element) f) sync* {
+    var index = 0;
+    for (final element in this) {
+      yield f(index++, element);
+    }
+  }
 }
 
-extension ExtensionsThemeData on ThemeData {
-  static final Map<Brightness, ButtonStyle> _map = <Brightness, ButtonStyle>{};
-  static final Map<Brightness, AssetImage> _mapImage =
-      <Brightness, AssetImage>{};
-  static final Map<Brightness, Color> _mapOppositeTextColor =
-      <Brightness, Color>{};
+/// Custom immutable theme properties for the application.
+///
+/// Registered via `ThemeData(extensions: [CustomTheme(...)])`.
+@immutable
+class CustomTheme extends ThemeExtension<CustomTheme> {
+  const CustomTheme({
+    this.cardButtonStyle,
+    this.iconImage,
+    this.oppositeTextColor,
+  });
 
-  void addInputDecorationTheme(final ButtonStyle buttonStyle) {
-    _map[brightness] = buttonStyle;
+  /// Custom button style for cards.
+  final ButtonStyle? cardButtonStyle;
+
+  /// Custom icon asset image for the active theme brightness.
+  final AssetImage? iconImage;
+
+  /// Custom text color contrasting with the theme background.
+  final Color? oppositeTextColor;
+
+  @override
+  CustomTheme copyWith({
+    final ButtonStyle? cardButtonStyle,
+    final AssetImage? iconImage,
+    final Color? oppositeTextColor,
+  }) {
+    return CustomTheme(
+      cardButtonStyle: cardButtonStyle ?? this.cardButtonStyle,
+      iconImage: iconImage ?? this.iconImage,
+      oppositeTextColor: oppositeTextColor ?? this.oppositeTextColor,
+    );
   }
 
-  void addImageDecorationTheme(final AssetImage image) {
-    _mapImage[brightness] = image;
-  }
+  @override
+  CustomTheme lerp(final ThemeExtension<CustomTheme>? other, final double t) {
+    if (other is! CustomTheme) {
+      return this;
+    }
 
-  void addOppositeTextColor(final Color color) {
-    _mapOppositeTextColor[brightness] = color;
+    return CustomTheme(
+      cardButtonStyle: ButtonStyle.lerp(
+        cardButtonStyle,
+        other.cardButtonStyle,
+        t,
+      ),
+      iconImage: t < 0.5 ? iconImage : other.iconImage,
+      oppositeTextColor: Color.lerp(
+        oppositeTextColor,
+        other.oppositeTextColor,
+        t,
+      ),
+    );
   }
-
-  ButtonStyle? get cardButtonStyle => _map[brightness];
-  AssetImage? get iconImage => _mapImage[brightness];
-  Color? get oppositeTextColor => _mapOppositeTextColor[brightness];
 }
 
+/// Extension methods on [ThemeData] to access custom theme properties.
+extension ThemeDataExtensions on ThemeData {
+  /// Returns the registered [CustomTheme] extension attached to this [ThemeData], if any.
+  CustomTheme? get customTheme => extension<CustomTheme>();
+
+  /// Returns the registered card [ButtonStyle] for the current theme, or `null` if none was set.
+  ButtonStyle? get cardButtonStyle => customTheme?.cardButtonStyle;
+
+  /// Returns the registered icon [AssetImage] for the current theme, or `null` if none was set.
+  AssetImage? get iconImage => customTheme?.iconImage;
+
+  /// Returns the registered opposite text [Color] for the current theme, or `null` if none was set.
+  Color? get oppositeTextColor => customTheme?.oppositeTextColor;
+}
+
+/// Extension methods on nullable [String].
 extension StringExtensions on String? {
+  /// Parses the string as an ISO-8601 date, or returns `null` if the string is
+  /// null, empty, or not a valid date format.
   DateTime? toDateTime() {
-    if (this == null) {
+    final value = this;
+    if (value == null || value.isEmpty) {
       return null;
     }
 
-    return DateTime.tryParse(this!);
+    return DateTime.tryParse(value);
   }
 }
