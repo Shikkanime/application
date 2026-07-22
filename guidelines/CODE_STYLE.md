@@ -37,6 +37,7 @@ Based on **Effective Dart** (https://dart.dev/effective-dart/style).
 - Use `///` doc comments for public APIs.
 - Use `//` for internal explanatory comments.
 - Add a comment explaining the **business reason** when calling a Repository or Service.
+- **Prohibition of Visual Separation Blocks**: Comments that serve as visual separators or section titles are strictly forbidden (`// ----`, `// Private helpers`, `// === UI METHODS ===`, `// MARK: - Properties`). Encapsulation, class ordering, and method composition must render code self-explanatory.
 
 ```dart
 // Good: explain intent
@@ -44,6 +45,10 @@ final episodes = await episodeRepository.fetchAll(); // Refresh to show latest e
 
 // Bad: explain the obvious
 final episodes = await episodeRepository.fetchAll(); // call fetchAll on episodeRepository
+
+// Bad: visual separators (STRICTLY FORBIDDEN)
+// ---------------------------------------------------------------------------
+// Private helpers
 ```
 
 ## Lint Rules
