@@ -37,3 +37,4 @@
 ❌ Expose internal error details to users.
 ❌ Trust external input without validation.
 ❌ Use HTTP instead of HTTPS.
+❌ Commit local development configuration overrides (e.g. localhost URLs in constant.dart) to Git.
