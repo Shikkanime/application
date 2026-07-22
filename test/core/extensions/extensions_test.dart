@@ -42,53 +42,85 @@ void main() {
     });
   });
 
-  group('ThemeDataExtensions', () {
-    test('stores and retrieves cardButtonStyle based on brightness', () {
+  group('CustomTheme', () {
+    test('copyWith returns a new instance with updated properties', () {
       // Given
-      final darkTheme = ThemeData(brightness: Brightness.dark);
-      final lightTheme = ThemeData(brightness: Brightness.light);
-      final darkStyle = ElevatedButton.styleFrom(backgroundColor: Colors.black);
-      final lightStyle = ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
+      const original = CustomTheme(
+        oppositeTextColor: Colors.white,
+        iconImage: AssetImage('assets/dark_icon.png'),
       );
 
       // When
-      darkTheme.addCardButtonStyle(darkStyle);
-      lightTheme.addCardButtonStyle(lightStyle);
+      final updated = original.copyWith(oppositeTextColor: Colors.black);
 
       // Then
-      expect(darkTheme.cardButtonStyle, equals(darkStyle));
-      expect(lightTheme.cardButtonStyle, equals(lightStyle));
+      expect(updated.oppositeTextColor, equals(Colors.black));
+      expect(
+        updated.iconImage,
+        equals(const AssetImage('assets/dark_icon.png')),
+      );
     });
 
-    test('stores and retrieves iconImage based on brightness', () {
+    test('lerp interpolates values between themes', () {
       // Given
-      final darkTheme = ThemeData(brightness: Brightness.dark);
-      final lightTheme = ThemeData(brightness: Brightness.light);
-      const darkIcon = AssetImage('assets/dark_icon.png');
-      const lightIcon = AssetImage('assets/light_icon.png');
+      const themeA = CustomTheme(oppositeTextColor: Colors.black);
+      const themeB = CustomTheme(oppositeTextColor: Colors.white);
 
       // When
-      darkTheme.addImageDecorationTheme(darkIcon);
-      lightTheme.addImageDecorationTheme(lightIcon);
+      final lerped = themeA.lerp(themeB, 0.5);
 
       // Then
-      expect(darkTheme.iconImage, equals(darkIcon));
-      expect(lightTheme.iconImage, equals(lightIcon));
+      expect(
+        lerped.oppositeTextColor,
+        equals(Color.lerp(Colors.black, Colors.white, 0.5)),
+      );
     });
 
-    test('stores and retrieves oppositeTextColor based on brightness', () {
+    test('lerp returns self if other is not CustomTheme', () {
       // Given
-      final darkTheme = ThemeData(brightness: Brightness.dark);
-      final lightTheme = ThemeData(brightness: Brightness.light);
+      const theme = CustomTheme(oppositeTextColor: Colors.black);
 
       // When
-      darkTheme.addOppositeTextColor(Colors.white);
-      lightTheme.addOppositeTextColor(Colors.black);
+      final lerped = theme.lerp(null, 0.5);
 
       // Then
-      expect(darkTheme.oppositeTextColor, equals(Colors.white));
-      expect(lightTheme.oppositeTextColor, equals(Colors.black));
+      expect(lerped, equals(theme));
+    });
+  });
+
+  group('ThemeDataExtensions', () {
+    test('retrieves customTheme properties when extension is present', () {
+      // Given
+      final style = ElevatedButton.styleFrom(backgroundColor: Colors.black);
+      const icon = AssetImage('assets/dark_icon.png');
+
+      final theme = ThemeData(
+        brightness: Brightness.dark,
+        extensions: <ThemeExtension<dynamic>>[
+          CustomTheme(
+            cardButtonStyle: style,
+            iconImage: icon,
+            oppositeTextColor: Colors.white,
+          ),
+        ],
+      );
+
+      // When & Then
+      expect(theme.customTheme, isNotNull);
+      expect(theme.cardButtonStyle, equals(style));
+      expect(theme.iconImage, equals(icon));
+      expect(theme.oppositeTextColor, equals(Colors.white));
+    });
+
+    test('returns null for getters when CustomTheme extension is absent', () {
+      // Given
+      final theme = ThemeData(brightness: Brightness.light);
+
+      // When & Then
+      expect(theme.customTheme, isNull);
+      expect(theme.cardButtonStyle, isNull);
+      expect(theme.iconImage, isNull);
+      expect(theme.oppositeTextColor, isNull);
     });
   });
 

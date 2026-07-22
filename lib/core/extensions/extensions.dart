@@ -15,42 +15,74 @@ extension IterableExtensions<T> on Iterable<T> {
   }
 }
 
-/// Extension methods on [ThemeData] to store and retrieve custom theme properties
-/// based on brightness (light/dark mode).
+/// Custom immutable theme properties for the application.
+///
+/// Registered via `ThemeData(extensions: [CustomTheme(...)])`.
+@immutable
+class CustomTheme extends ThemeExtension<CustomTheme> {
+  const CustomTheme({
+    this.cardButtonStyle,
+    this.iconImage,
+    this.oppositeTextColor,
+  });
+
+  /// Custom button style for cards.
+  final ButtonStyle? cardButtonStyle;
+
+  /// Custom icon asset image for the active theme brightness.
+  final AssetImage? iconImage;
+
+  /// Custom text color contrasting with the theme background.
+  final Color? oppositeTextColor;
+
+  @override
+  CustomTheme copyWith({
+    final ButtonStyle? cardButtonStyle,
+    final AssetImage? iconImage,
+    final Color? oppositeTextColor,
+  }) {
+    return CustomTheme(
+      cardButtonStyle: cardButtonStyle ?? this.cardButtonStyle,
+      iconImage: iconImage ?? this.iconImage,
+      oppositeTextColor: oppositeTextColor ?? this.oppositeTextColor,
+    );
+  }
+
+  @override
+  CustomTheme lerp(final ThemeExtension<CustomTheme>? other, final double t) {
+    if (other is! CustomTheme) {
+      return this;
+    }
+
+    return CustomTheme(
+      cardButtonStyle: ButtonStyle.lerp(
+        cardButtonStyle,
+        other.cardButtonStyle,
+        t,
+      ),
+      iconImage: t < 0.5 ? iconImage : other.iconImage,
+      oppositeTextColor: Color.lerp(
+        oppositeTextColor,
+        other.oppositeTextColor,
+        t,
+      ),
+    );
+  }
+}
+
+/// Extension methods on [ThemeData] to access custom theme properties.
 extension ThemeDataExtensions on ThemeData {
-  static final Map<Brightness, ButtonStyle> _cardButtonStyleMap =
-      <Brightness, ButtonStyle>{};
-  static final Map<Brightness, AssetImage> _iconImageMap =
-      <Brightness, AssetImage>{};
-  static final Map<Brightness, Color> _oppositeTextColorMap =
-      <Brightness, Color>{};
+  /// Returns the registered [CustomTheme] extension attached to this [ThemeData], if any.
+  CustomTheme? get customTheme => extension<CustomTheme>();
 
-  /// Registers a custom [ButtonStyle] for cards associated with the current [brightness].
-  void addCardButtonStyle(final ButtonStyle buttonStyle) {
-    _cardButtonStyleMap[brightness] = buttonStyle;
-  }
+  /// Returns the registered card [ButtonStyle] for the current theme, or `null` if none was set.
+  ButtonStyle? get cardButtonStyle => customTheme?.cardButtonStyle;
 
-  /// Registers a custom [AssetImage] icon associated with the current [brightness].
-  void addImageDecorationTheme(final AssetImage image) {
-    _iconImageMap[brightness] = image;
-  }
+  /// Returns the registered icon [AssetImage] for the current theme, or `null` if none was set.
+  AssetImage? get iconImage => customTheme?.iconImage;
 
-  /// Registers an opposite text [Color] associated with the current [brightness].
-  void addOppositeTextColor(final Color color) {
-    _oppositeTextColorMap[brightness] = color;
-  }
-
-  /// Returns the registered card [ButtonStyle] for the current theme [brightness],
-  /// or `null` if none was set.
-  ButtonStyle? get cardButtonStyle => _cardButtonStyleMap[brightness];
-
-  /// Returns the registered icon [AssetImage] for the current theme [brightness],
-  /// or `null` if none was set.
-  AssetImage? get iconImage => _iconImageMap[brightness];
-
-  /// Returns the registered opposite text [Color] for the current theme [brightness],
-  /// or `null` if none was set.
-  Color? get oppositeTextColor => _oppositeTextColorMap[brightness];
+  /// Returns the registered opposite text [Color] for the current theme, or `null` if none was set.
+  Color? get oppositeTextColor => customTheme?.oppositeTextColor;
 }
 
 /// Extension methods on nullable [String].

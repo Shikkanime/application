@@ -184,85 +184,84 @@ class _MyAppState extends State<MyApp> {
     required final Color elevatedButtonShadowColor,
     required final AssetImage iconImage,
     required final Color oppositeTextColor,
-  }) =>
-      ThemeData(
-          brightness: brightness,
-          fontFamily: 'Satoshi',
-          scaffoldBackgroundColor: scaffoldBackground,
-          colorScheme: ColorScheme.fromSeed(
-            brightness: brightness,
-            seedColor: primary,
-            primary: primary,
-          ),
-          appBarTheme: AppBarTheme(
-            backgroundColor: scaffoldBackground.withValues(alpha: 0.6),
-          ),
-          bottomNavigationBarTheme: BottomNavigationBarThemeData(
-            selectedItemColor: primary,
-            unselectedItemColor: greyColor,
-          ),
-          floatingActionButtonTheme: FloatingActionButtonThemeData(
-            backgroundColor: primary,
-            foregroundColor: canvasColor,
-          ),
-          canvasColor: canvasColor,
-          textTheme: TextTheme(
-            bodyLarge: TextStyle(
-              color: textColor,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-            bodyMedium: TextStyle(color: greyColor),
-            bodySmall: TextStyle(color: greyColor, fontSize: 11),
-          ),
-          iconTheme: IconThemeData(color: greyColor),
-          snackBarTheme: SnackBarThemeData(
-            backgroundColor: snackBarBackground,
-            contentTextStyle: TextStyle(color: textColor),
-          ),
-          progressIndicatorTheme: ProgressIndicatorThemeData(
-            color: primary,
-            linearTrackColor: scaffoldBackground,
-          ),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: canvasColor,
-              shadowColor: elevatedButtonShadowColor,
-            ),
-          ),
-          searchBarTheme: SearchBarThemeData(
-            backgroundColor: WidgetStatePropertyAll<Color>(canvasColor),
-            shadowColor: WidgetStatePropertyAll<Color>(canvasColor),
-            textStyle: WidgetStatePropertyAll<TextStyle>(
-              TextStyle(color: textColor, fontSize: 20),
-            ),
-          ),
-          popupMenuTheme: PopupMenuThemeData(
-            color: canvasColor,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(Constant.borderRadius),
-              ),
-            ),
-          ),
-          iconButtonTheme: IconButtonThemeData(
-            style: IconButton.styleFrom(foregroundColor: primary),
-          ),
-          dialogTheme: DialogThemeData(backgroundColor: canvasColor),
-          bottomSheetTheme: BottomSheetThemeData(
-            surfaceTintColor: canvasColor,
-            backgroundColor: canvasColor,
-          ),
-          dividerTheme: DividerThemeData(color: primary),
-        )
-        ..addCardButtonStyle(
-          ElevatedButton.styleFrom(
-            backgroundColor: elevatedButtonBackground,
-            shadowColor: elevatedButtonShadowColor,
-          ),
-        )
-        ..addImageDecorationTheme(iconImage)
-        ..addOppositeTextColor(oppositeTextColor);
+  }) => ThemeData(
+    brightness: brightness,
+    fontFamily: 'Satoshi',
+    scaffoldBackgroundColor: scaffoldBackground,
+    colorScheme: ColorScheme.fromSeed(
+      brightness: brightness,
+      seedColor: primary,
+      primary: primary,
+    ),
+    appBarTheme: AppBarTheme(
+      backgroundColor: scaffoldBackground.withValues(alpha: 0.6),
+    ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      selectedItemColor: primary,
+      unselectedItemColor: greyColor,
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: primary,
+      foregroundColor: canvasColor,
+    ),
+    canvasColor: canvasColor,
+    textTheme: TextTheme(
+      bodyLarge: TextStyle(
+        color: textColor,
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+      ),
+      bodyMedium: TextStyle(color: greyColor),
+      bodySmall: TextStyle(color: greyColor, fontSize: 11),
+    ),
+    iconTheme: IconThemeData(color: greyColor),
+    snackBarTheme: SnackBarThemeData(
+      backgroundColor: snackBarBackground,
+      contentTextStyle: TextStyle(color: textColor),
+    ),
+    progressIndicatorTheme: ProgressIndicatorThemeData(
+      color: primary,
+      linearTrackColor: scaffoldBackground,
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: canvasColor,
+        shadowColor: elevatedButtonShadowColor,
+      ),
+    ),
+    searchBarTheme: SearchBarThemeData(
+      backgroundColor: WidgetStatePropertyAll<Color>(canvasColor),
+      shadowColor: WidgetStatePropertyAll<Color>(canvasColor),
+      textStyle: WidgetStatePropertyAll<TextStyle>(
+        TextStyle(color: textColor, fontSize: 20),
+      ),
+    ),
+    popupMenuTheme: PopupMenuThemeData(
+      color: canvasColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(Constant.borderRadius)),
+      ),
+    ),
+    iconButtonTheme: IconButtonThemeData(
+      style: IconButton.styleFrom(foregroundColor: primary),
+    ),
+    dialogTheme: DialogThemeData(backgroundColor: canvasColor),
+    bottomSheetTheme: BottomSheetThemeData(
+      surfaceTintColor: canvasColor,
+      backgroundColor: canvasColor,
+    ),
+    dividerTheme: DividerThemeData(color: primary),
+    extensions: <ThemeExtension<dynamic>>[
+      CustomTheme(
+        cardButtonStyle: ElevatedButton.styleFrom(
+          backgroundColor: elevatedButtonBackground,
+          shadowColor: elevatedButtonShadowColor,
+        ),
+        iconImage: iconImage,
+        oppositeTextColor: oppositeTextColor,
+      ),
+    ],
+  );
 }
 
 class MyHomePage extends StatefulWidget {
