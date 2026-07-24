@@ -27,7 +27,6 @@ class MemberController {
   // ignore: unused_field — kept for backward-compatible DI constructor
   final Analytics _analytics;
 
-  // State delegation
   StreamController<MemberDto> get streamController =>
       AuthViewModel.instance.streamController;
   String? get identifier => AuthViewModel.instance.identifier;
@@ -40,7 +39,6 @@ class MemberController {
   set isImageUploadLoading(final bool value) =>
       MemberViewModel.instance.isImageUploadLoading = value;
 
-  // Auth delegation
   Future<void> init({final bool afterDelete = false}) =>
       AuthViewModel.instance.init(afterDelete: afterDelete);
   Future<String> register() => AuthViewModel.instance.register();
@@ -49,7 +47,6 @@ class MemberController {
   Future<void> login({final String? identifier}) =>
       AuthViewModel.instance.login(identifier: identifier);
 
-  // Member delegation
   Future<void> refresh({final bool isRetry = false}) =>
       MemberViewModel.instance.refresh(isRetry: isRetry);
   Future<void> changeImage(final BuildContext context) =>
@@ -59,7 +56,6 @@ class MemberController {
     final bool isRetry = false,
   }) => MemberViewModel.instance.updateImage(image, isRetry: isRetry);
 
-  // Email delegation
   Future<String> associateEmail(
     final String email, {
     final bool isRetry = false,
@@ -74,7 +70,6 @@ class MemberController {
     final bool isRetry = false,
   }) => EmailViewModel.instance.validateAction(uuid, code, isRetry: isRetry);
 
-  // Follow delegation
   Future<void> followAnime(
     final String anime, {
     final bool loadMemberData = true,
