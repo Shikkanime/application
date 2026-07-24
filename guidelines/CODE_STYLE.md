@@ -8,8 +8,10 @@ Based on **Effective Dart** (https://dart.dev/effective-dart/style).
 - Format code using `dart format` (the official formatter).
 - Prefer lines **80 characters or fewer**.
 - Keep one clear responsibility per class or function.
+- **Maximum Method Length**: Every function or method must be **50 lines of code or fewer**. Excessively long methods must be decomposed into smaller, single-responsibility helper methods.
+- **No Unnecessary Abstractions**: Do not use `abstract` on utility classes when a simple class with a private constructor (`Class._();`) is sufficient.
 - Reuse existing project patterns over introducing new ones.
-- Keep comments rare, useful, and focused on non-obvious behavior.
+- Keep comments rare, useful, and focused on non-obvious behavior. Add internal `//` comments to explain complex mathematical, algorithmic, or non-obvious logic.
 
 ## Naming Conventions
 
@@ -83,17 +85,40 @@ rules:
 Follow Google's Effective Dart recommendations for type annotations:
 
 ### Local variables
-- **Use `var`** when the type is obvious from the right-hand side:
+- **Use `final` / `var` without explicit type** when the type is obvious from the right-hand side:
   ```dart
-  var count = 3; // int is obvious
-  var items = <String>[]; // type is explicit in literal
+  final count = 3; // int is obvious
+  final items = <String>[]; // type is explicit in literal
+  final prefs = preferencesController ?? SharedPreferencesController.instance; // type is obvious
   ```
-- **Use `final`** when the variable is never reassigned (prefer over `var`):
+- **AVOID** explicit type annotations on local variables unless the type is ambiguous or not obvious from the RHS.
+- **AVOID** single-use local variables except for complex fallback/null-coalescing expressions: Do not introduce temporary variables that are only referenced once unless assigning a complex expression (such as `controller ?? Singleton.instance` or `now ?? DateTime.now()`) to improve readability.
   ```dart
-  final name = 'Dart'; // never reassigned
-  final response = await client.get(...); // single assignment
+  // Good: assigning complex fallback expression to local variable for readability
+  final prefs = preferencesController ?? SharedPreferencesController.instance;
+  final timeToRecord = now ?? DateTime.now();
+
+  // Bad: trivial single-use variable
+  final currentSlot = _computeSlot(...);
+  final lastSlot = _computeSlot(...);
+  return currentSlot == lastSlot;
   ```
-- **Use explicit type annotations** when the type is not obvious or when it's part of a public API:
+
+### Constants
+- **Prefer `static const` at class level** over declaring `const` variables inside method bodies:
+  ```dart
+  // Good: static const at class level
+  class NotificationThrottler {
+    static const _dayInSeconds = 86400;
+  }
+
+  // Bad: const declared inside method body
+  void compute() {
+    const dayInSeconds = 86400;
+  }
+  ```
+
+- **Use explicit type annotations** ONLY when the type is not obvious from RHS or when it's part of a public API parameter/return type:
   ```dart
   // Good: type is not obvious from the RHS
   final Map<String, dynamic> json = jsonDecode(body);

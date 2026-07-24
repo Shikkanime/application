@@ -1,86 +1,118 @@
-import 'package:application/ui/viewmodels/shared_preferences_controller.dart';
-import 'package:application/data/models/enums/config_property_key.dart';
 import 'package:application/core/constants/constant.dart';
+import 'package:application/data/models/enums/config_property_key.dart';
+import 'package:application/ui/viewmodels/shared_preferences_controller.dart';
 
-/// FR: Fourni un mécanisme de limitation (throttling) des appels serveur
-/// déclenchés par les notifications en arrière-plan. La journée est divisée
-/// en créneaux temporels de durée égale, calculés à partir de
-/// [Constant.maxServerSendsPerDay]. Un seul envoi est autorisé par créneau.
+/// Provides throttling for background notification-triggered server calls.
 ///
-/// EN: Provides throttling for background notification-triggered server calls.
 /// The day is divided into evenly spaced time slots based on
 /// [Constant.maxServerSendsPerDay]. A call is allowed at most once per slot.
 ///
-/// Examples / Exemples:
-/// - 1 (par défaut): au plus un envoi par jour / one call per day at most
-/// - 2: jusqu'à deux envois par jour, espacés d'environ 12h / up to two calls ~12h apart
-/// - 3+ : envois uniformément répartis sur 24h / calls evenly spread over 24h
+/// Examples:
+/// - 1 (default): at most one call per day
+/// - 2: up to two calls per day, spaced ~12h apart
+/// - 3+: calls evenly spread over 24h
 ///
-/// Storage / Stockage:
-/// - Last successful send timestamp stored as ISO8601 in
+/// Storage:
+/// - Last successful send timestamp stored as ISO 8601 in
 ///   [ConfigPropertyKey.lastApiCallNotification].
 class NotificationThrottler {
   NotificationThrottler._();
 
+  static const _dayInSeconds = 86400;
+
   /// Returns true if a server call should be throttled right now, i.e.,
   /// a call has already been performed within the current time slot today.
-  static bool isCallThrottled() =>
-      isCallThrottledWithMax(Constant.maxServerSendsPerDay);
+  static bool isCallThrottled({
+    final SharedPreferencesController? preferencesController,
+  }) => isCallThrottledWithMax(
+    Constant.maxServerSendsPerDay,
+    preferencesController: preferencesController,
+  );
 
-  /// Variante testable permettant d'injecter [maxPerDay] et une date [now].
-  /// Identique à [isCallThrottled] lorsque [maxPerDay] vaut
-  /// [Constant.maxServerSendsPerDay] et que [now] est omis.
-  static bool isCallThrottledWithMax(final int maxPerDay, {DateTime? now}) {
+  /// Computes whether a notification-triggered call should be throttled.
+  static bool isCallThrottledWithMax(
+    final int maxPerDay, {
+    final DateTime? now,
+    final SharedPreferencesController? preferencesController,
+  }) {
     if (maxPerDay <= 0) {
-      // Non-positive configuration disables calls entirely.
       return true;
     }
 
-    final String? lastApiCallNotification = SharedPreferencesController.instance
-        .getString(ConfigPropertyKey.lastApiCallNotification);
+    final prefs = preferencesController ?? SharedPreferencesController.instance;
+    final lastCallDate = _getLastCallDate(prefs);
 
-    now ??= DateTime.now();
-    final DateTime today = DateTime(now.year, now.month, now.day);
+    if (lastCallDate == null) {
+      // No call recorded or invalid timestamp format: allow call.
+      return false;
+    }
 
-    // Compute the slot length (in seconds) by evenly splitting the day.
-    const int dayInSeconds = 24 * 60 * 60;
-    final int slotLengthSec = (dayInSeconds ~/ maxPerDay).clamp(
-      1,
-      dayInSeconds,
+    final currentTime = now ?? DateTime.now();
+    final today = _truncateToDay(currentTime);
+
+    if (!_isSameDay(lastCallDate, today)) {
+      // Last call was on another day: allow call.
+      return false;
+    }
+
+    // Divide 24 hours into equal time slots based on maxPerDay.
+    final slotDuration = (_dayInSeconds ~/ maxPerDay).clamp(1, _dayInSeconds);
+
+    // Compare current slot index against the slot index of the last call.
+    return _computeSlot(currentTime, today, slotDuration, maxPerDay) ==
+        _computeSlot(lastCallDate, today, slotDuration, maxPerDay);
+  }
+
+  /// Retrieves and parses the last notification call timestamp from [prefs].
+  static DateTime? _getLastCallDate(final SharedPreferencesController prefs) {
+    final rawTimestamp = prefs.getString(
+      ConfigPropertyKey.lastApiCallNotification,
     );
+    return rawTimestamp != null ? _parseIsoDate(rawTimestamp) : null;
+  }
 
-    final int secondsSinceMidnight = now.difference(today).inSeconds;
-    final int currentSlot = (secondsSinceMidnight ~/ slotLengthSec).clamp(
+  /// Truncates a [DateTime] to 00:00:00 of the same calendar day.
+  static DateTime _truncateToDay(final DateTime dt) =>
+      DateTime(dt.year, dt.month, dt.day);
+
+  /// Returns true if [lastCallDate] occurred on the same calendar day as [today].
+  static bool _isSameDay(final DateTime lastCallDate, final DateTime today) =>
+      _truncateToDay(lastCallDate).isAtSameMomentAs(today);
+
+  /// Calculates the zero-based time slot index for a given [time] on [today].
+  static int _computeSlot(
+    final DateTime time,
+    final DateTime today,
+    final int slotDurationSeconds,
+    final int maxSlots,
+  ) {
+    // Slot index = elapsed seconds from midnight divided by slot duration, clamped to [0, maxSlots - 1].
+    return (time.difference(today).inSeconds ~/ slotDurationSeconds).clamp(
       0,
-      maxPerDay - 1,
+      maxSlots - 1,
     );
+  }
 
-    if (lastApiCallNotification == null) {
-      // Never called before: allow.
-      return false;
+  /// Safely parses an ISO 8601 date string, returning null if invalid.
+  static DateTime? _parseIsoDate(final String rawDate) {
+    try {
+      return DateTime.parse(rawDate);
+    } on FormatException {
+      return null;
     }
+  }
 
-    final DateTime lastApiCallNotificationDate = DateTime.parse(
-      lastApiCallNotification,
+  /// Records the current timestamp as the last successful notification API call.
+  static Future<bool> recordCall({
+    final DateTime? now,
+    final SharedPreferencesController? preferencesController,
+  }) async {
+    final prefs = preferencesController ?? SharedPreferencesController.instance;
+    final timeToRecord = now ?? DateTime.now();
+
+    return prefs.setString(
+      ConfigPropertyKey.lastApiCallNotification,
+      timeToRecord.toIso8601String(),
     );
-
-    final DateTime lastCallDay = DateTime(
-      lastApiCallNotificationDate.year,
-      lastApiCallNotificationDate.month,
-      lastApiCallNotificationDate.day,
-    );
-
-    if (!lastCallDay.isAtSameMomentAs(today)) {
-      // Last call was on another day: allow.
-      return false;
-    }
-
-    final int lastSecondsSinceMidnight = lastApiCallNotificationDate
-        .difference(today)
-        .inSeconds;
-    final int lastSlot = lastSecondsSinceMidnight ~/ slotLengthSec;
-
-    // Throttle if last call was performed in the same slot as now.
-    return lastSlot == currentSlot;
   }
 }

@@ -30,6 +30,8 @@ import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 
+import 'dart:io';
+
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(
   final RemoteMessage message,
@@ -52,14 +54,13 @@ Future<void> _firebaseMessagingBackgroundHandler(
     final Response response = await MemberController.instance.testLogin(
       identifier,
     );
-    if (response.statusCode != 200) {
+    if (response.statusCode != HttpStatus.ok) {
       return;
     }
-    await SharedPreferencesController.instance.setString(
-      ConfigPropertyKey.lastApiCallNotification,
-      DateTime.now().toIso8601String(),
-    );
-  } on Exception catch (_) {}
+    await NotificationThrottler.recordCall();
+  } on Exception catch (e) {
+    debugPrint('Background messaging error: $e');
+  }
 }
 
 Future<void> main() async {
