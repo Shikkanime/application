@@ -4,7 +4,7 @@ import 'package:application/core/analytics/analytics.dart';
 import 'package:application/core/network/api_client.dart';
 import 'package:application/core/network/api_result.dart';
 import 'package:application/data/models/enums/config_property_key.dart';
-import 'package:application/ui/viewmodels/member_controller.dart';
+import 'package:application/ui/viewmodels/auth_viewmodel.dart';
 import 'package:application/ui/viewmodels/shared_preferences_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
@@ -68,7 +68,7 @@ void main() {
             return const ApiFailure<http.Response>('Not found', 404);
           },
         );
-        final controller = MemberController(
+        final controller = AuthViewModel(
           client: fakeClient,
           analytics: const Analytics(),
         );
@@ -88,7 +88,7 @@ void main() {
             return const ApiFailure<http.Response>('Member not found', 404);
           },
         );
-        final controller = MemberController(
+        final controller = AuthViewModel(
           client: fakeClient,
           analytics: const Analytics(),
         );
@@ -116,7 +116,7 @@ void main() {
             );
           },
         );
-        final controller = MemberController(
+        final controller = AuthViewModel(
           client: fakeClient,
           analytics: const Analytics(),
         );
@@ -170,7 +170,7 @@ void main() {
             },
           );
 
-          final controller = MemberController(
+          final controller = AuthViewModel(
             client: fakeClient,
             analytics: const Analytics(),
           );
