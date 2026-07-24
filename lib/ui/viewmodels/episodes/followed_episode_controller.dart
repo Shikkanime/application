@@ -1,5 +1,5 @@
 import 'package:application/ui/viewmodels/generic_controller.dart';
-import 'package:application/ui/viewmodels/member_controller.dart';
+import 'package:application/ui/viewmodels/auth_viewmodel.dart';
 import 'package:application/data/models/episode_mapping_dto.dart';
 import 'package:application/data/models/pageable_dto.dart';
 import 'package:application/core/network/api_client.dart';
@@ -11,7 +11,6 @@ class FollowedEpisodeController extends GenericController<EpisodeMappingDto> {
     : _client = client ?? const ApiClient();
   static final FollowedEpisodeController instance = FollowedEpisodeController();
   final ApiClient _client;
-  bool _isRetry = false;
 
   int get limit =>
       wb.WidgetBuilder.getDeviceType() == wb.DeviceType.mobile ? 9 : 16;
@@ -25,24 +24,25 @@ class FollowedEpisodeController extends GenericController<EpisodeMappingDto> {
   }
 
   @override
-  Future<Pair<Iterable<EpisodeMappingDto>, int>> fetchItems() async {
-    final ApiResult<PageableDto> result = await _client.getPage(
+  Future<Pair<Iterable<EpisodeMappingDto>, int>> fetchItems() =>
+      _fetchItems(isRetry: false);
+
+  Future<Pair<Iterable<EpisodeMappingDto>, int>> _fetchItems({
+    required final bool isRetry,
+  }) async {
+    final result = await _client.getPage(
       '/v1/episode-mappings',
       query: <String, Object>{'page': page, 'limit': limit},
-      token: MemberController.instance.member?.token,
+      token: AuthViewModel.instance.member?.token,
     );
 
     if (result is ApiFailure<PageableDto> && result.statusCode == 401) {
-      if (_isRetry) {
+      if (isRetry) {
         throw Exception('Unauthorized after retry');
       }
-
-      _isRetry = true;
-      await MemberController.instance.login();
-      return fetchItems();
+      await AuthViewModel.instance.login();
+      return _fetchItems(isRetry: true);
     }
-
-    _isRetry = false;
 
     return switch (result) {
       ApiSuccess<PageableDto>(:final data) =>
