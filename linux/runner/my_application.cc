@@ -54,6 +54,56 @@ static void my_application_activate(GApplication* application) {
 
   gtk_window_set_default_size(window, 1280, 720);
 
+  // Set window icon from Flutter assets for Linux desktop taskbars and docks (GNOME/Zorin)
+  const char* direct_paths[] = {
+      "assets/icon.png",
+      "assets/light_icon.png",
+  };
+  gboolean icon_loaded = FALSE;
+
+  for (const char* path : direct_paths) {
+    if (g_file_test(path, G_FILE_TEST_EXISTS)) {
+      GdkPixbuf* pixbuf = gdk_pixbuf_new_from_file(path, nullptr);
+      if (pixbuf != nullptr) {
+        gtk_window_set_icon(window, pixbuf);
+        GList* icon_list = g_list_append(nullptr, pixbuf);
+        gtk_window_set_default_icon_list(icon_list);
+        g_list_free(icon_list);
+        g_object_unref(pixbuf);
+        icon_loaded = TRUE;
+        break;
+      }
+    }
+  }
+
+  if (!icon_loaded) {
+    g_autofree gchar* exe_path = g_file_read_link("/proc/self/exe", nullptr);
+    if (exe_path != nullptr) {
+      g_autofree gchar* exe_dir = g_path_get_dirname(exe_path);
+      const char* relative_paths[] = {
+          "data/flutter_assets/assets/icon.png",
+          "data/flutter_assets/assets/light_icon.png",
+          "../bundle/data/flutter_assets/assets/icon.png",
+          "../bundle/data/flutter_assets/assets/light_icon.png",
+      };
+
+      for (const char* rel_path : relative_paths) {
+        g_autofree gchar* icon_path = g_build_filename(exe_dir, rel_path, nullptr);
+        if (g_file_test(icon_path, G_FILE_TEST_EXISTS)) {
+          GdkPixbuf* pixbuf = gdk_pixbuf_new_from_file(icon_path, nullptr);
+          if (pixbuf != nullptr) {
+            gtk_window_set_icon(window, pixbuf);
+            GList* icon_list = g_list_append(nullptr, pixbuf);
+            gtk_window_set_default_icon_list(icon_list);
+            g_list_free(icon_list);
+            g_object_unref(pixbuf);
+            break;
+          }
+        }
+      }
+    }
+  }
+
   g_autoptr(FlDartProject) project = fl_dart_project_new();
   fl_dart_project_set_dart_entrypoint_arguments(
       project, self->dart_entrypoint_arguments);

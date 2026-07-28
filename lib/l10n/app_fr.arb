@@ -1,118 +1,38 @@
 {
+  "@@locale": "fr",
   "home": "Accueil",
   "catalog": "Catalogue",
-  "calendarTimeFormat": "Hm",
+  "allSimulcasts": "Tous les simulcasts",
+  "search": "Rechercher...",
+  "warningCatalog": "Le catalogue s'enrichit progressivement : certains animés plus anciens peuvent ne pas encore apparaître",
   "calendar": "Calendrier",
-  "myAccount": "Compte",
-  "search": "Rechercher",
-  "advancedSearch": "Recherche avancée",
-  "sort": "Trier",
-
-  "whatYouMightHaveMissed1": "Ce que vous auriez pu ",
-  "whatYouMightHaveMissed2": "manquer",
-  "season": "Saison {season}",
-  "simulcastSeason": "{type, select, SPRING{Printemps} SUMMER{Été} AUTUMN{Automne} WINTER{Hiver} other{}} {year}",
-  "episodeType": "{type, select, episode{Épisode} special{Spécial} film{Film} summary{Épisode récapitulatif} spin_off{Spin-off} other{}}",
-  "fullInformation": "Saison {season} • {episodeType} {number}",
-  "minInformation": "{episodeType} {number}",
-  "subtitles": "Sous-titrage",
-  "voice": "Doublage",
-
-  "markWatched": "Tout vu",
-  "watched": "Vu",
-  "unwatched": "Non vu",
-  "share": "Partager",
-  "showMore": "...plus",
-  "showLess": "...moins",
-
-  "anonymousAccount": "Compte anonyme",
-  "associateEmail": "Associer une adresse e-mail",
-  "code": "Code",
-  "sendCode": "Envoyer le code",
-  "account": "Compte",
-  "email": "Adresse e-mail",
-  "identifier": "Identifiant",
-  "identifierSubtitle": "Veuillez le sauvegarder pour récupérer vos données",
-  "noIdentifier": "Aucun identifiant",
-  "identifierCopied": "Identifiant copié dans le presse-papiers",
-  "enterNewIdentifier": "Veuillez saisir un nouvel identifiant",
-  "forgotIdentifier": "Identifiant oublié ?",
-  "cancel": "Annuler",
-  "save": "Enregistrer",
-  "ok": "D'accord",
-
-  "settings": "Paramètres",
-  "notifications": "Notifications",
-  "notificationsType": "{type, select, all{Toutes} watchlist{Watchlist} none{Aucune} other{Autre}}",
-  "notificationsSubtitles": "{type, select, all{Recevoir des notifications pour tous les animés} watchlist{Recevoir des notifications pour les animés de votre watchlist} none{} other{Recevoir des notifications pour les animés que vous suivez}}",
-  "sortType": "{type, select, oldest{Les plus anciens} newest{Les plus récents} other{Autre}}",
-
-  "anonymousWarningTitle": "Avertissement sur la sauvegarde des données",
-  "anonymousWarningContent1": "Nous sauvegardons vos données de manière anonyme sur nos serveurs. Chaque compte est associé à un identifiant unique. Veuillez noter que si vous perdez cet identifiant, vous risquez de perdre l'accès à toutes vos données.",
-  "anonymousWarningContent2": "Vous trouverez votre identifiant unique dans la section \"Compte\" des paramètres de l'application.",
-  "anonymousWarningContent3": "Pour éviter toute perte de données, nous vous recommandons vivement d'associer une adresse e-mail. Cela vous permettra de récupérer facilement vos données en cas de besoin et de sécuriser votre compte contre toute perte accidentelle.",
-  "oops": "Oups",
-  "noAnimeToday": "Il n'y a pas d'animé disponible aujourd'hui.",
-  "noInternet": "Pas de connexion Internet",
-  "noEmail": "Aucune adresse e-mail associée",
-  "tryAgain": "Réessayer",
-  "invalidEmail": "Adresse e-mail invalide",
-  "conflictEmail": "Cette adresse e-mail est déjà associée à un autre compte",
-  "invalidCode": "Code invalide",
-  "invalidIdentifier": "Identifiant invalide",
-
-  "emailContent": "En associant une adresse e-mail à votre compte, vous pourrez récupérer vos données en cas de perte de votre identifiant. De plus, vous pourrez sécuriser votre compte contre toute perte accidentelle.",
-  "emailSpamWarning": "Veuillez vérifier votre dossier de courrier indésirable si vous ne recevez pas l'e-mail dans votre boîte de réception. Si vous ne le recevez toujours pas après quelques minutes, veuillez réessayer.",
-  "emailNotAssociated": "Si vous n'avez pas associé d'adresse e-mail à votre compte, vous ne pourrez pas récupérer vos données en cas de perte de votre identifiant.",
-  "emailAlreadyAssociatedWithYourAccount": "Cette adresse e-mail est déjà associée à votre compte.",
-  "yourEmailHasBeenAssociated": "Votre adresse e-mail a bien été associée à votre compte.",
-  "yourNewIdentifierHasBeenSent": "Votre nouvel identifiant a été envoyé à votre adresse e-mail.",
-
-  "animesAdded": "Animés ajoutés",
-  "episodesWatched": "Épisodes vus",
-  "watchTime": "Temps de visionnage",
-  "accountDateFormat": "EEEE dd MMM yyyy",
-  "accountCreatedAt": "Compte créé le {date}",
-  "@accountCreatedAt": {
+  "langType": "{type, select, subtitles{Sous-titrage} voice{Doublage} other{Inconnu}}",
+  "episodeType": "{type, select, episode{Épisode} film{Film} special{Spécial} summary{Épisode récapitulatif} spinOff{Spin-off} other{Inconnu}}",
+  "season": "{type, select, spring{Printemps} summer{Été} autumn{Automne} winter{Hiver} other{Inconnu}}",
+  "episodeDescription": "Saison {season} • {episodeType} {number}",
+  "@episodeDescription": {
     "placeholders": {
-      "date": {
+      "season": {
+        "type": "String"
+      },
+      "episodeType": {
+        "type": "String"
+      },
+      "number": {
         "type": "String"
       }
     }
   },
-
-  "crop": "Recadrer",
-  "invalidImageFormat": "Format d'image invalide",
-  "invalidImageExtension": "Seuls les fichiers .jpg, .jpeg et .png sont autorisés",
-
-  "yourRecentlyAddedAnime1": "Vos animés récemment ",
-  "yourRecentlyAddedAnime2": "ajoutés",
-  "noFollowedAnime": "Vous n'avez pas encore ajouté d'animé à votre watchlist",
-  "yourRecentlyViewedEpisodes1": "Vos épisodes récemment ",
-  "yourRecentlyViewedEpisodes2": "vus",
-  "noWatchedEpisode": "Vous n'avez pas encore vus d'épisode",
-  "watchlist": "Watchlist",
-  "weekDays": "{day, select, 0{Lundi} 1{Mardi} 2{Mercredi} 3{Jeudi} 4{Vendredi} 5{Samedi} 6{Dimanche} other{}}",
-  "days": "j",
-  "play": "Regarder",
-  "notificationNotAuthorized": "Les notifications ne sont pas autorisées",
-  "notificationNotAuthorizedSubtitle": "Veuillez les activer dans les paramètres de votre application",
-  "downloadingPatch": "Téléchargement du correctif...",
-  "patchDownloaded": "Correctif téléchargé ! Redémarrez l'application pour appliquer les changements.",
-  "patchFailed": "Échec du téléchargement du correctif. Veuillez réessayer plus tard.",
-  "watchOn": "Regarder sur :",
-  "markAsWatched": "Marquer comme vu",
-  "defaultDescription": "Aucune description pour le moment...",
-  "enableNotifications": "Activer les notifications",
-  "notificationsDescription": "Recevez des mises à jour lorsque un nouvel épisode est disponible. Vous pouvez désactiver les notifications à tout moment dans les paramètres",
-  "activate": "Activer",
-  "later": "Plus tard",
-  "platformPreferences": "Préférences de lecture",
-  "rememberMyChoice": "Se souvenir de mon choix",
-  "dragToReorder": "Glissez pour réorganiser",
-  "continueLabel": "Continuer",
-  "platformPreferencesDescription": "Placez votre service préféré en haut de la liste. Nous l'utiliserons par défaut pour lancer vos épisodes",
-  "reorderPlatforms": "Ordre des services",
-  "reorderPlatformsDescription": "Mettez votre service favori en haut de la liste. Nous le lancerons en priorité lorsque vous regarderez un épisode",
-  "loggingIn": "Connexion en cours..."
+  "simulcast": "{season} {year}",
+  "@simulcast": {
+    "placeholders": {
+      "season": {
+        "type": "String"
+      },
+      "year": {
+        "type": "int"
+      }
+    }
+  },
+  "weekDays": "{day, select, 0{Lundi} 1{Mardi} 2{Mercredi} 3{Jeudi} 4{Vendredi} 5{Samedi} 6{Dimanche} other{Inconnu}}"
 }

@@ -1,258 +1,83 @@
-import 'package:application/controllers/animes/missed_anime_controller.dart';
-import 'package:application/controllers/episodes/episode_controller.dart';
-import 'package:application/controllers/member_controller.dart';
-import 'package:application/controllers/navigation_controller.dart';
-import 'package:application/controllers/notifications_controller.dart';
-import 'package:application/controllers/patch_controller.dart';
-import 'package:application/controllers/review_controller.dart';
-import 'package:application/controllers/shared_preferences_controller.dart';
-import 'package:application/controllers/sort_controller.dart';
-import 'package:application/controllers/update_controller.dart';
-import 'package:application/dtos/enums/config_property_key.dart';
-import 'package:application/firebase_options.dart';
+import 'package:application/core/network/http_client.dart';
+import 'package:application/core/theme/app_theme.dart';
 import 'package:application/l10n/app_localizations.dart';
-import 'package:application/utils/analytics.dart';
-import 'package:application/utils/constant.dart';
-import 'package:application/utils/extensions.dart';
-import 'package:application/utils/notification_throttler.dart';
-import 'package:application/views/account_view.dart';
-import 'package:application/views/calendar_view.dart';
-import 'package:application/views/home_view.dart';
-import 'package:application/views/loading_view.dart';
-import 'package:application/views/no_internet.dart';
-import 'package:application/views/simulcast_view.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:application/repositories/anime_repository.dart';
+import 'package:application/repositories/grouped_episode_repository.dart';
+import 'package:application/repositories/simulcast_repository.dart';
+import 'package:application/repositories/weekly_repository.dart';
+import 'package:application/viewmodels/anime_view_model.dart';
+import 'package:application/viewmodels/grouped_episode_view_model.dart';
+import 'package:application/viewmodels/navigation_view_model.dart';
+import 'package:application/viewmodels/simulcast_view_model.dart';
+import 'package:application/viewmodels/weekly_view_model.dart';
+import 'package:application/views/catalog/catalog_view.dart';
+import 'package:application/views/grouped_episodes/grouped_episodes_view.dart';
+import 'package:application/views/weekly/weekly_view.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart';
+import 'package:provider/provider.dart';
 
-@pragma('vm:entry-point')
-Future<void> _firebaseMessagingBackgroundHandler(
-  final RemoteMessage message,
-) async {
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  WidgetsFlutterBinding.ensureInitialized();
-  await SharedPreferencesController.instance.init();
-
-  if (NotificationThrottler.isCallThrottled()) {
-    return;
-  }
-
-  try {
-    final String? identifier = SharedPreferencesController.instance.getString(
-      ConfigPropertyKey.identifier,
-    );
-    if (identifier == null) {
-      return;
-    }
-    final Response response = await MemberController.instance.testLogin(
-      identifier,
-    );
-    if (response.statusCode != 200) {
-      return;
-    }
-    await SharedPreferencesController.instance.setString(
-      ConfigPropertyKey.lastApiCallNotification,
-      DateTime.now().toIso8601String(),
-    );
-  } on Exception catch (_) {}
-}
+import 'core/theme/app_theme_colors.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  if (kDebugMode && Constant.apiUrl == 'https://api.shikkanime.fr') {
-    throw Exception('You must change the API URL in the Constant class');
-  }
-
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        Provider(create: (_) => const HttpClient()),
+        Provider(
+          create: (context) =>
+              GroupedEpisodeRepository(context.read<HttpClient>()),
+        ),
+        Provider(
+          create: (context) => SimulcastRepository(context.read<HttpClient>()),
+        ),
+        Provider(
+          create: (context) => AnimeRepository(context.read<HttpClient>()),
+        ),
+        Provider(
+          create: (context) => WeeklyRepository(context.read<HttpClient>()),
+        ),
+        ChangeNotifierProvider(
+          create: (context) =>
+              GroupedEpisodeViewModel(context.read<GroupedEpisodeRepository>()),
+        ),
+        ChangeNotifierProvider(
+          create: (context) =>
+              SimulcastViewModel(context.read<SimulcastRepository>()),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AnimeViewModel(
+            context.read<AnimeRepository>(),
+            context.read<SimulcastViewModel>(),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) =>
+              WeeklyViewModel(context.read<WeeklyRepository>()),
+        ),
+        ChangeNotifierProvider(create: (_) => NavigationViewModel()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  bool? _hasInternet;
-
-  @override
-  void initState() {
-    super.initState();
-    _init();
-  }
-
-  Future<void> _init() async {
-    try {
-      if (NotificationsController.isSupported) {
-        await Firebase.initializeApp(
-          options: DefaultFirebaseOptions.currentPlatform,
-        );
-
-        FirebaseMessaging.onBackgroundMessage(
-          _firebaseMessagingBackgroundHandler,
-        );
-        FirebaseMessaging.onMessage.listen(_firebaseMessagingBackgroundHandler);
-      }
-
-      final int start = DateTime.now().millisecondsSinceEpoch;
-      debugPrint('Logging in...');
-
-      await SharedPreferencesController.instance.init();
-      await MemberController.instance.init();
-      await SortController.instance.init();
-
-      debugPrint(
-        'Logged in in ${DateTime.now().millisecondsSinceEpoch - start}ms',
-      );
-
-      if (mounted) {
-        setState(() {
-          _hasInternet = true;
-        });
-      }
-    } on Exception catch (e) {
-      debugPrint(e.toString());
-
-      if (mounted) {
-        setState(() {
-          _hasInternet = false;
-        });
-      }
-    }
-  }
-
-  @override
-  Widget build(final BuildContext context) => MaterialApp(
-    localizationsDelegates: AppLocalizations.localizationsDelegates,
+  Widget build(BuildContext context) => MaterialApp(
+    theme: AppTheme.light,
+    darkTheme: AppTheme.dark,
+    localizationsDelegates: const [
+      ...GlobalMaterialLocalizations.delegates,
+      ...AppLocalizations.localizationsDelegates,
+    ],
     supportedLocales: AppLocalizations.supportedLocales,
-    theme: _buildTheme(
-      brightness: Brightness.light,
-      scaffoldBackground: const Color(0xfff0f0f0),
-      primary: Colors.black,
-      canvasColor: Colors.white,
-      textColor: Colors.black,
-      greyColor: Colors.grey[800]!,
-      snackBarBackground: Colors.white,
-      elevatedButtonBackground: const Color(0xfff6f6f6),
-      elevatedButtonShadowColor: Colors.grey[300]!,
-      iconImage: const AssetImage('assets/dark_icon.png'),
-      oppositeTextColor: Colors.white,
-    ),
-    darkTheme: _buildTheme(
-      brightness: Brightness.dark,
-      scaffoldBackground: Colors.black,
-      primary: Colors.white,
-      canvasColor: const Color(0xff161616),
-      textColor: Colors.white,
-      greyColor: Colors.grey[400]!,
-      snackBarBackground: Colors.grey[900]!,
-      elevatedButtonBackground: const Color(0xff282828),
-      elevatedButtonShadowColor: Colors.grey[900]!,
-      iconImage: const AssetImage('assets/light_icon.png'),
-      oppositeTextColor: Colors.black,
-    ),
-    home: _hasInternet == null
-        ? const LoadingView()
-        : (_hasInternet! ? const MyHomePage() : const NoInternet()),
+    home: const MyHomePage(),
     debugShowCheckedModeBanner: false,
   );
-
-  ThemeData _buildTheme({
-    required final Brightness brightness,
-    required final Color scaffoldBackground,
-    required final Color primary,
-    required final Color canvasColor,
-    required final Color textColor,
-    required final Color greyColor,
-    required final Color snackBarBackground,
-    required final Color elevatedButtonBackground,
-    required final Color elevatedButtonShadowColor,
-    required final AssetImage iconImage,
-    required final Color oppositeTextColor,
-  }) =>
-      ThemeData(
-          brightness: brightness,
-          fontFamily: 'Satoshi',
-          scaffoldBackgroundColor: scaffoldBackground,
-          colorScheme: ColorScheme.fromSeed(
-            brightness: brightness,
-            seedColor: primary,
-            primary: primary,
-          ),
-          appBarTheme: AppBarTheme(
-            backgroundColor: scaffoldBackground.withValues(alpha: 0.6),
-          ),
-          bottomNavigationBarTheme: BottomNavigationBarThemeData(
-            selectedItemColor: primary,
-            unselectedItemColor: greyColor,
-          ),
-          floatingActionButtonTheme: FloatingActionButtonThemeData(
-            backgroundColor: primary,
-            foregroundColor: canvasColor,
-          ),
-          canvasColor: canvasColor,
-          textTheme: TextTheme(
-            bodyLarge: TextStyle(
-              color: textColor,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-            bodyMedium: TextStyle(color: greyColor),
-            bodySmall: TextStyle(color: greyColor, fontSize: 11),
-          ),
-          iconTheme: IconThemeData(color: greyColor),
-          snackBarTheme: SnackBarThemeData(
-            backgroundColor: snackBarBackground,
-            contentTextStyle: TextStyle(color: textColor),
-          ),
-          progressIndicatorTheme: ProgressIndicatorThemeData(
-            color: primary,
-            linearTrackColor: scaffoldBackground,
-          ),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: canvasColor,
-              shadowColor: elevatedButtonShadowColor,
-            ),
-          ),
-          searchBarTheme: SearchBarThemeData(
-            backgroundColor: WidgetStatePropertyAll<Color>(canvasColor),
-            shadowColor: WidgetStatePropertyAll<Color>(canvasColor),
-            textStyle: WidgetStatePropertyAll<TextStyle>(
-              TextStyle(color: textColor, fontSize: 20),
-            ),
-          ),
-          popupMenuTheme: PopupMenuThemeData(
-            color: canvasColor,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(Constant.borderRadius),
-              ),
-            ),
-          ),
-          iconButtonTheme: IconButtonThemeData(
-            style: IconButton.styleFrom(foregroundColor: primary),
-          ),
-          dialogTheme: DialogThemeData(backgroundColor: canvasColor),
-          bottomSheetTheme: BottomSheetThemeData(
-            surfaceTintColor: canvasColor,
-            backgroundColor: canvasColor,
-          ),
-          dividerTheme: DividerThemeData(color: primary),
-        )
-        ..addInputDecorationTheme(
-          ElevatedButton.styleFrom(
-            backgroundColor: elevatedButtonBackground,
-            shadowColor: elevatedButtonShadowColor,
-          ),
-        )
-        ..addImageDecorationTheme(iconImage)
-        ..addOppositeTextColor(oppositeTextColor);
 }
 
 class MyHomePage extends StatefulWidget {
@@ -265,147 +90,101 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
+    SystemChrome.setPreferredOrientations([.portraitUp, .portraitDown]);
+
     super.initState();
-
-    SystemChrome.setPreferredOrientations(<DeviceOrientation>[
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
-
-    WidgetsBinding.instance.addPostFrameCallback((final _) {
-      NotificationsController.instance.init(context);
-      Analytics.instance.logScreenView('home');
-      PatchController.instance.patch(context);
-      ReviewController.instance.requestReview();
-      UpdateController.instance.checkIfStoreUpdateIsAvailable(context);
-
-      MissedAnimeController.instance.init();
-      EpisodeController.instance.init();
-    });
   }
 
   @override
   void dispose() {
-    super.dispose();
-
-    SystemChrome.setPreferredOrientations(<DeviceOrientation>[
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
+    SystemChrome.setPreferredOrientations([
+      .landscapeRight,
+      .landscapeLeft,
+      .portraitUp,
+      .portraitDown,
     ]);
+
+    super.dispose();
   }
 
   @override
-  Widget build(final BuildContext context) {
-    final PageView pageView = PageView(
-      controller: NavigationController.instance.pageController,
-      onPageChanged: (final int index) {
-        NavigationController.instance.setIndex(
-          index,
-          NavigationSource.pageView,
-        );
-      },
-      children: const <Widget>[
-        HomeView(),
-        SimulcastView(),
-        CalendarView(),
-        AccountView(),
-      ],
-    );
+  Widget build(BuildContext context) {
+    final viewModel = context.watch<NavigationViewModel>();
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: Constant.isAndroidOrIOS ? const ApplicationAppBar() : null,
-      body: Constant.isAndroidOrIOS
-          ? pageView
-          : Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).canvasColor,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    child: StreamBuilder<int>(
-                      stream:
-                          NavigationController.instance.streamController.stream,
-                      initialData: NavigationController.instance.currentIndex,
-                      builder:
-                          (
-                            final BuildContext context,
-                            final AsyncSnapshot<int> snapshot,
-                          ) => Column(
-                            spacing: 8,
-                            children: NavigationController.instance
-                                .getDrawerItems(context),
-                          ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: pageView,
-                  ),
-                ),
-              ],
-            ),
-      bottomNavigationBar: Constant.isAndroidOrIOS
-          ? StreamBuilder<int>(
-              stream: NavigationController.instance.streamController.stream,
-              builder:
-                  (
-                    final BuildContext context,
-                    final AsyncSnapshot<int> snapshot,
-                  ) => BottomNavigationBar(
-                    showUnselectedLabels: true,
-                    currentIndex: NavigationController.instance.currentIndex,
-                    items: NavigationController.instance
-                        .getBottomNavigationBarItems(context),
-                    onTap: (final int index) {
-                      NavigationController.instance.setIndex(
-                        index,
-                        NavigationSource.bottomNavigationBar,
-                      );
-                    },
-                  ),
-            )
-          : null,
+      appBar: const _AppAppBar(),
+      body: SafeArea(
+        child: Padding(
+          padding: const .symmetric(horizontal: 8),
+          child: PageView(
+            controller: viewModel.controller,
+            onPageChanged: viewModel.onChange,
+            children: const [
+              GroupedEpisodesView(),
+              CatalogView(),
+              WeeklyView(),
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        showUnselectedLabels: true,
+        currentIndex: viewModel.currentIndex,
+        onTap: viewModel.onChange,
+        items: [
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.home_outlined),
+            activeIcon: const Icon(Icons.home),
+            label: AppLocalizations.of(context)!.home,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.video_collection_outlined),
+            activeIcon: const Icon(Icons.video_collection),
+            label: AppLocalizations.of(context)!.catalog,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.calendar_today_outlined),
+            activeIcon: const Icon(Icons.calendar_today),
+            label: AppLocalizations.of(context)!.calendar,
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          switch (viewModel.currentIndex) {
+            case 0:
+              context.read<GroupedEpisodeViewModel>().init(bypass: true);
+              break;
+            case 1:
+              context.read<AnimeViewModel>().init(bypass: true);
+              break;
+            case 2:
+              context.read<WeeklyViewModel>().init(bypass: true);
+              break;
+          }
+        },
+        child: const Icon(Icons.refresh),
+      ),
     );
   }
 }
 
-class ApplicationAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const ApplicationAppBar({super.key});
+class _AppAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const _AppAppBar();
 
   @override
-  Widget build(final BuildContext context) => StreamBuilder<int>(
-    stream: NavigationController.instance.streamController.stream,
-    initialData: NavigationController.instance.currentIndex,
-    builder: (final BuildContext context, final AsyncSnapshot<int> snapshot) =>
-        AppBar(
-          elevation: 0,
-          centerTitle: false,
-          title: GestureDetector(
-            onTap: () {
-              NavigationController.instance.setIndex(
-                0,
-                NavigationSource.appBar,
-              );
-            },
-            child: Image(
-              image: Theme.of(context).iconImage!,
-              width: 36,
-              height: 36,
-            ),
-          ),
-          actions: NavigationController.instance.getAppbarNavigationItems(
-            context,
-          ),
-        ),
-  );
+  Widget build(BuildContext context) {
+    return AppBar(
+      elevation: 0,
+      centerTitle: false,
+      title: Image(
+        image: Theme.of(context).extension<AppThemeExtension>()!.iconImage,
+        width: 36,
+        height: 36,
+      ),
+    );
+  }
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);

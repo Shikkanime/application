@@ -1,1 +1,0 @@
-enum SearchType { subtitles, voice }
