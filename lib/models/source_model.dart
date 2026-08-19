@@ -7,9 +7,10 @@ part 'source_model.g.dart';
 @JsonSerializable(createToJson: false)
 class SourceModel {
   final PlatformModel platform;
+  final String url;
   final LangType langType;
 
-  SourceModel(this.platform, this.langType);
+  SourceModel(this.platform, this.url, this.langType);
 
   factory SourceModel.fromJson(Map<String, dynamic> json) =>
       _$SourceModelFromJson(json);

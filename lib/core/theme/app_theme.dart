@@ -87,6 +87,7 @@ sealed class AppTheme {
         ),
         bodyMedium: TextStyle(color: greyColor),
         bodySmall: TextStyle(color: greyColor, fontSize: bodySmallFontSize),
+        labelSmall: TextStyle(color: textColor, fontSize: bodySmallFontSize),
       ),
       iconTheme: IconThemeData(color: greyColor),
       snackBarTheme: SnackBarThemeData(

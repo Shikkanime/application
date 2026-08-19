@@ -44,11 +44,9 @@ class _GroupedEpisodesViewState extends State<GroupedEpisodesView> {
 
               return RefreshIndicator(
                 onRefresh: () => viewModel.init(bypass: true),
-                child: MasonryGridView.builder(
+                child: AlignedGridView.count(
+                  crossAxisCount: crossAxisCount,
                   controller: viewModel.scrollController,
-                  gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: crossAxisCount,
-                  ),
                   mainAxisSpacing: 8,
                   crossAxisSpacing: 8,
                   itemCount: viewModel.length,
@@ -60,7 +58,10 @@ class _GroupedEpisodesViewState extends State<GroupedEpisodesView> {
                       return const GroupedEpisodeSkeletonCard();
                     }
 
-                    return GroupedEpisodeCard(groupedEpisode);
+                    return Align(
+                      alignment: .topCenter,
+                      child: GroupedEpisodeCard(groupedEpisode),
+                    );
                   },
                 ),
               );

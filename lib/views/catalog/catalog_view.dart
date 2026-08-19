@@ -85,9 +85,13 @@ class _CatalogViewState extends State<CatalogView> {
                 mainAxisAlignment: .center,
                 spacing: 8,
                 children: [
-                  const Icon(Icons.warning),
+                  const Icon(Icons.warning, color: Colors.black),
                   Flexible(
-                    child: Text(AppLocalizations.of(context)!.warningCatalog),
+                    child: Text(
+                      AppLocalizations.of(context)!.warningCatalog,
+                      style: Theme.of(context).textTheme.bodyMedium
+                          ?.copyWith(color: Colors.black),
+                    ),
                   ),
                 ],
               ),
@@ -104,11 +108,9 @@ class _CatalogViewState extends State<CatalogView> {
 
               return RefreshIndicator(
                 onRefresh: () => viewModel.init(bypass: true),
-                child: MasonryGridView.builder(
+                child: AlignedGridView.count(
+                  crossAxisCount: crossAxisCount,
                   controller: viewModel.scrollController,
-                  gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: crossAxisCount,
-                  ),
                   mainAxisSpacing: 8,
                   crossAxisSpacing: 8,
                   itemCount: viewModel.length,
@@ -120,7 +122,10 @@ class _CatalogViewState extends State<CatalogView> {
                       return const AnimeSkeletonCard();
                     }
 
-                    return AnimeCard(anime);
+                    return Align(
+                      alignment: .topCenter,
+                      child: AnimeCard(anime),
+                    );
                   },
                 ),
               );

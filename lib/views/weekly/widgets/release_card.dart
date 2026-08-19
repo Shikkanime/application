@@ -3,7 +3,6 @@ import 'package:application/core/widgets/app_skeleton.dart';
 import 'package:application/core/widgets/cached_network_image.dart';
 import 'package:application/core/widgets/lang_types/lang_type_label.dart';
 import 'package:application/core/widgets/app_card.dart';
-import 'package:application/core/widgets/platforms_badge.dart';
 import 'package:application/l10n/app_localizations.dart';
 import 'package:application/models/weekly_release_model.dart';
 import 'package:material_ui/material_ui.dart';
@@ -41,11 +40,6 @@ class ReleaseCard extends StatelessWidget {
                     fit: .cover,
                     loading: const AppSkeleton(),
                     error: const AppSkeleton(),
-                  ),
-                  Positioned(
-                    top: 8,
-                    right: 8,
-                    child: PlatformsBadge(platforms: _release.platforms),
                   ),
                 ],
               ),

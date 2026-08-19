@@ -116,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: const _AppAppBar(),
       body: SafeArea(
         child: Padding(
-          padding: const .symmetric(horizontal: 8),
+          padding: const .only(left: 8, right: 8, bottom: 8),
           child: PageView(
             controller: viewModel.controller,
             onPageChanged: viewModel.onChange,
