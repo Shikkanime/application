@@ -1,3 +1,4 @@
+import 'package:application/core/logger/app_logger.dart';
 import 'package:application/core/network/api_result.dart';
 import 'package:application/models/simulcast_model.dart';
 import 'package:application/repositories/simulcast_repository.dart';
@@ -29,7 +30,7 @@ class SimulcastViewModel extends ChangeNotifier {
         _simulcasts.addAll(data);
         break;
       case ApiFailure<List<SimulcastModel>> failure:
-        debugPrint(
+        AppLogger.print(
           'Failed to fetch simulcasts: ${failure.error}, status code: ${failure.statusCode}',
         );
         break;

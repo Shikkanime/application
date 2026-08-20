@@ -1,3 +1,4 @@
+import 'package:application/core/logger/app_logger.dart';
 import 'package:application/core/network/api_result.dart';
 import 'package:application/models/anime_model.dart';
 import 'package:application/models/lang_type.dart';
@@ -50,6 +51,13 @@ class AnimeViewModel extends ChangeNotifier implements LangTypeFilterViewModel {
         ? simulcasts.firstWhere((s) => s.uuid == simulcastUuid)
         : null;
     _simulcastSelectionInitialized = true;
+
+    if (simulcastUuid == null) {
+      AppLogger.print('Selected simulcast: All');
+    } else {
+      AppLogger.print('Selected simulcast: ${_selectedSimulcast?.season} - ${_selectedSimulcast?.year}');
+    }
+
     notifyListeners();
     init(bypass: true);
   }
@@ -70,11 +78,13 @@ class AnimeViewModel extends ChangeNotifier implements LangTypeFilterViewModel {
   }
 
   Future<void> init({bool bypass = false}) async {
-    await _simulcastViewModel.init(bypass: bypass);
+    if (!_simulcastSelectionInitialized) {
+      await _simulcastViewModel.init(bypass: bypass);
 
-    if (!_simulcastSelectionInitialized && simulcasts.isNotEmpty) {
-      _selectedSimulcast = simulcasts.first;
-      _simulcastSelectionInitialized = true;
+      if (simulcasts.isNotEmpty) {
+        _selectedSimulcast = simulcasts.first;
+        _simulcastSelectionInitialized = true;
+      }
     }
 
     if (!bypass && _animes.isNotEmpty) return;
@@ -117,7 +127,7 @@ class AnimeViewModel extends ChangeNotifier implements LangTypeFilterViewModel {
         _canLoadMore = data.total > _animes.length;
         break;
       case ApiFailure<PageableModel<AnimeModel>> failure:
-        debugPrint(
+        AppLogger.print(
           'Error fetching animes: ${failure.statusCode} - ${failure.error}',
         );
         break;

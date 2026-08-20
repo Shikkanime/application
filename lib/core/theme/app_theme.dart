@@ -10,6 +10,7 @@ sealed class AppTheme {
     canvasColor: Colors.white,
     textColor: Colors.black,
     inverseTextColor: Colors.white,
+    warningTextColor: Colors.black,
     greyColor: Colors.grey[800]!,
     snackBarBackgroundColor: Colors.white,
     elevatedButtonBackgroundColor: Colors.white,
@@ -24,6 +25,7 @@ sealed class AppTheme {
     canvasColor: const Color(0xff161616),
     textColor: Colors.white,
     inverseTextColor: Colors.black,
+    warningTextColor: Colors.black,
     greyColor: Colors.grey[400]!,
     snackBarBackgroundColor: Colors.grey[900]!,
     elevatedButtonBackgroundColor: const Color(0xff282828),
@@ -38,6 +40,7 @@ sealed class AppTheme {
     required Color canvasColor,
     required Color textColor,
     required Color inverseTextColor,
+    required Color warningTextColor,
     required Color greyColor,
     required Color snackBarBackgroundColor,
     required Color elevatedButtonBackgroundColor,
@@ -61,6 +64,7 @@ sealed class AppTheme {
       extensions: [
         AppThemeExtension(
           inverseTextColor: inverseTextColor,
+          warningTextColor: warningTextColor,
           iconImage: iconImage,
         ),
       ],

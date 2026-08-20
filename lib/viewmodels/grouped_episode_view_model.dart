@@ -1,3 +1,4 @@
+import 'package:application/core/logger/app_logger.dart';
 import 'package:application/core/network/api_result.dart';
 import 'package:application/models/grouped_episode_model.dart';
 import 'package:application/models/lang_type.dart';
@@ -82,7 +83,7 @@ class GroupedEpisodeViewModel extends ChangeNotifier
         break;
       case ApiFailure<PageableModel<GroupedEpisodeModel>> failure:
         // Handle error, e.g., log it or show a message to the user
-        debugPrint(
+        AppLogger.print(
           'Error fetching grouped episodes: ${failure.statusCode} - ${failure.error}',
         );
         break;

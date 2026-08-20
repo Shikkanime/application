@@ -37,6 +37,10 @@ class _CatalogViewState extends State<CatalogView> {
         .extension<AppThemeExtension>()
         ?.inverseTextColor;
 
+    final warningTextColor = Theme.of(context)
+        .extension<AppThemeExtension>()
+        ?.warningTextColor;
+
     return Column(
       mainAxisSize: .max,
       crossAxisAlignment: .start,
@@ -78,19 +82,19 @@ class _CatalogViewState extends State<CatalogView> {
               borderRadius: .all(.circular(24)),
             ),
             child: Padding(
-              padding: const .all(8),
+              padding: const .symmetric(horizontal: 16, vertical: 8),
               child: Flex(
                 direction: .horizontal,
                 mainAxisSize: .max,
                 mainAxisAlignment: .center,
-                spacing: 8,
+                spacing: 16,
                 children: [
-                  const Icon(Icons.warning, color: Colors.black),
+                  Icon(Icons.warning, color: warningTextColor),
                   Flexible(
                     child: Text(
                       AppLocalizations.of(context)!.warningCatalog,
                       style: Theme.of(context).textTheme.bodyMedium
-                          ?.copyWith(color: Colors.black),
+                          ?.copyWith(color: warningTextColor),
                     ),
                   ),
                 ],

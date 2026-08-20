@@ -1,7 +1,8 @@
+import 'package:application/core/logger/app_logger.dart';
 import 'package:application/core/widgets/app_blur_badge.dart';
-import 'package:application/core/widgets/app_skeleton.dart';
-import 'package:application/core/widgets/cached_network_image.dart';
+import 'package:application/core/widgets/platforms/platform_image.dart';
 import 'package:application/core/widgets/platforms/platforms_stack.dart';
+import 'package:application/core/widgets/show_app_menu.dart';
 import 'package:application/l10n/app_localizations.dart';
 import 'package:application/models/platform_model.dart';
 import 'package:application/models/source_model.dart';
@@ -10,13 +11,8 @@ import 'package:material_ui/material_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AvailablePlatformsBadge extends StatelessWidget {
-  const AvailablePlatformsBadge(
-    this._globalKey, {
-    super.key,
-    required this.sources,
-  });
+  const AvailablePlatformsBadge({super.key, required this.sources});
 
-  final GlobalKey _globalKey;
   final Iterable<SourceModel> sources;
 
   Set<PlatformModel> get _platforms =>
@@ -29,7 +25,7 @@ class AvailablePlatformsBadge extends StatelessWidget {
       .platformDefault,
     ];
 
-    debugPrint('Launch url...');
+    AppLogger.print('Launch url: $url...');
 
     for (final mode in modes) {
       try {
@@ -37,7 +33,7 @@ class AvailablePlatformsBadge extends StatelessWidget {
           return true;
         }
       } on PlatformException catch (e) {
-        debugPrint('Failed to launch URL with mode $mode: $e');
+        AppLogger.print('Failed to launch URL with mode $mode: $e');
       }
     }
 
@@ -52,81 +48,51 @@ class AvailablePlatformsBadge extends StatelessWidget {
     return Positioned(
       left: 8,
       bottom: 8,
-      child: GestureDetector(
-        key: _globalKey,
-        onTap: () async {
-          if (platforms.length == 1) {
-            _launch(sources.first.url);
-            return;
-          }
+      child: Builder(
+        builder: (context) => GestureDetector(
+          onTap: () {
+            if (platforms.length == 1) {
+              _launch(sources.first.url);
+              return;
+            }
 
-          final renderBox =
-              _globalKey.currentContext?.findRenderObject() as RenderBox?;
-          final overlayBox =
-              Navigator.of(context).overlay?.context.findRenderObject()
-                  as RenderBox?;
-
-          if (renderBox == null || overlayBox == null) return;
-
-          final topLeft = renderBox.localToGlobal(.zero, ancestor: overlayBox);
-          final bottomRight = renderBox.localToGlobal(
-            renderBox.size.bottomRight(.zero),
-            ancestor: overlayBox,
-          );
-          final menuWidth = renderBox.size.width < 240
-              ? 240.0
-              : renderBox.size.width;
-
-          await showMenu(
-            context: context,
-            position: .fromRect(
-              .fromPoints(topLeft, bottomRight),
-              Offset.zero & overlayBox.size,
-            ),
-            constraints: .tightFor(width: menuWidth),
-            items: [
-              for (final platform in platforms)
-                PopupMenuItem(
-                  onTap: () {
-                    final source = sources.singleWhere(
-                      (source) => source.platform.name == platform.name,
-                    );
-                    _launch(source.url);
-                  },
-                  child: ListTile(
-                    leading: ClipOval(
-                      child: CachedNetworkImage(
-                        'https://www.shikkanime.fr/assets/img/platforms/${platform.image}',
-                        width: 16,
-                        height: 16,
-                        fit: .cover,
-                        loading: const AppSkeleton(),
-                        error: const AppSkeleton(),
-                      ),
+            showAppPopupMenu(
+              context: context,
+              items: [
+                for (final platform in platforms)
+                  PopupMenuItem(
+                    onTap: () {
+                      final source = sources.singleWhere(
+                        (source) => source.platform.name == platform.name,
+                      );
+                      _launch(source.url);
+                    },
+                    child: ListTile(
+                      leading: PlatformImage(platform, width: 16, height: 16),
+                      title: Text(platform.name),
+                      trailing: const Icon(Icons.north_east),
                     ),
-                    title: Text(platform.name),
-                    trailing: const Icon(Icons.north_east),
                   ),
+              ],
+            );
+          },
+          child: AppBlurBadge(
+            child: Flex(
+              direction: .horizontal,
+              spacing: 4,
+              children: [
+                Icon(
+                  Icons.open_in_new,
+                  color: labelSmall?.color,
+                  size: labelSmall?.fontSize,
                 ),
-            ],
-          );
-        },
-        child: AppBlurBadge(
-          child: Flex(
-            direction: .horizontal,
-            spacing: 4,
-            children: [
-              Icon(
-                Icons.open_in_new,
-                color: labelSmall?.color,
-                size: labelSmall?.fontSize,
-              ),
-              Text(
-                AppLocalizations.of(context)!.availableOn,
-                style: labelSmall,
-              ),
-              PlatformsStack(platforms: platforms),
-            ],
+                Text(
+                  AppLocalizations.of(context)!.availableOn,
+                  style: labelSmall,
+                ),
+                PlatformsStack(platforms: platforms),
+              ],
+            ),
           ),
         ),
       ),

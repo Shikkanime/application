@@ -1,3 +1,4 @@
+import 'package:application/core/logger/app_logger.dart';
 import 'package:application/core/network/api_result.dart';
 import 'package:application/models/lang_type.dart';
 import 'package:application/models/weekly_day_model.dart';
@@ -37,11 +38,13 @@ class WeeklyViewModel extends ChangeNotifier
 
   void setPreviousDay() {
     _selectedDay = (_selectedDay - 1) % 7;
+    AppLogger.print('Selected day: $_selectedDay');
     notifyListeners();
   }
 
   void setNextDay() {
     _selectedDay = (_selectedDay + 1) % 7;
+    AppLogger.print('Selected day: $_selectedDay');
     notifyListeners();
   }
 
@@ -82,7 +85,7 @@ class WeeklyViewModel extends ChangeNotifier
         _weekly.addAll(data);
         break;
       case ApiFailure<List<WeeklyDayModel>> failure:
-        debugPrint(
+        AppLogger.print(
           'Error fetching weekly: ${failure.statusCode} - ${failure.error}',
         );
         break;

@@ -1,8 +1,8 @@
 import 'package:application/core/config/env_config.dart';
+import 'package:application/core/widgets/app_card.dart';
 import 'package:application/core/widgets/app_skeleton.dart';
 import 'package:application/core/widgets/cached_network_image.dart';
 import 'package:application/core/widgets/lang_types/lang_type_label.dart';
-import 'package:application/core/widgets/app_card.dart';
 import 'package:application/core/widgets/platforms/available_platforms_badge.dart';
 import 'package:application/l10n/app_localizations.dart';
 import 'package:application/models/grouped_episode_model.dart';
@@ -33,10 +33,7 @@ class GroupedEpisodeCard extends StatelessWidget {
                     loading: const AppSkeleton(),
                     error: const AppSkeleton(),
                   ),
-                  AvailablePlatformsBadge(
-                    GlobalKey(),
-                    sources: _groupedEpisode.sources,
-                  ),
+                  AvailablePlatformsBadge(sources: _groupedEpisode.sources),
                 ],
               ),
             ),

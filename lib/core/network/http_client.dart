@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:application/core/config/env_config.dart';
+import 'package:application/core/logger/app_logger.dart';
 import 'package:application/core/network/api_result.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:http/http.dart' as http;
 
 class HttpClient {
@@ -42,13 +42,15 @@ class HttpClient {
     try {
       final response = await request().timeout(timeout);
       stopWatch.stop();
-      debugPrint(
+      AppLogger.print(
         'Request to ${response.request?.url} took ${stopWatch.elapsedMilliseconds} ms',
       );
       return _checkStatus(response);
     } on Exception catch (e) {
       stopWatch.stop();
-      debugPrint('Request failed after ${stopWatch.elapsedMilliseconds} ms');
+      AppLogger.print(
+        'Request failed after ${stopWatch.elapsedMilliseconds} ms',
+      );
       return ApiFailure(e.toString());
     }
   }

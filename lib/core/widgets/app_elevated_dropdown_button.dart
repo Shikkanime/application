@@ -1,15 +1,14 @@
+import 'package:application/core/widgets/show_app_menu.dart';
 import 'package:material_ui/material_ui.dart';
 
 class AppElevatedDropdownButton<T> extends StatelessWidget {
-  const AppElevatedDropdownButton(
-    this._globalKey, {
+  const AppElevatedDropdownButton({
     super.key,
     this.value,
     required this.items,
     required this.onChanged,
   });
 
-  final GlobalKey _globalKey;
   final T? value;
   final List<AppElevatedPopupMenuEntry<T>> items;
   final ValueChanged<T> onChanged;
@@ -26,57 +25,37 @@ class AppElevatedDropdownButton<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     final selectedItem = _getSelectedItem();
 
-    return ElevatedButton(
-      key: _globalKey,
-      onPressed: () async {
-        final renderBox =
-            _globalKey.currentContext?.findRenderObject() as RenderBox?;
-        final overlayBox =
-            Navigator.of(context).overlay?.context.findRenderObject()
-                as RenderBox?;
+    return Builder(
+      builder: (context) => ElevatedButton(
+        onPressed: () async {
+          final maxHeight = MediaQuery.heightOf(context) * 0.3;
+          final menuHeight = (items.length * kMinInteractiveDimension)
+              .clamp(0.0, maxHeight)
+              .toDouble();
 
-        if (renderBox == null || overlayBox == null || items.isEmpty) return;
+          final selection = await showAppPopupMenu<_MenuSelection<T>>(
+            context: context,
+            items: [
+              _LazyPopupMenuEntry<T>(
+                height: menuHeight,
+                selectedValue: value,
+                items: items,
+              ),
+            ],
+          );
 
-        final topLeft = renderBox.localToGlobal(.zero, ancestor: overlayBox);
-        final bottomRight = renderBox.localToGlobal(
-          renderBox.size.bottomRight(.zero),
-          ancestor: overlayBox,
-        );
-        final maxHeight = MediaQuery.heightOf(context) * 0.3;
-        final menuHeight = (items.length * kMinInteractiveDimension)
-            .clamp(0.0, maxHeight)
-            .toDouble();
-        final menuWidth = renderBox.size.width < 240
-            ? 240.0
-            : renderBox.size.width;
-
-        final selection = await showMenu<_MenuSelection<T>>(
-          context: context,
-          position: .fromRect(
-            .fromPoints(topLeft, bottomRight),
-            Offset.zero & overlayBox.size,
-          ),
-          constraints: .tightFor(width: menuWidth),
-          items: [
-            _LazyPopupMenuEntry<T>(
-              height: menuHeight,
-              selectedValue: value,
-              items: items,
-            ),
+          if (selection != null) {
+            onChanged(selection.value);
+          }
+        },
+        child: Flex(
+          spacing: 8,
+          direction: .horizontal,
+          children: [
+            if (selectedItem != null) selectedItem.child,
+            const Icon(Icons.arrow_drop_down),
           ],
-        );
-
-        if (selection != null) {
-          onChanged(selection.value);
-        }
-      },
-      child: Flex(
-        spacing: 8,
-        direction: .horizontal,
-        children: [
-          if (selectedItem != null) selectedItem.child,
-          const Icon(Icons.arrow_drop_down),
-        ],
+        ),
       ),
     );
   }

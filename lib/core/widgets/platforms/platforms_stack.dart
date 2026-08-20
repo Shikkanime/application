@@ -1,5 +1,4 @@
-import 'package:application/core/widgets/app_skeleton.dart';
-import 'package:application/core/widgets/cached_network_image.dart';
+import 'package:application/core/widgets/platforms/platform_image.dart';
 import 'package:application/models/platform_model.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -30,16 +29,7 @@ class PlatformsStack extends StatelessWidget {
             Positioned(
               left: index * widthOffset,
               top: index * heightOffset,
-              child: ClipOval(
-                child: CachedNetworkImage(
-                  'https://www.shikkanime.fr/assets/img/platforms/${platform.image}',
-                  width: width,
-                  height: height,
-                  fit: .cover,
-                  loading: const AppSkeleton(),
-                  error: const AppSkeleton(),
-                ),
-              ),
+              child: PlatformImage(platform, width: width, height: height),
             ),
         ],
       ),
