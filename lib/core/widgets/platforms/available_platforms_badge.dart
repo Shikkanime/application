@@ -26,10 +26,16 @@ class AvailablePlatformsBadge extends StatelessWidget {
     ];
 
     AppLogger.print('Launch url: $url...');
+    final uri = Uri.tryParse(url);
+
+    if (uri == null || !uri.isScheme('https')) {
+      AppLogger.print('Invalid URL: $url');
+      return false;
+    }
 
     for (final mode in modes) {
       try {
-        if (await launchUrl(.parse(url), mode: mode)) {
+        if (await launchUrl(uri, mode: mode)) {
           return true;
         }
       } on PlatformException catch (e) {
@@ -62,7 +68,7 @@ class AvailablePlatformsBadge extends StatelessWidget {
                 for (final platform in platforms)
                   PopupMenuItem(
                     onTap: () {
-                      final source = sources.singleWhere(
+                      final source = sources.firstWhere(
                         (source) => source.platform.name == platform.name,
                       );
                       _launch(source.url);
