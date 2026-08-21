@@ -22,7 +22,7 @@ class GroupedEpisodeModel {
     this.number,
     this.mappings,
     this.sources, {
-      this.duration
+    this.duration,
   });
 
   factory GroupedEpisodeModel.fromJson(Map<String, dynamic> json) =>

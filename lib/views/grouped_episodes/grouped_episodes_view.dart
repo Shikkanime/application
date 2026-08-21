@@ -60,7 +60,12 @@ class _GroupedEpisodesViewState extends State<GroupedEpisodesView> {
 
                     return Align(
                       alignment: .topCenter,
-                      child: GroupedEpisodeCard(groupedEpisode),
+                      child: GroupedEpisodeCard(
+                        groupedEpisode,
+                        onSourcePress: context
+                            .read<GroupedEpisodeViewModel>()
+                            .onSourcePress,
+                      ),
                     );
                   },
                 ),

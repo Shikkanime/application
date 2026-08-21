@@ -83,7 +83,12 @@ class _WeeklyViewState extends State<WeeklyView> {
 
                     return Align(
                       alignment: .topCenter,
-                      child: ReleaseCard(release),
+                      child: ReleaseCard(
+                        release,
+                        onSourcePress: context
+                            .read<WeeklyViewModel>()
+                            .onSourcePress,
+                      ),
                     );
                   },
                 ),

@@ -1,6 +1,8 @@
 import 'package:application/core/logger/app_logger.dart';
 import 'package:application/core/network/api_result.dart';
+import 'package:application/core/services/platform_launch_service.dart';
 import 'package:application/models/lang_type.dart';
+import 'package:application/models/source_model.dart';
 import 'package:application/models/weekly_day_model.dart';
 import 'package:application/models/weekly_release_model.dart';
 import 'package:application/repositories/weekly_repository.dart';
@@ -9,9 +11,10 @@ import 'package:material_ui/material_ui.dart';
 
 class WeeklyViewModel extends ChangeNotifier
     implements LangTypeFilterViewModel {
-  WeeklyViewModel(this._repository);
+  WeeklyViewModel(this._repository, this._launchService);
 
   final WeeklyRepository _repository;
+  final PlatformLaunchService _launchService;
   final _weekly = <WeeklyDayModel>[];
   int _selectedDay = DateTime.now().weekday - 1;
   bool _loading = false;
@@ -35,6 +38,9 @@ class WeeklyViewModel extends ChangeNotifier
       : null;
 
   int get selectedDay => _selectedDay;
+
+  Future<void> onSourcePress(SourceModel source) =>
+      _launchService.launch(source.url);
 
   void setPreviousDay() {
     _selectedDay = (_selectedDay - 1) % 7;

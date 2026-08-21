@@ -55,7 +55,9 @@ class AnimeViewModel extends ChangeNotifier implements LangTypeFilterViewModel {
     if (simulcastUuid == null) {
       AppLogger.print('Selected simulcast: All');
     } else {
-      AppLogger.print('Selected simulcast: ${_selectedSimulcast?.season} - ${_selectedSimulcast?.year}');
+      AppLogger.print(
+        'Selected simulcast: ${_selectedSimulcast?.season} - ${_selectedSimulcast?.year}',
+      );
     }
 
     notifyListeners();

@@ -12,9 +12,10 @@ import 'package:material_ui/material_ui.dart';
 import 'package:intl/intl.dart';
 
 class ReleaseCard extends StatelessWidget {
-  const ReleaseCard(this._release, {super.key});
+  const ReleaseCard(this._release, {super.key, required this.onSourcePress});
 
   final WeeklyReleaseModel _release;
+  final Future<void> Function(SourceModel source) onSourcePress;
 
   Set<SourceModel> get _sources =>
       _release.mappings?.expand((mapping) => mapping.sources).toSet() ?? {};
@@ -50,7 +51,10 @@ class ReleaseCard extends StatelessWidget {
                   if (!isRelease)
                     PlatformsBadge(platforms: _release.platforms)
                   else
-                    AvailablePlatformsBadge(sources: _sources),
+                    AvailablePlatformsBadge(
+                      sources: _sources,
+                      onSourcePress: onSourcePress,
+                    ),
                 ],
               ),
             ),

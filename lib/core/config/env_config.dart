@@ -3,7 +3,7 @@ abstract final class EnvConfig {
     'API_BASE_URL',
     defaultValue: 'http://localhost:37100/api',
   );
-  
+
   static const baseUrl = String.fromEnvironment(
     'BASE_URL',
     defaultValue: 'http://localhost:37100',
