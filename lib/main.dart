@@ -1,4 +1,5 @@
 import 'package:application/core/network/http_client.dart';
+import 'package:application/core/services/platform_launch_service.dart';
 import 'package:application/core/theme/app_theme.dart';
 import 'package:application/l10n/app_localizations.dart';
 import 'package:application/repositories/anime_repository.dart';
@@ -25,6 +26,7 @@ Future<void> main() async {
     MultiProvider(
       providers: [
         Provider(create: (_) => const HttpClient()),
+        Provider(create: (_) => const PlatformLaunchService()),
         Provider(
           create: (context) =>
               GroupedEpisodeRepository(context.read<HttpClient>()),
@@ -39,8 +41,10 @@ Future<void> main() async {
           create: (context) => WeeklyRepository(context.read<HttpClient>()),
         ),
         ChangeNotifierProvider(
-          create: (context) =>
-              GroupedEpisodeViewModel(context.read<GroupedEpisodeRepository>()),
+          create: (context) => GroupedEpisodeViewModel(
+            context.read<GroupedEpisodeRepository>(),
+            context.read<PlatformLaunchService>(),
+          ),
         ),
         ChangeNotifierProvider(
           create: (context) =>
@@ -53,8 +57,10 @@ Future<void> main() async {
           ),
         ),
         ChangeNotifierProvider(
-          create: (context) =>
-              WeeklyViewModel(context.read<WeeklyRepository>()),
+          create: (context) => WeeklyViewModel(
+            context.read<WeeklyRepository>(),
+            context.read<PlatformLaunchService>(),
+          ),
         ),
         ChangeNotifierProvider(create: (_) => NavigationViewModel()),
       ],
@@ -116,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: const _AppAppBar(),
       body: SafeArea(
         child: Padding(
-          padding: const .symmetric(horizontal: 8),
+          padding: const .only(left: 8, right: 8, bottom: 8),
           child: PageView(
             controller: viewModel.controller,
             onPageChanged: viewModel.onChange,

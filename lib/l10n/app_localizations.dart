@@ -130,6 +130,12 @@ abstract class AppLocalizations {
   /// **'Calendrier'**
   String get calendar;
 
+  /// No description provided for @availableOn.
+  ///
+  /// In fr, this message translates to:
+  /// **'Disponible sur'**
+  String get availableOn;
+
   /// No description provided for @langType.
   ///
   /// In fr, this message translates to:

@@ -3,15 +3,21 @@ import 'package:application/core/widgets/app_skeleton.dart';
 import 'package:application/core/widgets/cached_network_image.dart';
 import 'package:application/core/widgets/lang_types/lang_type_label.dart';
 import 'package:application/core/widgets/app_card.dart';
-import 'package:application/core/widgets/platforms_badge.dart';
+import 'package:application/core/widgets/platforms/available_platforms_badge.dart';
 import 'package:application/l10n/app_localizations.dart';
+import 'package:application/models/source_model.dart';
 import 'package:application/models/grouped_episode_model.dart';
 import 'package:material_ui/material_ui.dart';
 
 class GroupedEpisodeCard extends StatelessWidget {
-  const GroupedEpisodeCard(this._groupedEpisode, {super.key});
+  const GroupedEpisodeCard(
+    this._groupedEpisode, {
+    super.key,
+    required this.onSourcePress,
+  });
 
   final GroupedEpisodeModel _groupedEpisode;
+  final Future<void> Function(SourceModel source) onSourcePress;
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +39,9 @@ class GroupedEpisodeCard extends StatelessWidget {
                     loading: const AppSkeleton(),
                     error: const AppSkeleton(),
                   ),
-                  Positioned(
-                    top: 8,
-                    right: 8,
-                    child: PlatformsBadge(
-                      platforms: _groupedEpisode.sources
-                          .map((source) => source.platform)
-                          .toSet(),
-                    ),
+                  AvailablePlatformsBadge(
+                    sources: _groupedEpisode.sources,
+                    onSourcePress: onSourcePress,
                   ),
                 ],
               ),
