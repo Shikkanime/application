@@ -16,6 +16,7 @@ GroupedEpisodeModel _$GroupedEpisodeModelFromJson(Map<String, dynamic> json) =>
       (json['sources'] as List<dynamic>)
           .map((e) => SourceModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      duration: (json['duration'] as num?)?.toInt(),
     );
 
 const _$EpisodeTypeEnumMap = {

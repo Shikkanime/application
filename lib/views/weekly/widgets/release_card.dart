@@ -3,16 +3,22 @@ import 'package:application/core/widgets/app_skeleton.dart';
 import 'package:application/core/widgets/cached_network_image.dart';
 import 'package:application/core/widgets/lang_types/lang_type_label.dart';
 import 'package:application/core/widgets/app_card.dart';
-import 'package:application/core/widgets/platforms_badge.dart';
+import 'package:application/core/widgets/platforms/available_platforms_badge.dart';
+import 'package:application/core/widgets/platforms/platforms_badge.dart';
 import 'package:application/l10n/app_localizations.dart';
+import 'package:application/models/source_model.dart';
 import 'package:application/models/weekly_release_model.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:intl/intl.dart';
 
 class ReleaseCard extends StatelessWidget {
-  const ReleaseCard(this._release, {super.key});
+  const ReleaseCard(this._release, {super.key, required this.onSourcePress});
 
   final WeeklyReleaseModel _release;
+  final Future<void> Function(SourceModel source) onSourcePress;
+
+  Set<SourceModel> get _sources =>
+      _release.mappings?.expand((mapping) => mapping.sources).toSet() ?? {};
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +48,13 @@ class ReleaseCard extends StatelessWidget {
                     loading: const AppSkeleton(),
                     error: const AppSkeleton(),
                   ),
-                  Positioned(
-                    top: 8,
-                    right: 8,
-                    child: PlatformsBadge(platforms: _release.platforms),
-                  ),
+                  if (!isRelease)
+                    PlatformsBadge(platforms: _release.platforms)
+                  else
+                    AvailablePlatformsBadge(
+                      sources: _sources,
+                      onSourcePress: onSourcePress,
+                    ),
                 ],
               ),
             ),

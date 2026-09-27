@@ -3,7 +3,7 @@ import 'package:application/core/widgets/app_skeleton.dart';
 import 'package:application/core/widgets/cached_network_image.dart';
 import 'package:application/core/widgets/lang_types/lang_type_label.dart';
 import 'package:application/core/widgets/app_card.dart';
-import 'package:application/core/widgets/platforms_badge.dart';
+import 'package:application/core/widgets/platforms/platforms_badge.dart';
 import 'package:application/models/anime_model.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -32,14 +32,10 @@ class AnimeCard extends StatelessWidget {
                     loading: const AppSkeleton(),
                     error: const AppSkeleton(),
                   ),
-                  Positioned(
-                    top: 8,
-                    right: 8,
-                    child: PlatformsBadge(
-                      platforms: _anime.platformIds
-                          .map((source) => source.platform)
-                          .toSet(),
-                    ),
+                  PlatformsBadge(
+                    platforms: _anime.platformIds
+                        .map((source) => source.platform)
+                        .toSet(),
                   ),
                 ],
               ),
@@ -53,20 +49,6 @@ class AnimeCard extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           ..._anime.langTypes.map(LangTypeLabel.new),
-          const SizedBox(height: 8),
-          ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            ),
-            child: const Flex(
-              direction: .horizontal,
-              mainAxisSize: .max,
-              mainAxisAlignment: .center,
-              spacing: 4,
-              children: [Icon(Icons.add), Text('Ajouter')],
-            ),
-          ),
         ],
       ),
     );

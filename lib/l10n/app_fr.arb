@@ -6,6 +6,7 @@
   "search": "Rechercher...",
   "warningCatalog": "Le catalogue s'enrichit progressivement : certains animés plus anciens peuvent ne pas encore apparaître",
   "calendar": "Calendrier",
+  "availableOn": "Disponible sur",
   "langType": "{type, select, subtitles{Sous-titrage} voice{Doublage} other{Inconnu}}",
   "episodeType": "{type, select, episode{Épisode} film{Film} special{Spécial} summary{Épisode récapitulatif} spinOff{Spin-off} other{Inconnu}}",
   "season": "{type, select, spring{Printemps} summer{Été} autumn{Automne} winter{Hiver} other{Inconnu}}",

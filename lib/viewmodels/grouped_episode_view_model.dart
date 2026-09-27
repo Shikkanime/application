@@ -1,18 +1,22 @@
+import 'package:application/core/logger/app_logger.dart';
 import 'package:application/core/network/api_result.dart';
+import 'package:application/core/services/platform_launch_service.dart';
 import 'package:application/models/grouped_episode_model.dart';
 import 'package:application/models/lang_type.dart';
 import 'package:application/models/pageable_model.dart';
+import 'package:application/models/source_model.dart';
 import 'package:application/repositories/grouped_episode_repository.dart';
 import 'package:application/viewmodels/lang_type_filter_view_model.dart';
 import 'package:material_ui/material_ui.dart';
 
 class GroupedEpisodeViewModel extends ChangeNotifier
     implements LangTypeFilterViewModel {
-  GroupedEpisodeViewModel(this._repository) {
+  GroupedEpisodeViewModel(this._repository, this._launchService) {
     _scrollController.addListener(_scrollListener);
   }
 
   final GroupedEpisodeRepository _repository;
+  final PlatformLaunchService _launchService;
   final _episodes = <GroupedEpisodeModel>[];
   final _scrollController = ScrollController();
   bool _loading = false;
@@ -27,6 +31,9 @@ class GroupedEpisodeViewModel extends ChangeNotifier
       index >= 0 && index < _episodes.length ? _episodes[index] : null;
 
   ScrollController get scrollController => _scrollController;
+
+  Future<void> onSourcePress(SourceModel source) =>
+      _launchService.launch(source.url);
 
   @override
   bool isLangTypeSelected(LangType langType) =>
@@ -82,7 +89,7 @@ class GroupedEpisodeViewModel extends ChangeNotifier
         break;
       case ApiFailure<PageableModel<GroupedEpisodeModel>> failure:
         // Handle error, e.g., log it or show a message to the user
-        debugPrint(
+        AppLogger.print(
           'Error fetching grouped episodes: ${failure.statusCode} - ${failure.error}',
         );
         break;

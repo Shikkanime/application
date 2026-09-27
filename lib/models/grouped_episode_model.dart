@@ -13,6 +13,7 @@ class GroupedEpisodeModel {
   final String number;
   final List<String> mappings;
   final List<SourceModel> sources;
+  final int? duration;
 
   GroupedEpisodeModel(
     this.anime,
@@ -20,8 +21,9 @@ class GroupedEpisodeModel {
     this.episodeType,
     this.number,
     this.mappings,
-    this.sources,
-  );
+    this.sources, {
+    this.duration,
+  });
 
   factory GroupedEpisodeModel.fromJson(Map<String, dynamic> json) =>
       _$GroupedEpisodeModelFromJson(json);

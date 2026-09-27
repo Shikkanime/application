@@ -18,7 +18,6 @@ class SimulcastDropdownButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppElevatedDropdownButton<String?>(
-      GlobalKey(),
       value: value?.uuid,
       items: [
         AppElevatedPopupMenuEntry(

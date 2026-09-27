@@ -29,6 +29,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get calendar => 'Calendrier';
 
   @override
+  String get availableOn => 'Disponible sur';
+
+  @override
   String langType(String type) {
     String _temp0 = intl.Intl.selectLogic(type, {
       'subtitles': 'Sous-titrage',

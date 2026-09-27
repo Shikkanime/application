@@ -8,14 +8,18 @@ class AppBlurBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final badgeBackgroundColor = Theme.of(context).scaffoldBackgroundColor
-        .withValues(alpha: 0.3);
+        .withValues(alpha: 0.4);
 
     return ClipRRect(
-      borderRadius: const .all(.circular(16)),
+      borderRadius: const .all(.circular(8)),
       child: BackdropFilter(
         filter: .blur(sigmaX: 8, sigmaY: 8),
         child: DecoratedBox(
-          decoration: BoxDecoration(color: badgeBackgroundColor),
+          decoration: BoxDecoration(
+            color: badgeBackgroundColor,
+            border: .all(color: badgeBackgroundColor, width: 0.5),
+            borderRadius: const .all(.circular(8)),
+          ),
           child: Padding(
             padding: const .symmetric(horizontal: 8, vertical: 4),
             child: child,

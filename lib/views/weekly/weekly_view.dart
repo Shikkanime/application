@@ -68,10 +68,8 @@ class _WeeklyViewState extends State<WeeklyView> {
 
               return RefreshIndicator(
                 onRefresh: () => viewModel.init(bypass: true),
-                child: MasonryGridView.builder(
-                  gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: crossAxisCount,
-                  ),
+                child: AlignedGridView.count(
+                  crossAxisCount: crossAxisCount,
                   mainAxisSpacing: 8,
                   crossAxisSpacing: 8,
                   itemCount: viewModel.length,
@@ -83,7 +81,15 @@ class _WeeklyViewState extends State<WeeklyView> {
                       return const ReleaseSkeletonCard();
                     }
 
-                    return ReleaseCard(release);
+                    return Align(
+                      alignment: .topCenter,
+                      child: ReleaseCard(
+                        release,
+                        onSourcePress: context
+                            .read<WeeklyViewModel>()
+                            .onSourcePress,
+                      ),
+                    );
                   },
                 ),
               );
